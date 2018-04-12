@@ -20,7 +20,6 @@ import au.mccann.oztaxreturn.common.Constants;
 import au.mccann.oztaxreturn.utils.LogUtils;
 import au.mccann.oztaxreturn.utils.TransitionScreen;
 
-
 /**
  * Created by LongBui on 4/12/17.
  */
