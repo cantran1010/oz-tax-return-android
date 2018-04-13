@@ -1,3 +1,5 @@
 <resources>
     <dimen name="fab_margin">16dp</dimen>
+    <dimen name="alert_dialog_width">300dp</dimen>
+    <dimen name="tv_size_xlager">18sp</dimen>
 </resources>

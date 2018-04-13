@@ -6,7 +6,9 @@ import android.support.multidex.MultiDex;
 
 import com.crashlytics.android.Crashlytics;
 
+import au.mccann.oztaxreturn.database.RealmDbHelper;
 import io.fabric.sdk.android.Fabric;
+import io.realm.Realm;
 
 
 public class Application extends android.app.Application {
@@ -14,8 +16,8 @@ public class Application extends android.app.Application {
     public void onCreate() {
         super.onCreate();
 //        //noinspection deprecation
-//        Realm.init(this);
-//        Realm.setDefaultConfiguration(RealmDbHelper.getRealmConfig(getApplicationContext()));
+        Realm.init(this);
+        Realm.setDefaultConfiguration(RealmDbHelper.getRealmConfig(getApplicationContext()));
 //
 //        TypefaceContainer.init(getApplicationContext());
 //

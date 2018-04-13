@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">OzTaxReturn</string>
     <string name="action_settings">Settings</string>
+    <string name="alert_dialog_yes">yes</string>
+    <string name="alert_dialog_no">no</string>
+    <string name="alert_dialog_title">notification</string>
 </resources>
