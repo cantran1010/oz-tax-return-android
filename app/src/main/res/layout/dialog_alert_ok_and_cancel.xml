@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/alert_dialog_width"
+    android:layout_height="wrap_content"
+    android:background="@drawable/alert_dialog_bg"
+    android:orientation="vertical">
+
+    <au.mccann.oztaxreturn.view.TextViewCustom
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:text="@string/alert_dialog_title"
+        android:textColor="@android:color/black"
+        android:textSize="@dimen/tv_size_xlager"
+        android:textStyle="bold" />
+
+    <au.mccann.oztaxreturn.view.TextViewCustom
+        android:id="@+id/tv_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:gravity="center"
+        android:textColor="@color/border_gray"
+        android:textSize="16sp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/border_gray" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp">
+
+        <au.mccann.oztaxreturn.view.TextViewCustom
+            android:id="@+id/tv_no"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_toLeftOf="@+id/line"
+            android:layout_toStartOf="@+id/line"
+            android:background="?attr/selectableItemBackground"
+            android:focusable="true"
+            android:gravity="center"
+            android:text="@string/alert_dialog_no"
+            android:textStyle="bold" />
+
+        <View
+            android:id="@+id/line"
+            android:layout_width="1px"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:background="@color/border_gray" />
+
+        <au.mccann.oztaxreturn.view.TextViewCustom
+            android:id="@+id/tv_yes"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_toEndOf="@+id/line"
+            android:layout_toRightOf="@+id/line"
+            android:background="?attr/selectableItemBackground"
+            android:focusable="true"
+            android:gravity="center"
+            android:text="@string/alert_dialog_yes"
+            android:textColor="@color/app_bg"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+</LinearLayout>
