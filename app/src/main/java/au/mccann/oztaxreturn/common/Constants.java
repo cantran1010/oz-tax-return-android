@@ -89,7 +89,11 @@ public class Constants {
     public static final String WORK_DEDUCTED = "work_deducted";
     public static final String POST_TASK_NOT_ALLOWED = "post_task_not_allowed";
     public static final String MIN_AMOUNT_REQUIRED = "min_amount_required";
-    public static final String TASK_CONFIRMATION_PENALIZED ="task_confirmation_penalized" ;
+    public static final String TASK_CONFIRMATION_PENALIZED = "task_confirmation_penalized";
+    public static final String PARAMETER_USERNAME = "username";
+    public static final String PARAMETER_MOBILE = "phone";
+    public static final String PARAMETER_PASSWORD = "password";
+    public static final String PARAMETER_RE_PASSWORD = "confirm_password";
     public static int MAX_IMAGE_ATTACH = 6;
     public static final String INTENT_EXTRA_ALBUM = "album_name";
     public static final int REQUEST_CODE_PICK_IMAGE = 357;

@@ -3,7 +3,14 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="transparent">#00000000</color>
+    <color name="black">#000000</color>
     <color name="white">#FFFFFF</color>
-    <color name="app_bg">#FFF000</color>
+    <color name="app_bg">#f7be32</color>
     <color name="border_gray">#CFCFCF</color>
+    <color name="border_edt_login">#80807f</color>
+    <color name="title_color">#333333</color>
+    <color name="border_edt_register">#f1f1f1</color>
+    <color name="label_edt_register">#ababab</color>
+    <color name="cb_color">#000033</color>
 </resources>

@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/layout_header"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:background="@color/app_bg"
+        android:orientation="horizontal"
+        android:paddingEnd="20dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingStart="20dp">
+
+        <ImageView
+            android:id="@+id/img_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_centerInParent="true"
+            android:contentDescription="@string/app_name"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_back" />
+
+        <au.mccann.oztaxreturn.view.TextViewCustom
+            style="@style/TextViewTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_toEndOf="@+id/img_back"
+            android:layout_toRightOf="@+id/img_back"
+            android:gravity="center"
+            android:text="@string/title_create_account" />
+
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/layout_header">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingEnd="37.5dp"
+            android:paddingLeft="37.5dp"
+            android:paddingRight="37.5dp"
+            android:paddingStart="37.5dp">
+
+            <au.mccann.oztaxreturn.view.TextViewCustom
+                style="@style/TextViewRegister"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:text="@string/hint_User_name" />
+
+            <au.mccann.oztaxreturn.view.EdittextCustom
+                android:id="@+id/edt_user_name"
+                style="@style/EditTextRegister"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:inputType="textPersonName" />
+
+            <au.mccann.oztaxreturn.view.TextViewCustom
+                style="@style/TextViewRegister"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:text="@string/label_mail" />
+
+            <au.mccann.oztaxreturn.view.EdittextCustom
+                android:id="@+id/edt_email"
+                style="@style/EditTextRegister"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:inputType="textEmailAddress" />
+
+            <au.mccann.oztaxreturn.view.TextViewCustom
+                style="@style/TextViewRegister"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:text="@string/label_mobile" />
+
+            <au.mccann.oztaxreturn.view.EdittextCustom
+                android:id="@+id/edt_mobile"
+                style="@style/EditTextRegister"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:inputType="phone" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginTop="25dp"
+                android:background="@color/border_gray" />
+
+            <au.mccann.oztaxreturn.view.TextViewCustom
+                style="@style/TextViewRegister"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="@string/label_password" />
+
+            <au.mccann.oztaxreturn.view.EdittextCustom
+                android:id="@+id/edt_password"
+                style="@style/EditTextRegister"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:inputType="textPassword" />
+
+            <au.mccann.oztaxreturn.view.TextViewCustom
+                style="@style/TextViewRegister"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="@string/label_re_password" />
+
+            <au.mccann.oztaxreturn.view.EdittextCustom
+                android:id="@+id/edt_re_password"
+                style="@style/EditTextRegister"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:inputType="textPassword" />
+
+
+            <CheckBox
+                android:id="@+id/cb_policy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="18dp"
+                android:text="@string/policy"
+                android:textColor="@color/cb_color"
+                android:textSize="15sp" />
+
+            <au.mccann.oztaxreturn.view.ButtonCustom
+                android:id="@+id/btn_register"
+                style="@style/ButtonLogin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:layout_marginTop="20dp"
+                android:enabled="false"
+                android:text="@string/btn_register" />
+
+        </LinearLayout>
+    </ScrollView>
+
+</RelativeLayout>

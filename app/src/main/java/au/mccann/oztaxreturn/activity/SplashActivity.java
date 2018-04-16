@@ -18,7 +18,6 @@ public class SplashActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-
     }
 
     @Override
@@ -26,7 +25,7 @@ public class SplashActivity extends BaseActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                startActivity(MainActivity.class, TransitionScreen.RIGHT_TO_LEFT);
+                startActivity(RegisterActivity.class, TransitionScreen.FADE_IN);
             }
         }, 2000);
     }
