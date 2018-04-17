@@ -94,7 +94,7 @@ public class Constants {
     public static final String PARAMETER_MOBILE = "phone";
     public static final String PARAMETER_PASSWORD = "password";
     public static final String PARAMETER_RE_PASSWORD = "confirm_password";
-    public static int MAX_IMAGE_ATTACH = 6;
+    public static int MAX_IMAGE_ATTACH = 9;
     public static final String INTENT_EXTRA_ALBUM = "album_name";
     public static final int REQUEST_CODE_PICK_IMAGE = 357;
     public static final int RESPONSE_CODE_PICK_IMAGE = 753;

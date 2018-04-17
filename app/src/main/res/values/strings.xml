@@ -21,4 +21,47 @@
     <string name="label_re_password">re-password</string>
     <string name="policy">I agree with Term and Privacy policy</string>
     <string name="btn_register">register</string>
+
+    <!-- common -->
+    <string name="preview_image_title">Preview</string>
+
+    <!-- pick image dialog -->
+    <string name="attach_img_title">Chọn ảnh đính kèm</string>
+    <string name="attach_img_source"> Chọn nguồn </string>
+    <string name="attach_img_camera">Máy ảnh</string>
+    <string name="attach_img_gallery">Bộ sưu tập</string>
+    <string name="max_size_attach_error">Ảnh đính kèm không vượt quá %1$d Mb .\nVui lòng chọn ảnh khác!</string>
+    <string name="min_size_attach_error">Ảnh đính kèm không hợp lệ .\nVui lòng chọn ảnh khác!</string>
+    <string name="err_pick_image">Vui lòng chọn ít nhất 1 ảnh</string>
+    <string name="max_image_attach_err">Maximum %1$d image attached !</string>
+
+    <!-- home screen -->
+    <string name="home_menu1">TaxReturn</string>
+    <string name="home_menu2">ContactAccountant</string>
+    <string name="home_menu3">Notification</string>
+
+    <!-- add new board -->
+    <string name="add_new_board_title">NEW TAX RETURN APPLICATION</string>
+    <string name="add_new">ADD NEW</string>
+    <string name="duplicate_app_exit">Duplicate an existing application</string>
+    <string name="create_new_app">Create a new application</string>
+    <string name="tax_payer_hint">Tax payer</string>
+    <string name="financial_year_hint">Financial year</string>
+
+    <!-- income wages salary -->
+    <string name="wages_salary">Wages/Salary</string>
+    <string name="income_ws_des1">Do you have</string>
+    <string name="income_ws_des2">PAYG payment summary?</string>
+    <string name="Yes">Yes</string>
+    <string name="No">No</string>
+    <string name="tfn_hint">Enter your TFN</string>
+    <string name="your_name">YOUR NAME</string>
+    <string name="first_name_hint">First name</string>
+    <string name="middle_name_hint">Mid name</string>
+    <string name="last_name_hint">Last Name</string>
+    <string name="birthday">YOUR BIRTHDAY</string>
+    <string name="next">NEXT</string>
+    <string name="gallery">Gallery</string>
+
+
 </resources>

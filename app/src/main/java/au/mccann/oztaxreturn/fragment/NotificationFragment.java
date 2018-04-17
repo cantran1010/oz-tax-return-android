@@ -1,12 +1,15 @@
-package au.mccann.oztaxreturn.activity;
+package au.mccann.oztaxreturn.fragment;
 
 import au.mccann.oztaxreturn.R;
 
-public class MainActivity extends BaseActivity {
+/**
+ * Created by LongBui on 4/17/18.
+ */
 
+public class NotificationFragment extends BaseFragment{
     @Override
     protected int getLayout() {
-        return R.layout.activity_main;
+        return R.layout.notification_fragment;
     }
 
     @Override
@@ -24,4 +27,8 @@ public class MainActivity extends BaseActivity {
 
     }
 
+    @Override
+    public void onRefresh() {
+
+    }
 }

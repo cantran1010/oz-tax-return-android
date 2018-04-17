@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="300dp"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:background="@drawable/alert_dialog_bg"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <au.mccann.oztaxreturn.view.TextViewCustom
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="@string/attach_img_title"
+        android:textColor="@color/app_bg"
+        android:textSize="20sp" />
+
+    <au.mccann.oztaxreturn.view.TextViewCustom
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="0dp"
+        android:text="@string/attach_img_source"
+        android:textColor="@color/app_bg"
+        android:textSize="15sp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/app_bg" />
+
+    <au.mccann.oztaxreturn.view.ButtonCustom
+        android:id="@+id/btn_camera"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/btn_pick_image_selector"
+        android:text="@string/attach_img_camera"
+        android:textColor="@color/app_bg"
+        android:textStyle="bold" />
+
+    <au.mccann.oztaxreturn.view.ButtonCustom
+        android:id="@+id/btn_gallery"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginBottom="30dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/btn_pick_image_selector"
+        android:text="@string/attach_img_gallery"
+        android:textColor="@color/app_bg"
+        android:textStyle="bold" />
+
+</LinearLayout>
