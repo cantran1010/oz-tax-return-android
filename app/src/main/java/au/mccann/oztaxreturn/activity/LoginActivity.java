@@ -1,6 +1,8 @@
 package au.mccann.oztaxreturn.activity;
 
 import android.content.Intent;
+import android.text.SpannableString;
+import android.text.style.UnderlineSpan;
 import android.view.View;
 
 import org.json.JSONException;
@@ -13,7 +15,7 @@ import au.mccann.oztaxreturn.database.UserManager;
 import au.mccann.oztaxreturn.dialog.AlertDialogOk;
 import au.mccann.oztaxreturn.dialog.AlertDialogOkAndCancel;
 import au.mccann.oztaxreturn.model.APIError;
-import au.mccann.oztaxreturn.model.RegisterReponse;
+import au.mccann.oztaxreturn.model.UserReponse;
 import au.mccann.oztaxreturn.networking.ApiClient;
 import au.mccann.oztaxreturn.utils.DialogUtils;
 import au.mccann.oztaxreturn.utils.LogUtils;
@@ -21,6 +23,7 @@ import au.mccann.oztaxreturn.utils.ProgressDialogUtils;
 import au.mccann.oztaxreturn.utils.TransitionScreen;
 import au.mccann.oztaxreturn.utils.Utils;
 import au.mccann.oztaxreturn.view.EdittextCustom;
+import au.mccann.oztaxreturn.view.TextViewCustom;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
 import retrofit2.Call;
@@ -33,6 +36,8 @@ import retrofit2.Response;
 public class LoginActivity extends BaseActivity implements View.OnClickListener {
     private static final String TAG = RegisterActivity.class.getSimpleName();
     private EdittextCustom edtUsername, edtPassword;
+    private TextViewCustom tvForgotPassword;
+
 
     @Override
     protected int getLayout() {
@@ -44,7 +49,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     protected void initView() {
         edtUsername = findViewById(R.id.edt_user_name);
         edtPassword = findViewById(R.id.edt_password);
+        tvForgotPassword = findViewById(R.id.tv_forgot_passwort);
         findViewById(R.id.btn_login).setOnClickListener(this);
+        tvForgotPassword.setOnClickListener(this);
+        underLineText(getString(R.string.forgot_password));
 
     }
 
@@ -56,6 +64,12 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     @Override
     protected void resumeData() {
 
+    }
+
+    private void underLineText(String mystring) {
+        SpannableString content = new SpannableString(mystring);
+        content.setSpan(new UnderlineSpan(), 0, mystring.length(), 0);
+        tvForgotPassword.setText(content);
     }
 
     private void doLogin() {
@@ -83,9 +97,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             e.printStackTrace();
         }
         RequestBody body = RequestBody.create(MediaType.parse("application/json"), jsonRequest.toString());
-        ApiClient.getApiService().login(body).enqueue(new Callback<RegisterReponse>() {
+        ApiClient.getApiService().login(body).enqueue(new Callback<UserReponse>() {
             @Override
-            public void onResponse(Call<RegisterReponse> call, Response<RegisterReponse> response) {
+            public void onResponse(Call<UserReponse> call, Response<UserReponse> response) {
                 ProgressDialogUtils.dismissProgressDialog();
                 LogUtils.d(TAG, "doLogin code" + response.code());
                 if (response.code() == Constants.HTTP_CODE_OK) {
@@ -93,7 +107,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                     UserEntity user = response.body().getUser();
                     user.setToken(response.body().getToken());
                     UserManager.insertUser(user);
-                    startActivity(new Intent(LoginActivity.this, HomeActivity.class), TransitionScreen.FADE_IN);
+                    startActivity(new Intent(LoginActivity.this, HomeActivity.class), TransitionScreen.RIGHT_TO_LEFT);
                 } else {
                     APIError error = Utils.parseError(response);
                     if (error != null) {
@@ -111,7 +125,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             }
 
             @Override
-            public void onFailure(Call<RegisterReponse> call, Throwable t) {
+            public void onFailure(Call<UserReponse> call, Throwable t) {
                 LogUtils.e(TAG, "doLogin onFailure : " + t.getMessage());
                 ProgressDialogUtils.dismissProgressDialog();
                 DialogUtils.showRetryDialog(LoginActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
@@ -135,6 +149,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         switch (view.getId()) {
             case R.id.btn_login:
                 doLogin();
+                break;
+            case R.id.tv_forgot_passwort:
+                startActivity(new Intent(LoginActivity.this, RecoverActivity.class), TransitionScreen.RIGHT_TO_LEFT);
                 break;
 
         }

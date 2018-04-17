@@ -3,7 +3,6 @@ package au.mccann.oztaxreturn.database;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
-import java.util.Date;
 
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
@@ -35,10 +34,6 @@ public class UserEntity extends RealmObject implements Serializable {
     private String state;
     private String language;
     private String status;
-    @SerializedName("created_at")
-    private Date createdAt;
-    @SerializedName("updated_at")
-    private Date updatedAt;
     private String token;
 
     public int getId() {
@@ -177,22 +172,6 @@ public class UserEntity extends RealmObject implements Serializable {
         this.status = status;
     }
 
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public Date getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(Date updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-
     public String getToken() {
         return token;
     }
@@ -221,8 +200,6 @@ public class UserEntity extends RealmObject implements Serializable {
                 ", state='" + state + '\'' +
                 ", language='" + language + '\'' +
                 ", status='" + status + '\'' +
-                ", createdAt=" + createdAt +
-                ", updatedAt=" + updatedAt +
                 ", token='" + token + '\'' +
                 '}';
     }

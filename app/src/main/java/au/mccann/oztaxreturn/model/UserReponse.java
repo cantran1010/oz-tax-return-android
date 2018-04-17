@@ -5,7 +5,7 @@ import au.mccann.oztaxreturn.database.UserEntity;
 /**
  * Created by CanTran on 4/16/18.
  */
-public class RegisterReponse {
+public class UserReponse {
     private String token;
     private UserEntity user;
 
@@ -27,7 +27,7 @@ public class RegisterReponse {
 
     @Override
     public String toString() {
-        return "RegisterReponse{" +
+        return "UserReponse{" +
                 "token='" + token + '\'' +
                 ", user=" + user +
                 '}';

@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_home">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="37.5dp"
+        android:layout_marginLeft="37.5dp"
+        android:layout_marginRight="37.5dp"
+        android:layout_marginStart="37.5dp"
+        android:orientation="vertical">
+
+        <au.mccann.oztaxreturn.view.TextViewCustom
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="90dp"
+            android:gravity="center"
+            android:text="@string/password_retrieval"
+            android:textColor="@color/white"
+            android:textSize="30sp"
+            android:textStyle="bold" />
+
+        <View
+            android:layout_width="25dp"
+            android:layout_height="3.5dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:background="@color/app_bg" />
+
+        <au.mccann.oztaxreturn.view.EdittextCustom
+            android:id="@+id/edt_email"
+            style="@style/EditTextLogin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="65dp"
+            android:alpha="0.75"
+            android:background="@drawable/rounded_edittext"
+            android:drawableLeft="@drawable/ic_email"
+            android:drawablePadding="15dp"
+            android:drawableStart="@drawable/ic_email"
+            android:hint="@string/hint_email"
+            android:inputType="textEmailAddress"
+            android:textSize="15sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="40dp"
+            android:layout_marginTop="40dp"
+            android:orientation="horizontal"
+            android:weightSum="5">
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_gravity="center"
+                android:layout_weight="2"
+                android:background="@color/white" />
+
+            <au.mccann.oztaxreturn.view.TextViewCustom
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/or"
+                android:textAllCaps="true"
+                android:textColor="@color/white"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_gravity="center"
+                android:layout_weight="2"
+                android:background="@color/white" />
+
+        </LinearLayout>
+
+        <au.mccann.oztaxreturn.view.EdittextCustom
+            android:id="@+id/edt_phone"
+            style="@style/EditTextLogin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:alpha="0.75"
+            android:background="@drawable/rounded_edittext"
+            android:drawableLeft="@drawable/ic_phone"
+            android:drawablePadding="15dp"
+            android:drawableStart="@drawable/ic_phone"
+            android:hint="@string/hint_mobile"
+            android:inputType="phone"
+            android:textSize="15sp" />
+
+        <au.mccann.oztaxreturn.view.ButtonCustom
+            android:id="@+id/btn_send"
+            style="@style/ButtonLogin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:text="@string/btn_send" />
+    </LinearLayout>
+</ScrollView>
