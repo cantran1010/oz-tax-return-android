@@ -13,10 +13,8 @@ public class UserManager {
 
     public static boolean checkLogin() {
         Realm realm = Realm.getDefaultInstance();
-        // get last update
-        UserEntity userEntity = realm.where(UserEntity.class).equalTo("isMyUser", true).findFirst();
-
-        return userEntity != null;
+        UserEntity userEntity = realm.where(UserEntity.class).findFirst();
+        return userEntity != null && userEntity.getUserName() != null;
     }
 
     public static UserEntity getMyUser() {

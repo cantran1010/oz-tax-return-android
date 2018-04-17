@@ -32,6 +32,9 @@
         <activity
             android:name=".activity.MainActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.HomeActivity"
+            android:screenOrientation="portrait" />
 
         <service android:name=".fcm.MyFireBaseInstanceIDService">
             <intent-filter>
