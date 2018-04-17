@@ -1,15 +1,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/layout_footer"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@color/white"
+    android:layout_height="60dp"
+    android:background="#3f3f3f"
     android:orientation="vertical">
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:background="#A4AAB2" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -18,7 +12,7 @@
         android:orientation="horizontal">
 
         <LinearLayout
-            android:id="@+id/layout_post_a_task"
+            android:id="@+id/layout_home"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_gravity="center"
@@ -30,22 +24,22 @@
             android:orientation="vertical">
 
             <ImageView
-                android:id="@+id/img_post_a_task"
+                android:id="@+id/img_home_menu1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@mipmap/ic_launcher" />
+                android:src="@drawable/home_coin_on" />
 
             <au.mccann.oztaxreturn.view.TextViewCustom
-                android:id="@+id/tv_post_a_task"
+                android:id="@+id/tv_home_menu1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/app_name" />
+                android:text="@string/home_menu1"
+                android:textColor="@color/app_bg" />
 
         </LinearLayout>
 
-
         <LinearLayout
-            android:id="@+id/layout_my_task"
+            android:id="@+id/layout_contact"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_gravity="center"
@@ -57,22 +51,22 @@
             android:orientation="vertical">
 
             <ImageView
-                android:id="@+id/img_my_task"
+                android:id="@+id/img_home_menu2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@mipmap/ic_launcher" />
+                android:src="@drawable/home_contact_off" />
 
             <au.mccann.oztaxreturn.view.TextViewCustom
-                android:id="@+id/tv_my_task"
+                android:id="@+id/tv_home_menu2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/app_name" />
+                android:text="@string/home_menu2"
+                android:textColor="@color/white" />
 
         </LinearLayout>
 
-
         <LinearLayout
-            android:id="@+id/layout_other"
+            android:id="@+id/layout_notification"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_gravity="center"
@@ -84,20 +78,20 @@
             android:orientation="vertical">
 
             <ImageView
-                android:id="@+id/img_other"
+                android:id="@+id/img_home_menu3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@mipmap/ic_launcher" />
+                android:src="@drawable/home_notification_off" />
 
             <au.mccann.oztaxreturn.view.TextViewCustom
-                android:id="@+id/tv_other"
+                android:id="@+id/tv_home_menu3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/app_name" />
+                android:text="@string/home_menu3"
+                android:textColor="@color/white" />
 
         </LinearLayout>
 
     </LinearLayout>
-
 
 </LinearLayout>

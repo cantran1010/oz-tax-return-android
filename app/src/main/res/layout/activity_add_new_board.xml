@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/layout_header"
+        android:layout_width="match_parent"
+        android:layout_height="?android:attr/actionBarSize"
+        android:background="@color/app_bg">
+
+        <ImageView
+            android:id="@+id/img_back"
+            android:layout_width="?android:attr/actionBarSize"
+            android:layout_height="?android:attr/actionBarSize"
+            android:layout_centerVertical="true"
+            android:background="@drawable/btn_selector"
+            android:padding="5dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_back" />
+
+        <au.mccann.oztaxreturn.view.TextViewCustom
+            style="@style/TextViewTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/add_new_board_title" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="@dimen/left_right_margin_screen"
+        android:layout_marginRight="@dimen/left_right_margin_screen">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/btn_add"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <au.mccann.oztaxreturn.view.CheckBoxCustom
+                android:id="@+id/cb_duplicate"
+                style="@style/TextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:button="@drawable/checkbox_selector"
+                android:paddingLeft="5dp"
+                android:paddingStart="5dp"
+                android:text="@string/duplicate_app_exit" />
+
+            <LinearLayout
+                android:id="@+id/layout_duplicate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal"
+                android:visibility="gone">
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_edittext">
+
+                    <Spinner
+                        android:id="@+id/sp_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp"
+                        android:background="@null" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginRight="10dp"
+                        android:src="@drawable/down"
+                        tools:ignore="ContentDescription" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_edittext">
+
+                    <Spinner
+                        android:id="@+id/sp_year"
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp"
+                        android:background="@null" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginRight="10dp"
+                        android:src="@drawable/down"
+                        tools:ignore="ContentDescription" />
+
+                </RelativeLayout>
+            </LinearLayout>
+
+            <au.mccann.oztaxreturn.view.CheckBoxCustom
+                android:id="@+id/cb_create_new"
+                style="@style/TextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="20dp"
+                android:button="@drawable/checkbox_selector"
+                android:paddingLeft="5dp"
+                android:paddingStart="5dp"
+                android:text="@string/create_new_app" />
+
+            <LinearLayout
+                android:id="@+id/layout_create_new"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <au.mccann.oztaxreturn.view.EdittextCustom
+                    android:id="@+id/tv_app_name"
+                    style="@style/EditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:hint="@string/tax_payer_hint"
+                    android:inputType="textPersonName" />
+
+                <au.mccann.oztaxreturn.view.EdittextCustom
+                    android:id="@+id/tv_year"
+                    style="@style/EditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:hint="@string/financial_year_hint"
+                    android:inputType="textPersonName" />
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+        <au.mccann.oztaxreturn.view.ButtonCustom
+            android:id="@+id/btn_add"
+            style="@style/Button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/btn_selector"
+            android:text="@string/add_new" />
+
+    </RelativeLayout>
+
+</LinearLayout>

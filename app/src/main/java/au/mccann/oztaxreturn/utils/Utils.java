@@ -11,8 +11,17 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.text.TextUtils;
 import android.util.Base64;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ImageView;
+import android.widget.Toast;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 
 import java.io.UnsupportedEncodingException;
 import java.lang.annotation.Annotation;
@@ -24,10 +33,121 @@ import retrofit2.Response;
 
 import static au.mccann.oztaxreturn.networking.ApiClient.retrofit;
 
+import au.mccann.oztaxreturn.R;
+import au.mccann.oztaxreturn.view.TextViewCustom;
+
+import au.mccann.oztaxreturn.R;
+import au.mccann.oztaxreturn.view.TextViewCustom;
+
 /**
  * Created by CanTran on 4/14/18.
  */
 public class Utils {
+    private static final String TAG = Utils.class.getSimpleName();
+
+    public static void displayImage(Context context, ImageView img, String url) {
+        LogUtils.d(TAG, "onBindViewHolder , url : " + url);
+//        if (url == null) return;
+        if (context == null) return;
+        if (context instanceof Activity) {
+            if (((Activity) context).isFinishing()) {
+                return;
+            }
+        }
+        Glide.with(context.getApplicationContext()).load(url)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .placeholder(R.drawable.image_placeholder)
+                .dontAnimate()
+                .into(img);
+    }
+
+    public static void displayImageCenterCrop(Context context, ImageView img, String url) {
+
+//        if (url == null) return;
+        if (context == null) return;
+        if (context instanceof Activity) {
+            if (((Activity) context).isFinishing()) {
+                return;
+            }
+        }
+
+        Glide.with(context.getApplicationContext()).load(url)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .placeholder(R.drawable.image_placeholder)
+                .dontAnimate()
+                .centerCrop()
+                .into(img);
+    }
+
+    public static void displayImageRounded(Context context, ImageView img, String url, int radius, int margin) {
+
+//        if (url == null) return;
+        if (context == null) return;
+        if (context instanceof Activity) {
+            if (((Activity) context).isFinishing()) {
+                return;
+            }
+        }
+
+        Glide.with(context.getApplicationContext()).load(url)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .placeholder(R.drawable.image_placeholder)
+                .dontAnimate()
+                .error(R.drawable.image_placeholder)
+                .bitmapTransform(new CenterCrop(context), new RoundedCornersTransformation(context, radius, margin))
+                .into(img);
+    }
+
+    public static void displayImageAvatar(Context context, ImageView img, String url) {
+
+//        if (url == null) return;
+        if (context == null) return;
+        if (context instanceof Activity) {
+            if (((Activity) context).isFinishing()) {
+                return;
+            }
+        }
+
+        Glide.with(context.getApplicationContext()).load(url)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .placeholder(R.drawable.avatar_default)
+                .dontAnimate()
+                .into(img);
+    }
+
+    public static void showLongToast(Context context, String content, boolean isError, boolean isShort) {
+        if (context == null) return;
+
+        if (context instanceof Activity)
+            if (((Activity) context).isFinishing()) {
+                return;
+            }
+
+        showToastCustom(context, content, isError, isShort);
+    }
+
+    private static void showToastCustom(Context context, String content,
+                                        boolean isError, boolean isShort) {
+        Toast toastCustom = new Toast(context);
+        ViewGroup viewGroup = (ViewGroup) toastCustom.getView();
+        View viewToastCustom;
+        if (isError) {
+            viewToastCustom = LayoutInflater.from(context).inflate(
+                    R.layout.toast_custom_warning, viewGroup);
+        } else {
+            viewToastCustom = LayoutInflater.from(context).inflate(
+                    R.layout.toast_custom_info, viewGroup);
+        }
+        toastCustom.setDuration(isShort ? Toast.LENGTH_SHORT
+                : Toast.LENGTH_LONG);
+        toastCustom.setGravity(Gravity.BOTTOM, 0,
+                (int) PxUtils.pxFromDp(context, context.getResources().getDimension(R.dimen.toast_offset)));
+        toastCustom.setMargin(0, 0);
+        toastCustom.setView(viewToastCustom);
+        ((TextViewCustom) viewToastCustom.findViewById(R.id.toastDescription))
+                .setText(content);
+        toastCustom.show();
+    }
 
     public static String getCurrentVersion(Context context) {
         PackageManager pm = context.getPackageManager();
@@ -173,4 +293,5 @@ public class Utils {
 
         return error;
     }
+
 }

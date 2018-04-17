@@ -25,7 +25,7 @@ public class SplashActivity extends BaseActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                startActivity(MainActivity.class, TransitionScreen.FADE_IN);
+                startActivity(HomeActivity.class, TransitionScreen.FADE_IN);
             }
         }, 1000);
     }

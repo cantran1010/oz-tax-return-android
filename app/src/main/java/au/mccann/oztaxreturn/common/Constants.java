@@ -104,7 +104,7 @@ public class Constants {
     public static final String EMAIL_EMAIL = "email.email";
     public static final String PHONE_REQUIRED = "phone.required";
     public static final String PHONE_UNIQUE ="phone.unique" ;
-    public static int MAX_IMAGE_ATTACH = 6;
+    public static int MAX_IMAGE_ATTACH = 9;
     public static final String INTENT_EXTRA_ALBUM = "album_name";
     public static final int REQUEST_CODE_PICK_IMAGE = 357;
     public static final int RESPONSE_CODE_PICK_IMAGE = 753;
