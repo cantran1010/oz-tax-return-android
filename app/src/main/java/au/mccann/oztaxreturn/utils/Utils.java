@@ -9,6 +9,7 @@ import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.text.TextUtils;
 import android.util.Base64;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -110,7 +111,19 @@ public class Utils {
 //        toastCustom.show();
 //    }
     public static boolean isValidEmail(CharSequence target) {
-        return target != null && android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
+        if (TextUtils.isEmpty(target)) {
+            return false;
+        } else {
+            return target != null && android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
+        }
+    }
+
+    public static boolean isValidPhone(CharSequence phone) {
+        if (TextUtils.isEmpty(phone)) {
+            return false;
+        } else {
+            return android.util.Patterns.PHONE.matcher(phone).matches();
+        }
     }
 
     public static void hideKeyBoard(Activity context) {

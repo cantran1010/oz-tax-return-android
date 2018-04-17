@@ -10,4 +10,15 @@
     <string name="nav_header_title">Android Studio</string>
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
+    <string name="hint_User_name">Username</string>
+    <string name="hint_pass_word">Password</string>
+    <string name="forgot_password">Forgot password?</string>
+    <string name="btn_login">login</string>
+    <string name="title_create_account">Create account</string>
+    <string name="label_mail">email</string>
+    <string name="label_mobile">mobile phone</string>
+    <string name="label_password">password</string>
+    <string name="label_re_password">re-password</string>
+    <string name="policy">I agree with Term and Privacy policy</string>
+    <string name="btn_register">register</string>
 </resources>

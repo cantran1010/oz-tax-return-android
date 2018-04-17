@@ -33,7 +33,7 @@ android {
     buildTypes {
 
         debug {
-            buildConfigField "String", "BASE_URL", '"https://staging-api.hozo.vn/"'
+            buildConfigField "String", "BASE_URL", '"http://oztax.tonishdev.com"'
             buildConfigField "String", "SHARE_URL", '"https://staging.hozo.vn/share/tasks/"'
             debuggable true
             minifyEnabled false

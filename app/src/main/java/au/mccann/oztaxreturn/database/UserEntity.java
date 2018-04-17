@@ -3,6 +3,7 @@ package au.mccann.oztaxreturn.database;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
@@ -14,136 +15,31 @@ public class UserEntity extends RealmObject implements Serializable {
 
     @PrimaryKey
     private int id;
-    @SerializedName("full_name")
-    private String fullName;
     private String phone;
     private String email;
-    @SerializedName("email_active")
-    private boolean emailActive;
-    @SerializedName("facebook_id")
-    private String facebookId;
-    private String address;
+    @SerializedName("username")
+    private String userName;
+    private String title;
+    @SerializedName("first_name")
+    private String firstName;
+    @SerializedName("middle_name")
+    private String middleName;
+    @SerializedName("last_name")
+    private String lastName;
     private String avatar;
-    @SerializedName("date_of_birth")
-    private String dateOfBirth;
-    private String description;
+    private String birthday;
     private String gender;
-    @SerializedName("poster_average_rating")
-    private float posterAverageRating;
-    @SerializedName("tasker_average_rating")
-    private float taskerAverageRating;
-    @SerializedName("poster_review_count")
-    private int posterReviewCount;
-    @SerializedName("tasker_review_count")
-    private int taskerReviewCount;
-    private String accessToken;
-    private String refreshToken;
-    private String tokenExp;
-    private boolean isMyUser;
-    @SerializedName("tasker_done_count")
-    private int taskerDoneCount;
-    @SerializedName("poster_done_count")
-    private int posterDoneCount;
-    @SerializedName("tasker_done_rate")
-    private float taskerDoneRate;
-    @SerializedName("poster_done_rate")
-    private float posterDoneRate;
-    private double latitude;
-    private double longitude;
-    private String experiences;
-    @SerializedName("privacy_hide_gender")
-    private boolean privacyGender;
-    @SerializedName("privacy_hide_date_of_birth")
-    private boolean privacyBirth;
-    @SerializedName("activities_count")
-    private int activitiesCount;
-    @SerializedName("followers_count")
-    private int followersCount;
-    private String role;
-    private boolean followed;
-    private String background;
-    @SerializedName("referrer_phone")
-    private String referrerPhone;
-    @SerializedName("tasker_count")
-    private int taskerCount;
-    @SerializedName("poster_count")
-    private int posterCount;
-
-    public int getTaskerCount() {
-        return taskerCount;
-    }
-
-    public void setTaskerCount(int taskerCount) {
-        this.taskerCount = taskerCount;
-    }
-
-    public int getPosterCount() {
-        return posterCount;
-    }
-
-    public void setPosterCount(int posterCount) {
-        this.posterCount = posterCount;
-    }
-
-    public String getBackground() {
-        return background;
-    }
-
-    public void setBackground(String background) {
-        this.background = background;
-    }
-
-    public boolean isFollowed() {
-        return followed;
-    }
-
-    public void setFollowed(boolean followed) {
-        this.followed = followed;
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
-
-    public void setMyUser(boolean myUser) {
-        isMyUser = myUser;
-    }
-
-    public int getTaskerDoneCount() {
-        return taskerDoneCount;
-    }
-
-    public void setTaskerDoneCount(int taskerDoneCount) {
-        this.taskerDoneCount = taskerDoneCount;
-    }
-
-    public int getPosterDoneCount() {
-        return posterDoneCount;
-    }
-
-    public void setPosterDoneCount(int posterDoneCount) {
-        this.posterDoneCount = posterDoneCount;
-    }
-
-    public float getTaskerDoneRate() {
-        return taskerDoneRate;
-    }
-
-    public void setTaskerDoneRate(float taskerDoneRate) {
-        this.taskerDoneRate = taskerDoneRate;
-    }
-
-    public float getPosterDoneRate() {
-        return posterDoneRate;
-    }
-
-    public void setPosterDoneRate(float posterDoneRate) {
-        this.posterDoneRate = posterDoneRate;
-    }
+    private String street;
+    private String suburb;
+    private String postcode;
+    private String state;
+    private String language;
+    private String status;
+    @SerializedName("created_at")
+    private Date createdAt;
+    @SerializedName("updated_at")
+    private Date updatedAt;
+    private String token;
 
     public int getId() {
         return id;
@@ -151,14 +47,6 @@ public class UserEntity extends RealmObject implements Serializable {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public String getFullName() {
-        return fullName;
-    }
-
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
     }
 
     public String getPhone() {
@@ -177,28 +65,44 @@ public class UserEntity extends RealmObject implements Serializable {
         this.email = email;
     }
 
-    public boolean isEmailActive() {
-        return emailActive;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setEmailActive(boolean emailActive) {
-        this.emailActive = emailActive;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
-    public String getFacebookId() {
-        return facebookId;
+    public String getTitle() {
+        return title;
     }
 
-    public void setFacebookId(String facebookId) {
-        this.facebookId = facebookId;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public String getAddress() {
-        return address;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getMiddleName() {
+        return middleName;
+    }
+
+    public void setMiddleName(String middleName) {
+        this.middleName = middleName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getAvatar() {
@@ -209,20 +113,12 @@ public class UserEntity extends RealmObject implements Serializable {
         this.avatar = avatar;
     }
 
-    public String getDateOfBirth() {
-        return dateOfBirth;
+    public String getBirthday() {
+        return birthday;
     }
 
-    public void setDateOfBirth(String dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
+    public void setBirthday(String birthday) {
+        this.birthday = birthday;
     }
 
     public String getGender() {
@@ -233,173 +129,101 @@ public class UserEntity extends RealmObject implements Serializable {
         this.gender = gender;
     }
 
-    public float getPosterAverageRating() {
-        return posterAverageRating;
+    public String getStreet() {
+        return street;
     }
 
-    public void setPosterAverageRating(float posterAverageRating) {
-        this.posterAverageRating = posterAverageRating;
+    public void setStreet(String street) {
+        this.street = street;
     }
 
-    public float getTaskerAverageRating() {
-        return taskerAverageRating;
+    public String getSuburb() {
+        return suburb;
     }
 
-    public void setTaskerAverageRating(float taskerAverageRating) {
-        this.taskerAverageRating = taskerAverageRating;
+    public void setSuburb(String suburb) {
+        this.suburb = suburb;
     }
 
-    public int getPosterReviewCount() {
-        return posterReviewCount;
+    public String getPostcode() {
+        return postcode;
     }
 
-    public void setPosterReviewCount(int posterReviewCount) {
-        this.posterReviewCount = posterReviewCount;
+    public void setPostcode(String postcode) {
+        this.postcode = postcode;
     }
 
-    public int getTaskerReviewCount() {
-        return taskerReviewCount;
+    public String getState() {
+        return state;
     }
 
-    public void setTaskerReviewCount(int taskerReviewCount) {
-        this.taskerReviewCount = taskerReviewCount;
+    public void setState(String state) {
+        this.state = state;
     }
 
-    public String getAccessToken() {
-        return accessToken;
+    public String getLanguage() {
+        return language;
     }
 
-    public void setAccessToken(String accessToken) {
-        this.accessToken = accessToken;
+    public void setLanguage(String language) {
+        this.language = language;
     }
 
-    public String getRefreshToken() {
-        return refreshToken;
+    public String getStatus() {
+        return status;
     }
 
-    public void setRefreshToken(String refreshToken) {
-        this.refreshToken = refreshToken;
+    public void setStatus(String status) {
+        this.status = status;
     }
 
-    public String getTokenExp() {
-        return tokenExp;
+    public Date getCreatedAt() {
+        return createdAt;
     }
 
-    public void setTokenExp(String tokenExp) {
-        this.tokenExp = tokenExp;
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
     }
 
-    public boolean isMyUser() {
-        return isMyUser;
+    public Date getUpdatedAt() {
+        return updatedAt;
     }
 
-    public void setMyUser() {
-        isMyUser = true;
+    public void setUpdatedAt(Date updatedAt) {
+        this.updatedAt = updatedAt;
     }
 
-    public double getLatitude() {
-        return latitude;
+    public String getToken() {
+        return token;
     }
 
-    public void setLatitude(double latitude) {
-        this.latitude = latitude;
-    }
-
-    public double getLongitude() {
-        return longitude;
-    }
-
-    public void setLongitude(double longitude) {
-        this.longitude = longitude;
-    }
-
-    public String getExperiences() {
-        return experiences;
-    }
-
-    public void setExperiences(String experiences) {
-        this.experiences = experiences;
-    }
-
-    public boolean isPrivacyGender() {
-        return privacyGender;
-    }
-
-    public void setPrivacyGender(boolean privacyGender) {
-        this.privacyGender = privacyGender;
-    }
-
-    public boolean isPrivacyBirth() {
-        return privacyBirth;
-    }
-
-    public void setPrivacyBirth(boolean privacyBirth) {
-        this.privacyBirth = privacyBirth;
-    }
-
-    public int getActivitiesCount() {
-        return activitiesCount;
-    }
-
-    public void setActivitiesCount(int activitiesCount) {
-        this.activitiesCount = activitiesCount;
-    }
-
-    public int getFollowersCount() {
-        return followersCount;
-    }
-
-    public void setFollowersCount(int followersCount) {
-        this.followersCount = followersCount;
-    }
-
-    public String getReferrerPhone() {
-        return referrerPhone;
-    }
-
-    public void setReferrerPhone(String referrerPhone) {
-        this.referrerPhone = referrerPhone;
+    public void setToken(String token) {
+        this.token = token;
     }
 
     @Override
     public String toString() {
         return "UserEntity{" +
                 "id=" + id +
-                ", fullName='" + fullName + '\'' +
                 ", phone='" + phone + '\'' +
                 ", email='" + email + '\'' +
-                ", emailActive=" + emailActive +
-                ", facebookId='" + facebookId + '\'' +
-                ", address='" + address + '\'' +
+                ", userName='" + userName + '\'' +
+                ", title='" + title + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", middleName='" + middleName + '\'' +
+                ", lastName='" + lastName + '\'' +
                 ", avatar='" + avatar + '\'' +
-                ", dateOfBirth='" + dateOfBirth + '\'' +
-                ", description='" + description + '\'' +
+                ", birthday='" + birthday + '\'' +
                 ", gender='" + gender + '\'' +
-                ", posterAverageRating=" + posterAverageRating +
-                ", taskerAverageRating=" + taskerAverageRating +
-                ", posterReviewCount=" + posterReviewCount +
-                ", taskerReviewCount=" + taskerReviewCount +
-                ", accessToken='" + accessToken + '\'' +
-                ", refreshToken='" + refreshToken + '\'' +
-                ", tokenExp='" + tokenExp + '\'' +
-                ", isMyUser=" + isMyUser +
-                ", taskerDoneCount=" + taskerDoneCount +
-                ", posterDoneCount=" + posterDoneCount +
-                ", taskerDoneRate=" + taskerDoneRate +
-                ", posterDoneRate=" + posterDoneRate +
-                ", latitude=" + latitude +
-                ", longitude=" + longitude +
-                ", experiences='" + experiences + '\'' +
-                ", privacyGender=" + privacyGender +
-                ", privacyBirth=" + privacyBirth +
-                ", activitiesCount=" + activitiesCount +
-                ", followersCount=" + followersCount +
-                ", role='" + role + '\'' +
-                ", followed=" + followed +
-                ", background='" + background + '\'' +
-                ", referrerPhone='" + referrerPhone + '\'' +
-                ", taskerCount=" + taskerCount +
-                ", posterCount=" + posterCount +
+                ", street='" + street + '\'' +
+                ", suburb='" + suburb + '\'' +
+                ", postcode='" + postcode + '\'' +
+                ", state='" + state + '\'' +
+                ", language='" + language + '\'' +
+                ", status='" + status + '\'' +
+                ", createdAt=" + createdAt +
+                ", updatedAt=" + updatedAt +
+                ", token='" + token + '\'' +
                 '}';
     }
 }
