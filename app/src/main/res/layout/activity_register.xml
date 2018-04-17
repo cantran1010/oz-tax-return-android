@@ -28,6 +28,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
+            android:layout_marginEnd="?actionBarSize"
+            android:layout_marginRight="?actionBarSize"
             android:layout_toEndOf="@+id/img_back"
             android:layout_toRightOf="@+id/img_back"
             android:gravity="center"
