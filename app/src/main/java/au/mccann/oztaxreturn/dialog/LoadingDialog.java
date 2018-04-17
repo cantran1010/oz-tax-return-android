@@ -2,6 +2,7 @@ package au.mccann.oztaxreturn.dialog;
 
 import android.app.Dialog;
 import android.content.Context;
+
 import au.mccann.oztaxreturn.R;
 
 /**

@@ -47,7 +47,7 @@ public class ImageSelectActivity extends BaseActivity implements View.OnClickLis
         ImageView imgBack = (ImageView) findViewById(R.id.img_back);
         imgBack.setOnClickListener(this);
 
-        TextViewCustom tvDone =  findViewById(R.id.tv_done);
+        TextViewCustom tvDone = findViewById(R.id.tv_done);
         tvDone.setOnClickListener(this);
 
         tvAlbumName = findViewById(R.id.tv_album_name);
@@ -179,7 +179,7 @@ public class ImageSelectActivity extends BaseActivity implements View.OnClickLis
 
             case R.id.tv_done:
                 if (getSelectedImage().size() == 0) {
-                    Utils.showLongToast(ImageSelectActivity.this, getString(R.string.err_pick_image),false,false);
+                    Utils.showLongToast(ImageSelectActivity.this, getString(R.string.err_pick_image), false, false);
                 } else {
 
                     if (isCropProfile) {

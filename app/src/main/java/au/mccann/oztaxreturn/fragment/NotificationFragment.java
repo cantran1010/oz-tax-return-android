@@ -6,7 +6,7 @@ import au.mccann.oztaxreturn.R;
  * Created by LongBui on 4/17/18.
  */
 
-public class NotificationFragment extends BaseFragment{
+public class NotificationFragment extends BaseFragment {
     @Override
     protected int getLayout() {
         return R.layout.notification_fragment;

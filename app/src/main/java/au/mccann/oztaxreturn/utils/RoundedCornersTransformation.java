@@ -1,7 +1,6 @@
 package au.mccann.oztaxreturn.utils;
 
 
-
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapShader;

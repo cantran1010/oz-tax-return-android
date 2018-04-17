@@ -34,7 +34,7 @@ import au.mccann.oztaxreturn.view.MyGridView;
  * Created by LongBui on 4/17/18.
  */
 
-public class IncomeWagesSalary extends BaseFragment implements View.OnClickListener{
+public class IncomeWagesSalary extends BaseFragment implements View.OnClickListener {
 
     private static final String TAG = IncomeWagesSalary.class.getSimpleName();
     private MyGridView grImage;
@@ -195,7 +195,7 @@ public class IncomeWagesSalary extends BaseFragment implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
 
         }
     }
