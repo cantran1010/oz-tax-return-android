@@ -82,7 +82,7 @@ public class RecoverActivity extends BaseActivity implements View.OnClickListene
             public void onResponse(Call<Void> call, Response<Void> response) {
                 ProgressDialogUtils.dismissProgressDialog();
                 LogUtils.d(TAG, "doRecover code" + response.code());
-                if (response.code() == Constants.HTTP_CODE_OK) {
+                if (response.code() == Constants.HTTP_CODE_NO_CONTENT) {
                     LogUtils.d(TAG, "doRecover body" + response.body().toString());
                     startActivity(new Intent(RecoverActivity.this, HomeActivity.class), TransitionScreen.RIGHT_TO_LEFT);
                 } else {
