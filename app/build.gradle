@@ -33,15 +33,15 @@ android {
     buildTypes {
 
         debug {
-            buildConfigField "String", "BASE_URL", '"http://oztax.tonishdev.com"'
-            buildConfigField "String", "SHARE_URL", '"https://staging.hozo.vn/share/tasks/"'
+            buildConfigField "String", "BASE_URL", '"http://oztax.tonishdev.com/api/"'
+            buildConfigField "String", "SHARE_URL", '"http://oztax.tonishdev.com/api/"'
             debuggable true
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         release {
-            buildConfigField "String", "BASE_URL", '"https://api.hozo.vn/"'
-            buildConfigField "String", "SHARE_URL", '"https://hozo.vn/share/tasks/"'
+            buildConfigField "String", "BASE_URL", '"http://oztax.tonishdev.com/api/"'
+            buildConfigField "String", "SHARE_URL", '"http://oztax.tonishdev.com/api/"'
             debuggable false
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'

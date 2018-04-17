@@ -15,6 +15,14 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
 import java.io.UnsupportedEncodingException;
+import java.lang.annotation.Annotation;
+
+import au.mccann.oztaxreturn.model.APIError;
+import okhttp3.ResponseBody;
+import retrofit2.Converter;
+import retrofit2.Response;
+
+import static au.mccann.oztaxreturn.networking.ApiClient.retrofit;
 
 /**
  * Created by CanTran on 4/14/18.
@@ -150,5 +158,19 @@ public class Utils {
 
         InputMethodManager imm = (InputMethodManager) context.getSystemService(Service.INPUT_METHOD_SERVICE);
         imm.showSoftInput(EdittextHozo, 0);
+    }
+
+    public static APIError parseError(Response<?> response) {
+        Converter<ResponseBody, APIError> errorConverter = retrofit.responseBodyConverter(APIError.class, new Annotation[0]);
+
+        @SuppressWarnings("UnusedAssignment") APIError error = new APIError();
+
+        try {
+            error = errorConverter.convert(response.errorBody());
+        } catch (Exception e) {
+            return new APIError();
+        }
+
+        return error;
     }
 }

@@ -1,5 +1,7 @@
 package au.mccann.oztaxreturn.activity;
 
+
+import android.content.Intent;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -11,10 +13,15 @@ import au.mccann.oztaxreturn.R;
 import au.mccann.oztaxreturn.common.Constants;
 import au.mccann.oztaxreturn.database.UserEntity;
 import au.mccann.oztaxreturn.database.UserManager;
-import au.mccann.oztaxreturn.model.RegisterReponse;
+import au.mccann.oztaxreturn.dialog.AlertDialogOk;
+import au.mccann.oztaxreturn.dialog.AlertDialogOkAndCancel;
+import au.mccann.oztaxreturn.model.APIError;
+import au.mccann.oztaxreturn.model.UserReponse;
 import au.mccann.oztaxreturn.networking.ApiClient;
+import au.mccann.oztaxreturn.utils.DialogUtils;
 import au.mccann.oztaxreturn.utils.LogUtils;
 import au.mccann.oztaxreturn.utils.ProgressDialogUtils;
+import au.mccann.oztaxreturn.utils.TransitionScreen;
 import au.mccann.oztaxreturn.utils.Utils;
 import au.mccann.oztaxreturn.view.ButtonCustom;
 import au.mccann.oztaxreturn.view.EdittextCustom;
@@ -24,7 +31,11 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * Created by CanTran on 5/23/17.
+ */
 public class RegisterActivity extends BaseActivity implements View.OnClickListener {
+    private static final String TAG = RegisterActivity.class.getSimpleName();
     private EdittextCustom edtUsername, edtPassword, edtEmail, edtPhone, edtRePassword;
     private ButtonCustom btnRegister;
     private CheckBox checkBox;
@@ -44,6 +55,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         edtRePassword = findViewById(R.id.edt_re_password);
         edtPassword = findViewById(R.id.edt_password);
         btnRegister = findViewById(R.id.btn_register);
+        btnRegister.setOnClickListener(this);
         checkBox = findViewById(R.id.cb_policy);
         checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -63,15 +75,6 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     @Override
     protected void resumeData() {
 
-    }
-
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.img_back:
-                finish();
-                break;
-        }
     }
 
     private void validateInput() {
@@ -110,24 +113,113 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        LogUtils.d(TAG, "doRegister jsonRequest : " + jsonRequest.toString());
         RequestBody body = RequestBody.create(MediaType.parse("application/json"), jsonRequest.toString());
-        ApiClient.getApiService().register(body).enqueue(new Callback<RegisterReponse>() {
+        ApiClient.getApiService().register(body).enqueue(new Callback<UserReponse>() {
             @Override
-            public void onResponse(Call<RegisterReponse> call, Response<RegisterReponse> response) {
+            public void onResponse(Call<UserReponse> call, Response<UserReponse> response) {
+                ProgressDialogUtils.dismissProgressDialog();
+                LogUtils.d(TAG, "doRegister code: " + response.code());
                 if (response.code() == Constants.HTTP_CODE_OK) {
-                    LogUtils.d("", "register" + response.body().toString());
-                    UserEntity user = response.body().getUserEntity();
+                    LogUtils.d(TAG, "doRegister body: " + response.body().toString());
+                    UserEntity user = response.body().getUser();
                     user.setToken(response.body().getToken());
                     UserManager.insertUser(user);
+                    startActivity(new Intent(RegisterActivity.this, LoginActivity.class), TransitionScreen.RIGHT_TO_LEFT);
+                } else {
+                    APIError error = Utils.parseError(response);
+                    LogUtils.e(TAG, "doRegister onFailure : " + error.message());
+                    if (error != null) switch (error.status()) {
+                        case Constants.USERNAME_REQUIRE:
+                        case Constants.USERNAME_UNIQUE:
+                        case Constants.USERNAME_MAX:
+                            edtUsername.requestFocus();
+                            edtUsername.setError(error.message());
+                            break;
+                        case Constants.PASSWORD_REQUIRE:
+                        case Constants.PASSWORD_CONFIRM:
+                            edtPassword.requestFocus();
+                            edtPassword.setError(error.message());
+                            break;
+                        case Constants.RE_PASSWORD_REQUIRE:
+                            edtRePassword.requestFocus();
+                            edtRePassword.setError(error.message());
+                        case Constants.EMAIL_REQUIRE:
+                        case Constants.EMAIL_EMAIL:
+                            edtEmail.requestFocus();
+                            edtEmail.setError(error.message());
+                            break;
+                        case Constants.PHONE_REQUIRED:
+                        case Constants.PHONE_UNIQUE:
+                            edtPhone.requestFocus();
+                            edtPhone.setError(error.message());
+                            break;
+                        case Constants.SYSTEM_ERROR:
+                            DialogUtils.showOkDialog(RegisterActivity.this, getString(R.string.error), error.message(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                                @Override
+                                public void onSubmit() {
+
+                                }
+                            });
+                        default:
+                            if (error.status().startsWith("username")) {
+                                edtUsername.requestFocus();
+                                edtUsername.setError(error.message());
+                            } else if (error.status().startsWith("password")) {
+                                edtPassword.requestFocus();
+                                edtPassword.setError(error.message());
+                            } else if (error.status().startsWith("email")) {
+                                edtEmail.requestFocus();
+                                edtEmail.setError(error.message());
+
+                            } else if (error.status().startsWith("phone")) {
+                                edtPhone.requestFocus();
+                                edtPhone.setError(error.message());
+                            }
+                            break;
+                    }
+                    else {
+                        DialogUtils.showOkDialog(RegisterActivity.this, getString(R.string.error), error.message(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                            @Override
+                            public void onSubmit() {
+
+                            }
+                        });
+                    }
                 }
 
             }
 
             @Override
-            public void onFailure(Call<RegisterReponse> call, Throwable t) {
+            public void onFailure(Call<UserReponse> call, Throwable t) {
+                LogUtils.e(TAG, "doRegister onFailure : " + t.getMessage());
+                ProgressDialogUtils.dismissProgressDialog();
+                DialogUtils.showRetryDialog(RegisterActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
+                    @Override
+                    public void onSubmit() {
+                        doRegister();
+                    }
 
+                    @Override
+                    public void onCancel() {
+
+                    }
+                });
             }
         });
 
+    }
+
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.img_back:
+                finish();
+                break;
+            case R.id.btn_register:
+                validateInput();
+                break;
+        }
     }
 }

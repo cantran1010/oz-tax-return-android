@@ -5,9 +5,9 @@ import au.mccann.oztaxreturn.database.UserEntity;
 /**
  * Created by CanTran on 4/16/18.
  */
-public class RegisterReponse {
+public class UserReponse {
     private String token;
-    private UserEntity userEntity;
+    private UserEntity user;
 
     public String getToken() {
         return token;
@@ -17,19 +17,20 @@ public class RegisterReponse {
         this.token = token;
     }
 
-    public UserEntity getUserEntity() {
-        return userEntity;
+    public UserEntity getUser() {
+        return user;
     }
 
-    public void setUserEntity(UserEntity userEntity) {
-        this.userEntity = userEntity;
+    public void setUser(UserEntity user) {
+        this.user = user;
     }
 
     @Override
     public String toString() {
-        return "RegisterReponse{" +
+        return "UserReponse{" +
                 "token='" + token + '\'' +
-                ", userEntity=" + userEntity +
+                ", user=" + user +
                 '}';
     }
 }
+

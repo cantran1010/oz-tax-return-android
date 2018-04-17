@@ -1,17 +1,21 @@
 package au.mccann.oztaxreturn.networking;
 
-import au.mccann.oztaxreturn.model.RegisterReponse;
+import au.mccann.oztaxreturn.model.UserReponse;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
-import retrofit2.http.PUT;
+import retrofit2.http.POST;
 
 /**
- * Created by LongBui on 09/05/2017.
+ * Created by CanTran on 5/23/17.
  */
 public interface ApiInterface {
-    @PUT("auth/register")
-    Call<RegisterReponse> register(@Body RequestBody body);
+    @POST("auth/register")
+    Call<UserReponse> register(@Body RequestBody body);
 
+    @POST("auth/login")
+    Call<UserReponse> login(@Body RequestBody body);
 
+    @POST("auth/recover")
+    Call<Void> recoverPasswor(@Body RequestBody body);
 }

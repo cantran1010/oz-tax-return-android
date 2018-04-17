@@ -32,7 +32,7 @@ public class Constants {
     public static final String REFERRER_PHONE_YOURSELF = "referrer_phone_yourself";
     public static final String INVALID_REFERRER_PHONE = "invalid_referrer_phone";
     public static final String NO_EXIST = "no_exist";
-    public static final String SYSTEM_ERROR = "system_error";
+    public static final String SYSTEM_ERROR = "system.error";
     public static final String TASK_RESPONSE_RATING = "task_respone_rating";
     public static final String ORDER_BY_DISTANCE = "distance";
     public static final String ORDER_BY_INTTEREST = "interest";
@@ -94,6 +94,16 @@ public class Constants {
     public static final String PARAMETER_MOBILE = "phone";
     public static final String PARAMETER_PASSWORD = "password";
     public static final String PARAMETER_RE_PASSWORD = "confirm_password";
+    public static final String USERNAME_REQUIRE = "username.required";
+    public static final String USERNAME_UNIQUE = "username.unique";
+    public static final String USERNAME_MAX = "username.max";
+    public static final String PASSWORD_REQUIRE = "password.required";
+    public static final String PASSWORD_CONFIRM = "password.confirm";
+    public static final String RE_PASSWORD_REQUIRE = "confirm_password.required";
+    public static final String EMAIL_REQUIRE = "email.required";
+    public static final String EMAIL_EMAIL = "email.email";
+    public static final String PHONE_REQUIRED = "phone.required";
+    public static final String PHONE_UNIQUE ="phone.unique" ;
     public static int MAX_IMAGE_ATTACH = 6;
     public static final String INTENT_EXTRA_ALBUM = "album_name";
     public static final int REQUEST_CODE_PICK_IMAGE = 357;

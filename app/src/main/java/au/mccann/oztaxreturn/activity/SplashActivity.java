@@ -13,7 +13,7 @@ public class SplashActivity extends BaseActivity {
 
     @Override
     protected int getLayout() {
-        return R.layout.splash_activity;
+        return R.layout.activity_splash;
     }
 
     @Override
@@ -25,9 +25,9 @@ public class SplashActivity extends BaseActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                startActivity(RegisterActivity.class, TransitionScreen.FADE_IN);
+                startActivity(MainActivity.class, TransitionScreen.FADE_IN);
             }
-        }, 2000);
+        }, 1000);
     }
 
     @Override
