@@ -13,4 +13,8 @@
     <color name="border_edt_register">#f1f1f1</color>
     <color name="label_edt_register">#ababab</color>
     <color name="cb_color">#000033</color>
+    <color name="red">#FF0000</color>
+    <color name="blue">#0000FF</color>
+    <color name="line_color">#cdcdcd</color>
+    <color name="tv_gray">#ababab</color>
 </resources>
