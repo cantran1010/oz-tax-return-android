@@ -21,4 +21,10 @@
     <string name="label_re_password">re-password</string>
     <string name="policy">I agree with Term and Privacy policy</string>
     <string name="btn_register">register</string>
+    <string name="ok">Ok</string>
+    <string name="error">Error!</string>
+    <string name="retry_title">No internet connection</string>
+    <string name="retry_content">Please check your internet connection and try again</string>
+    <string name="retry">Retry</string>
+    <string name="report_cancel">cancel</string>
 </resources>

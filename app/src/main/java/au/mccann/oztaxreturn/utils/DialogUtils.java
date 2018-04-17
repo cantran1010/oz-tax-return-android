@@ -3,6 +3,7 @@ package au.mccann.oztaxreturn.utils;
 import android.app.Activity;
 import android.content.Context;
 
+import au.mccann.oztaxreturn.R;
 import au.mccann.oztaxreturn.dialog.AlertDialogOk;
 import au.mccann.oztaxreturn.dialog.AlertDialogOkAndCancel;
 
@@ -10,6 +11,16 @@ import au.mccann.oztaxreturn.dialog.AlertDialogOkAndCancel;
  * Created by LongBui on 4/4/2017.
  */
 public class DialogUtils {
+
+    public static void showRetryDialog(Context context, AlertDialogOkAndCancel.AlertDialogListener alertDialogListener) {
+        if (context == null) return;
+        if (context instanceof Activity) {
+            if (((Activity) context).isFinishing()) {
+                return;
+            }
+        }
+        new AlertDialogOkAndCancel(context, context.getString(R.string.retry_title), context.getString(R.string.retry_content), context.getString(R.string.retry), context.getString(R.string.report_cancel), alertDialogListener);
+    }
 
     public static void showOkAndCancelDialog(Context context, String title, String content, String submit, String cancel, AlertDialogOkAndCancel.AlertDialogListener alertDialogListener) {
         if (context == null) return;

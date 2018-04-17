@@ -1,5 +1,6 @@
 package au.mccann.oztaxreturn.activity;
 
+
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -11,8 +12,10 @@ import au.mccann.oztaxreturn.R;
 import au.mccann.oztaxreturn.common.Constants;
 import au.mccann.oztaxreturn.database.UserEntity;
 import au.mccann.oztaxreturn.database.UserManager;
+import au.mccann.oztaxreturn.dialog.AlertDialogOkAndCancel;
 import au.mccann.oztaxreturn.model.RegisterReponse;
 import au.mccann.oztaxreturn.networking.ApiClient;
+import au.mccann.oztaxreturn.utils.DialogUtils;
 import au.mccann.oztaxreturn.utils.LogUtils;
 import au.mccann.oztaxreturn.utils.ProgressDialogUtils;
 import au.mccann.oztaxreturn.utils.Utils;
@@ -24,7 +27,11 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * Created by CanTran on 5/23/17.
+ */
 public class RegisterActivity extends BaseActivity implements View.OnClickListener {
+    private static final String TAG = RegisterActivity.class.getSimpleName();
     private EdittextCustom edtUsername, edtPassword, edtEmail, edtPhone, edtRePassword;
     private ButtonCustom btnRegister;
     private CheckBox checkBox;
@@ -44,6 +51,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         edtRePassword = findViewById(R.id.edt_re_password);
         edtPassword = findViewById(R.id.edt_password);
         btnRegister = findViewById(R.id.btn_register);
+        btnRegister.setOnClickListener(this);
         checkBox = findViewById(R.id.cb_policy);
         checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -63,15 +71,6 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     @Override
     protected void resumeData() {
 
-    }
-
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.img_back:
-                finish();
-                break;
-        }
     }
 
     private void validateInput() {
@@ -110,13 +109,16 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        LogUtils.d(TAG, "doRegister -------> : " + jsonRequest.toString());
         RequestBody body = RequestBody.create(MediaType.parse("application/json"), jsonRequest.toString());
         ApiClient.getApiService().register(body).enqueue(new Callback<RegisterReponse>() {
             @Override
             public void onResponse(Call<RegisterReponse> call, Response<RegisterReponse> response) {
+                ProgressDialogUtils.dismissProgressDialog();
+                LogUtils.d(TAG, "doRegister code" + response.code());
                 if (response.code() == Constants.HTTP_CODE_OK) {
-                    LogUtils.d("", "register" + response.body().toString());
-                    UserEntity user = response.body().getUserEntity();
+                    LogUtils.d(TAG, "doRegister body" + response.body().toString());
+                    UserEntity user = response.body().getUser();
                     user.setToken(response.body().getToken());
                     UserManager.insertUser(user);
                 }
@@ -125,9 +127,35 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
 
             @Override
             public void onFailure(Call<RegisterReponse> call, Throwable t) {
+                LogUtils.e(TAG, "doRegister onFailure : " + t.getMessage());
+                ProgressDialogUtils.dismissProgressDialog();
+                DialogUtils.showRetryDialog(RegisterActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
+                    @Override
+                    public void onSubmit() {
+                        doRegister();
+                    }
+
+                    @Override
+                    public void onCancel() {
+
+                    }
+                });
 
             }
         });
 
+    }
+
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.img_back:
+                finish();
+                break;
+            case R.id.btn_register:
+                validateInput();
+                break;
+        }
     }
 }
