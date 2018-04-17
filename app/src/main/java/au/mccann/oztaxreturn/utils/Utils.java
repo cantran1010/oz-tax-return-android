@@ -36,6 +36,9 @@ import static au.mccann.oztaxreturn.networking.ApiClient.retrofit;
 import au.mccann.oztaxreturn.R;
 import au.mccann.oztaxreturn.view.TextViewCustom;
 
+import au.mccann.oztaxreturn.R;
+import au.mccann.oztaxreturn.view.TextViewCustom;
+
 /**
  * Created by CanTran on 4/14/18.
  */
