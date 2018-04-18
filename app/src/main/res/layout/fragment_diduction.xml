@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginEnd="37.5dp"
+    android:layout_marginLeft="37.5dp"
+    android:layout_marginRight="37.5dp"
+    android:layout_marginStart="37.5dp"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/btn_next"
+        android:paddingBottom="10dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <au.mccann.oztaxreturn.view.TextViewCustom
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="35dp"
+                android:text="@string/income_other_content"
+                android:textColor="@color/title_color"
+                android:textSize="@dimen/size_nomal" />
+
+            <au.mccann.oztaxreturn.view.EdittextCustom
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/bg_edittext"
+                android:gravity="top"
+                android:hint="@string/income_deduction_hint"
+                android:inputType="textMultiLine"
+                android:minHeight="100dp"
+                android:padding="10dp"
+                android:textColorHint="@color/tv_gray"
+                android:textSize="@dimen/size_nomal" />
+
+            <au.mccann.oztaxreturn.view.TextViewCustom
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:gravity="center"
+                android:text="@string/income_other_img"
+                android:textAllCaps="true"
+                android:textColor="@color/tv_gray"
+                android:textSize="@dimen/size_nomal" />
+
+            <au.mccann.oztaxreturn.view.MyGridView
+                android:id="@+id/gr_image"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="0dp"
+                android:numColumns="3" />
+        </LinearLayout>
+    </ScrollView>
+
+    <au.mccann.oztaxreturn.view.ButtonCustom
+        android:id="@+id/btn_next"
+        style="@style/Button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20dp"
+        android:text="@string/next" />
+</RelativeLayout>

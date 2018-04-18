@@ -85,4 +85,11 @@
     <string name="income_other_hint">Your extra sources of income. Example: Retail properties, investment</string>
     <string name="income_other_img">payg image</string>
 
+    <!-- diduction -->
+    <string name="income_deduction_hint">Example: Retail properties, investment</string>
+
+    <!-- estimate -->
+    <string name="estimate_content">Our accountant will process your applicaition and fill in other information using our expertise to help you get the best possible tax refund.   You will be notified to review the final application and provide extra information if required before we loge it to ATO.</string>
+    <string name="estimate_note">* please click next to provide your personal information</string>
+
 </resources>

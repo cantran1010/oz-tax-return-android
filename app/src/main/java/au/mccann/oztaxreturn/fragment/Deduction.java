@@ -1,7 +1,6 @@
 package au.mccann.oztaxreturn.fragment;
 
 import android.Manifest;
-import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -11,8 +10,6 @@ import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.CompoundButton;
-import android.widget.ScrollView;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -28,37 +25,31 @@ import au.mccann.oztaxreturn.utils.FileUtils;
 import au.mccann.oztaxreturn.utils.LogUtils;
 import au.mccann.oztaxreturn.utils.TransitionScreen;
 import au.mccann.oztaxreturn.utils.Utils;
-import au.mccann.oztaxreturn.view.ExpandableLayout;
 import au.mccann.oztaxreturn.view.MyGridView;
-import au.mccann.oztaxreturn.view.RadioButtonCustom;
 
 /**
  * Created by LongBui on 4/17/18.
  */
 
-public class IncomeOther extends BaseFragment implements View.OnClickListener {
+public class Deduction extends BaseFragment implements View.OnClickListener {
 
-    private static final String TAG = IncomeOther.class.getSimpleName();
+    private static final String TAG = Deduction.class.getSimpleName();
     private MyGridView grImage;
     private ImageAdapter imageAdapter;
     private final ArrayList<Image> images = new ArrayList<>();
     private final String[] permissions = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
     private String imgPath;
-    private RadioButtonCustom rbYes;
-    private ExpandableLayout layout;
-    private ScrollView scrollView;
+
 
     @Override
     protected int getLayout() {
-        return R.layout.fragment_income_other;
+        return R.layout.fragment_diduction;
     }
 
     @Override
     protected void initView() {
         grImage = (MyGridView) findViewById(R.id.gr_image);
-        rbYes = (RadioButtonCustom) findViewById(R.id.rb_yes);
-        scrollView = (ScrollView) findViewById(R.id.scrollView);
-        layout = (ExpandableLayout) findViewById(R.id.layout_expandable);
+
     }
 
     @Override
@@ -88,18 +79,6 @@ public class IncomeOther extends BaseFragment implements View.OnClickListener {
             }
         });
 
-        rbYes.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                LogUtils.d(TAG, "setOnCheckedChangeListener : " + b);
-                if (b) {
-                    layout.setExpanded(true);
-                    scollLayout();
-                } else {
-                    layout.setExpanded(false);
-                }
-            }
-        });
     }
 
     @Override
@@ -136,7 +115,7 @@ public class IncomeOther extends BaseFragment implements View.OnClickListener {
 
             @Override
             public void onGallery() {
-                Intent intent = new Intent(getActivity(), AlbumActivity.class);
+                Intent intent = new Intent(getContext(), AlbumActivity.class);
                 intent.putExtra(Constants.COUNT_IMAGE_ATTACH_EXTRA, images.size() - 1);
                 startActivityForResult(intent, Constants.REQUEST_CODE_PICK_IMAGE, TransitionScreen.RIGHT_TO_LEFT);
             }
@@ -189,14 +168,6 @@ public class IncomeOther extends BaseFragment implements View.OnClickListener {
 
     private String getImagePath() {
         return imgPath;
-    }
-
-    private void scollLayout() {
-        int[] coords = {0, 0};
-        scrollView.getLocationOnScreen(coords);
-        int absoluteBottom = coords[1] + scrollView.getHeight();
-        ObjectAnimator objectAnimator = ObjectAnimator.ofInt(scrollView, "scrollY", absoluteBottom).setDuration(1000);
-        objectAnimator.start();
     }
 
     @Override

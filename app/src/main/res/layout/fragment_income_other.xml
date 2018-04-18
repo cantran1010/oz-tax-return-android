@@ -3,6 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginEnd="37.5dp"
+    android:layout_marginLeft="37.5dp"
+    android:layout_marginRight="37.5dp"
+    android:layout_marginStart="37.5dp"
     android:orientation="vertical">
 
     <ScrollView
@@ -10,16 +14,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/btn_next"
-        android:layout_below="@+id/layout_header"
-        android:paddingBottom="10dp">
+        android:paddingBottom="10dp"
+        android:scrollbars="none">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginEnd="45dp"
-            android:layout_marginLeft="45dp"
-            android:layout_marginRight="45dp"
-            android:layout_marginStart="45dp"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <au.mccann.oztaxreturn.view.TextViewCustom
@@ -83,7 +83,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:el_duration="1000"
-                app:el_expanded="true">
+                app:el_expanded="false">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -131,9 +131,5 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="20dp"
-        android:layout_marginEnd="45dp"
-        android:layout_marginLeft="45dp"
-        android:layout_marginRight="45dp"
-        android:layout_marginStart="45dp"
         android:text="@string/next" />
 </RelativeLayout>
