@@ -1,25 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="103dp"
-    android:orientation="vertical">
+    android:layout_width="95dp"
+    android:layout_height="95dp">
 
     <ImageView
         android:id="@+id/img_image"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginEnd="15dp"
-        android:layout_marginRight="15dp"
-        android:layout_marginTop="15dp" />
+        android:layout_width="85dp"
+        android:layout_height="85dp"
+        android:layout_alignParentBottom="true"
+        android:scaleType="centerInside" />
 
     <ImageView
         android:id="@+id/img_add"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="85dp"
+        android:layout_height="85dp"
         android:layout_marginEnd="15dp"
         android:layout_marginRight="15dp"
         android:layout_marginTop="15dp"
-        android:background="@drawable/img_attach" />
+        android:background="@drawable/img_attach"
+        android:scaleType="centerInside" />
 
     <ImageView
         android:id="@+id/img_remove"

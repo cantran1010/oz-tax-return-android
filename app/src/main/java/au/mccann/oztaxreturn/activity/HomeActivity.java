@@ -59,6 +59,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
         } else {
             super.onBackPressed();
         }
+
     }
 
     private void updateMenu(int position) {

@@ -27,9 +27,9 @@ public class SplashActivity extends BaseActivity {
             @Override
             public void run() {
                 if (au.mccann.oztaxreturn.database.UserManager.checkLogin())
-                    startActivity(HomeActivity.class, TransitionScreen.FADE_IN);
+                    startActivityAndClearAllTask(HomeActivity.class, TransitionScreen.FADE_IN);
                 else
-                    startActivity(MainActivity.class, TransitionScreen.FADE_IN);
+                    startActivityAndClearAllTask(MainActivity.class, TransitionScreen.FADE_IN);
             }
         }, 1000);
     }
