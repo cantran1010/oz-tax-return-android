@@ -37,6 +37,7 @@
 
     <!-- common -->
     <string name="preview_image_title">Preview</string>
+    <string name="error_must_one">You must select at least one option!</string>
 
     <!-- pick image dialog -->
     <string name="attach_img_title">Chọn ảnh đính kèm</string>
@@ -49,6 +50,7 @@
     <string name="max_image_attach_err">Maximum %1$d image attached !</string>
 
     <!-- home screen -->
+    <string name="home_title">TaxReturn</string>
     <string name="home_menu1">TaxReturn</string>
     <string name="home_menu2">ContactAccountant</string>
     <string name="home_menu3">Notification</string>
@@ -62,6 +64,7 @@
     <string name="financial_year_hint">Financial year</string>
 
     <!-- income wages salary -->
+    <string name="income_ws_title">Income</string>
     <string name="wages_salary">Wages/Salary</string>
     <string name="income_ws_des1">Do you have</string>
     <string name="income_ws_des2">PAYG payment summary?</string>
