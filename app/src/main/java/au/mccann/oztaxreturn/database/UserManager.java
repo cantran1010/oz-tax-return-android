@@ -11,13 +11,11 @@ public class UserManager {
 
     private static final String TAG = UserManager.class.getName();
 
-//    public static boolean checkLogin() {
-//        Realm realm = Realm.getDefaultInstance();
-//        // get last update
-//        UserEntity userEntity = realm.where(UserEntity.class).equalTo("isMyUser", true).findFirst();
-//
-//        return !(userEntity == null || userEntity.getFullName().equals("") || userEntity.getFullName() == null);
-//    }
+    public static boolean checkLogin() {
+        Realm realm = Realm.getDefaultInstance();
+        UserEntity userEntity = realm.where(UserEntity.class).findFirst();
+        return userEntity != null && userEntity.getUserName() != null;
+    }
 
     public static UserEntity getMyUser() {
         LogUtils.d(TAG, "getMyUser start ");

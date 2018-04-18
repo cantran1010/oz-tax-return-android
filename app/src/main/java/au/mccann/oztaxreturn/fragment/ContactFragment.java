@@ -5,7 +5,8 @@ import android.view.View;
 
 import au.mccann.oztaxreturn.R;
 import au.mccann.oztaxreturn.utils.TransitionScreen;
-public class ContactFragment extends BaseFragment{
+
+public class ContactFragment extends BaseFragment {
     @Override
     protected int getLayout() {
         return R.layout.fragment_contact;
@@ -25,6 +26,7 @@ public class ContactFragment extends BaseFragment{
     protected void resumeData() {
 
     }
+
     public void onRefresh() {
 
     }

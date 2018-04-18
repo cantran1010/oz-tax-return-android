@@ -59,6 +59,7 @@ public class PreferUtils {
         editor.putBoolean(PREFER_PUSH_SHOW, isPush);
         editor.apply();
     }
+
     public static boolean isPushDeny(Context context) {
         SharedPreferences preferences = context.getSharedPreferences(PREFER_NAME, Context.MODE_PRIVATE);
         return preferences.getBoolean(PREFER_PUSH_DENY, false);
