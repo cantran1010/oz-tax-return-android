@@ -8,8 +8,9 @@ import android.view.View;
 import android.widget.ImageView;
 
 import au.mccann.oztaxreturn.R;
-import au.mccann.oztaxreturn.fragment.ContactFragment;
+import au.mccann.oztaxreturn.fragment.Deduction;
 import au.mccann.oztaxreturn.fragment.HomeFragment;
+import au.mccann.oztaxreturn.fragment.IncomeOther;
 import au.mccann.oztaxreturn.fragment.NotificationFragment;
 import au.mccann.oztaxreturn.utils.TransitionScreen;
 import au.mccann.oztaxreturn.view.TextViewCustom;
@@ -59,6 +60,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
         } else {
             super.onBackPressed();
         }
+
     }
 
     private void updateMenu(int position) {
@@ -96,19 +98,18 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-
             case R.id.drawer_button:
                 drawer.openDrawer(GravityCompat.END);
                 break;
 
             case R.id.layout_home:
                 updateMenu(1);
-                showFragment(R.id.layout_container, HomeFragment.class, false, new Bundle(), TransitionScreen.FADE_IN);
+                showFragment(R.id.layout_container, IncomeOther.class, false, new Bundle(), TransitionScreen.FADE_IN);
                 break;
 
             case R.id.layout_contact:
                 updateMenu(2);
-                showFragment(R.id.layout_container, ContactFragment.class, false, new Bundle(), TransitionScreen.FADE_IN);
+                showFragment(R.id.layout_container, Deduction.class, false, new Bundle(), TransitionScreen.FADE_IN);
                 break;
 
             case R.id.layout_notification:
