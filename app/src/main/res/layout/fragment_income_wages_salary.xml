@@ -2,9 +2,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginLeft="@dimen/left_right_margin_screen"
-    android:layout_marginRight="@dimen/left_right_margin_screen"
-    android:orientation="vertical">
+    android:background="@color/white"
+    android:orientation="vertical"
+    android:paddingLeft="@dimen/left_right_margin_screen"
+    android:paddingRight="@dimen/left_right_margin_screen">
 
     <au.mccann.oztaxreturn.view.TextViewCustom
         android:layout_width="wrap_content"
@@ -87,105 +88,116 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <LinearLayout
-            android:id="@+id/layout_no"
+        <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_above="@+id/btn_next"
-            android:layout_marginTop="10dp"
-            android:orientation="vertical"
-            android:visibility="gone">
+            android:layout_above="@+id/btn_next">
 
-            <au.mccann.oztaxreturn.view.EdittextCustom
-                android:id="@+id/edt_tfn"
-                style="@style/EditText"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:hint="@string/tfn_hint"
-                android:inputType="textPersonName" />
+                android:layout_height="match_parent">
 
-            <au.mccann.oztaxreturn.view.TextViewCustom
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:text="@string/your_name"
-                android:textColor="@color/tv_gray" />
+                <LinearLayout
+                    android:id="@+id/layout_no"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical"
+                    android:visibility="gone">
 
-            <au.mccann.oztaxreturn.view.EdittextCustom
-                android:id="@+id/edt_first_name"
-                style="@style/EditText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:hint="@string/first_name_hint"
-                android:inputType="textPersonName" />
+                    <au.mccann.oztaxreturn.view.EdittextCustom
+                        android:id="@+id/edt_tfn"
+                        style="@style/EditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:hint="@string/tfn_hint"
+                        android:inputType="textPersonName" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp">
+                    <au.mccann.oztaxreturn.view.TextViewCustom
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:text="@string/your_name"
+                        android:textColor="@color/tv_gray" />
 
-                <au.mccann.oztaxreturn.view.EdittextCustom
-                    android:id="@+id/edt_middle_name"
-                    style="@style/EditText"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_weight="1"
-                    android:hint="@string/middle_name_hint"
-                    android:inputType="textPersonName" />
+                    <au.mccann.oztaxreturn.view.EdittextCustom
+                        android:id="@+id/edt_first_name"
+                        style="@style/EditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:hint="@string/first_name_hint"
+                        android:inputType="textPersonName" />
 
-                <au.mccann.oztaxreturn.view.EdittextCustom
-                    android:id="@+id/edt_last_name"
-                    style="@style/EditText"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_weight="1"
-                    android:hint="@string/last_name_hint"
-                    android:inputType="textPersonName" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp">
 
-            </LinearLayout>
+                        <au.mccann.oztaxreturn.view.EdittextCustom
+                            android:id="@+id/edt_middle_name"
+                            style="@style/EditText"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="5dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_weight="1"
+                            android:hint="@string/middle_name_hint"
+                            android:inputType="textPersonName" />
 
-            <au.mccann.oztaxreturn.view.TextViewCustom
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:text="@string/birthday"
-                android:textColor="@color/tv_gray" />
+                        <au.mccann.oztaxreturn.view.EdittextCustom
+                            android:id="@+id/edt_last_name"
+                            style="@style/EditText"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_weight="1"
+                            android:hint="@string/last_name_hint"
+                            android:inputType="textPersonName" />
 
-            <au.mccann.oztaxreturn.view.TextViewCustom
-                android:id="@+id/tv_birthday"
-                style="@style/EditText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="5dp"
-                android:gravity="center"
-                android:inputType="textPersonName" />
+                    </LinearLayout>
 
-        </LinearLayout>
+                    <au.mccann.oztaxreturn.view.TextViewCustom
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:text="@string/birthday"
+                        android:textColor="@color/tv_gray" />
 
-        <LinearLayout
-            android:id="@+id/layout_yes"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_above="@+id/btn_next"
-            android:layout_marginTop="10dp"
-            android:orientation="vertical"
-            android:visibility="gone">
+                    <au.mccann.oztaxreturn.view.TextViewCustom
+                        android:id="@+id/tv_birthday"
+                        style="@style/EditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="5dp"
+                        android:gravity="center"
+                        android:inputType="textPersonName" />
 
-            <au.mccann.oztaxreturn.view.MyGridView
-                android:id="@+id/gr_image"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="0dp"
-                android:numColumns="3" />
+                </LinearLayout>
 
-        </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/layout_yes"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <au.mccann.oztaxreturn.view.MyGridView
+                        android:id="@+id/gr_image"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="0dp"
+                        android:numColumns="3" />
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+        </android.support.v4.widget.NestedScrollView>
 
         <au.mccann.oztaxreturn.view.ButtonCustom
             android:id="@+id/btn_next"

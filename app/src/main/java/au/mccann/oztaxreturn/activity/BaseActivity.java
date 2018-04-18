@@ -17,7 +17,6 @@ import java.io.Serializable;
 import java.util.Stack;
 
 import au.mccann.oztaxreturn.common.Constants;
-import au.mccann.oztaxreturn.utils.LogUtils;
 import au.mccann.oztaxreturn.utils.TransitionScreen;
 
 /**
@@ -122,14 +121,14 @@ public abstract class BaseActivity extends AppCompatActivity implements SwipeRef
     }
 
     public void openFragment(int resId, Class<? extends Fragment> fragmentClazz, boolean addBackStack, TransitionScreen transitionScreen) {
-        openFragment(resId, fragmentClazz, null, addBackStack, transitionScreen);
+        openFragment(resId, fragmentClazz, addBackStack, null, transitionScreen);
     }
 
     public void openFragmentBundle(int resId, Class<? extends Fragment> fragmentClazz, Bundle bundle, boolean addBackStack, TransitionScreen transitionScreen) {
-        openFragment(resId, fragmentClazz, bundle, addBackStack, transitionScreen);
+        openFragment(resId, fragmentClazz, addBackStack, bundle, transitionScreen);
     }
 
-    public void openFragment(int resId, Class<? extends Fragment> fragmentClazz, Bundle args, boolean addBackStack, TransitionScreen transitionScreen) {
+    public void openFragment(int resId, Class<? extends Fragment> fragmentClazz, boolean addBackStack, Bundle args, TransitionScreen transitionScreen) {
         transaction = fragmentManager.beginTransaction();
         String tag = fragmentClazz.getName();
         Fragment fragment = null;
@@ -156,46 +155,46 @@ public abstract class BaseActivity extends AppCompatActivity implements SwipeRef
         fragmentsStack.push(new StackEntry(fragmentClazz.getName()));
     }
 
-    public void showFragment(int resLayout, Class<?> newFragClass,
-                             boolean putStack, Bundle bundle, TransitionScreen transitionScreen) {
-        transaction = fragmentManager.beginTransaction();
-        TransitionScreen.setCustomAnimationsFragment(transaction, transitionScreen);
-        String newTag = newFragClass.getName();
-
-        Fragment lastFragment = getLastFragment();
-        if (lastFragment != null) {
-            transaction.hide(lastFragment);
-        }
-
-        // find the fragment in fragment manager
-        Fragment newFragment = fragmentManager.findFragmentByTag(newTag);
-        if (newFragment != null && !newFragment.isRemoving()) {
-            LogUtils.d(TAG, "showFragment , new fragment != null");
-            transaction.show(newFragment).commit();
-        } else {
-            LogUtils.d(TAG, "showFragment , new fragment == null");
-            Fragment nFrag = null;
-            try {
-                nFrag = (Fragment) newFragClass.newInstance();
-            } catch (InstantiationException e) {
-                e.printStackTrace();
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            }
-            assert nFrag != null;
-            nFrag.setArguments(bundle);
-
-            if (putStack) {
-                transaction.add(resLayout, nFrag, newTag)
-                        .addToBackStack(newTag).commit();
-            } else {
-                transaction.add(resLayout, nFrag, newTag).commit();
-            }
-
-        }
-
-        fragmentsStack.push(new StackEntry(newTag));
-    }
+//    public void showFragment(int resLayout, Class<?> newFragClass,
+//                             boolean putStack, Bundle bundle, TransitionScreen transitionScreen) {
+//        transaction = fragmentManager.beginTransaction();
+//        TransitionScreen.setCustomAnimationsFragment(transaction, transitionScreen);
+//        String newTag = newFragClass.getName();
+//
+//        Fragment lastFragment = getLastFragment();
+//        if (lastFragment != null) {
+//            transaction.hide(lastFragment);
+//        }
+//
+//        // find the fragment in fragment manager
+//        Fragment newFragment = fragmentManager.findFragmentByTag(newTag);
+//        if (newFragment != null && !newFragment.isRemoving()) {
+//            LogUtils.d(TAG, "showFragment , new fragment != null");
+//            transaction.show(newFragment).commit();
+//        } else {
+//            LogUtils.d(TAG, "showFragment , new fragment == null");
+//            Fragment nFrag = null;
+//            try {
+//                nFrag = (Fragment) newFragClass.newInstance();
+//            } catch (InstantiationException e) {
+//                e.printStackTrace();
+//            } catch (IllegalAccessException e) {
+//                e.printStackTrace();
+//            }
+//            assert nFrag != null;
+//            nFrag.setArguments(bundle);
+//
+//            if (putStack) {
+//                transaction.add(resLayout, nFrag, newTag)
+//                        .addToBackStack(newTag).commit();
+//            } else {
+//                transaction.add(resLayout, nFrag, newTag).commit();
+//            }
+//
+//        }
+//
+//        fragmentsStack.push(new StackEntry(newTag));
+//    }
 
     public void removeFragment(Class<?> newFragClass) {
         String newTag = newFragClass.getName();

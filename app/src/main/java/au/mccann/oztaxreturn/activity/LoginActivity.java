@@ -96,14 +96,15 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        LogUtils.d(TAG, "doLogin jsonRequest : " + jsonRequest.toString());
         RequestBody body = RequestBody.create(MediaType.parse("application/json"), jsonRequest.toString());
         ApiClient.getApiService().login(body).enqueue(new Callback<UserReponse>() {
             @Override
             public void onResponse(Call<UserReponse> call, Response<UserReponse> response) {
                 ProgressDialogUtils.dismissProgressDialog();
-                LogUtils.d(TAG, "doLogin code" + response.code());
+                LogUtils.d(TAG, "doLogin code : " + response.code());
                 if (response.code() == Constants.HTTP_CODE_OK) {
-                    LogUtils.d(TAG, "doLogin body" + response.body().toString());
+                    LogUtils.d(TAG, "doLogin body : " + response.body().toString());
                     UserEntity user = response.body().getUser();
                     user.setToken(response.body().getToken());
                     UserManager.insertUser(user);

@@ -16,8 +16,8 @@ import au.mccann.oztaxreturn.view.TextViewCustom;
 
 public class HomeActivity extends BaseActivity implements View.OnClickListener {
     private DrawerLayout drawer;
-    private ImageView imgHome, imgContact, imgNotification;
-    private TextViewCustom tvHome, tvContact, tvNotification;
+    private ImageView imgHome, imgContact, imgNotification, imgBack, imgNavigation;
+    private TextViewCustom tvHome, tvContact, tvNotification, tvTitle;
 
     @Override
     protected int getLayout() {
@@ -34,17 +34,23 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
         tvHome = findViewById(R.id.tv_home_menu1);
         tvContact = findViewById(R.id.tv_home_menu2);
         tvNotification = findViewById(R.id.tv_home_menu3);
+
+        imgNavigation = findViewById(R.id.img_navigation);
+
+        imgBack = findViewById(R.id.img_back);
+        tvTitle = findViewById(R.id.tv_title);
     }
 
     @Override
     protected void initData() {
 
-        showFragment(R.id.layout_container, HomeFragment.class, false, new Bundle(), TransitionScreen.NON);
+        openFragment(R.id.layout_container, HomeFragment.class, false, new Bundle(), TransitionScreen.NON);
 
-        findViewById(R.id.drawer_button).setOnClickListener(this);
+        findViewById(R.id.img_navigation).setOnClickListener(this);
         findViewById(R.id.layout_home).setOnClickListener(this);
         findViewById(R.id.layout_contact).setOnClickListener(this);
         findViewById(R.id.layout_notification).setOnClickListener(this);
+        findViewById(R.id.img_back).setOnClickListener(this);
     }
 
     @Override
@@ -56,6 +62,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
     public void onBackPressed() {
         if (drawer.isDrawerOpen(GravityCompat.END)) {
             drawer.closeDrawer(GravityCompat.END);
+            super.onBackPressed();
         } else {
             super.onBackPressed();
         }
@@ -92,28 +99,45 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
 
     }
 
+    public void appBarVisibility(boolean navigationVisibility, boolean backVisibility) {
+        if (navigationVisibility) imgNavigation.setVisibility(View.VISIBLE);
+        else
+            imgNavigation.setVisibility(View.INVISIBLE);
+
+        if (backVisibility) imgBack.setVisibility(View.VISIBLE);
+        else
+            imgBack.setVisibility(View.INVISIBLE);
+    }
+
+    public void setTitle(String title) {
+        tvTitle.setText(title);
+    }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
 
-            case R.id.drawer_button:
+            case R.id.img_navigation:
                 drawer.openDrawer(GravityCompat.END);
                 break;
 
             case R.id.layout_home:
                 updateMenu(1);
-                showFragment(R.id.layout_container, HomeFragment.class, false, new Bundle(), TransitionScreen.FADE_IN);
+                openFragment(R.id.layout_container, HomeFragment.class, false, new Bundle(), TransitionScreen.FADE_IN);
                 break;
 
             case R.id.layout_contact:
                 updateMenu(2);
-                showFragment(R.id.layout_container, ContactFragment.class, false, new Bundle(), TransitionScreen.FADE_IN);
+                openFragment(R.id.layout_container, ContactFragment.class, false, new Bundle(), TransitionScreen.FADE_IN);
                 break;
 
             case R.id.layout_notification:
                 updateMenu(3);
-                showFragment(R.id.layout_container, NotificationFragment.class, false, new Bundle(), TransitionScreen.FADE_IN);
+                openFragment(R.id.layout_container, NotificationFragment.class, false, new Bundle(), TransitionScreen.FADE_IN);
+                break;
+
+            case R.id.img_back:
+                onBackPressed();
                 break;
         }
 
