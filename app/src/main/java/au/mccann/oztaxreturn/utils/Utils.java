@@ -25,19 +25,18 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 
 import java.io.UnsupportedEncodingException;
 import java.lang.annotation.Annotation;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
 
+import au.mccann.oztaxreturn.R;
 import au.mccann.oztaxreturn.model.APIError;
+import au.mccann.oztaxreturn.view.TextViewCustom;
 import okhttp3.ResponseBody;
 import retrofit2.Converter;
 import retrofit2.Response;
 
 import static au.mccann.oztaxreturn.networking.ApiClient.retrofit;
-
-import au.mccann.oztaxreturn.R;
-import au.mccann.oztaxreturn.view.TextViewCustom;
-
-import au.mccann.oztaxreturn.R;
-import au.mccann.oztaxreturn.view.TextViewCustom;
 
 /**
  * Created by CanTran on 4/14/18.
@@ -292,6 +291,17 @@ public class Utils {
         }
 
         return error;
+    }
+
+    public static List<String> getListYear() {
+        List<String> listsYear = new ArrayList<>();
+
+        int year = Calendar.getInstance().get(Calendar.YEAR);
+        listsYear.add(String.valueOf(year - 1) + "-" + String.valueOf(year));
+        listsYear.add(String.valueOf(year - 2 + "-" + String.valueOf(year - 1)));
+        listsYear.add(String.valueOf(year - 3) + "-" + String.valueOf(year - 2));
+
+        return listsYear;
     }
 
 }

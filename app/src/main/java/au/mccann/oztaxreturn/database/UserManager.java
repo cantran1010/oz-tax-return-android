@@ -35,21 +35,21 @@ public class UserManager {
         return userEntity;
     }
 
-//    public static String getUserToken() {
-//        String result = "";
-//        LogUtils.d(TAG, "getMyUser start ");
-//        Realm realm = Realm.getDefaultInstance();
-//        // get last update
-//        UserEntity userEntity;
-//        if (realm.where(UserEntity.class) != null) {
-//            userEntity = realm.where(UserEntity.class).equalTo("isMyUser", true).findFirst();
-//            if (userEntity != null && userEntity.isMyUser()) {
-//                result = userEntity.getAccessToken();
-//            }
-//        }
-//        return result;
-//
-//    }
+    public static String getUserToken() {
+        String result = "";
+        LogUtils.d(TAG, "getUserToken start ");
+        Realm realm = Realm.getDefaultInstance();
+        // get last update
+        UserEntity userEntity;
+        if (realm.where(UserEntity.class) != null) {
+            userEntity = realm.where(UserEntity.class).findFirst();
+            if (userEntity != null) {
+                result = "Bearer " + userEntity.getToken();
+            }
+        }
+        LogUtils.d(TAG, "getUserToken result : " + result);
+        return result;
+    }
 
     public static void insertUser(UserEntity userEntity) {
         LogUtils.d(TAG, "insertUser : " + userEntity.toString());

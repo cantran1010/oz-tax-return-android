@@ -140,7 +140,7 @@
                 android:visibility="gone">
 
                 <au.mccann.oztaxreturn.view.EdittextCustom
-                    android:id="@+id/tv_app_name"
+                    android:id="@+id/edt_tax_payer"
                     style="@style/EditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -148,14 +148,30 @@
                     android:hint="@string/tax_payer_hint"
                     android:inputType="textPersonName" />
 
-                <au.mccann.oztaxreturn.view.EdittextCustom
-                    android:id="@+id/tv_year"
-                    style="@style/EditText"
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="45dp"
                     android:layout_marginTop="5dp"
-                    android:hint="@string/financial_year_hint"
-                    android:inputType="textPersonName" />
+                    android:background="@drawable/bg_edittext">
+
+                    <Spinner
+                        android:id="@+id/sp_year_create"
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:background="@null" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginRight="10dp"
+                        android:src="@drawable/down"
+                        tools:ignore="ContentDescription" />
+
+                </RelativeLayout>
 
             </LinearLayout>
 

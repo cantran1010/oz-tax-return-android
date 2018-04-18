@@ -5,8 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,11 +14,9 @@ import java.io.Serializable;
 import java.util.Stack;
 
 import au.mccann.oztaxreturn.activity.BaseActivity;
+import au.mccann.oztaxreturn.activity.HomeActivity;
 import au.mccann.oztaxreturn.common.Constants;
-import au.mccann.oztaxreturn.utils.LogUtils;
 import au.mccann.oztaxreturn.utils.TransitionScreen;
-
-import static android.content.ContentValues.TAG;
 
 /**
  * Created by LongBui on 4/12/17.
@@ -129,7 +125,7 @@ public abstract class BaseFragment extends Fragment implements SwipeRefreshLayou
         startActivity(intent, transitionScreen);
     }
 
-    public void openFragment(int resId, Class<? extends Fragment> fragmentClazz, Bundle args, boolean addBackStack, TransitionScreen transitionScreen) {
+    public void openFragment(int resId, Class<? extends Fragment> fragmentClazz, boolean addBackStack, Bundle args, TransitionScreen transitionScreen) {
         Activity activity = getActivity();
         if (activity instanceof BaseActivity) {
             BaseActivity baseActivity = (BaseActivity) activity;
@@ -138,66 +134,66 @@ public abstract class BaseFragment extends Fragment implements SwipeRefreshLayou
     }
 
     public void openFragment(int resId, Class<? extends Fragment> fragmentClazz, boolean addBackStack, TransitionScreen transitionScreen) {
-        openFragment(resId, fragmentClazz, null, addBackStack, transitionScreen);
+        openFragment(resId, fragmentClazz, addBackStack, null, transitionScreen);
     }
 
-    public void showFragment(int resLayout, Class<?> newFragClass,
-                             boolean putStack, Bundle bundle, TransitionScreen transitionScreen) {
-        Activity activity = getActivity();
-        if (activity instanceof BaseActivity) {
-            BaseActivity baseActivity = (BaseActivity) activity;
-            baseActivity.showFragment(resLayout, newFragClass, putStack, bundle, transitionScreen);
-        }
-    }
-
-    public void showChildFragment(int resLayout, Class<?> newFragClass,
-                                  boolean putStack, Bundle bundle, TransitionScreen transitionScreen) {
-
-        FragmentManager manager = getChildFragmentManager();
-        FragmentTransaction transaction = manager.beginTransaction();
-        TransitionScreen.setCustomAnimationsFragment(transaction, transitionScreen);
-
-        try {
-            Fragment newFragment;
-            String newTag = null;
-            if (newFragClass != null)
-                newTag = newFragClass.getName();
-
-            Fragment lastFragment = getLastFragment();
-            if (lastFragment != null) {
-                transaction.hide(lastFragment);
-            }
-
-            LogUtils.d(TAG, "showFragment , resLayout : " + resLayout + " , newFragClass.getName() : " + newFragClass.getName());
-
-            // find the fragment in fragment manager
-            newFragment = manager.findFragmentByTag(newTag);
-            if (newFragment != null && !newFragment.isRemoving()) {
-                transaction.show(newFragment).commit();
-            } else {
-                try {
-                    Fragment nFrag = (Fragment) newFragClass.newInstance();
-                    nFrag.setArguments(bundle);
-
-                    if (putStack) {
-                        transaction.add(resLayout, nFrag, newTag)
-                                .addToBackStack(newTag).commit();
-                    } else {
-                        transaction.add(resLayout, nFrag, newTag).commit();
-                    }
-
-                } catch (InstantiationException e) {
-                    e.printStackTrace();
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            fragmentsStack.push(new StackEntry(newTag));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+//    public void showFragment(int resLayout, Class<?> newFragClass,
+//                             boolean putStack, Bundle bundle, TransitionScreen transitionScreen) {
+//        Activity activity = getActivity();
+//        if (activity instanceof BaseActivity) {
+//            BaseActivity baseActivity = (BaseActivity) activity;
+//            baseActivity.showFragment(resLayout, newFragClass, putStack, bundle, transitionScreen);
+//        }
+//    }
+//
+//    public void showChildFragment(int resLayout, Class<?> newFragClass,
+//                                  boolean putStack, Bundle bundle, TransitionScreen transitionScreen) {
+//
+//        FragmentManager manager = getChildFragmentManager();
+//        FragmentTransaction transaction = manager.beginTransaction();
+//        TransitionScreen.setCustomAnimationsFragment(transaction, transitionScreen);
+//
+//        try {
+//            Fragment newFragment;
+//            String newTag = null;
+//            if (newFragClass != null)
+//                newTag = newFragClass.getName();
+//
+//            Fragment lastFragment = getLastFragment();
+//            if (lastFragment != null) {
+//                transaction.hide(lastFragment);
+//            }
+//
+//            LogUtils.d(TAG, "showFragment , resLayout : " + resLayout + " , newFragClass.getName() : " + newFragClass.getName());
+//
+//            // find the fragment in fragment manager
+//            newFragment = manager.findFragmentByTag(newTag);
+//            if (newFragment != null && !newFragment.isRemoving()) {
+//                transaction.show(newFragment).commit();
+//            } else {
+//                try {
+//                    Fragment nFrag = (Fragment) newFragClass.newInstance();
+//                    nFrag.setArguments(bundle);
+//
+//                    if (putStack) {
+//                        transaction.add(resLayout, nFrag, newTag)
+//                                .addToBackStack(newTag).commit();
+//                    } else {
+//                        transaction.add(resLayout, nFrag, newTag).commit();
+//                    }
+//
+//                } catch (InstantiationException e) {
+//                    e.printStackTrace();
+//                } catch (IllegalAccessException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//
+//            fragmentsStack.push(new StackEntry(newTag));
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     private Fragment getLastFragment() {
         if (fragmentsStack.isEmpty())
@@ -220,5 +216,15 @@ public abstract class BaseFragment extends Fragment implements SwipeRefreshLayou
         }
     }
 
+
+    public void appBarVisibility(boolean navigationVisibility, boolean backVisibility) {
+        if (getActivity() instanceof HomeActivity)
+            ((HomeActivity) getActivity()).appBarVisibility(navigationVisibility, backVisibility);
+    }
+
+    public void setTitle(String title) {
+        if (getActivity() instanceof HomeActivity)
+            ((HomeActivity) getActivity()).setTitle(title);
+    }
 
 }
