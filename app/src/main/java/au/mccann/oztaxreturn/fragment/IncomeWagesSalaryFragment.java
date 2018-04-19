@@ -250,9 +250,9 @@ public class IncomeWagesSalaryFragment extends BaseFragment implements View.OnCl
             bundle.putString("birthday", DateTimeUtils.fromCalendarToBirthday(calendar));
 
             LogUtils.d(TAG, "doNext , bundle : " + bundle.toString());
+            openFragment(R.id.layout_container, IncomeOther.class, true, bundle, TransitionScreen.RIGHT_TO_LEFT);
         }
 
-        openFragment(R.id.layout_container, IncomeOther.class, true, bundle, TransitionScreen.RIGHT_TO_LEFT);
 
     }
 
@@ -283,6 +283,8 @@ public class IncomeWagesSalaryFragment extends BaseFragment implements View.OnCl
                     bundle.putIntArray("income_wage_attachments", imageArrIds);
 
                     LogUtils.d(TAG, "doNext , bundle : " + bundle);
+                    openFragment(R.id.layout_container, IncomeOther.class, true, bundle, TransitionScreen.RIGHT_TO_LEFT);
+
                 } else {
                     APIError error = Utils.parseError(response);
                     LogUtils.d(TAG, "doUploadImage error : " + error.message());
