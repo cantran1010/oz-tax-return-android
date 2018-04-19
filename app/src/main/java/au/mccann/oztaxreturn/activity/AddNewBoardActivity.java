@@ -79,8 +79,8 @@ public class AddNewBoardActivity extends BaseActivity implements View.OnClickLis
 
         List<String> listName = new ArrayList<>();
         for (ApplicationResponse applicationResponse : applicationResponses) {
-            if (!listName.contains(applicationResponse.getPayerName()))
-                listName.add(applicationResponse.getPayerName());
+//            if (!listName.contains(applicationResponse.getPayerName()))
+            listName.add(applicationResponse.getPayerName());
         }
         OzSpinnerAdapter dataNameAdapter = new OzSpinnerAdapter(this, listName);
         spName.setAdapter(dataNameAdapter);
@@ -191,6 +191,64 @@ public class AddNewBoardActivity extends BaseActivity implements View.OnClickLis
         });
     }
 
+    private void doDuplicateApplication() {
+        ProgressDialogUtils.showProgressDialog(this);
+        JSONObject jsonRequest = new JSONObject();
+        try {
+            jsonRequest.put("application_id", applicationResponses.get(spName.getSelectedItemPosition()).getId());
+            jsonRequest.put("financial_year", spYear.getSelectedItem().toString());
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        LogUtils.d(TAG, "doDuplicateApplication jsonRequest : " + jsonRequest.toString());
+
+        RequestBody body = RequestBody.create(MediaType.parse("application/json"), jsonRequest.toString());
+        ApiClient.getApiService().duplicateApplication(UserManager.getUserToken(), body).enqueue(new Callback<ApplicationResponse>() {
+            @Override
+            public void onResponse(Call<ApplicationResponse> call, Response<ApplicationResponse> response) {
+                ProgressDialogUtils.dismissProgressDialog();
+                LogUtils.d(TAG, "doDuplicateApplication code : " + response.code());
+
+                if (response.code() == Constants.HTTP_CODE_OK) {
+                    LogUtils.d(TAG, "doDuplicateApplication body : " + response.body().toString());
+                    setResult(Constants.CREATE_APP_RESULT_CODE);
+                    finish();
+                } else {
+                    APIError error = Utils.parseError(response);
+                    LogUtils.d(TAG, "doDuplicateApplication error : " + error.message());
+                    if (error != null) {
+                        DialogUtils.showOkDialog(AddNewBoardActivity.this, getString(R.string.error), error.message(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                            @Override
+                            public void onSubmit() {
+
+                            }
+                        });
+                    }
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<ApplicationResponse> call, Throwable t) {
+                LogUtils.e(TAG, "doDuplicateApplication onFailure : " + t.getMessage());
+                DialogUtils.showRetryDialog(AddNewBoardActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
+                    @Override
+                    public void onSubmit() {
+                        doCreateApplication();
+                    }
+
+                    @Override
+                    public void onCancel() {
+
+                    }
+                });
+                ProgressDialogUtils.dismissProgressDialog();
+            }
+        });
+    }
+
     private void doAdd() {
         if (!cbCreateNew.isChecked() && !cbDuplicate.isChecked()) {
             Utils.showLongToast(this, getString(R.string.error_must_one), true, false);
@@ -200,7 +258,8 @@ public class AddNewBoardActivity extends BaseActivity implements View.OnClickLis
         if (cbCreateNew.isChecked())
             doCreateApplication();
         else if (cbDuplicate.isChecked()) {
-
+            if (applicationResponses == null || applicationResponses.size() == 0) return;
+            doDuplicateApplication();
         }
     }
 

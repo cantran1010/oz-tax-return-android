@@ -86,7 +86,7 @@ public class HomeFragment extends BaseFragment {
     private void updateList() {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(linearLayoutManager);
-        homeAdapter = new HomeAdapter(applicationResponses);
+        homeAdapter = new HomeAdapter(applicationResponses,getActivity());
         recyclerView.setAdapter(homeAdapter);
 
         homeAdapter.setOnClickListener(new HomeAdapter.OnClickListener() {
