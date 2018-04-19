@@ -50,10 +50,12 @@
     <string name="max_image_attach_err">Maximum %1$d image attached !</string>
 
     <!-- home screen -->
-    <string name="home_title">TaxReturn</string>
+    <string name="home_title">Tax Return</string>
     <string name="home_menu1">TaxReturn</string>
     <string name="home_menu2">ContactAccountant</string>
     <string name="home_menu3">Notification</string>
+    <string name="delete_application">Are you sure to delete this application?</string>
+    <string name="delete_application_title">Delete Application</string>
 
     <!-- add new board -->
     <string name="add_new_board_title">NEW TAX RETURN APPLICATION</string>
@@ -78,6 +80,7 @@
     <string name="birthday">YOUR BIRTHDAY</string>
     <string name="next">NEXT</string>
     <string name="gallery">Gallery</string>
+    <string name="your_birthday">Your Birthday</string>
 
     <!-- income other -->
     <string name="income_other_title">Income</string>

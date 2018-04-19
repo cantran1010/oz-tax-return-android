@@ -93,7 +93,7 @@
     <style name="EditText">
         <item name="android:textSize">18sp</item>
         <item name="android:paddingRight">16sp</item>
-        <item name="android:paddingStart" tools:ignore="NewApi">16sp</item>
+        <item name="android:paddingLeft">16sp</item>
         <item name="android:textColor">@color/title_color</item>
         <item name="android:textAllCaps">true</item>
         <item name="android:background">@drawable/bg_edittext</item>
