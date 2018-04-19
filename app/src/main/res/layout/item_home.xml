@@ -2,12 +2,13 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="10dp"
+    android:layout_marginTop="8dp"
     android:orientation="vertical">
 
     <RelativeLayout
+        android:id="@+id/relativeLayout"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="85dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
@@ -18,24 +19,63 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp">
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp">
 
             <au.mccann.oztaxreturn.view.TextViewCustom
                 android:id="@+id/tv_status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Complete"
-                android:textColor="@color/black" />
+                android:textColor="@color/black"
+                android:textSize="12sp"
+                android:visibility="gone" />
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <ProgressBar
+                    android:id="@+id/progressBar"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_centerInParent="true"
+                    android:layout_margin="5dp"
+                    android:indeterminateTint="@color/red"
+                    android:max="100"
+                    android:padding="5dp"
+                    android:progress="75"
+                    android:progressDrawable="@drawable/progress_circular" />
+
+                <au.mccann.oztaxreturn.view.TextViewCustom
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="75%"
+                    android:textColor="@color/black"
+                    android:textSize="11sp" />
+
+            </RelativeLayout>
 
         </RelativeLayout>
+
+        <View
+            android:id="@+id/v"
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="15dp"
+            android:layout_marginTop="15dp"
+            android:layout_toRightOf="@id/layout_left"
+            android:background="@color/line_color" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="20dp"
+            android:layout_marginLeft="15dp"
             android:layout_toLeftOf="@id/layout_right"
-            android:layout_toRightOf="@id/layout_left"
+            android:layout_toRightOf="@id/v"
             android:orientation="vertical">
 
             <au.mccann.oztaxreturn.view.TextViewCustom
@@ -44,15 +84,17 @@
                 android:layout_height="wrap_content"
                 android:text="Bui Long"
                 android:textColor="@color/black"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 android:textStyle="bold" />
+
 
             <au.mccann.oztaxreturn.view.TextViewCustom
                 android:id="@+id/tv_year"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="2016 - 2017"
-                android:textColor="@color/black" />
+                android:textColor="@color/black"
+                android:textSize="13sp" />
         </LinearLayout>
 
         <RelativeLayout
@@ -72,6 +114,7 @@
                 android:layout_centerInParent="true"
                 android:text="REVIEW"
                 android:textColor="@color/white"
+                android:textSize="13sp"
                 android:textStyle="bold" />
 
         </RelativeLayout>
@@ -79,10 +122,12 @@
     </RelativeLayout>
 
     <ImageView
+        android:id="@+id/img_delete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:src="@drawable/img_close" />
+
 
 </RelativeLayout>

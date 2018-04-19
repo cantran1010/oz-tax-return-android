@@ -6,6 +6,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import android.media.ExifInterface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -23,6 +27,9 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;
@@ -43,6 +50,10 @@ import static au.mccann.oztaxreturn.networking.ApiClient.retrofit;
  */
 public class Utils {
     private static final String TAG = Utils.class.getSimpleName();
+    private static final int MAXSIZE = 1000;
+    public static final int MAXSIZE_AVATA = 300;
+    private static final int MAX_BUGDET = 1000000;
+    private static final int MIN_BUGDET = 10000;
 
     public static void displayImage(Context context, ImageView img, String url) {
         LogUtils.d(TAG, "onBindViewHolder , url : " + url);
@@ -302,6 +313,142 @@ public class Utils {
         listsYear.add(String.valueOf(year - 3) + "-" + String.valueOf(year - 2));
 
         return listsYear;
+    }
+
+    public static File compressFile(File fileIn) {
+        Bitmap bitmap;
+        try {
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inPreferredConfig = Bitmap.Config.ARGB_8888;
+            bitmap = BitmapFactory.decodeFile(fileIn.getPath(), options);
+        } catch (Exception e) {
+            e.printStackTrace();
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inPreferredConfig = Bitmap.Config.RGB_565;
+            bitmap = BitmapFactory.decodeFile(fileIn.getPath(), options);
+        }
+
+        LogUtils.d(TAG, "compressFile , width : " + bitmap.getWidth() + " , height : " + bitmap.getHeight());
+        if (bitmap.getWidth() > MAXSIZE || bitmap.getHeight() > MAXSIZE) {
+            float scale = bitmap.getWidth() > bitmap.getHeight() ? bitmap.getWidth() / MAXSIZE : bitmap.getHeight() / MAXSIZE;
+            try {
+                File fileOut;
+                // fix right orientation of image after capture
+
+                ExifInterface exif = new ExifInterface(fileIn.getPath());
+                int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
+
+                int angle = 0;
+
+                if (orientation == ExifInterface.ORIENTATION_ROTATE_90) {
+                    angle = 90;
+                } else if (orientation == ExifInterface.ORIENTATION_ROTATE_180) {
+                    angle = 180;
+                } else if (orientation == ExifInterface.ORIENTATION_ROTATE_270) {
+                    angle = 270;
+                }
+
+                if (angle != 0) {
+                    try {
+                        Matrix mat = new Matrix();
+                        mat.postRotate(angle);
+
+                        //maybe out of memory when create bitmap so need scale bitmap before create and rotate bitmap
+                        Bitmap bmpScale = Bitmap.createScaledBitmap(bitmap, (int) (bitmap.getWidth() / scale), (int) (bitmap.getHeight() / scale), false);
+                        bitmap = Bitmap.createBitmap(bmpScale, 0, 0, bmpScale.getWidth(), bmpScale.getHeight(), mat, true);
+
+//                    Bitmap correctBmp = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), mat, true);
+//                    bitmap = Bitmap.createScaledBitmap(correctBmp, (int) (correctBmp.getWidth() / scale), (int) (correctBmp.getHeight() / scale), false);
+
+                        bmpScale.recycle();
+                    } catch (OutOfMemoryError e) {
+                        e.printStackTrace();
+                    }
+
+                } else {
+                    bitmap = Bitmap.createScaledBitmap(bitmap, (int) (bitmap.getWidth() / scale), (int) (bitmap.getHeight() / scale), false);
+                }
+
+                fileOut = new File(FileUtils.getInstance().getHozoDirectory(), "image" + System.currentTimeMillis() + ".jpg");
+                Utils.compressBitmapToFile(bitmap, fileOut.getPath());
+
+//                //recycle bitmap
+//                bitmap.recycle();
+
+                return fileOut;
+            } catch (Exception e) {
+                LogUtils.e(TAG, "compressFile , error : " + e.getMessage());
+                return fileIn;
+            }
+
+        } else {
+            if (!fileIn.getName().endsWith("jpg")) {
+                try {
+                    File fileOut;
+
+                    // fix right orientation of image after capture
+                    ExifInterface exif = new ExifInterface(fileIn.getPath());
+
+                    int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
+
+                    int angle = 0;
+
+                    if (orientation == ExifInterface.ORIENTATION_ROTATE_90) {
+                        angle = 90;
+                    } else if (orientation == ExifInterface.ORIENTATION_ROTATE_180) {
+                        angle = 180;
+                    } else if (orientation == ExifInterface.ORIENTATION_ROTATE_270) {
+                        angle = 270;
+                    }
+
+                    if (angle != 0) {
+                        Matrix mat = new Matrix();
+                        mat.postRotate(angle);
+                        bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), mat, true);
+                    }
+
+                    fileOut = new File(FileUtils.getInstance().getHozoDirectory(), "image" + System.currentTimeMillis() + ".jpg");
+                    Utils.compressBitmapToFile(bitmap, fileOut.getPath());
+
+//                    bitmap.recycle();
+                    return fileOut;
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    return fileIn;
+                }
+            } else
+                return fileIn;
+
+        }
+    }
+
+
+    public static void compressBitmapToFile(Bitmap bmp, String path) {
+        FileOutputStream out = null;
+        try {
+            out = new FileOutputStream(path);
+            bmp.compress(Bitmap.CompressFormat.JPEG, 100, out); // bmp is your Bitmap instance
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (bmp != null) bmp.recycle();
+            try {
+                if (out != null) {
+                    out.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public static Bitmap scaleBitmap(Bitmap bmInput, int maxsize) {
+        if (bmInput.getWidth() > maxsize || bmInput.getHeight() > maxsize) {
+            float scale = bmInput.getWidth() > bmInput.getHeight() ? bmInput.getWidth() / maxsize : bmInput.getHeight() / maxsize;
+            return Bitmap.createScaledBitmap(bmInput, (int) (bmInput.getWidth() / scale), (int) (bmInput.getHeight() / scale), false);
+        } else
+            return bmInput;
     }
 
 }

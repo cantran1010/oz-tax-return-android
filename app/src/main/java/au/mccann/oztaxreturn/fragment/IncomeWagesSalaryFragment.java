@@ -2,6 +2,8 @@ package au.mccann.oztaxreturn.fragment;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -12,20 +14,34 @@ import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CompoundButton;
+import android.widget.DatePicker;
 import android.widget.LinearLayout;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.List;
 
 import au.mccann.oztaxreturn.R;
 import au.mccann.oztaxreturn.activity.AlbumActivity;
 import au.mccann.oztaxreturn.activity.PreviewImageActivity;
 import au.mccann.oztaxreturn.adapter.ImageAdapter;
 import au.mccann.oztaxreturn.common.Constants;
+import au.mccann.oztaxreturn.database.UserManager;
+import au.mccann.oztaxreturn.dialog.AlertDialogOk;
+import au.mccann.oztaxreturn.dialog.AlertDialogOkAndCancel;
 import au.mccann.oztaxreturn.dialog.PickImageDialog;
+import au.mccann.oztaxreturn.model.APIError;
 import au.mccann.oztaxreturn.model.Image;
+import au.mccann.oztaxreturn.model.ImageResponse;
+import au.mccann.oztaxreturn.networking.ApiClient;
+import au.mccann.oztaxreturn.utils.DateTimeUtils;
+import au.mccann.oztaxreturn.utils.DialogUtils;
 import au.mccann.oztaxreturn.utils.FileUtils;
 import au.mccann.oztaxreturn.utils.LogUtils;
+import au.mccann.oztaxreturn.utils.ProgressDialogUtils;
 import au.mccann.oztaxreturn.utils.TransitionScreen;
 import au.mccann.oztaxreturn.utils.Utils;
 import au.mccann.oztaxreturn.view.ButtonCustom;
@@ -33,6 +49,12 @@ import au.mccann.oztaxreturn.view.CheckBoxCustom;
 import au.mccann.oztaxreturn.view.EdittextCustom;
 import au.mccann.oztaxreturn.view.MyGridView;
 import au.mccann.oztaxreturn.view.TextViewCustom;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by LongBui on 4/17/18.
@@ -51,6 +73,7 @@ public class IncomeWagesSalaryFragment extends BaseFragment implements View.OnCl
     private ButtonCustom btnNext;
     private EdittextCustom edtTfn, edtFirstName, edtMidName, edtLastName;
     private TextViewCustom tvBirthday;
+    private Calendar calendar = GregorianCalendar.getInstance();
 
     @Override
     protected int getLayout() {
@@ -75,6 +98,7 @@ public class IncomeWagesSalaryFragment extends BaseFragment implements View.OnCl
         edtLastName = (EdittextCustom) findViewById(R.id.edt_last_name);
 
         tvBirthday = (TextViewCustom) findViewById(R.id.tv_birthday);
+        tvBirthday.setOnClickListener(this);
     }
 
     @Override
@@ -215,20 +239,114 @@ public class IncomeWagesSalaryFragment extends BaseFragment implements View.OnCl
 
     private void doNext() {
         Bundle bundle = new Bundle();
-        bundle.putBoolean("have_payg", cbYes.isChecked());
 
         if (cbYes.isChecked()) {
-
+            doUploadImage();
         } else if (cbNo.isChecked()) {
-            bundle.putString("tfn", edtTfn.getText().toString());
-            bundle.putString("first_name", edtFirstName.getText().toString());
-            bundle.putString("mid_name", edtMidName.getText().toString());
-            bundle.putString("last_name", edtLastName.getText().toString());
-            bundle.putString("birthday", "1988-28-03");
+            bundle.putString("income_tfn_number", edtTfn.getText().toString());
+            bundle.putString("income_first_name", edtFirstName.getText().toString());
+            bundle.putString("income_middle_name", edtMidName.getText().toString());
+            bundle.putString("income_last_name", edtLastName.getText().toString());
+            bundle.putString("birthday", DateTimeUtils.fromCalendarToBirthday(calendar));
+
+            LogUtils.d(TAG, "doNext , bundle : " + bundle.toString());
+            openFragment(R.id.layout_container, IncomeOther.class, true, bundle, TransitionScreen.RIGHT_TO_LEFT);
         }
 
-        openFragment(R.id.layout_container, IncomeOther.class, true, bundle, TransitionScreen.RIGHT_TO_LEFT);
 
+    }
+
+    private void doUploadImage() {
+        ProgressDialogUtils.showProgressDialog(getActivity());
+//        File fileUp = Utils.compressFile(fileAttach);
+//        LogUtils.d(TAG, "doAttachImage , file Name : " + fileUp.getName());
+//        final RequestBody requestBody = RequestBody.create(MediaType.parse("image/*"), fileUp);
+//        MultipartBody.Part itemPart = MultipartBody.Part.createFormData("image", fileUp.getName(), requestBody);
+
+        List<MultipartBody.Part> parts = new ArrayList<>();
+        // last image is "plus attach" , so realy size = size -1
+        for (int i = 0; i < images.size() - 1; i++)
+            parts.add(MultipartBody.Part.createFormData("images[]", images.get(i).getName(), RequestBody.create(MediaType.parse("image/*"), new File(images.get(i).getPath()))));
+
+        ApiClient.getApiService().uploadImage(UserManager.getUserToken(), parts).enqueue(new Callback<List<ImageResponse>>() {
+            @Override
+            public void onResponse(Call<List<ImageResponse>> call, Response<List<ImageResponse>> response) {
+                LogUtils.d(TAG, "doUploadImage onResponse : " + response.body());
+                LogUtils.d(TAG, "doUploadImage code : " + response.code());
+                if (response.code() == Constants.HTTP_CODE_OK) {
+
+                    int[] imageArrIds = new int[response.body().size()];
+                    for (int i = 0; i < response.body().size(); i++)
+                        imageArrIds[i] = response.body().get(i).getId();
+
+                    Bundle bundle = new Bundle();
+                    bundle.putIntArray("income_wage_attachments", imageArrIds);
+
+                    LogUtils.d(TAG, "doNext , bundle : " + bundle);
+                    openFragment(R.id.layout_container, IncomeOther.class, true, bundle, TransitionScreen.RIGHT_TO_LEFT);
+
+                } else {
+                    APIError error = Utils.parseError(response);
+                    LogUtils.d(TAG, "doUploadImage error : " + error.message());
+                    if (error != null) {
+                        DialogUtils.showOkDialog(getActivity(), getString(R.string.error), error.message(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                            @Override
+                            public void onSubmit() {
+
+                            }
+                        });
+                    }
+                }
+                FileUtils.deleteDirectory(new File(FileUtils.OUTPUT_DIR));
+                ProgressDialogUtils.dismissProgressDialog();
+            }
+
+            @Override
+            public void onFailure(Call<List<ImageResponse>> call, Throwable t) {
+                ProgressDialogUtils.dismissProgressDialog();
+                LogUtils.e(TAG, "doUploadImage onFailure : " + t.getMessage());
+                DialogUtils.showRetryDialog(getActivity(), new AlertDialogOkAndCancel.AlertDialogListener() {
+                    @Override
+                    public void onSubmit() {
+                        doUploadImage();
+                    }
+
+                    @Override
+                    public void onCancel() {
+
+                    }
+                });
+                ProgressDialogUtils.dismissProgressDialog();
+                FileUtils.deleteDirectory(new File(FileUtils.OUTPUT_DIR));
+            }
+        });
+    }
+
+    private void openDatePicker() {
+        @SuppressWarnings("deprecation") DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), AlertDialog.THEME_HOLO_LIGHT,
+                new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, final int year,
+                                          final int monthOfYear, final int dayOfMonth) {
+                        if (view.isShown()) {
+                            calendar.set(year, monthOfYear, dayOfMonth);
+                            String strDate = dayOfMonth + "/" + (monthOfYear + 1) + "/" + year;
+                            tvBirthday.setText(strDate);
+                        }
+                    }
+                }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+//        Calendar calendarMax = Calendar.getInstance();
+//        // Set calendar to 1 day next from today
+//        calendarMax.add(Calendar.DAY_OF_MONTH, 1);
+//        // Set calendar to 1 month next
+//        calendarMax.add(Calendar.MONTH, 1);
+//        datePickerDialog.getDatePicker().setMinDate(new Date().getTime() - 10000);
+//        datePickerDialog.getDatePicker().setMaxDate(calendarMax.getTimeInMillis());
+
+        datePickerDialog.getDatePicker().setMaxDate(new Date().getTime() - 10000);
+
+        datePickerDialog.setTitle(getString(R.string.your_birthday));
+        datePickerDialog.show();
     }
 
     @Override
@@ -240,6 +358,10 @@ public class IncomeWagesSalaryFragment extends BaseFragment implements View.OnCl
                     Utils.showLongToast(getActivity(), getString(R.string.error_must_one), true, false);
                 else
                     doNext();
+                break;
+
+            case R.id.tv_birthday:
+                openDatePicker();
                 break;
         }
     }

@@ -168,6 +168,14 @@ public class DateTimeUtils {
                 .format(date);
     }
 
+     public static String fromCalendarToBirthday(final Calendar calendar) {
+        Date date = calendar.getTime();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd", Locale.getDefault());
+        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+        return sdf
+                .format(date);
+    }
+
     /**
      * Transform Calendar to ISO 8601 string.
      */
