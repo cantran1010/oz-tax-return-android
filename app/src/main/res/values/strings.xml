@@ -81,6 +81,12 @@
     <string name="next">NEXT</string>
     <string name="gallery">Gallery</string>
     <string name="your_birthday">Your Birthday</string>
+    <string name="valid_tfn">please enter a valid TFN</string>
+    <string name="valid_first_name">Enter first name</string>
+    <string name="valid_mid_name">Enter mid name</string>
+    <string name="valid_last_name">Enter last name</string>
+    <string name="valid_birth_day">Enter your birthday</string>
+
 
     <!-- income other -->
     <string name="income_other_title">Income</string>

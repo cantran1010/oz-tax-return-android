@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CompoundButton;
@@ -55,6 +56,8 @@ import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static au.mccann.oztaxreturn.utils.TooltipUtils.showToolTipView;
 
 /**
  * Created by LongBui on 4/17/18.
@@ -239,16 +242,39 @@ public class IncomeWagesSalaryFragment extends BaseFragment implements View.OnCl
 
     private void doNext() {
         Bundle bundle = new Bundle();
-
         if (cbYes.isChecked()) {
             doUploadImage();
         } else if (cbNo.isChecked()) {
-            bundle.putString("income_tfn_number", edtTfn.getText().toString());
-            bundle.putString("income_first_name", edtFirstName.getText().toString());
-            bundle.putString("income_middle_name", edtMidName.getText().toString());
-            bundle.putString("income_last_name", edtLastName.getText().toString());
-            bundle.putString("birthday", DateTimeUtils.fromCalendarToBirthday(calendar));
-
+            if (edtTfn.getText().toString().trim().isEmpty()) {
+                showToolTipView(getContext(), edtTfn, Gravity.BOTTOM, getString(R.string.valid_tfn),
+                        ContextCompat.getColor(getContext(), R.color.red));
+                return;
+            }
+            if (edtFirstName.getText().toString().trim().isEmpty()) {
+                showToolTipView(getContext(), edtFirstName, Gravity.BOTTOM, getString(R.string.valid_first_name),
+                        ContextCompat.getColor(getContext(), R.color.red));
+                return;
+            }
+            if (edtMidName.getText().toString().trim().isEmpty()) {
+                showToolTipView(getContext(), edtMidName, Gravity.TOP, getString(R.string.valid_mid_name),
+                        ContextCompat.getColor(getContext(), R.color.red));
+                return;
+            }
+            if (edtLastName.getText().toString().trim().isEmpty()) {
+                showToolTipView(getContext(), edtLastName, Gravity.TOP, getString(R.string.valid_last_name),
+                        ContextCompat.getColor(getContext(), R.color.red));
+                return;
+            }
+            if (tvBirthday.getText().toString().trim().isEmpty()) {
+                showToolTipView(getContext(), tvBirthday, Gravity.TOP, getString(R.string.valid_birth_day),
+                        ContextCompat.getColor(getContext(), R.color.red));
+                return;
+            }
+            bundle.putString(Constants.PARAMETER_INCOME_TFN, edtTfn.getText().toString().trim());
+            bundle.putString(Constants.PARAMETER_INCOME_FIRST_NAME, edtFirstName.getText().toString().trim());
+            bundle.putString(Constants.PARAMETER_INCOME_NAME, edtMidName.getText().toString().trim());
+            bundle.putString(Constants.PARAMETER_INCOME_LAST_NAME, edtLastName.getText().toString().trim());
+            bundle.putString(Constants.PARAMETER_INCOME_BIRTH_DAY, DateTimeUtils.fromCalendarToBirthday(calendar));
             LogUtils.d(TAG, "doNext , bundle : " + bundle.toString());
             openFragment(R.id.layout_container, IncomeOther.class, true, bundle, TransitionScreen.RIGHT_TO_LEFT);
         }
@@ -267,14 +293,12 @@ public class IncomeWagesSalaryFragment extends BaseFragment implements View.OnCl
         // last image is "plus attach" , so realy size = size -1
         for (int i = 0; i < images.size() - 1; i++)
             parts.add(MultipartBody.Part.createFormData("images[]", images.get(i).getName(), RequestBody.create(MediaType.parse("image/*"), new File(images.get(i).getPath()))));
-
         ApiClient.getApiService().uploadImage(UserManager.getUserToken(), parts).enqueue(new Callback<List<ImageResponse>>() {
             @Override
             public void onResponse(Call<List<ImageResponse>> call, Response<List<ImageResponse>> response) {
                 LogUtils.d(TAG, "doUploadImage onResponse : " + response.body());
                 LogUtils.d(TAG, "doUploadImage code : " + response.code());
                 if (response.code() == Constants.HTTP_CODE_OK) {
-
                     int[] imageArrIds = new int[response.body().size()];
                     for (int i = 0; i < response.body().size(); i++)
                         imageArrIds[i] = response.body().get(i).getId();
@@ -330,8 +354,8 @@ public class IncomeWagesSalaryFragment extends BaseFragment implements View.OnCl
                                           final int monthOfYear, final int dayOfMonth) {
                         if (view.isShown()) {
                             calendar.set(year, monthOfYear, dayOfMonth);
-                            String strDate = dayOfMonth + "/" + (monthOfYear + 1) + "/" + year;
-                            tvBirthday.setText(strDate);
+//                            String strDate = dayOfMonth + "/" + (monthOfYear + 1) + "/" + year;
+                            tvBirthday.setText(DateTimeUtils.fromCalendarToBirthday(calendar));
                         }
                     }
                 }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
@@ -355,7 +379,8 @@ public class IncomeWagesSalaryFragment extends BaseFragment implements View.OnCl
             case R.id.btn_next:
 
                 if (!cbYes.isChecked() && !cbNo.isChecked())
-                    Utils.showLongToast(getActivity(), getString(R.string.error_must_one), true, false);
+                    showToolTipView(getContext(), btnNext, Gravity.TOP, getString(R.string.error_must_one),
+                            ContextCompat.getColor(getContext(), R.color.red));
                 else
                     doNext();
                 break;

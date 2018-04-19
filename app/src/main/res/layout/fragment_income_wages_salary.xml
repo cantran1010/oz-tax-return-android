@@ -174,8 +174,10 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginTop="5dp"
-                        android:gravity="center"
-                        android:inputType="textPersonName" />
+                        android:gravity="center_vertical"
+                        android:inputType="textPersonName"
+                        android:paddingLeft="16dp"
+                        android:paddingStart="16dp" />
 
                 </LinearLayout>
 

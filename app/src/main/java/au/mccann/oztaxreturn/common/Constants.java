@@ -31,6 +31,11 @@ public class Constants {
     public static final String PHONE_REQUIRED = "phone.required";
     public static final String PHONE_UNIQUE = "phone.unique";
     public static final String APP_LIST_EXTRA = "app_list_extra";
+    public static final String PARAMETER_INCOME_TFN = "income_tfn_number";
+    public static final String PARAMETER_INCOME_FIRST_NAME = "income_first_name";
+    public static final String PARAMETER_INCOME_NAME = "income_middle_name";
+    public static final String PARAMETER_INCOME_LAST_NAME = "income_last_name";
+    public static final String PARAMETER_INCOME_BIRTH_DAY = "birthday";
     public static int MAX_IMAGE_ATTACH = 9;
     public static final String INTENT_EXTRA_ALBUM = "album_name";
     public static final int REQUEST_CODE_PICK_IMAGE = 357;
