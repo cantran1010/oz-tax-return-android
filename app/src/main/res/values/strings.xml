@@ -90,9 +90,40 @@
 
     <!-- diduction -->
     <string name="income_deduction_hint">Example: Retail properties, investment</string>
+    <string name="deduction_title">deduction</string>
 
     <!-- estimate -->
+    <string name="estimate_title">estimate tax refund</string>
     <string name="estimate_content">Our accountant will process your applicaition and fill in other information using our expertise to help you get the best possible tax refund.   You will be notified to review the final application and provide extra information if required before we loge it to ATO.</string>
     <string name="estimate_note">* please click next to provide your personal information</string>
+
+    <!-- personal information -->
+    <string name="personal_title">title</string>
+    <string name="your_title">Your title</string>
+    <string name="personal_your_name">yourname</string>
+    <string name="gender">gender</string>
+    <string name="permanant_residence">Are you Autralian or Permanant Residence ?</string>
+    <string name="personal_information_title">personal information</string>
+    <string-array name="string_array_gender">
+        <item>Male</item>
+        <item>Female</item>
+        <item>Others</item>
+    </string-array>
+
+    <!-- personal information submit -->
+    <string name="submit_bank_account">Your tax refund will be transferred to your bank account</string>
+    <string name="bank_account_name">bank account name</string>
+    <string name="bsb">bsb</string>
+    <string name="account_number">account number</string>
+    <string name="provide_postal">Please provide postal address</string>
+    <string name="street_number">Street number and name</string>
+    <string name="suburb">Suburb</string>
+    <string name="state">state</string>
+    <string name="post_code">post code</string>
+    <string name="phone_number">phone number</string>
+    <string name="email_address">email address</string>
+    <string name="submit">submit</string>
+    <string name="privacy_policy">* By lick ing on the button below. You agree with privacy policy  and term and conditions.</string>
+
 
 </resources>

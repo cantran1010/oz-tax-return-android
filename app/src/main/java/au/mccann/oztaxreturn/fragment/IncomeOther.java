@@ -5,10 +5,14 @@ import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Typeface;
 import android.net.Uri;
+import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
+import android.text.SpannableString;
+import android.text.style.StyleSpan;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CompoundButton;
@@ -44,9 +48,10 @@ public class IncomeOther extends BaseFragment implements View.OnClickListener {
     private final ArrayList<Image> images = new ArrayList<>();
     private final String[] permissions = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
     private String imgPath;
-    private RadioButtonCustom rbYes;
+    private RadioButtonCustom rbYes, rbNo;
     private ExpandableLayout layout;
     private ScrollView scrollView;
+    private Bundle bundle;
 
     @Override
     protected int getLayout() {
@@ -57,12 +62,21 @@ public class IncomeOther extends BaseFragment implements View.OnClickListener {
     protected void initView() {
         grImage = (MyGridView) findViewById(R.id.gr_image);
         rbYes = (RadioButtonCustom) findViewById(R.id.rb_yes);
+        rbNo = (RadioButtonCustom) findViewById(R.id.rb_no);
         scrollView = (ScrollView) findViewById(R.id.scrollView);
         layout = (ExpandableLayout) findViewById(R.id.layout_expandable);
+        findViewById(R.id.btn_next).setOnClickListener(this);
+        underLineText(getString(R.string.income_radio_text_yes), 3, rbYes);
+        underLineText(getString(R.string.income_radio_text_no), 2, rbNo);
     }
 
     @Override
     protected void initData() {
+        bundle = getArguments();
+        LogUtils.d(TAG, "initData , bundle : " + bundle);
+        setTitle(getString(R.string.income_ws_title));
+        appBarVisibility(false, true);
+
         //images
         final Image image = new Image();
         image.setAdd(true);
@@ -199,11 +213,17 @@ public class IncomeOther extends BaseFragment implements View.OnClickListener {
         objectAnimator.start();
     }
 
+    private void underLineText(String mystring, int n, RadioButtonCustom radioButtonCustom) {
+        SpannableString content = new SpannableString(mystring);
+        content.setSpan(new StyleSpan(Typeface.BOLD), 0, n, 0);
+        radioButtonCustom.setText(content);
+    }
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.img_back:
-
+            case R.id.btn_next:
+                openFragment(R.id.layout_container, Deduction.class, true, bundle, TransitionScreen.RIGHT_TO_LEFT);
                 break;
 
         }

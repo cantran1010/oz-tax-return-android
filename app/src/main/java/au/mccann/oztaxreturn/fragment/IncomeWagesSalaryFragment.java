@@ -226,6 +226,9 @@ public class IncomeWagesSalaryFragment extends BaseFragment implements View.OnCl
             bundle.putString("last_name", edtLastName.getText().toString());
             bundle.putString("birthday", "1988-28-03");
         }
+
+        openFragment(R.id.layout_container, IncomeOther.class, true, bundle, TransitionScreen.RIGHT_TO_LEFT);
+
     }
 
     @Override

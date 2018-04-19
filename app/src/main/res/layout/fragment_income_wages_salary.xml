@@ -103,6 +103,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginTop="10dp"
                     android:orientation="vertical"
+                    android:paddingBottom="30dp"
                     android:visibility="gone">
 
                     <au.mccann.oztaxreturn.view.EdittextCustom
@@ -184,6 +185,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginTop="10dp"
                     android:orientation="vertical"
+                    android:paddingBottom="30dp"
                     android:visibility="gone">
 
                     <au.mccann.oztaxreturn.view.MyGridView

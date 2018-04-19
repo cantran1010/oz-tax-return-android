@@ -92,7 +92,7 @@ public class HomeFragment extends BaseFragment {
         homeAdapter.setOnClickListener(new HomeAdapter.OnClickListener() {
             @Override
             public void onClick() {
-                openFragment(R.id.layout_container, IncomeWagesSalaryFragment.class, true, new Bundle(), TransitionScreen.NON);
+                openFragment(R.id.layout_container, IncomeWagesSalaryFragment.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
             }
         });
     }

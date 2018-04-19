@@ -16,5 +16,9 @@
     <dimen name="toast_offset">20dp</dimen>
     <dimen name="icon_size_gigatic2">20dp</dimen>
 
+    <!-- tooltip -->
+    <dimen name="tooltip_padding">8dp</dimen>
+    <dimen name="tooltip_radius">8dp</dimen>
+    <dimen name="tooltip_size">16sp</dimen>
 
 </resources>

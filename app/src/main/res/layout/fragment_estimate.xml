@@ -1,19 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="37.5dp"
-    android:paddingRight="37.5dp"
-    android:paddingEnd="37.5dp"
-    android:paddingStart="37.5dp"
     android:background="@color/estimate_bg"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:paddingEnd="@dimen/left_right_margin_screen"
+    android:paddingLeft="@dimen/left_right_margin_screen"
+    android:paddingRight="@dimen/left_right_margin_screen"
+    android:paddingStart="@dimen/left_right_margin_screen">
 
     <ScrollView
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_above="@+id/btn_next"
         android:paddingBottom="10dp"
         android:scrollbars="none">
@@ -21,19 +20,20 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingBottom="30dp">
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="65dp"
+                android:layout_marginTop="30dp"
                 android:src="@drawable/img_estimate" />
 
             <au.mccann.oztaxreturn.view.TextViewCustom
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="37dp"
+                android:layout_marginTop="20dp"
                 android:gravity="center"
                 android:text="@string/estimate_content"
                 android:textColor="@color/income_conten"
@@ -47,11 +47,11 @@
                 android:background="@color/app_bg" />
 
             <au.mccann.oztaxreturn.view.TextViewCustom
+                android:id="@+id/tv_note"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="50dp"
+                android:layout_marginTop="30dp"
                 android:gravity="center"
-                android:text="@string/estimate_note"
                 android:textColor="@color/income_conten"
                 android:textSize="@dimen/size_small" />
         </LinearLayout>

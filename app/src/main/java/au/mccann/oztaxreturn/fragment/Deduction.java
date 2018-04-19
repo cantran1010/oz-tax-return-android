@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
@@ -49,11 +50,14 @@ public class Deduction extends BaseFragment implements View.OnClickListener {
     @Override
     protected void initView() {
         grImage = (MyGridView) findViewById(R.id.gr_image);
+        findViewById(R.id.btn_next).setOnClickListener(this);
 
     }
 
     @Override
     protected void initData() {
+        setTitle(getString(R.string.deduction_title));
+        appBarVisibility(false, true);
         //images
         final Image image = new Image();
         image.setAdd(true);
@@ -173,8 +177,8 @@ public class Deduction extends BaseFragment implements View.OnClickListener {
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.img_back:
-
+            case R.id.btn_next:
+                openFragment(R.id.layout_container, EstimateTaxRefund.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
                 break;
 
         }
