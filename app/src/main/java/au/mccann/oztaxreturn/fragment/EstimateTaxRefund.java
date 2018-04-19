@@ -1,11 +1,13 @@
 package au.mccann.oztaxreturn.fragment;
 
 import android.graphics.Color;
+import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
 import android.view.View;
 
 import au.mccann.oztaxreturn.R;
+import au.mccann.oztaxreturn.utils.TransitionScreen;
 import au.mccann.oztaxreturn.view.TextViewCustom;
 
 /**
@@ -23,6 +25,7 @@ public class EstimateTaxRefund extends BaseFragment implements View.OnClickListe
     protected void initView() {
         tvNote = (TextViewCustom) findViewById(R.id.tv_note);
         underLineText(getString(R.string.estimate_note));
+        findViewById(R.id.btn_next).setOnClickListener(this);
     }
 
     @Override
@@ -49,6 +52,10 @@ public class EstimateTaxRefund extends BaseFragment implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
-
+        switch (view.getId()) {
+            case R.id.btn_next:
+                openFragment(R.id.layout_container, PersonalInformation.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
+                break;
+        }
     }
 }
