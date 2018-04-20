@@ -29,7 +29,8 @@
                 android:background="@drawable/btn_selector"
                 android:padding="5dp"
                 android:scaleType="centerInside"
-                android:src="@drawable/ic_back" />
+                android:src="@drawable/ic_back"
+                tools:ignore="ContentDescription" />
 
             <ImageView
                 android:id="@+id/img_navigation"
@@ -37,7 +38,8 @@
                 android:layout_height="?android:attr/actionBarSize"
                 android:layout_alignParentRight="true"
                 android:scaleType="center"
-                android:src="@drawable/img_navigation" />
+                android:src="@drawable/img_navigation"
+                tools:ignore="ContentDescription" />
 
         </RelativeLayout>
 
