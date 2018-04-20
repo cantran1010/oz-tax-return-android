@@ -34,11 +34,11 @@ import retrofit2.Response;
  */
 
 public class HomeFragment extends BaseFragment {
-
     private static final String TAG = HomeFragment.class.getSimpleName();
     private RecyclerView recyclerView;
     private HomeAdapter homeAdapter;
     private ArrayList<ApplicationResponse> applicationResponses;
+    private Bundle bundle = new Bundle();
 
     @Override
     protected int getLayout() {
@@ -58,7 +58,7 @@ public class HomeFragment extends BaseFragment {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), AddNewBoardActivity.class);
-                intent.putParcelableArrayListExtra(Constants.APP_LIST_EXTRA,applicationResponses);
+                intent.putParcelableArrayListExtra(Constants.APP_LIST_EXTRA, applicationResponses);
                 startActivityForResult(intent, Constants.CREATE_APP_REQUEST_CODE, TransitionScreen.RIGHT_TO_LEFT);
             }
         });
@@ -86,20 +86,20 @@ public class HomeFragment extends BaseFragment {
     private void updateList() {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(linearLayoutManager);
-        homeAdapter = new HomeAdapter(applicationResponses,getActivity());
+        homeAdapter = new HomeAdapter(applicationResponses, getActivity());
         recyclerView.setAdapter(homeAdapter);
-
         homeAdapter.setOnClickListener(new HomeAdapter.OnClickListener() {
             @Override
-            public void onClick() {
-                openFragment(R.id.layout_container, IncomeWagesSalaryFragment.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
+            public void onClick(int position) {
+                bundle.putInt(Constants.PARAMETER_APP_ID, applicationResponses.get(position).getId());
+                openFragment(R.id.layout_container, IncomeWagesSalaryFragment.class, true, bundle, TransitionScreen.RIGHT_TO_LEFT);
             }
         });
     }
 
+
     private void getAllApplication() {
         ProgressDialogUtils.showProgressDialog(getActivity());
-
         ApiClient.getApiService().getAllApplication(UserManager.getUserToken()).enqueue(new Callback<List<ApplicationResponse>>() {
             @Override
             public void onResponse(Call<List<ApplicationResponse>> call, Response<List<ApplicationResponse>> response) {

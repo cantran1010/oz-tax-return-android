@@ -81,6 +81,12 @@
     <string name="next">NEXT</string>
     <string name="gallery">Gallery</string>
     <string name="your_birthday">Your Birthday</string>
+    <string name="valid_tfn">please enter a valid TFN</string>
+    <string name="valid_first_name">Enter first name</string>
+    <string name="valid_mid_name">Enter mid name</string>
+    <string name="valid_last_name">Enter last name</string>
+    <string name="valid_birth_day">Enter your birthday</string>
+
 
     <!-- income other -->
     <string name="income_other_title">Income</string>
@@ -90,10 +96,13 @@
     <string name="income_radio_text_yes">Yes, and i want the acountant take a look at my case and get back to me for addtional information</string>
     <string name="income_other_hint">Your extra sources of income. Example: Retail properties, investment</string>
     <string name="income_other_img">payg image</string>
+    <string name="valid_income_content">Enter income content</string>
 
     <!-- diduction -->
     <string name="income_deduction_hint">Example: Retail properties, investment</string>
     <string name="deduction_title">deduction</string>
+    <string name="valid_deduction_content">Enter deduction content</string>
+    <string name="valid_deduction_image">please choose at least a photo</string>
 
     <!-- estimate -->
     <string name="estimate_title">estimate tax refund</string>
@@ -112,6 +121,7 @@
         <item>Female</item>
         <item>Others</item>
     </string-array>
+    <string name="valid_personal_title">Enter your title</string>
 
     <!-- personal information submit -->
     <string name="submit_bank_account">Your tax refund will be transferred to your bank account</string>
@@ -127,6 +137,15 @@
     <string name="email_address">email address</string>
     <string name="submit">submit</string>
     <string name="privacy_policy">* By lick ing on the button below. You agree with privacy policy  and term and conditions.</string>
+    <string name="valid_app_bank_name">Enter bank account name</string>
+    <string name="valid_app_bsb">Enter BSB</string>
+    <string name="valid_app_account_number">Enter account number</string>
+    <string name="valid_app_street_name">Enter Street number and name</string>
+    <string name="valid_app_suburb">Enter suburb</string>
+    <string name="valid_app_state">Enter state</string>
+    <string name="valid_app_post_code">Enter post code</string>
+    <string name="valid_app_phone">Enter Phone number</string>
+    <string name="valid_app_email">Enter email address</string>
 
     <!-- first checkout -->
     <string name="first_checkout_title">CHECK OUT</string>

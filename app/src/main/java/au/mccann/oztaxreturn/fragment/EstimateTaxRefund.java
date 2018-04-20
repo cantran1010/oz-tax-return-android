@@ -7,6 +7,7 @@ import android.text.style.ForegroundColorSpan;
 import android.view.View;
 
 import au.mccann.oztaxreturn.R;
+import au.mccann.oztaxreturn.utils.LogUtils;
 import au.mccann.oztaxreturn.utils.TransitionScreen;
 import au.mccann.oztaxreturn.view.TextViewCustom;
 
@@ -14,7 +15,9 @@ import au.mccann.oztaxreturn.view.TextViewCustom;
  * Created by CanTran on 4/18/18.
  */
 public class EstimateTaxRefund extends BaseFragment implements View.OnClickListener {
+    private static final String TAG = EstimateTaxRefund.class.getSimpleName();
     private TextViewCustom tvNote;
+    private Bundle bundle = new Bundle();
 
     @Override
     protected int getLayout() {
@@ -32,6 +35,8 @@ public class EstimateTaxRefund extends BaseFragment implements View.OnClickListe
     protected void initData() {
         setTitle(getString(R.string.estimate_title));
         appBarVisibility(false, true);
+        bundle = getArguments();
+        LogUtils.d(TAG, "initData bundle : " + bundle.toString());
     }
 
     @Override
@@ -54,7 +59,7 @@ public class EstimateTaxRefund extends BaseFragment implements View.OnClickListe
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_next:
-                openFragment(R.id.layout_container, PersonalInformation.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
+                openFragment(R.id.layout_container, PersonalInformation.class, true, bundle, TransitionScreen.RIGHT_TO_LEFT);
                 break;
         }
     }

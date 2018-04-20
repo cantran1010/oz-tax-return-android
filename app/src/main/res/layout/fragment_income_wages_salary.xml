@@ -167,15 +167,18 @@
                         android:text="@string/birthday"
                         android:textColor="@color/tv_gray" />
 
-                    <au.mccann.oztaxreturn.view.TextViewCustom
+                    <au.mccann.oztaxreturn.view.EdittextCustom
                         android:id="@+id/tv_birthday"
                         style="@style/EditText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginTop="5dp"
-                        android:gravity="center"
-                        android:inputType="textPersonName" />
+                        android:focusable="false"
+                        android:gravity="center_vertical"
+                        android:inputType="textPersonName"
+                        android:paddingLeft="16dp"
+                        android:paddingStart="16dp" />
 
                 </LinearLayout>
 
@@ -190,7 +193,7 @@
 
                     <au.mccann.oztaxreturn.view.MyGridView
                         android:id="@+id/gr_image"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="0dp"
                         android:numColumns="3" />

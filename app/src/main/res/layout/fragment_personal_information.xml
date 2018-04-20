@@ -107,7 +107,7 @@
                 android:textColor="@color/tv_gray"
                 android:textSize="@dimen/size_small" />
 
-            <au.mccann.oztaxreturn.view.TextViewCustom
+            <au.mccann.oztaxreturn.view.EdittextCustom
                 android:id="@+id/tv_birthday"
                 style="@style/EditText"
                 android:layout_width="match_parent"
@@ -116,6 +116,7 @@
                 android:layout_marginTop="10dp"
                 android:drawableEnd="@drawable/ic_down"
                 android:drawableRight="@drawable/ic_down"
+                android:focusable="false"
                 android:gravity="center_vertical"
                 android:inputType="textPersonName"
                 android:textColor="@color/income_conten"

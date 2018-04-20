@@ -16,7 +16,6 @@ public class Image implements Parcelable {
     private String path;
     public boolean isSelected;
     public boolean isAdd;
-
     private ArrayList<Image> images;
 
     public Image() {

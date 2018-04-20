@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginEnd="@dimen/left_right_margin_screen"
@@ -11,7 +10,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/btn_next"
+        android:layout_above="@+id/btn_submit"
         android:scrollbars="none">
 
         <LinearLayout
@@ -47,7 +46,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:inputType="textPersonName"
+                android:inputType="text"
                 android:textColor="@color/income_conten"
                 android:textColorHint="@color/tv_gray" />
 
@@ -72,14 +71,14 @@
                         android:textSize="@dimen/size_small" />
 
                     <au.mccann.oztaxreturn.view.EdittextCustom
-                        android:id="@+id/edt_middle_name"
+                        android:id="@+id/edt_bsb"
                         style="@style/EditText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="5dp"
                         android:layout_marginRight="5dp"
                         android:layout_marginTop="10dp"
-                        android:inputType="textPersonName"
+                        android:inputType="number"
                         android:textColor="@color/income_conten"
                         android:textColorHint="@color/tv_gray" />
                 </LinearLayout>
@@ -102,7 +101,7 @@
                         android:textSize="@dimen/size_small" />
 
                     <au.mccann.oztaxreturn.view.EdittextCustom
-                        android:id="@+id/edt_last_name"
+                        android:id="@+id/edt_account_number"
                         style="@style/EditText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -110,7 +109,7 @@
                         android:layout_marginStart="5dp"
                         android:layout_marginTop="10dp"
                         android:layout_weight="1"
-                        android:inputType="textPersonName"
+                        android:inputType="number"
                         android:textColor="@color/income_conten"
                         android:textColorHint="@color/tv_gray" />
                 </LinearLayout>
@@ -140,7 +139,7 @@
                 android:textSize="@dimen/size_small" />
 
             <au.mccann.oztaxreturn.view.EdittextCustom
-                android:id="@+id/edt_number_name"
+                android:id="@+id/edt_street_name"
                 style="@style/EditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -148,7 +147,7 @@
                 android:layout_marginStart="5dp"
                 android:layout_marginTop="10dp"
                 android:layout_weight="1"
-                android:inputType="textPersonName"
+                android:inputType="text"
                 android:textColor="@color/income_conten"
                 android:textColorHint="@color/tv_gray" />
 
@@ -170,7 +169,7 @@
                 android:layout_marginStart="5dp"
                 android:layout_marginTop="10dp"
                 android:layout_weight="1"
-                android:inputType="textPersonName"
+                android:inputType="text"
                 android:textColor="@color/income_conten"
                 android:textColorHint="@color/tv_gray" />
 
@@ -202,7 +201,7 @@
                         android:layout_marginEnd="5dp"
                         android:layout_marginRight="5dp"
                         android:layout_marginTop="10dp"
-                        android:inputType="textPersonName"
+                        android:inputType="text"
                         android:textColor="@color/income_conten"
                         android:textColorHint="@color/tv_gray" />
                 </LinearLayout>
@@ -233,7 +232,7 @@
                         android:layout_marginStart="5dp"
                         android:layout_marginTop="10dp"
                         android:layout_weight="1"
-                        android:inputType="textPersonName"
+                        android:inputType="number"
                         android:textColor="@color/income_conten"
                         android:textColorHint="@color/tv_gray" />
                 </LinearLayout>
@@ -267,7 +266,7 @@
                         android:layout_marginEnd="5dp"
                         android:layout_marginRight="5dp"
                         android:layout_marginTop="10dp"
-                        android:inputType="textPersonName"
+                        android:inputType="phone"
                         android:textColor="@color/income_conten"
                         android:textColorHint="@color/tv_gray" />
                 </LinearLayout>
@@ -298,7 +297,7 @@
                         android:layout_marginStart="5dp"
                         android:layout_marginTop="10dp"
                         android:layout_weight="1"
-                        android:inputType="textPersonName"
+                        android:inputType="textEmailAddress"
                         android:textColor="@color/income_conten"
                         android:textColorHint="@color/tv_gray" />
                 </LinearLayout>
@@ -316,7 +315,7 @@
     </ScrollView>
 
     <au.mccann.oztaxreturn.view.ButtonCustom
-        android:id="@+id/btn_next"
+        android:id="@+id/btn_submit"
         style="@style/Button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
