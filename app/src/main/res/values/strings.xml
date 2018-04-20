@@ -40,13 +40,13 @@
     <string name="error_must_one">You must select at least one option!</string>
 
     <!-- pick image dialog -->
-    <string name="attach_img_title">Chọn ảnh đính kèm</string>
-    <string name="attach_img_source"> Chọn nguồn </string>
-    <string name="attach_img_camera">Máy ảnh</string>
-    <string name="attach_img_gallery">Bộ sưu tập</string>
-    <string name="max_size_attach_error">Ảnh đính kèm không vượt quá %1$d Mb .\nVui lòng chọn ảnh khác!</string>
-    <string name="min_size_attach_error">Ảnh đính kèm không hợp lệ .\nVui lòng chọn ảnh khác!</string>
-    <string name="err_pick_image">Vui lòng chọn ít nhất 1 ảnh</string>
+    <string name="attach_img_title">Attach image</string>
+    <string name="attach_img_source">Select source</string>
+    <string name="attach_img_camera">Camera</string>
+    <string name="attach_img_gallery">Gallery</string>
+    <string name="max_size_attach_error">Maximun file size is %1$d MB.\nPlease select another photo!</string>
+    <string name="min_size_attach_error">Extenstion not support.\nPlease select another photo!</string>
+    <string name="err_pick_image">You must select at least one image</string>
     <string name="max_image_attach_err">Maximum %1$d image attached !</string>
 
     <!-- home screen -->
@@ -127,6 +127,16 @@
     <string name="email_address">email address</string>
     <string name="submit">submit</string>
     <string name="privacy_policy">* By lick ing on the button below. You agree with privacy policy  and term and conditions.</string>
+
+    <!-- first checkout -->
+    <string name="first_checkout_title">CHECK OUT</string>
+    <string name="service_fee">Our services fee</string>
+    <string name="total_fee">Total payable fee</string>
+    <string name="promotion_hint">Promotion code</string>
+    <string name="promotion_des">User can enter promotion code to get discount</string>
+    <string name="next_des">* please click next to process to the checkout</string>
+    <string name="currency">$ %1$d</string>
+    <string name="back_to_exit">Press back button again to exit</string>
 
 
 </resources>

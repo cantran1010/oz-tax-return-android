@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/layout_main"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -15,7 +16,8 @@
         android:layout_marginTop="1px"
         android:src="@drawable/image_placeholder"
         android:padding="1dp"
-        android:scaleType="centerCrop" />
+        android:scaleType="centerCrop"
+        tools:ignore="ContentDescription" />
 
     <ImageView
         android:id="@+id/img_check"
@@ -24,6 +26,7 @@
         android:layout_centerInParent="true"
         android:background="@color/transparent"
         android:src="@drawable/img_check"
-        android:visibility="gone" />
+        android:visibility="gone"
+        tools:ignore="ContentDescription" />
 
 </RelativeLayout>
