@@ -48,9 +48,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
 
     @Override
     protected void initData() {
-
         openFragment(R.id.layout_container, HomeFragment.class, false, new Bundle(), TransitionScreen.NON);
-
         findViewById(R.id.img_navigation).setOnClickListener(this);
         findViewById(R.id.layout_home).setOnClickListener(this);
         findViewById(R.id.layout_contact).setOnClickListener(this);

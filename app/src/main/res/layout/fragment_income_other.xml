@@ -82,7 +82,7 @@
                 android:id="@+id/layout_expandable"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:el_duration="1000"
+                app:el_duration="500"
                 app:el_expanded="false">
 
                 <LinearLayout
@@ -92,6 +92,7 @@
                     android:orientation="vertical">
 
                     <au.mccann.oztaxreturn.view.EdittextCustom
+                        android:id="@+id/edt_resource"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@drawable/bg_edittext"

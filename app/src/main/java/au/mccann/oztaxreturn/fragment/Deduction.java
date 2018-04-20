@@ -9,11 +9,13 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 import au.mccann.oztaxreturn.R;
 import au.mccann.oztaxreturn.activity.AlbumActivity;
@@ -22,11 +24,16 @@ import au.mccann.oztaxreturn.adapter.ImageAdapter;
 import au.mccann.oztaxreturn.common.Constants;
 import au.mccann.oztaxreturn.dialog.PickImageDialog;
 import au.mccann.oztaxreturn.model.Image;
+import au.mccann.oztaxreturn.model.ImageResponse;
 import au.mccann.oztaxreturn.utils.FileUtils;
+import au.mccann.oztaxreturn.utils.ImageUtils;
 import au.mccann.oztaxreturn.utils.LogUtils;
 import au.mccann.oztaxreturn.utils.TransitionScreen;
 import au.mccann.oztaxreturn.utils.Utils;
+import au.mccann.oztaxreturn.view.EdittextCustom;
 import au.mccann.oztaxreturn.view.MyGridView;
+
+import static au.mccann.oztaxreturn.utils.TooltipUtils.showToolTipView;
 
 /**
  * Created by LongBui on 4/17/18.
@@ -40,7 +47,8 @@ public class Deduction extends BaseFragment implements View.OnClickListener {
     private final ArrayList<Image> images = new ArrayList<>();
     private final String[] permissions = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
     private String imgPath;
-
+    private Bundle bundle=new Bundle();
+    private EdittextCustom edtDeduction;
 
     @Override
     protected int getLayout() {
@@ -50,6 +58,7 @@ public class Deduction extends BaseFragment implements View.OnClickListener {
     @Override
     protected void initView() {
         grImage = (MyGridView) findViewById(R.id.gr_image);
+        edtDeduction = (EdittextCustom) findViewById(R.id.edt_deduction);
         findViewById(R.id.btn_next).setOnClickListener(this);
 
     }
@@ -58,14 +67,15 @@ public class Deduction extends BaseFragment implements View.OnClickListener {
     protected void initData() {
         setTitle(getString(R.string.deduction_title));
         appBarVisibility(false, true);
-        //images
-        final Image image = new Image();
-        image.setAdd(true);
-        images.add(image);
-
+        bundle = getArguments();
+        LogUtils.d(TAG, "initData bundle : " + bundle.toString());
+        if (images.size() == 0) {
+            final Image image = new Image();
+            image.setAdd(true);
+            images.add(image);
+        }
         imageAdapter = new ImageAdapter(getActivity(), images);
         grImage.setAdapter(imageAdapter);
-
         grImage.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -151,8 +161,6 @@ public class Deduction extends BaseFragment implements View.OnClickListener {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
-        // image attach
         if (requestCode == Constants.REQUEST_CODE_PICK_IMAGE
                 && resultCode == Constants.RESPONSE_CODE_PICK_IMAGE
                 && data != null) {
@@ -178,7 +186,25 @@ public class Deduction extends BaseFragment implements View.OnClickListener {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_next:
-                openFragment(R.id.layout_container, EstimateTaxRefund.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
+                if (edtDeduction.getText().toString().trim().isEmpty()) {
+                    showToolTipView(getContext(), edtDeduction, Gravity.TOP, getString(R.string.valid_deduction_content), ContextCompat.getColor(getContext(), R.color.red));
+                    return;
+                }
+                if (images.size() < 2) {
+                    showToolTipView(getContext(), grImage, Gravity.TOP, getString(R.string.valid_deduction_image), ContextCompat.getColor(getContext(), R.color.red));
+                    return;
+                }
+                ImageUtils.doUploadImage(getContext(), images, new ImageUtils.UpImagesListener() {
+                    @Override
+                    public void onSuccess(List<ImageResponse> responses) {
+                        int[] imageArrIds = new int[responses.size()];
+                        for (int i = 0; i < responses.size(); i++)
+                            imageArrIds[i] = responses.get(i).getId();
+                        bundle.putString(Constants.PARAMETER_DEDUCTION_CONTENT, edtDeduction.getText().toString().trim());
+                        bundle.putIntArray(Constants.PARAMETER_DEDUCTION_ATTACHMENTS, imageArrIds);
+                        openFragment(R.id.layout_container, EstimateTaxRefund.class, true, bundle, TransitionScreen.RIGHT_TO_LEFT);
+                    }
+                });
                 break;
 
         }

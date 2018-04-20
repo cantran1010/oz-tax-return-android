@@ -13,6 +13,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.text.SpannableString;
 import android.text.style.StyleSpan;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CompoundButton;
@@ -20,6 +21,7 @@ import android.widget.ScrollView;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 import au.mccann.oztaxreturn.R;
 import au.mccann.oztaxreturn.activity.AlbumActivity;
@@ -28,20 +30,24 @@ import au.mccann.oztaxreturn.adapter.ImageAdapter;
 import au.mccann.oztaxreturn.common.Constants;
 import au.mccann.oztaxreturn.dialog.PickImageDialog;
 import au.mccann.oztaxreturn.model.Image;
+import au.mccann.oztaxreturn.model.ImageResponse;
 import au.mccann.oztaxreturn.utils.FileUtils;
+import au.mccann.oztaxreturn.utils.ImageUtils;
 import au.mccann.oztaxreturn.utils.LogUtils;
 import au.mccann.oztaxreturn.utils.TransitionScreen;
 import au.mccann.oztaxreturn.utils.Utils;
+import au.mccann.oztaxreturn.view.EdittextCustom;
 import au.mccann.oztaxreturn.view.ExpandableLayout;
 import au.mccann.oztaxreturn.view.MyGridView;
 import au.mccann.oztaxreturn.view.RadioButtonCustom;
+
+import static au.mccann.oztaxreturn.utils.TooltipUtils.showToolTipView;
 
 /**
  * Created by LongBui on 4/17/18.
  */
 
 public class IncomeOther extends BaseFragment implements View.OnClickListener {
-
     private static final String TAG = IncomeOther.class.getSimpleName();
     private MyGridView grImage;
     private ImageAdapter imageAdapter;
@@ -51,7 +57,8 @@ public class IncomeOther extends BaseFragment implements View.OnClickListener {
     private RadioButtonCustom rbYes, rbNo;
     private ExpandableLayout layout;
     private ScrollView scrollView;
-    private Bundle bundle;
+    private Bundle bundle = new Bundle();
+    private EdittextCustom edtResource;
 
     @Override
     protected int getLayout() {
@@ -64,6 +71,7 @@ public class IncomeOther extends BaseFragment implements View.OnClickListener {
         rbYes = (RadioButtonCustom) findViewById(R.id.rb_yes);
         rbNo = (RadioButtonCustom) findViewById(R.id.rb_no);
         scrollView = (ScrollView) findViewById(R.id.scrollView);
+        edtResource = (EdittextCustom) findViewById(R.id.edt_resource);
         layout = (ExpandableLayout) findViewById(R.id.layout_expandable);
         findViewById(R.id.btn_next).setOnClickListener(this);
         underLineText(getString(R.string.income_radio_text_yes), 3, rbYes);
@@ -73,15 +81,14 @@ public class IncomeOther extends BaseFragment implements View.OnClickListener {
     @Override
     protected void initData() {
         bundle = getArguments();
-        LogUtils.d(TAG, "initData , bundle : " + bundle);
+        LogUtils.d(TAG, "initData bundle : " + bundle.toString());
         setTitle(getString(R.string.income_ws_title));
         appBarVisibility(false, true);
-
-        //images
-        final Image image = new Image();
-        image.setAdd(true);
-        images.add(image);
-
+        if (images.size() == 0) {
+            final Image image = new Image();
+            image.setAdd(true);
+            images.add(image);
+        }
         imageAdapter = new ImageAdapter(getActivity(), images);
         grImage.setAdapter(imageAdapter);
 
@@ -109,6 +116,8 @@ public class IncomeOther extends BaseFragment implements View.OnClickListener {
                 if (b) {
                     layout.setExpanded(true);
                     scollLayout();
+
+
                 } else {
                     layout.setExpanded(false);
                 }
@@ -182,7 +191,6 @@ public class IncomeOther extends BaseFragment implements View.OnClickListener {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
         // image attach
         if (requestCode == Constants.REQUEST_CODE_PICK_IMAGE
                 && resultCode == Constants.RESPONSE_CODE_PICK_IMAGE
@@ -209,7 +217,7 @@ public class IncomeOther extends BaseFragment implements View.OnClickListener {
         int[] coords = {0, 0};
         scrollView.getLocationOnScreen(coords);
         int absoluteBottom = coords[1] + scrollView.getHeight();
-        ObjectAnimator objectAnimator = ObjectAnimator.ofInt(scrollView, "scrollY", absoluteBottom).setDuration(1000);
+        ObjectAnimator objectAnimator = ObjectAnimator.ofInt(scrollView, "scrollY", absoluteBottom).setDuration(1500);
         objectAnimator.start();
     }
 
@@ -223,7 +231,29 @@ public class IncomeOther extends BaseFragment implements View.OnClickListener {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_next:
-                openFragment(R.id.layout_container, Deduction.class, true, bundle, TransitionScreen.RIGHT_TO_LEFT);
+                if (rbYes.isChecked()) {
+                    if (edtResource.getText().toString().trim().isEmpty()) {
+                        showToolTipView(getContext(), edtResource, Gravity.TOP, getString(R.string.valid_income_content), ContextCompat.getColor(getContext(), R.color.red));
+                        return;
+                    }
+                    if (images.size() < 2) {
+                        showToolTipView(getContext(), grImage, Gravity.TOP, getString(R.string.valid_deduction_image), ContextCompat.getColor(getContext(), R.color.red));
+                        return;
+                    }
+                    ImageUtils.doUploadImage(getContext(), images, new ImageUtils.UpImagesListener() {
+                        @Override
+                        public void onSuccess(List<ImageResponse> responses) {
+                            int[] imageArrIds = new int[responses.size()];
+                            for (int i = 0; i < responses.size(); i++)
+                                imageArrIds[i] = responses.get(i).getId();
+                            bundle.putString(Constants.PARAMETER_INCOME_CONTENT, edtResource.getText().toString().trim());
+                            bundle.putIntArray(Constants.PARAMETER_INCOME_CONTENT_ATTACHMENTS, imageArrIds);
+                            openFragment(R.id.layout_container, Deduction.class, true, bundle, TransitionScreen.RIGHT_TO_LEFT);
+                        }
+                    });
+
+                } else
+                    openFragment(R.id.layout_container, Deduction.class, true, bundle, TransitionScreen.RIGHT_TO_LEFT);
                 break;
 
         }

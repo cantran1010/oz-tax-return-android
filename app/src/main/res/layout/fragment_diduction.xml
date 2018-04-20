@@ -29,6 +29,7 @@
                 android:textSize="@dimen/size_nomal" />
 
             <au.mccann.oztaxreturn.view.EdittextCustom
+                android:id="@+id/edt_deduction"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
