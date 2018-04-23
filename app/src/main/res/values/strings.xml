@@ -82,6 +82,7 @@
     <string name="gallery">Gallery</string>
     <string name="your_birthday">Your Birthday</string>
     <string name="valid_tfn">please enter a valid TFN</string>
+    <string name="valid_title">Enter title</string>
     <string name="valid_first_name">Enter first name</string>
     <string name="valid_mid_name">Enter mid name</string>
     <string name="valid_last_name">Enter last name</string>
@@ -156,6 +157,25 @@
     <string name="next_des">* please click next to process to the checkout</string>
     <string name="currency">$ %1$d</string>
     <string name="back_to_exit">Press back button again to exit</string>
+
+    <!-- review begin a -->
+    <string name="review_begin_a">Review your application</string>
+    <string name="review_begin_a_title">Thanks you for submitting your tax return application with us.</string>
+    <string name="review_begin_a_content">Our accountants are looking at your applications and you
+    will be notice once the process has been complete. Meanwhile you can contact our accountants for
+    any enquiries.
+    </string>
+
+
+    <!-- review begin b -->
+    <string name="review_begin_b_content">Your application has been process and prefilled with information we gathered from your end. Please carefully review your application again and make changes if necessary.</string>
+    <string name="review_begin_b_review">Review</string>
+
+    <!-- review personal infomation a -->
+    <string name="infomation_a">REVIEW</string>
+    <string name="infomation_a_name">Personal Infomation</string>
+    <string name="infomation_a_title">Title</string>
+    <string name="infomation_a_title_hint">Mr</string>
 
 
 </resources>

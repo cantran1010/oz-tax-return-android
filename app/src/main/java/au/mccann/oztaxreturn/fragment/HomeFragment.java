@@ -62,6 +62,7 @@ public class HomeFragment extends BaseFragment {
                 startActivityForResult(intent, Constants.CREATE_APP_REQUEST_CODE, TransitionScreen.RIGHT_TO_LEFT);
             }
         });
+
     }
 
     @Override
@@ -92,7 +93,7 @@ public class HomeFragment extends BaseFragment {
             @Override
             public void onClick(int position) {
                 bundle.putInt(Constants.PARAMETER_APP_ID, applicationResponses.get(position).getId());
-                openFragment(R.id.layout_container, IncomeWagesSalaryFragment.class, true, bundle, TransitionScreen.RIGHT_TO_LEFT);
+                openFragment(R.id.layout_container, ReviewBeginBFragment.class, true, bundle, TransitionScreen.RIGHT_TO_LEFT);
             }
         });
     }

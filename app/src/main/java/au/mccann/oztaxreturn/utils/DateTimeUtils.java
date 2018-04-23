@@ -224,6 +224,19 @@ public class DateTimeUtils {
     /**
      * Transform ISO 8601 string to Calendar.
      */
+    public static Calendar toCalendarBirthday(final String ozBirthdaytring)
+            throws ParseException {
+        String timeZone = Calendar.getInstance().getTimeZone().getID();
+        Calendar calendar = GregorianCalendar.getInstance();
+        Date date = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse(ozBirthdaytring);
+        Date localDate = new Date(date.getTime() + TimeZone.getTimeZone(timeZone).getOffset(date.getTime()));
+        calendar.setTime(localDate);
+        return calendar;
+    }
+
+    /**
+     * Transform ISO 8601 string to Calendar.
+     */
     public static Calendar toCalendar(final String iso8601string)
             throws ParseException {
         String timeZone = Calendar.getInstance().getTimeZone().getID();

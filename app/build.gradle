@@ -70,4 +70,6 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
     implementation files('libs/glide-3.8.0.jar')
     implementation 'me.relex:circleindicator:1.2.2@aar'
+
+    compile 'com.googlecode.libphonenumber:libphonenumber:8.9.4'
 }
