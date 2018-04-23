@@ -4,6 +4,7 @@
     <dimen name="size_small">12sp</dimen>
     <dimen name="size_nomal">15sp</dimen>
     <dimen name="tv_size_xlager">18sp</dimen>
+    <dimen name="tv_size_xxlager">20sp</dimen>
     <dimen name="tv_size_xxxlager">30sp</dimen>
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>

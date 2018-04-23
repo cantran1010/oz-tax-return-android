@@ -215,5 +215,18 @@
     <string name="home_navi_share">Share</string>
     <string name="home_rate">Rate us</string>
 
+    <!-- review income ws -->
+    <string name="review_income_title">Review income</string>
+    <string name="review_income_ws_title">Personal infomation</string>
+    <string name="job_1">job 1:</string>
+    <string name="total_gross">Total gross income</string>
+    <string name="total_tax_width_held">Total tax widthheld</string>
+    <string name="allowances">Allowances</string>
+    <string name="reportable_fringer_benefits">reportable fringer benefits</string>
+    <string name="reportable_employer_super_contribution">reportable employer super contribution</string>
+    <string name="company_name">company name</string>
+    <string name="company_abn">company ABN</string>
+    <string name="company_contact">company contact</string>
+
 
 </resources>

@@ -13,6 +13,7 @@ public class Image implements Parcelable {
 
     private long id;
     private String name;
+
     private String path;
     public boolean isSelected;
     public boolean isAdd;
