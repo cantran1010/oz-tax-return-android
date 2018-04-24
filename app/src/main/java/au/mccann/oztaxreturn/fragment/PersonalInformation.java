@@ -144,6 +144,6 @@ public class PersonalInformation extends BaseFragment implements View.OnClickLis
                 break;
 
         }
-
     }
+
 }

@@ -20,5 +20,6 @@
     <dimen name="tooltip_padding">5dp</dimen>
     <dimen name="tooltip_radius">5dp</dimen>
     <dimen name="tooltip_size">15sp</dimen>
+    <dimen name="left_menu_margin">20dp</dimen>
 
 </resources>

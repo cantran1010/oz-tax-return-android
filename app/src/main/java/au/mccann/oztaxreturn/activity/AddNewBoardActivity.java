@@ -150,9 +150,7 @@ public class AddNewBoardActivity extends BaseActivity implements View.OnClickLis
         ApiClient.getApiService().createApplication(UserManager.getUserToken(), body).enqueue(new Callback<ApplicationResponse>() {
             @Override
             public void onResponse(Call<ApplicationResponse> call, Response<ApplicationResponse> response) {
-                ProgressDialogUtils.dismissProgressDialog();
                 LogUtils.d(TAG, "doCreateApplication code : " + response.code());
-
                 if (response.code() == Constants.HTTP_CODE_OK) {
                     LogUtils.d(TAG, "doCreateApplication body : " + response.body().toString());
                     setResult(Constants.CREATE_APP_RESULT_CODE);
@@ -169,7 +167,7 @@ public class AddNewBoardActivity extends BaseActivity implements View.OnClickLis
                         });
                     }
                 }
-
+                ProgressDialogUtils.dismissProgressDialog();
             }
 
             @Override

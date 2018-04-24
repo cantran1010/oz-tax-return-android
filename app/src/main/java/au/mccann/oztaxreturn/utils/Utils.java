@@ -26,6 +26,9 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import com.google.i18n.phonenumbers.NumberParseException;
+import com.google.i18n.phonenumbers.PhoneNumberUtil;
+import com.google.i18n.phonenumbers.Phonenumber;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -35,6 +38,7 @@ import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 import au.mccann.oztaxreturn.R;
 import au.mccann.oztaxreturn.model.APIError;
@@ -449,6 +453,27 @@ public class Utils {
             return Bitmap.createScaledBitmap(bmInput, (int) (bmInput.getWidth() / scale), (int) (bmInput.getHeight() / scale), false);
         } else
             return bmInput;
+    }
+
+    // format phone number to nation format
+    public static String formatPhoneNumber(String phoneStr) {
+
+        String result = "";
+        String cCode = Locale.getDefault().getCountry();
+        String lCode = Locale.getDefault().getLanguage();
+
+        LogUtils.d(TAG, "getLocale , cCode : " + cCode);
+        LogUtils.d(TAG, "getLocale , cCode : " + cCode);
+
+        PhoneNumberUtil phoneUtil = PhoneNumberUtil.getInstance();
+        try {
+            Phonenumber.PhoneNumber phone = phoneUtil.parse(phoneStr, Locale.getDefault().getCountry());
+            result = phoneUtil.format(phone, PhoneNumberUtil.PhoneNumberFormat.E164);
+        } catch (NumberParseException e) {
+            e.printStackTrace();
+        }
+        LogUtils.d(TAG, "formatPhoneNumber , result : " + result);
+        return result;
     }
 
 }
