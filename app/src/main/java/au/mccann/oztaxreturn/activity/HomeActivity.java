@@ -8,7 +8,6 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 
 import au.mccann.oztaxreturn.R;
 import au.mccann.oztaxreturn.fragment.ContactFragment;
@@ -25,8 +24,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
     private DrawerLayout drawer;
     private ImageView imgHome, imgContact, imgNotification, imgBack, imgNavigation;
     private TextViewCustom tvHome, tvContact, tvNotification, tvTitle;
-    private ExpandableLayout expPersonalLayout;
-    private LinearLayout personalLayout;
+    private ExpandableLayout expPersonalLayout, expIncomesLayout, expDeductionsLayout, expFamilyLayout;
 
     @Override
     protected int getLayout() {
@@ -50,7 +48,14 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
         tvTitle = findViewById(R.id.tv_title);
 
         expPersonalLayout = findViewById(R.id.layout_expandable_personal);
+        expIncomesLayout = findViewById(R.id.layout_expandable_income);
+        expDeductionsLayout = findViewById(R.id.layout_expandable_deductions);
+        expFamilyLayout = findViewById(R.id.layout_expandable_family_health);
+
         findViewById(R.id.layout_personal).setOnClickListener(this);
+        findViewById(R.id.layout_incomes).setOnClickListener(this);
+        findViewById(R.id.layout_deductions).setOnClickListener(this);
+        findViewById(R.id.layout_family).setOnClickListener(this);
     }
 
     @Override
@@ -211,6 +216,30 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
                     expPersonalLayout.setExpanded(false);
                 } else {
                     expPersonalLayout.setExpanded(true);
+                }
+                break;
+
+            case R.id.layout_incomes:
+                if (expIncomesLayout.isExpanded()) {
+                    expIncomesLayout.setExpanded(false);
+                } else {
+                    expIncomesLayout.setExpanded(true);
+                }
+                break;
+
+            case R.id.layout_deductions:
+                if (expDeductionsLayout.isExpanded()) {
+                    expDeductionsLayout.setExpanded(false);
+                } else {
+                    expDeductionsLayout.setExpanded(true);
+                }
+                break;
+
+            case R.id.layout_family:
+                if (expFamilyLayout.isExpanded()) {
+                    expFamilyLayout.setExpanded(false);
+                } else {
+                    expFamilyLayout.setExpanded(true);
                 }
                 break;
         }
