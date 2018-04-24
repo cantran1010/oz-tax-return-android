@@ -228,5 +228,13 @@
     <string name="company_abn">company ABN</string>
     <string name="company_contact">company contact</string>
 
+    <!-- review govement payment -->
+    <string name="review_govement_payment">Govement payment</string>
+    <string name="review_govement_payment_ask">Do you receive government such as Newstart, Youth Allowance or Parenting payment</string>
+    <string name="income_type">income type</string>
+    <string name="gross_payment">gross payment</string>
+    <string name="tax_widthheld">Tax widthheld</string>
+    <string name="label_image">image</string>
+
 
 </resources>

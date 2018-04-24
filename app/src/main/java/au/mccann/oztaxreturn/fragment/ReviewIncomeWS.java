@@ -6,6 +6,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import au.mccann.oztaxreturn.R;
@@ -21,6 +22,7 @@ import au.mccann.oztaxreturn.networking.ApiClient;
 import au.mccann.oztaxreturn.utils.DialogUtils;
 import au.mccann.oztaxreturn.utils.LogUtils;
 import au.mccann.oztaxreturn.utils.ProgressDialogUtils;
+import au.mccann.oztaxreturn.utils.TransitionScreen;
 import au.mccann.oztaxreturn.utils.Utils;
 import au.mccann.oztaxreturn.view.ButtonCustom;
 import retrofit2.Call;
@@ -36,6 +38,7 @@ public class ReviewIncomeWS extends BaseFragment implements View.OnClickListener
     private ArrayList<Job> jobs = new ArrayList<>();
     private RecyclerView recyclerView;
     private Bundle bundle = new Bundle();
+    private IncomeResponse incomeResponse = new IncomeResponse();
 
     @Override
     protected int getLayout() {
@@ -60,6 +63,7 @@ public class ReviewIncomeWS extends BaseFragment implements View.OnClickListener
         appBarVisibility(true, false);
         getReviewIncome();
         updateList();
+
     }
 
 
@@ -80,6 +84,7 @@ public class ReviewIncomeWS extends BaseFragment implements View.OnClickListener
                 LogUtils.d(TAG, "getReviewIncome code : " + response.code());
                 if (response.code() == Constants.HTTP_CODE_OK) {
                     LogUtils.d(TAG, "getReviewIncome body : " + response.body().toString());
+                    incomeResponse = response.body();
                     jobs.clear();
                     jobs.addAll(response.body().getJobs());
                     jobAdapter.notifyDataSetChanged();
@@ -138,6 +143,8 @@ public class ReviewIncomeWS extends BaseFragment implements View.OnClickListener
                 jobAdapter.notifyDataSetChanged();
                 break;
             case R.id.btn_next:
+                bundle.putSerializable(Constants.KEY_REVIEW, (Serializable) incomeResponse);
+                openFragment(R.id.layout_container, GovementPayment.class, true, bundle, TransitionScreen.RIGHT_TO_LEFT);
                 break;
         }
 

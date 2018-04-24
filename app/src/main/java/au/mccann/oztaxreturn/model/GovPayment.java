@@ -2,12 +2,15 @@ package au.mccann.oztaxreturn.model;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Created by CanTran on 4/23/18.
  */
-public class GovPayment {
+public class GovPayment implements Serializable {
+    @SerializedName("had")
+    private boolean had;
     @SerializedName("income_type")
     private String type;
     @SerializedName("gross_income")
@@ -16,6 +19,14 @@ public class GovPayment {
     private String tax;
     @SerializedName("attachments")
     private ArrayList<Attachment> attachments;
+
+    public boolean isHad() {
+        return had;
+    }
+
+    public void setHad(boolean had) {
+        this.had = had;
+    }
 
     public String getType() {
         return type;
@@ -52,7 +63,8 @@ public class GovPayment {
     @Override
     public String toString() {
         return "GovPayment{" +
-                "type='" + type + '\'' +
+                "had=" + had +
+                ", type='" + type + '\'' +
                 ", gross='" + gross + '\'' +
                 ", tax='" + tax + '\'' +
                 ", attachments=" + attachments +

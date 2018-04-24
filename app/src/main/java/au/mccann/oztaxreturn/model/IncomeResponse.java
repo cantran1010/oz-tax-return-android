@@ -2,12 +2,13 @@ package au.mccann.oztaxreturn.model;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Created by CanTran on 4/23/18.
  */
-public class IncomeResponse {
+public class IncomeResponse implements Serializable {
     private int id;
     @SerializedName("jobs")
     private ArrayList<Job> jobs;

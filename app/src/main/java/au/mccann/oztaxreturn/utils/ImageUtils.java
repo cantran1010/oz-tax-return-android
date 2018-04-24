@@ -18,8 +18,8 @@ import au.mccann.oztaxreturn.database.UserManager;
 import au.mccann.oztaxreturn.dialog.AlertDialogOk;
 import au.mccann.oztaxreturn.dialog.AlertDialogOkAndCancel;
 import au.mccann.oztaxreturn.model.APIError;
+import au.mccann.oztaxreturn.model.Attachment;
 import au.mccann.oztaxreturn.model.Image;
-import au.mccann.oztaxreturn.model.ImageResponse;
 import au.mccann.oztaxreturn.networking.ApiClient;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -35,7 +35,7 @@ public class ImageUtils {
     private final String TAG = ImageUtils.class.getName();
 
     public interface UpImagesListener {
-        void onSuccess(List<ImageResponse> responses);
+        void onSuccess(List<Attachment> responses);
     }
 
     public void displayImage(Context context, ImageView img, String url) {
@@ -127,9 +127,10 @@ public class ImageUtils {
         // last image is "plus attach" , so realy size = size -1
         for (int i = 0; i < images.size() - 1; i++)
             parts.add(MultipartBody.Part.createFormData("images[]", images.get(i).getName(), RequestBody.create(MediaType.parse("image/*"), new File(images.get(i).getPath()))));
-        ApiClient.getApiService().uploadImage(UserManager.getUserToken(), parts).enqueue(new Callback<List<ImageResponse>>() {
+        ApiClient.getApiService().uploadImage(UserManager.getUserToken(), parts).enqueue(new Callback<List<Attachment>>() {
             @Override
-            public void onResponse(Call<List<ImageResponse>> call, Response<List<ImageResponse>> response) {
+            public void onResponse(Call<List<Attachment>> call, Response<List<Attachment>> response) {
+                ProgressDialogUtils.dismissProgressDialog();
                 LogUtils.d("", "doUploadImage onResponse : " + response.body());
                 LogUtils.d("", "doUploadImage code : " + response.code());
                 if (response.code() == Constants.HTTP_CODE_OK) {
@@ -147,11 +148,11 @@ public class ImageUtils {
                     }
                 }
                 FileUtils.deleteDirectory(new File(FileUtils.OUTPUT_DIR));
-                ProgressDialogUtils.dismissProgressDialog();
+
             }
 
             @Override
-            public void onFailure(Call<List<ImageResponse>> call, Throwable t) {
+            public void onFailure(Call<List<Attachment>> call, Throwable t) {
                 ProgressDialogUtils.dismissProgressDialog();
                 LogUtils.e("", "doUploadImage onFailure : " + t.getMessage());
                 DialogUtils.showRetryDialog(context, new AlertDialogOkAndCancel.AlertDialogListener() {

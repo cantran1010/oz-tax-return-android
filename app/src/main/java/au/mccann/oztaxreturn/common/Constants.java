@@ -58,6 +58,7 @@ public class Constants {
     public static final String PARAMETER_APP_PHONE = "application_phone";
     public static final String PARAMETER_APP_EMAIL = "application_email";
     public static final String PARAMETER_WAGE_ATTACHMENTS = "income_wage_attachments";
+    public static final String KEY_REVIEW ="key_review" ;
     public static final String PERSONNAL_INFO_EXTRA = "personnal_info_extra";
     public static int MAX_IMAGE_ATTACH = 9;
     public static final String INTENT_EXTRA_ALBUM = "album_name";

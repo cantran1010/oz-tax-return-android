@@ -23,8 +23,8 @@ import au.mccann.oztaxreturn.activity.PreviewImageActivity;
 import au.mccann.oztaxreturn.adapter.ImageAdapter;
 import au.mccann.oztaxreturn.common.Constants;
 import au.mccann.oztaxreturn.dialog.PickImageDialog;
+import au.mccann.oztaxreturn.model.Attachment;
 import au.mccann.oztaxreturn.model.Image;
-import au.mccann.oztaxreturn.model.ImageResponse;
 import au.mccann.oztaxreturn.utils.FileUtils;
 import au.mccann.oztaxreturn.utils.ImageUtils;
 import au.mccann.oztaxreturn.utils.LogUtils;
@@ -196,7 +196,7 @@ public class Deduction extends BaseFragment implements View.OnClickListener {
                 }
                 ImageUtils.doUploadImage(getContext(), images, new ImageUtils.UpImagesListener() {
                     @Override
-                    public void onSuccess(List<ImageResponse> responses) {
+                    public void onSuccess(List<Attachment> responses) {
                         int[] imageArrIds = new int[responses.size()];
                         for (int i = 0; i < responses.size(); i++)
                             imageArrIds[i] = responses.get(i).getId();
