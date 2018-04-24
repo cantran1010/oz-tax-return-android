@@ -166,7 +166,6 @@
     any enquiries.
     </string>
 
-
     <!-- review begin b -->
     <string name="review_begin_b_content">Your application has been process and prefilled with information we gathered from your end. Please carefully review your application again and make changes if necessary.</string>
     <string name="review_begin_b_review">Review</string>
@@ -176,6 +175,11 @@
     <string name="infomation_a_name">Personal Infomation</string>
     <string name="infomation_a_title">Title</string>
     <string name="infomation_a_title_hint">Mr</string>
+
+    <!-- review begin c -->
+    <string name="infomation_c_des">Do you have any remaining student loan schem debt such as HECS/HELP? </string>
+    <string name="infomation_c_remain">REMAINING</string>
+    <string name="USD">$</string>
 
 
 </resources>

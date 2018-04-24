@@ -22,6 +22,7 @@ import au.mccann.oztaxreturn.utils.DialogUtils;
 import au.mccann.oztaxreturn.utils.LogUtils;
 import au.mccann.oztaxreturn.utils.ProgressDialogUtils;
 import au.mccann.oztaxreturn.utils.TooltipUtils;
+import au.mccann.oztaxreturn.utils.TransitionScreen;
 import au.mccann.oztaxreturn.utils.Utils;
 import au.mccann.oztaxreturn.view.ButtonCustom;
 import au.mccann.oztaxreturn.view.EdittextCustom;
@@ -109,7 +110,7 @@ public class ReviewPersonalInfomationB extends BaseFragment implements View.OnCl
         edtEmail.setText(personalInfomationResponse.getEmail());
     }
 
-    private void donext() {
+    private void doNextB() {
 
         if (edtBankName.getText().toString().trim().isEmpty()) {
             TooltipUtils.showToolTipView(getContext(), edtBankName, Gravity.BOTTOM, getString(R.string.valid_app_bank_name),
@@ -177,20 +178,20 @@ public class ReviewPersonalInfomationB extends BaseFragment implements View.OnCl
             e.printStackTrace();
         }
 
-        LogUtils.d(TAG, "donext jsonRequest : " + jsonRequest.toString());
+        LogUtils.d(TAG, "doNextB jsonRequest : " + jsonRequest.toString());
 
         RequestBody body = RequestBody.create(MediaType.parse("application/json"), jsonRequest.toString());
         ApiClient.getApiService().updatePersonalInfo(UserManager.getUserToken(), bundle.getInt(Constants.PARAMETER_APP_ID), body).enqueue(new Callback<PersonalInfomationResponse>() {
             @Override
             public void onResponse(Call<PersonalInfomationResponse> call, Response<PersonalInfomationResponse> response) {
-                LogUtils.d(TAG, "donext code : " + response.code());
+                LogUtils.d(TAG, "doNextB code : " + response.code());
                 if (response.code() == Constants.HTTP_CODE_OK) {
-                    LogUtils.d(TAG, "donext body : " + response.body().toString());
-//                    bundle.putSerializable(Constants.PERSONNAL_INFO_EXTRA, response.body());
-//                    openFragment(R.id.layout_container, ReviewPersonalInfomationB.class, true, bundle, TransitionScreen.RIGHT_TO_LEFT);
+                    LogUtils.d(TAG, "doNextB body : " + response.body().toString());
+                    bundle.putSerializable(Constants.PERSONNAL_INFO_EXTRA, response.body());
+                    openFragment(R.id.layout_container, ReviewPersonalInfomationC.class, true, bundle, TransitionScreen.RIGHT_TO_LEFT);
                 } else {
                     APIError error = Utils.parseError(response);
-                    LogUtils.d(TAG, "donext error : " + error.message());
+                    LogUtils.d(TAG, "doNextB error : " + error.message());
                     if (error != null) {
                         DialogUtils.showOkDialog(getActivity(), getString(R.string.error), error.message(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
                             @Override
@@ -205,12 +206,12 @@ public class ReviewPersonalInfomationB extends BaseFragment implements View.OnCl
 
             @Override
             public void onFailure(Call<PersonalInfomationResponse> call, Throwable t) {
-                LogUtils.e(TAG, "donext onFailure : " + t.getMessage());
+                LogUtils.e(TAG, "doNextB onFailure : " + t.getMessage());
                 ProgressDialogUtils.dismissProgressDialog();
                 DialogUtils.showRetryDialog(getActivity(), new AlertDialogOkAndCancel.AlertDialogListener() {
                     @Override
                     public void onSubmit() {
-                        donext();
+                        doNextB();
                     }
 
                     @Override
@@ -230,7 +231,7 @@ public class ReviewPersonalInfomationB extends BaseFragment implements View.OnCl
                 break;
 
             case R.id.btn_next:
-                donext();
+                doNextB();
                 break;
         }
     }
