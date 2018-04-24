@@ -8,6 +8,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import au.mccann.oztaxreturn.R;
 import au.mccann.oztaxreturn.fragment.ContactFragment;
@@ -16,6 +17,7 @@ import au.mccann.oztaxreturn.fragment.NotificationFragment;
 import au.mccann.oztaxreturn.utils.LogUtils;
 import au.mccann.oztaxreturn.utils.TransitionScreen;
 import au.mccann.oztaxreturn.utils.Utils;
+import au.mccann.oztaxreturn.view.ExpandableLayout;
 import au.mccann.oztaxreturn.view.TextViewCustom;
 
 public class HomeActivity extends BaseActivity implements View.OnClickListener {
@@ -23,6 +25,8 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
     private DrawerLayout drawer;
     private ImageView imgHome, imgContact, imgNotification, imgBack, imgNavigation;
     private TextViewCustom tvHome, tvContact, tvNotification, tvTitle;
+    private ExpandableLayout expPersonalLayout;
+    private LinearLayout personalLayout;
 
     @Override
     protected int getLayout() {
@@ -44,6 +48,9 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
 
         imgBack = findViewById(R.id.img_back);
         tvTitle = findViewById(R.id.tv_title);
+
+        expPersonalLayout = findViewById(R.id.layout_expandable_personal);
+        findViewById(R.id.layout_personal).setOnClickListener(this);
     }
 
     @Override
@@ -197,6 +204,14 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
 
             case R.id.img_back:
                 onBackPressed();
+                break;
+
+            case R.id.layout_personal:
+                if (expPersonalLayout.isExpanded()) {
+                    expPersonalLayout.setExpanded(false);
+                } else {
+                    expPersonalLayout.setExpanded(true);
+                }
                 break;
         }
 

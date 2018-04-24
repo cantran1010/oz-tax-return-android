@@ -181,5 +181,30 @@
     <string name="infomation_c_remain">REMAINING</string>
     <string name="USD">$</string>
 
+    <!-- navigation menu review -->
+    <string name="menu_personal">Personal information</string>
+    <string name="menu_personal_name">Name &amp; Residency</string>
+    <string name="menu_personal_bank">Bank &amp; Address</string>
+    <string name="menu_personal_education">Education Debt</string>
+    <string name="menu_incomes">Incomes</string>
+    <string name="menu_incomes_wages">Wages/salary</string>
+    <string name="menu_incomes_government">Government Payments</string>
+    <string name="menu_incomes_interests">Interests</string>
+    <string name="menu_incomes_dividends">Dividends</string>
+    <string name="menu_incomes_early">Early Termination Payments</string>
+    <string name="menu_incomes_annuities">Annuities &amp; Supers</string>
+    <string name="menu_incomes_rental">Rental Properties</string>
+    <string name="menu_deductions">Deductions</string>
+    <string name="menu_deductions_vehicles">Vehicles</string>
+    <string name="menu_deductions_clothing">Clothing</string>
+    <string name="menu_deductions_education">Education</string>
+    <string name="menu_deductions_otherworks">Other works</string>
+    <string name="menu_deductions_donations">Donations</string>
+    <string name="menu_deductions_tax_agents">Tax Agents</string>
+    <string name="menu_family_health">Family &amp; Health</string>
+    <string name="menu_family_health_dependants">Dependants</string>
+    <string name="menu_family_health_medicare">Medicare Levy Exemption</string>
+    <string name="menu_family_health_private">Private Health</string>
+    <string name="menu_family_health_spouse">Spouse</string>
 
 </resources>

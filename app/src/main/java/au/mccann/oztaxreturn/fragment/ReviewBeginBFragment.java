@@ -48,7 +48,7 @@ public class ReviewBeginBFragment extends BaseFragment implements View.OnClickLi
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_review:
-                openFragment(R.id.layout_container, ReviewPersonalInfomationA.class, true, bundle, TransitionScreen.NON);
+                openFragment(R.id.layout_container, ReviewPersonalInfomationA.class, true, bundle, TransitionScreen.RIGHT_TO_LEFT);
                 break;
         }
     }

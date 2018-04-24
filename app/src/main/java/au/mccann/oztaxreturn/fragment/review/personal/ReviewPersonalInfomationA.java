@@ -14,7 +14,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -126,10 +125,10 @@ public class ReviewPersonalInfomationA extends BaseFragment implements View.OnCl
                     LogUtils.d(TAG, "getReviewInformation body : " + response.body().toString());
                     try {
                         calendar = DateTimeUtils.toCalendarBirthday(response.body().getBirthday());
-                    } catch (ParseException e) {
+                        updatePersonalInfomation(response.body());
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
-                    updatePersonalInfomation(response.body());
                 } else {
                     APIError error = Utils.parseError(response);
                     LogUtils.d(TAG, "getReviewInformation error : " + error.message());

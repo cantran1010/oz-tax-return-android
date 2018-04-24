@@ -25,6 +25,8 @@
             android:layout_height="match_parent"
             android:background="@color/app_bg">
 
+            <include layout="@layout/review_navigation_layout" />
+
         </RelativeLayout>
 
     </android.support.design.widget.NavigationView>
