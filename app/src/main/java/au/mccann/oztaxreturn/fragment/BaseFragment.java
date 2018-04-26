@@ -16,6 +16,7 @@ import java.util.Stack;
 import au.mccann.oztaxreturn.activity.BaseActivity;
 import au.mccann.oztaxreturn.activity.HomeActivity;
 import au.mccann.oztaxreturn.common.Constants;
+import au.mccann.oztaxreturn.rest.response.ApplicationResponse;
 import au.mccann.oztaxreturn.utils.TransitionScreen;
 
 /**
@@ -217,14 +218,31 @@ public abstract class BaseFragment extends Fragment implements SwipeRefreshLayou
     }
 
 
-    public void appBarVisibility(boolean navigationVisibility, boolean backVisibility) {
+    public void appBarVisibility(boolean navigationVisibility, boolean backVisibility, int navigationType) {
         if (getActivity() instanceof HomeActivity)
-            ((HomeActivity) getActivity()).appBarVisibility(navigationVisibility, backVisibility);
+            ((HomeActivity) getActivity()).appBarVisibility(navigationVisibility, backVisibility, navigationType);
     }
 
     public void setTitle(String title) {
         if (getActivity() instanceof HomeActivity)
             ((HomeActivity) getActivity()).setTitle(title);
+    }
+
+    public ApplicationResponse getApplicationResponse() {
+        if (getActivity() instanceof HomeActivity)
+            return ((HomeActivity) getActivity()).getApplicationResponse();
+        return null;
+    }
+
+    public void setApplicationResponse(ApplicationResponse applicationResponse) {
+        if (getActivity() instanceof HomeActivity)
+            ((HomeActivity) getActivity()).setApplicationResponse(applicationResponse);
+    }
+
+
+    public void updateAppInNavigation(ApplicationResponse applicationResponse) {
+        if (getActivity() instanceof HomeActivity)
+            ((HomeActivity) getActivity()).updateAppInNavigation(applicationResponse);
     }
 
 }

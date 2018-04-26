@@ -95,7 +95,7 @@ public class IncomeWagesSalaryFragment extends BaseFragment implements View.OnCl
     @Override
     protected void initData() {
         setTitle(getString(R.string.income_ws_title));
-        appBarVisibility(false, true);
+        appBarVisibility(false, true,0);
         bundle = getArguments();
         LogUtils.d(TAG, "initData bundle : " + bundle.toString());
         //images

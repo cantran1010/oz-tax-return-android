@@ -65,7 +65,7 @@ public class SubmitInformation extends BaseFragment implements View.OnClickListe
         bundle = getArguments();
         LogUtils.d(TAG, "initData bundle : " + bundle.toString());
         setTitle(getString(R.string.personal_information_title));
-        appBarVisibility(false, true);
+        appBarVisibility(false, true,0);
 
     }
 

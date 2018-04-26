@@ -83,7 +83,7 @@ public class IncomeOther extends BaseFragment implements View.OnClickListener {
         bundle = getArguments();
         LogUtils.d(TAG, "initData bundle : " + bundle.toString());
         setTitle(getString(R.string.income_ws_title));
-        appBarVisibility(false, true);
+        appBarVisibility(false, true,0);
         if (images.size() == 0) {
             final Image image = new Image();
             image.setAdd(true);

@@ -20,7 +20,7 @@ public class ReviewBeginAFragment extends BaseFragment {
     @Override
     protected void initData() {
         setTitle(getString(R.string.review_begin_a));
-        appBarVisibility(false, true);
+        appBarVisibility(false, true,1);
     }
 
     @Override

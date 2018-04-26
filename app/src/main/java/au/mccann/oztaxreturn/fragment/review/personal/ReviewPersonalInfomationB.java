@@ -41,7 +41,6 @@ public class ReviewPersonalInfomationB extends BaseFragment implements View.OnCl
     private static final String TAG = ReviewPersonalInfomationB.class.getSimpleName();
     private EdittextCustom edtBankName, edtBSB, edtAccountNumber, edtStreetName, edtSuburb, edtState, edtPostCode, edtPhone, edtEmail;
     private ButtonCustom btnNext;
-    private Bundle bundle = new Bundle();
     private ImageView imgEdit;
     private PersonalInfomationResponse personalInfomationResponse;
 
@@ -69,16 +68,12 @@ public class ReviewPersonalInfomationB extends BaseFragment implements View.OnCl
 
     @Override
     protected void initData() {
-        bundle = getArguments();
-        personalInfomationResponse = (PersonalInfomationResponse) bundle.getSerializable(Constants.PERSONNAL_INFO_EXTRA);
-
-        LogUtils.d(TAG, "initData , personalInfomationResponse : " + personalInfomationResponse.toString());
-        updatePersonalInfo();
+        getReviewInformationB();
     }
 
     @Override
     protected void resumeData() {
-
+        appBarVisibility(true, true, 1);
     }
 
     @Override
@@ -181,14 +176,14 @@ public class ReviewPersonalInfomationB extends BaseFragment implements View.OnCl
         LogUtils.d(TAG, "doNextB jsonRequest : " + jsonRequest.toString());
 
         RequestBody body = RequestBody.create(MediaType.parse("application/json"), jsonRequest.toString());
-        ApiClient.getApiService().updatePersonalInfo(UserManager.getUserToken(), bundle.getInt(Constants.PARAMETER_APP_ID), body).enqueue(new Callback<PersonalInfomationResponse>() {
+        ApiClient.getApiService().updatePersonalInfo(UserManager.getUserToken(), getApplicationResponse().getId(), body).enqueue(new Callback<PersonalInfomationResponse>() {
             @Override
             public void onResponse(Call<PersonalInfomationResponse> call, Response<PersonalInfomationResponse> response) {
                 LogUtils.d(TAG, "doNextB code : " + response.code());
                 if (response.code() == Constants.HTTP_CODE_OK) {
                     LogUtils.d(TAG, "doNextB body : " + response.body().toString());
-                    bundle.putSerializable(Constants.PERSONNAL_INFO_EXTRA, response.body());
-                    openFragment(R.id.layout_container, ReviewPersonalInfomationC.class, true, bundle, TransitionScreen.RIGHT_TO_LEFT);
+//                    bundle.putSerializable(Constants.PERSONNAL_INFO_EXTRA, response.body());
+                    openFragment(R.id.layout_container, ReviewPersonalInfomationC.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
                 } else {
                     APIError error = Utils.parseError(response);
                     LogUtils.d(TAG, "doNextB error : " + error.message());
@@ -212,6 +207,56 @@ public class ReviewPersonalInfomationB extends BaseFragment implements View.OnCl
                     @Override
                     public void onSubmit() {
                         doNextB();
+                    }
+
+                    @Override
+                    public void onCancel() {
+
+                    }
+                });
+            }
+        });
+    }
+
+    private void getReviewInformationB() {
+        ProgressDialogUtils.showProgressDialog(getActivity());
+        ApiClient.getApiService().getReviewPersonalInfo(UserManager.getUserToken(), getApplicationResponse().getId()).enqueue(new Callback<PersonalInfomationResponse>() {
+            @Override
+            public void onResponse(Call<PersonalInfomationResponse> call, Response<PersonalInfomationResponse> response) {
+                LogUtils.d(TAG, "getReviewInformationB code : " + response.code());
+
+                if (response.code() == Constants.HTTP_CODE_OK) {
+                    LogUtils.d(TAG, "getReviewInformationB body : " + response.body().toString());
+                    try {
+                        personalInfomationResponse = response.body();
+                        updatePersonalInfo();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    APIError error = Utils.parseError(response);
+                    LogUtils.d(TAG, "getReviewInformationB error : " + error.message());
+                    if (error != null) {
+                        DialogUtils.showOkDialog(getActivity(), getString(R.string.error), error.message(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                            @Override
+                            public void onSubmit() {
+
+                            }
+                        });
+                    }
+                }
+
+                ProgressDialogUtils.dismissProgressDialog();
+            }
+
+            @Override
+            public void onFailure(Call<PersonalInfomationResponse> call, Throwable t) {
+                LogUtils.e(TAG, "getReviewInformationB onFailure : " + t.getMessage());
+                ProgressDialogUtils.dismissProgressDialog();
+                DialogUtils.showRetryDialog(getActivity(), new AlertDialogOkAndCancel.AlertDialogListener() {
+                    @Override
+                    public void onSubmit() {
+                        getReviewInformationB();
                     }
 
                     @Override

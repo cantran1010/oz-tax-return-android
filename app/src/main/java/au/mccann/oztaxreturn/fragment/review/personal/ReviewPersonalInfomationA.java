@@ -56,7 +56,6 @@ public class ReviewPersonalInfomationA extends BaseFragment implements View.OnCl
     private RadioButtonCustom rbYes, rbNo;
     private Calendar calendar = GregorianCalendar.getInstance();
     private List<String> genders = new ArrayList<>();
-    private Bundle bundle = new Bundle();
     private ImageView imgEdit;
 
     @Override
@@ -82,9 +81,7 @@ public class ReviewPersonalInfomationA extends BaseFragment implements View.OnCl
     @Override
     protected void initData() {
         setTitle(getString(R.string.infomation_a));
-        appBarVisibility(true, true);
-
-        bundle = getArguments();
+        appBarVisibility(true, true,1);
         getReviewInformation();
     }
 
@@ -116,7 +113,7 @@ public class ReviewPersonalInfomationA extends BaseFragment implements View.OnCl
 
     private void getReviewInformation() {
         ProgressDialogUtils.showProgressDialog(getActivity());
-        ApiClient.getApiService().getReviewPersonalInfo(UserManager.getUserToken(), bundle.getInt(Constants.PARAMETER_APP_ID)).enqueue(new Callback<PersonalInfomationResponse>() {
+        ApiClient.getApiService().getReviewPersonalInfo(UserManager.getUserToken(), getApplicationResponse().getId()).enqueue(new Callback<PersonalInfomationResponse>() {
             @Override
             public void onResponse(Call<PersonalInfomationResponse> call, Response<PersonalInfomationResponse> response) {
                 LogUtils.d(TAG, "getReviewInformation code : " + response.code());
@@ -213,14 +210,14 @@ public class ReviewPersonalInfomationA extends BaseFragment implements View.OnCl
         LogUtils.d(TAG, "donext jsonRequest : " + jsonRequest.toString());
 
         RequestBody body = RequestBody.create(MediaType.parse("application/json"), jsonRequest.toString());
-        ApiClient.getApiService().updatePersonalInfo(UserManager.getUserToken(), bundle.getInt(Constants.PARAMETER_APP_ID), body).enqueue(new Callback<PersonalInfomationResponse>() {
+        ApiClient.getApiService().updatePersonalInfo(UserManager.getUserToken(), getApplicationResponse().getId(), body).enqueue(new Callback<PersonalInfomationResponse>() {
             @Override
             public void onResponse(Call<PersonalInfomationResponse> call, Response<PersonalInfomationResponse> response) {
                 LogUtils.d(TAG, "donext code : " + response.code());
                 if (response.code() == Constants.HTTP_CODE_OK) {
                     LogUtils.d(TAG, "donext body : " + response.body().toString());
-                    bundle.putSerializable(Constants.PERSONNAL_INFO_EXTRA, response.body());
-                    openFragment(R.id.layout_container, ReviewPersonalInfomationB.class, true, bundle, TransitionScreen.RIGHT_TO_LEFT);
+//                    bundle.putSerializable(Constants.PERSONNAL_INFO_EXTRA, response.body());
+                    openFragment(R.id.layout_container, ReviewPersonalInfomationB.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
                 } else {
                     APIError error = Utils.parseError(response);
                     LogUtils.d(TAG, "donext error : " + error.message());
