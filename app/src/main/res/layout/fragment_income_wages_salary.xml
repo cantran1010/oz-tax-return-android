@@ -113,7 +113,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:hint="@string/tfn_hint"
-                        android:inputType="textPersonName" />
+                        android:inputType="number" />
 
                     <au.mccann.oztaxreturn.view.TextViewCustom
                         android:layout_width="wrap_content"

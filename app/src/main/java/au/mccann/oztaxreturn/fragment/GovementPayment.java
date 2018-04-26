@@ -55,6 +55,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static au.mccann.oztaxreturn.utils.ImageUtils.showImage;
+
 /**
  * Created by CanTran on 4/24/18.
  */
@@ -157,52 +159,22 @@ public class GovementPayment extends BaseFragment implements View.OnClickListene
         edtIncomeType.setText(govPayment.getType());
         edtGrossPayment.setText(govPayment.getGross());
         edtTax.setText(govPayment.getTax());
-        showImage();
+        showImage(govPayment.getAttachments(), images, imageAdapter);
     }
 
-    private void showImage() {
-        if (govPayment.getAttachments().size() > 0) {
-            for (Attachment attachment : govPayment.getAttachments()
-                    ) {
-                Image image = new Image();
-                image.setId(attachment.getId());
-                image.setAdd(false);
-                image.setPath(attachment.getUrl());
-                images.add(0, image);
-            }
-            imageAdapter.notifyDataSetChanged();
-//            for (int i = 0; i < countImageCopy; i++) {
-//                final int finalI = i;
-//                Glide.with(this)
-//                        .load(govPayment.getAttachments().get(i))
-//                        .asBitmap()
-//                        .into(new SimpleTarget<Bitmap>() {
-//                            @Override
-//                            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-//                                LogUtils.d(TAG, "onResourceReady complete , resource , width : " + resource.getWidth() + " , height : " + resource.getHeight());
-//                                resource = resource.copy(resource.getConfig(), true); // safe copy
-//                                Glide.clear(this);
-//                                @SuppressWarnings("AccessStaticViaInstance") File fileSave = new File(FileUtils.getInstance().getHozoDirectory(), "image" + System.currentTimeMillis() + ".jpg");
-//                                Utils.compressBitmapToFile(resource, fileSave.getPath());
-//                                LogUtils.d(TAG, "onResourceReady complete , path : " + fileSave.getPath());
-//                                Image imageCopy = new Image();
-//                                imageCopy.setId(govPayment.getAttachments().get(finalI).getId());
-//                                imageCopy.setAdd(false);
-//                                imageCopy.setPath(fileSave.getPath());
-//                                images.add(imageCopy);
-//
-//                                countImageCopy--;
-//                                if (countImageCopy == 0) {
-//                                    ProgressDialogUtils.dismissProgressDialog();
-//                                }
-//
-//                            }
-//                        });
+//    private void showImage() {
+//        if (govPayment.getAttachments().size() > 0) {
+//            for (Attachment attachment : govPayment.getAttachments()
+//                    ) {
+//                Image image = new Image();
+//                image.setId(attachment.getId());
+//                image.setAdd(false);
+//                image.setPath(attachment.getUrl());
+//                images.add(0, image);
 //            }
-        }
-
-
-    }
+//            imageAdapter.notifyDataSetChanged();
+//        }
+//    }
 
     private void checkPermissionImageAttach() {
         if (ContextCompat.checkSelfPermission(getContext(),
@@ -251,7 +223,6 @@ public class GovementPayment extends BaseFragment implements View.OnClickListene
             boolean readExternalFile = grantResults[0] == PackageManager.PERMISSION_GRANTED;
             if (cameraPermission && readExternalFile) {
                 permissionGrantedImageAttach();
-                showImage();
             }
         }
     }

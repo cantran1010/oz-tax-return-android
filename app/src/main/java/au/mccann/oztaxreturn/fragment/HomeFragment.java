@@ -92,7 +92,6 @@ public class HomeFragment extends BaseFragment {
             @Override
             public void onClick(int position) {
                 bundle.putInt(Constants.PARAMETER_APP_ID, applicationResponses.get(position).getId());
-                openFragment(R.id.layout_container, ReviewIncomeWS.class, true, bundle, TransitionScreen.RIGHT_TO_LEFT);
                 setApplicationResponse(applicationResponses.get(position));
                 updateAppInNavigation(applicationResponses.get(position));
                 openFragment(R.id.layout_container, ReviewBeginBFragment.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);

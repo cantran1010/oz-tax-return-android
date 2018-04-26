@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import au.mccann.oztaxreturn.R;
+import au.mccann.oztaxreturn.adapter.ImageAdapter;
 import au.mccann.oztaxreturn.common.Constants;
 import au.mccann.oztaxreturn.database.UserManager;
 import au.mccann.oztaxreturn.dialog.AlertDialogOk;
@@ -170,6 +171,20 @@ public class ImageUtils {
                 FileUtils.deleteDirectory(new File(FileUtils.OUTPUT_DIR));
             }
         });
+    }
+
+    public static void showImage(List<Attachment> attachments, List<Image> images, ImageAdapter imageAdapter) {
+        if (attachments.size() > 0) {
+            for (Attachment attachment : attachments
+                    ) {
+                Image image = new Image();
+                image.setId(attachment.getId());
+                image.setAdd(false);
+                image.setPath(attachment.getUrl());
+                images.add(0, image);
+            }
+            imageAdapter.notifyDataSetChanged();
+        }
     }
 
 }

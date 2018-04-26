@@ -16,6 +16,7 @@ import au.mccann.oztaxreturn.database.UserManager;
 import au.mccann.oztaxreturn.dialog.AlertDialogOk;
 import au.mccann.oztaxreturn.dialog.AlertDialogOkAndCancel;
 import au.mccann.oztaxreturn.model.APIError;
+import au.mccann.oztaxreturn.model.ResponseBasicInformation;
 import au.mccann.oztaxreturn.networking.ApiClient;
 import au.mccann.oztaxreturn.utils.DialogUtils;
 import au.mccann.oztaxreturn.utils.LogUtils;
@@ -181,9 +182,9 @@ public class SubmitInformation extends BaseFragment implements View.OnClickListe
         LogUtils.d(TAG, "saveBasicInformation jsonRequest : " + jsonRequest.toString());
         LogUtils.d(TAG, "saveBasicInformation PARAMETER_APP_ID : " + bundle.getInt(Constants.PARAMETER_APP_ID));
         RequestBody body = RequestBody.create(MediaType.parse("application/json"), jsonRequest.toString());
-        ApiClient.getApiService().saveBasicInformation(UserManager.getUserToken(), bundle.getInt(Constants.PARAMETER_APP_ID), body).enqueue(new Callback<Void>() {
+        ApiClient.getApiService().saveBasicInformation(UserManager.getUserToken(), bundle.getInt(Constants.PARAMETER_APP_ID), body).enqueue(new Callback<ResponseBasicInformation>() {
             @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
+            public void onResponse(Call<ResponseBasicInformation> call, Response<ResponseBasicInformation> response) {
                 ProgressDialogUtils.dismissProgressDialog();
                 LogUtils.d(TAG, "saveBasicInformation code: " + response.code());
                 if (response.code() == Constants.HTTP_CODE_NO_CONTENT) {
@@ -204,7 +205,7 @@ public class SubmitInformation extends BaseFragment implements View.OnClickListe
             }
 
             @Override
-            public void onFailure(Call<Void> call, Throwable t) {
+            public void onFailure(Call<ResponseBasicInformation> call, Throwable t) {
                 LogUtils.e(TAG, "saveBasicInformation onFailure : " + t.getMessage());
                 ProgressDialogUtils.dismissProgressDialog();
                 DialogUtils.showRetryDialog(getContext(), new AlertDialogOkAndCancel.AlertDialogListener() {

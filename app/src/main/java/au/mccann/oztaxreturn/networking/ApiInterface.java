@@ -4,6 +4,7 @@ import java.util.List;
 
 import au.mccann.oztaxreturn.model.Attachment;
 import au.mccann.oztaxreturn.model.IncomeResponse;
+import au.mccann.oztaxreturn.model.ResponseBasicInformation;
 import au.mccann.oztaxreturn.model.UserReponse;
 import au.mccann.oztaxreturn.rest.response.ApplicationResponse;
 import au.mccann.oztaxreturn.rest.response.PersonalInfomationResponse;
@@ -49,8 +50,8 @@ public interface ApiInterface {
     @DELETE("application/{application_id}")
     Call<Void> deleteApplication(@Header("Authorization") String token, @Path("application_id") int appId);
 
-    @PUT("application/{application_id}")
-    Call<Void> saveBasicInformation(@Header("Authorization") String token, @Path("application_id") int appId, @Body RequestBody body);
+    @PUT("application/{application_id}/basic_info")
+    Call<ResponseBasicInformation> saveBasicInformation(@Header("Authorization") String token, @Path("application_id") int appId, @Body RequestBody body);
 
     @GET("application/{application_id}/review/personal_info")
     Call<PersonalInfomationResponse> getReviewPersonalInfo(@Header("Authorization") String token,@Path("application_id") int appId);
@@ -59,6 +60,9 @@ public interface ApiInterface {
 
     @PUT("application/{application_id}/review/income")
     Call<IncomeResponse> putReviewIncom(@Header("Authorization") String token, @Path("application_id") int appId, @Body RequestBody body);
+
+    @GET("application/{application_id}/basic_info")
+    Call<ResponseBasicInformation> getBasicInformation(@Header("Authorization") String token, @Path("application_id") int appId);
 
     @PUT("application/{application_id}/review/personal_info")
     Call<PersonalInfomationResponse> updatePersonalInfo(@Header("Authorization") String token, @Path("application_id") int appId, @Body RequestBody body);
