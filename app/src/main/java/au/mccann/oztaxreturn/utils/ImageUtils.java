@@ -123,10 +123,10 @@ public class ImageUtils {
 //        LogUtils.d(TAG, "doAttachImage , file Name : " + fileUp.getName());
 //        final RequestBody requestBody = RequestBody.create(MediaType.parse("image/*"), fileUp);
 //        MultipartBody.Part itemPart = MultipartBody.Part.createFormData("image", fileUp.getName(), requestBody);
-
+        LogUtils.d("", "doUploadImage onResponse images: " + images.size());
         List<MultipartBody.Part> parts = new ArrayList<>();
         // last image is "plus attach" , so realy size = size -1
-        for (int i = 0; i < images.size() - 1; i++)
+        for (int i = 0; i < images.size(); i++)
             parts.add(MultipartBody.Part.createFormData("images[]", images.get(i).getName(), RequestBody.create(MediaType.parse("image/*"), new File(images.get(i).getPath()))));
         ApiClient.getApiService().uploadImage(UserManager.getUserToken(), parts).enqueue(new Callback<List<Attachment>>() {
             @Override

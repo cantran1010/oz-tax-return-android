@@ -1,5 +1,7 @@
 package au.mccann.oztaxreturn.model;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -7,6 +9,7 @@ import java.util.List;
  * Created by CanTran on 4/26/18.
  */
 public class Other implements Serializable {
+    @SerializedName("content")
     private String content;
     private List<Attachment> attachments;
 

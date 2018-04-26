@@ -1,9 +1,11 @@
 package au.mccann.oztaxreturn.model;
 
+import java.io.Serializable;
+
 /**
  * Created by CanTran on 4/23/18.
  */
-public class Attachment {
+public class Attachment implements Serializable {
     private int id;
     private String url;
 

@@ -43,6 +43,7 @@ import au.mccann.oztaxreturn.model.APIError;
 import au.mccann.oztaxreturn.model.Attachment;
 import au.mccann.oztaxreturn.model.Image;
 import au.mccann.oztaxreturn.model.ResponseBasicInformation;
+import au.mccann.oztaxreturn.model.WagesSalary;
 import au.mccann.oztaxreturn.networking.ApiClient;
 import au.mccann.oztaxreturn.utils.DateTimeUtils;
 import au.mccann.oztaxreturn.utils.DialogUtils;
@@ -106,9 +107,8 @@ public class IncomeWagesSalaryFragment extends BaseFragment implements View.OnCl
         edtFirstName = (EdittextCustom) findViewById(R.id.edt_first_name);
         edtMidName = (EdittextCustom) findViewById(R.id.edt_middle_name);
         edtLastName = (EdittextCustom) findViewById(R.id.edt_last_name);
-
-
         edtBirthday.setOnClickListener(this);
+
     }
 
     @Override
@@ -120,6 +120,31 @@ public class IncomeWagesSalaryFragment extends BaseFragment implements View.OnCl
         appBarVisibility(false, true,0);
         appID = getArguments().getInt(Constants.PARAMETER_APP_ID);
         //images
+        if (images.size() == 0) {
+            final Image image = new Image();
+            image.setId(0);
+            image.setAdd(true);
+            images.add(image);
+        }
+        imageAdapter = new ImageAdapter(getActivity(), images);
+        grImage.setAdapter(imageAdapter);
+
+        grImage.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (images.get(position).isAdd) {
+                    if (images.size() >= 10) {
+                        Utils.showLongToast(getActivity(), getString(R.string.max_image_attach_err, 9), true, false);
+                    } else {
+                        checkPermissionImageAttach();
+                    }
+                } else {
+                    Intent intent = new Intent(getActivity(), PreviewImageActivity.class);
+                    intent.putExtra(Constants.EXTRA_IMAGE_PATH, images.get(position).getPath());
+                    startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
+                }
+            }
+        });
         cbYes.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
@@ -198,7 +223,8 @@ public class IncomeWagesSalaryFragment extends BaseFragment implements View.OnCl
     }
 
     private void updateUI(ResponseBasicInformation basic) {
-        if (basic.getIncomeWagesSalary().getAttachments().size() > 0) {
+        WagesSalary wagesSalary = basic.getIncomeWagesSalary();
+        if (wagesSalary.getAttachments() != null && wagesSalary.getAttachments().size() > 0) {
             cbYes.setChecked(true);
             if (images.size() == 0) {
                 final Image image = new Image();
@@ -206,26 +232,6 @@ public class IncomeWagesSalaryFragment extends BaseFragment implements View.OnCl
                 image.setAdd(true);
                 images.add(image);
             }
-            imageAdapter = new ImageAdapter(getActivity(), images);
-            grImage.setAdapter(imageAdapter);
-
-            grImage.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    if (images.get(position).isAdd) {
-                        if (images.size() >= 10) {
-                            Utils.showLongToast(getActivity(), getString(R.string.max_image_attach_err, 9), true, false);
-                        } else {
-                            checkPermissionImageAttach();
-                        }
-                    } else {
-                        Intent intent = new Intent(getActivity(), PreviewImageActivity.class);
-                        intent.putExtra(Constants.EXTRA_IMAGE_PATH, images.get(position).getPath());
-                        startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
-                    }
-                }
-            });
-
             showImage(basic.getIncomeWagesSalary().getAttachments(), images, imageAdapter);
         } else {
             cbNo.setChecked(true);
@@ -302,9 +308,12 @@ public class IncomeWagesSalaryFragment extends BaseFragment implements View.OnCl
                 ProgressDialogUtils.dismissProgressDialog();
                 LogUtils.d(TAG, "doSaveBasic code: " + response.code());
                 if (response.code() == Constants.HTTP_CODE_OK) {
+                    LogUtils.d(TAG, "doSaveBasic body: " + response.body());
                     basicInformation = response.body();
                     basicInformation.setAppId(appID);
-                    openFragment(R.id.layout_container, IncomeOther.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable(Constants.KEY_BASIC_INFORMATION, basicInformation);
+                    openFragment(R.id.layout_container, IncomeOther.class, true, bundle, TransitionScreen.RIGHT_TO_LEFT);
                 } else {
                     APIError error = Utils.parseError(response);
                     LogUtils.e(TAG, "doSaveBasic error : " + error.message());

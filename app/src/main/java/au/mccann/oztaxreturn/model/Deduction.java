@@ -28,7 +28,7 @@ public class Deduction implements Serializable {
 
     @Override
     public String toString() {
-        return "Deduction{" +
+        return "DeductionFragment{" +
                 "content='" + content + '\'' +
                 ", attachments=" + attachments +
                 '}';

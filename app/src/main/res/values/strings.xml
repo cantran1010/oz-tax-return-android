@@ -92,7 +92,7 @@
     <!-- income other -->
     <string name="income_other_title">Income</string>
     <string name="income_other_resource">Other resource</string>
-    <string name="income_other_content">It will help us your return faster if your could provide some extra ìnorrmation about your income</string>
+    <string name="income_other_content">It will help us your return faster if your could provide some extra inforrmation about your income</string>
     <string name="income_radio_text_no">No, I don’t have any other source of income</string>
     <string name="income_radio_text_yes">Yes, and i want the acountant take a look at my case and get back to me for addtional information</string>
     <string name="income_other_hint">Your extra sources of income. Example: Retail properties, investment</string>
@@ -147,6 +147,7 @@
     <string name="valid_app_post_code">Enter post code</string>
     <string name="valid_app_phone">Enter Phone number</string>
     <string name="valid_app_email">Enter email address</string>
+    <string name="valid_app_email_2">Email address is not available</string>
 
     <!-- first checkout -->
     <string name="first_checkout_title">CHECK OUT</string>
