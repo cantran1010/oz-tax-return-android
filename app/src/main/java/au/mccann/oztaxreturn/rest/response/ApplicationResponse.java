@@ -18,7 +18,7 @@ public class ApplicationResponse implements Parcelable,Serializable {
     @SerializedName("financial_year")
     private String financialYear;
 
-    protected ApplicationResponse(Parcel in) {
+    public ApplicationResponse(Parcel in) {
         id = in.readInt();
         payerName = in.readString();
         financialYear = in.readString();

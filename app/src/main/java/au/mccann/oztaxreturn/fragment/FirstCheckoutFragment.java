@@ -32,7 +32,7 @@ public class FirstCheckoutFragment extends BaseFragment implements View.OnClickL
     @Override
     protected void initData() {
         setTitle(getString(R.string.first_checkout_title));
-        appBarVisibility(false, true);
+        appBarVisibility(false, true,0);
     }
 
     @Override

@@ -18,7 +18,15 @@
         android:layout_gravity="end"
         android:fitsSystemWindows="true">
 
-        <include layout="@layout/review_navigation_layout" />
+        <include
+            android:id="@+id/review_navi_layout"
+            layout="@layout/review_navigation_layout"
+            android:visibility="visible" />
+
+        <include
+            android:id="@+id/home_navi_layout"
+            layout="@layout/home_navigation_layout"
+            android:visibility="gone" />
 
     </RelativeLayout>
 

@@ -1,444 +1,462 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#1f2832">
+    android:clickable="false">
 
-    <LinearLayout
+    <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="20dp"
-        android:paddingLeft="20dp">
+        android:background="@drawable/navi_bg" />
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <au.mccann.oztaxreturn.view.TextViewCustom
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="Mr Justin"
-                android:textColor="@color/white"
-                android:textSize="25sp" />
-
-            <au.mccann.oztaxreturn.view.TextViewCustom
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:text="2017-2018"
-                android:textColor="@color/white"
-                android:textSize="15sp" />
-
-        </RelativeLayout>
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#BB000000">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginBottom="15dp"
-            android:layout_marginTop="15dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="20dp"
+            android:paddingLeft="20dp">
 
-            <au.mccann.oztaxreturn.view.TextViewCustom
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:text="70%"
-                android:textColor="@color/white"
-                android:textSize="15sp" />
-
-            <ProgressBar
-                android:id="@+id/ProgressBar"
-                style="?android:attr/progressBarStyleHorizontal"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="8dp"
-                android:layout_marginLeft="20dp"
-                android:progress="70"
-                android:progressDrawable="@drawable/menu_progress" />
-        </LinearLayout>
+                android:layout_height="wrap_content">
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="2px"
-            android:background="@color/line_color" />
+                <au.mccann.oztaxreturn.view.TextViewCustom
+                    android:id="@+id/tv_app_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="Mr Justin"
+                    android:textColor="@color/white"
+                    android:textSize="25sp" />
 
-        <LinearLayout
-            android:id="@+id/layout_personal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"
-            android:gravity="center_vertical">
+                <au.mccann.oztaxreturn.view.TextViewCustom
+                    android:id="@+id/tv_year"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:text="2017-2018"
+                    android:textColor="@color/white"
+                    android:textSize="15sp" />
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:src="@drawable/menu_up" />
-
-            <au.mccann.oztaxreturn.view.TextViewCustom
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:gravity="center_vertical"
-                android:text="@string/menu_personal"
-                android:textColor="@color/white"
-                android:textSize="18sp"
-                android:textStyle="bold" />
-
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:background="@color/line_color" />
-
-        <au.mccann.oztaxreturn.view.ExpandableLayout
-            android:id="@+id/layout_expandable_personal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:el_duration="500"
-            app:el_expanded="false">
+            </RelativeLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/left_menu_margin"
-                android:orientation="vertical">
+                android:layout_gravity="center_vertical"
+                android:layout_marginBottom="15dp"
+                android:layout_marginTop="15dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
                 <au.mccann.oztaxreturn.view.TextViewCustom
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:text="@string/menu_personal_name"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:text="70%"
                     android:textColor="@color/white"
-                    android:textSize="16sp" />
+                    android:textSize="15sp" />
 
-                <au.mccann.oztaxreturn.view.TextViewCustom
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:text="@string/menu_personal_bank"
-                    android:textColor="@color/white"
-                    android:textSize="16sp" />
-
-                <au.mccann.oztaxreturn.view.TextViewCustom
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginTop="10dp"
-                    android:text="@string/menu_personal_education"
-                    android:textColor="@color/white"
-                    android:textSize="16sp" />
-
+                <ProgressBar
+                    android:id="@+id/ProgressBar"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="8dp"
+                    android:layout_marginLeft="20dp"
+                    android:progress="70"
+                    android:progressDrawable="@drawable/menu_progress" />
             </LinearLayout>
 
-        </au.mccann.oztaxreturn.view.ExpandableLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:background="@color/line_color" />
-
-        <LinearLayout
-            android:id="@+id/layout_incomes"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"
-            android:gravity="center_vertical">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:src="@drawable/menu_up" />
-
-            <au.mccann.oztaxreturn.view.TextViewCustom
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:gravity="center_vertical"
-                android:text="@string/menu_incomes"
-                android:textColor="@color/white"
-                android:textSize="18sp"
-                android:textStyle="bold" />
-
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:background="@color/line_color" />
-
-        <au.mccann.oztaxreturn.view.ExpandableLayout
-            android:id="@+id/layout_expandable_income"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:el_duration="500"
-            app:el_expanded="false">
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2px"
+                android:background="@color/line_color" />
 
             <LinearLayout
+                android:id="@+id/layout_personal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/left_menu_margin"
-                android:orientation="vertical">
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:src="@drawable/menu_up" />
 
                 <au.mccann.oztaxreturn.view.TextViewCustom
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:text="@string/menu_incomes_wages"
+                    android:layout_marginLeft="10dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/menu_personal"
                     android:textColor="@color/white"
-                    android:textSize="16sp" />
-
-                <au.mccann.oztaxreturn.view.TextViewCustom
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:text="@string/menu_incomes_government"
-                    android:textColor="@color/white"
-                    android:textSize="16sp" />
-
-
-                <au.mccann.oztaxreturn.view.TextViewCustom
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:text="@string/menu_incomes_interests"
-                    android:textColor="@color/white"
-                    android:textSize="16sp" />
-
-                <au.mccann.oztaxreturn.view.TextViewCustom
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:text="@string/menu_incomes_dividends"
-                    android:textColor="@color/white"
-                    android:textSize="16sp" />
-
-                <au.mccann.oztaxreturn.view.TextViewCustom
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:text="@string/menu_incomes_early"
-                    android:textColor="@color/white"
-                    android:textSize="16sp" />
-
-                <au.mccann.oztaxreturn.view.TextViewCustom
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:text="@string/menu_incomes_annuities"
-                    android:textColor="@color/white"
-                    android:textSize="16sp" />
-
-                <au.mccann.oztaxreturn.view.TextViewCustom
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginTop="10dp"
-                    android:text="@string/menu_incomes_rental"
-                    android:textColor="@color/white"
-                    android:textSize="16sp" />
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
 
             </LinearLayout>
 
-        </au.mccann.oztaxreturn.view.ExpandableLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/line_color" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:background="@color/line_color" />
-
-        <LinearLayout
-            android:id="@+id/layout_deductions"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"
-            android:gravity="center_vertical">
-
-            <ImageView
-                android:layout_width="wrap_content"
+            <au.mccann.oztaxreturn.view.ExpandableLayout
+                android:id="@+id/layout_expandable_personal"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:src="@drawable/menu_up" />
+                app:el_duration="500"
+                app:el_expanded="false">
 
-            <au.mccann.oztaxreturn.view.TextViewCustom
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:gravity="center_vertical"
-                android:text="@string/menu_deductions"
-                android:textColor="@color/white"
-                android:textSize="18sp"
-                android:textStyle="bold" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/left_menu_margin"
+                    android:orientation="vertical">
 
-        </LinearLayout>
+                    <au.mccann.oztaxreturn.view.TextViewCustom
+                        android:id="@+id/tv_review_personal_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="@string/menu_personal_name"
+                        android:textColor="@color/white"
+                        android:textSize="16sp" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:background="@color/line_color" />
+                    <au.mccann.oztaxreturn.view.TextViewCustom
+                        android:id="@+id/tv_review_personal_bank"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="@string/menu_personal_bank"
+                        android:textColor="@color/white"
+                        android:textSize="16sp" />
 
-        <au.mccann.oztaxreturn.view.ExpandableLayout
-            android:id="@+id/layout_expandable_deductions"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:el_duration="500"
-            app:el_expanded="false">
+                    <au.mccann.oztaxreturn.view.TextViewCustom
+                        android:id="@+id/tv_review_personal_education"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginTop="10dp"
+                        android:text="@string/menu_personal_education"
+                        android:textColor="@color/white"
+                        android:textSize="16sp" />
+
+                </LinearLayout>
+
+            </au.mccann.oztaxreturn.view.ExpandableLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/line_color" />
 
             <LinearLayout
+                android:id="@+id/layout_incomes"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/left_menu_margin"
-                android:orientation="vertical">
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:src="@drawable/menu_up" />
 
                 <au.mccann.oztaxreturn.view.TextViewCustom
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:text="@string/menu_deductions_vehicles"
+                    android:layout_marginLeft="10dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/menu_incomes"
                     android:textColor="@color/white"
-                    android:textSize="16sp" />
-
-                <au.mccann.oztaxreturn.view.TextViewCustom
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:text="@string/menu_deductions_clothing"
-                    android:textColor="@color/white"
-                    android:textSize="16sp" />
-
-                <au.mccann.oztaxreturn.view.TextViewCustom
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:text="@string/menu_deductions_education"
-                    android:textColor="@color/white"
-                    android:textSize="16sp" />
-
-                <au.mccann.oztaxreturn.view.TextViewCustom
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:text="@string/menu_deductions_otherworks"
-                    android:textColor="@color/white"
-                    android:textSize="16sp" />
-
-                <au.mccann.oztaxreturn.view.TextViewCustom
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:text="@string/menu_deductions_donations"
-                    android:textColor="@color/white"
-                    android:textSize="16sp" />
-
-                <au.mccann.oztaxreturn.view.TextViewCustom
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginTop="10dp"
-                    android:text="@string/menu_deductions_tax_agents"
-                    android:textColor="@color/white"
-                    android:textSize="16sp" />
-
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
 
             </LinearLayout>
 
-        </au.mccann.oztaxreturn.view.ExpandableLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/line_color" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:background="@color/line_color" />
-
-        <LinearLayout
-            android:id="@+id/layout_family"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"
-            android:gravity="center_vertical">
-
-            <ImageView
-                android:layout_width="wrap_content"
+            <au.mccann.oztaxreturn.view.ExpandableLayout
+                android:id="@+id/layout_expandable_income"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:src="@drawable/menu_up" />
+                app:el_duration="500"
+                app:el_expanded="false">
 
-            <au.mccann.oztaxreturn.view.TextViewCustom
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:gravity="center_vertical"
-                android:text="@string/menu_family_health"
-                android:textColor="@color/white"
-                android:textSize="18sp"
-                android:textStyle="bold" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/left_menu_margin"
+                    android:orientation="vertical">
 
-        </LinearLayout>
+                    <au.mccann.oztaxreturn.view.TextViewCustom
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="@string/menu_incomes_wages"
+                        android:textColor="@color/white"
+                        android:textSize="16sp" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="2px"
-            android:background="@color/line_color" />
+                    <au.mccann.oztaxreturn.view.TextViewCustom
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="@string/menu_incomes_government"
+                        android:textColor="@color/white"
+                        android:textSize="16sp" />
 
-        <au.mccann.oztaxreturn.view.ExpandableLayout
-            android:id="@+id/layout_expandable_family_health"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:el_duration="500"
-            app:el_expanded="false">
+
+                    <au.mccann.oztaxreturn.view.TextViewCustom
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="@string/menu_incomes_interests"
+                        android:textColor="@color/white"
+                        android:textSize="16sp" />
+
+                    <au.mccann.oztaxreturn.view.TextViewCustom
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="@string/menu_incomes_dividends"
+                        android:textColor="@color/white"
+                        android:textSize="16sp" />
+
+                    <au.mccann.oztaxreturn.view.TextViewCustom
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="@string/menu_incomes_early"
+                        android:textColor="@color/white"
+                        android:textSize="16sp" />
+
+                    <au.mccann.oztaxreturn.view.TextViewCustom
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="@string/menu_incomes_annuities"
+                        android:textColor="@color/white"
+                        android:textSize="16sp" />
+
+                    <au.mccann.oztaxreturn.view.TextViewCustom
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginTop="10dp"
+                        android:text="@string/menu_incomes_rental"
+                        android:textColor="@color/white"
+                        android:textSize="16sp" />
+
+                </LinearLayout>
+
+            </au.mccann.oztaxreturn.view.ExpandableLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/line_color" />
 
             <LinearLayout
+                android:id="@+id/layout_deductions"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/left_menu_margin"
-                android:orientation="vertical">
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:src="@drawable/menu_up" />
 
                 <au.mccann.oztaxreturn.view.TextViewCustom
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:text="@string/menu_family_health_dependants"
+                    android:layout_marginLeft="10dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/menu_deductions"
                     android:textColor="@color/white"
-                    android:textSize="16sp" />
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
 
-                <au.mccann.oztaxreturn.view.TextViewCustom
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:text="@string/menu_family_health_medicare"
-                    android:textColor="@color/white"
-                    android:textSize="16sp" />
-
-                <au.mccann.oztaxreturn.view.TextViewCustom
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:text="@string/menu_family_health_private"
-                    android:textColor="@color/white"
-                    android:textSize="16sp" />
-
-                <au.mccann.oztaxreturn.view.TextViewCustom
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginTop="10dp"
-                    android:text="@string/menu_family_health_spouse"
-                    android:textColor="@color/white"
-                    android:textSize="16sp" />
             </LinearLayout>
 
-        </au.mccann.oztaxreturn.view.ExpandableLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/line_color" />
 
-    </LinearLayout>
-</ScrollView>
+            <au.mccann.oztaxreturn.view.ExpandableLayout
+                android:id="@+id/layout_expandable_deductions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:el_duration="500"
+                app:el_expanded="false">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/left_menu_margin"
+                    android:orientation="vertical">
+
+                    <au.mccann.oztaxreturn.view.TextViewCustom
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="@string/menu_deductions_vehicles"
+                        android:textColor="@color/white"
+                        android:textSize="16sp" />
+
+                    <au.mccann.oztaxreturn.view.TextViewCustom
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="@string/menu_deductions_clothing"
+                        android:textColor="@color/white"
+                        android:textSize="16sp" />
+
+                    <au.mccann.oztaxreturn.view.TextViewCustom
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="@string/menu_deductions_education"
+                        android:textColor="@color/white"
+                        android:textSize="16sp" />
+
+                    <au.mccann.oztaxreturn.view.TextViewCustom
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="@string/menu_deductions_otherworks"
+                        android:textColor="@color/white"
+                        android:textSize="16sp" />
+
+                    <au.mccann.oztaxreturn.view.TextViewCustom
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="@string/menu_deductions_donations"
+                        android:textColor="@color/white"
+                        android:textSize="16sp" />
+
+                    <au.mccann.oztaxreturn.view.TextViewCustom
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginTop="10dp"
+                        android:text="@string/menu_deductions_tax_agents"
+                        android:textColor="@color/white"
+                        android:textSize="16sp" />
+
+
+                </LinearLayout>
+
+            </au.mccann.oztaxreturn.view.ExpandableLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/line_color" />
+
+            <LinearLayout
+                android:id="@+id/layout_family"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:src="@drawable/menu_up" />
+
+                <au.mccann.oztaxreturn.view.TextViewCustom
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/menu_family_health"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2px"
+                android:background="@color/line_color" />
+
+            <au.mccann.oztaxreturn.view.ExpandableLayout
+                android:id="@+id/layout_expandable_family_health"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:el_duration="500"
+                app:el_expanded="false">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/left_menu_margin"
+                    android:orientation="vertical">
+
+                    <au.mccann.oztaxreturn.view.TextViewCustom
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="@string/menu_family_health_dependants"
+                        android:textColor="@color/white"
+                        android:textSize="16sp" />
+
+                    <au.mccann.oztaxreturn.view.TextViewCustom
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="@string/menu_family_health_medicare"
+                        android:textColor="@color/white"
+                        android:textSize="16sp" />
+
+                    <au.mccann.oztaxreturn.view.TextViewCustom
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="@string/menu_family_health_private"
+                        android:textColor="@color/white"
+                        android:textSize="16sp" />
+
+                    <au.mccann.oztaxreturn.view.TextViewCustom
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginTop="10dp"
+                        android:text="@string/menu_family_health_spouse"
+                        android:textColor="@color/white"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+            </au.mccann.oztaxreturn.view.ExpandableLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+</RelativeLayout>

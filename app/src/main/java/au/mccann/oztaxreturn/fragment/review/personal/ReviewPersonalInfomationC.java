@@ -1,6 +1,5 @@
 package au.mccann.oztaxreturn.fragment.review.personal;
 
-import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.view.Gravity;
 import android.view.View;
@@ -42,7 +41,6 @@ public class ReviewPersonalInfomationC extends BaseFragment implements View.OnCl
     private static final String TAG = ReviewPersonalInfomationC.class.getSimpleName();
     private RadioButtonCustom rbYes, rbNo;
     private LinearLayout layoutRemain;
-    private Bundle bundle;
     private PersonalInfomationResponse personalInfomationResponse;
     private EdittextCustom edtLoan;
     private ImageView imgEdit;
@@ -65,15 +63,29 @@ public class ReviewPersonalInfomationC extends BaseFragment implements View.OnCl
 
     @Override
     protected void initData() {
+        getReviewInformationC();
+    }
 
-        bundle = getArguments();
-        personalInfomationResponse = (PersonalInfomationResponse) bundle.getSerializable(Constants.PERSONNAL_INFO_EXTRA);
+    @Override
+    protected void resumeData() {
+        appBarVisibility(true, true, 1);
+    }
 
+    @Override
+    public void onRefresh() {
+
+    }
+
+    private void updatePersonalInfo() {
         if (personalInfomationResponse.getStudentLoan() > 0) {
             layoutRemain.setVisibility(View.VISIBLE);
             edtLoan.setText(personalInfomationResponse.getStudentLoan() + "");
+            rbYes.setChecked(true);
+            rbNo.setChecked(false);
         } else {
             layoutRemain.setVisibility(View.GONE);
+            rbYes.setChecked(false);
+            rbNo.setChecked(true);
         }
 
         rbYes.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -93,16 +105,6 @@ public class ReviewPersonalInfomationC extends BaseFragment implements View.OnCl
                     layoutRemain.setVisibility(View.VISIBLE);
             }
         });
-    }
-
-    @Override
-    protected void resumeData() {
-
-    }
-
-    @Override
-    public void onRefresh() {
-
     }
 
     private void doNextC() {
@@ -127,7 +129,7 @@ public class ReviewPersonalInfomationC extends BaseFragment implements View.OnCl
         LogUtils.d(TAG, "doNextC jsonRequest : " + jsonRequest.toString());
 
         RequestBody body = RequestBody.create(MediaType.parse("application/json"), jsonRequest.toString());
-        ApiClient.getApiService().updatePersonalInfo(UserManager.getUserToken(), bundle.getInt(Constants.PARAMETER_APP_ID), body).enqueue(new Callback<PersonalInfomationResponse>() {
+        ApiClient.getApiService().updatePersonalInfo(UserManager.getUserToken(), getApplicationResponse().getId(), body).enqueue(new Callback<PersonalInfomationResponse>() {
             @Override
             public void onResponse(Call<PersonalInfomationResponse> call, Response<PersonalInfomationResponse> response) {
                 LogUtils.d(TAG, "doNextC code : " + response.code());
@@ -173,6 +175,56 @@ public class ReviewPersonalInfomationC extends BaseFragment implements View.OnCl
         rbYes.setEnabled(true);
         rbNo.setEnabled(true);
         edtLoan.setEnabled(true);
+    }
+
+    private void getReviewInformationC() {
+        ProgressDialogUtils.showProgressDialog(getActivity());
+        ApiClient.getApiService().getReviewPersonalInfo(UserManager.getUserToken(), getApplicationResponse().getId()).enqueue(new Callback<PersonalInfomationResponse>() {
+            @Override
+            public void onResponse(Call<PersonalInfomationResponse> call, Response<PersonalInfomationResponse> response) {
+                LogUtils.d(TAG, "getReviewInformationC code : " + response.code());
+
+                if (response.code() == Constants.HTTP_CODE_OK) {
+                    LogUtils.d(TAG, "getReviewInformationC body : " + response.body().toString());
+                    try {
+                        personalInfomationResponse = response.body();
+                        updatePersonalInfo();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    APIError error = Utils.parseError(response);
+                    LogUtils.d(TAG, "getReviewInformationC error : " + error.message());
+                    if (error != null) {
+                        DialogUtils.showOkDialog(getActivity(), getString(R.string.error), error.message(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                            @Override
+                            public void onSubmit() {
+
+                            }
+                        });
+                    }
+                }
+
+                ProgressDialogUtils.dismissProgressDialog();
+            }
+
+            @Override
+            public void onFailure(Call<PersonalInfomationResponse> call, Throwable t) {
+                LogUtils.e(TAG, "getReviewInformationC onFailure : " + t.getMessage());
+                ProgressDialogUtils.dismissProgressDialog();
+                DialogUtils.showRetryDialog(getActivity(), new AlertDialogOkAndCancel.AlertDialogListener() {
+                    @Override
+                    public void onSubmit() {
+                        getReviewInformationC();
+                    }
+
+                    @Override
+                    public void onCancel() {
+
+                    }
+                });
+            }
+        });
     }
 
     @Override

@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_main"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clickable="false">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/navi_bg" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#BB000000">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_width="114dp"
+                android:layout_height="114dp"
+                android:layout_marginTop="30dp"
+                android:src="@drawable/avatar_default"
+                app:civ_border_color="@color/white"
+                app:civ_border_width="2dp" />
+
+            <au.mccann.oztaxreturn.view.TextViewCustom
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="MR LONG"
+                android:textColor="@color/white"
+                android:textSize="25sp" />
+
+            <View
+                android:layout_width="30dp"
+                android:layout_height="2dp"
+                android:layout_marginTop="20dp"
+                android:background="@color/app_bg" />
+
+            <au.mccann.oztaxreturn.view.TextViewCustom
+                android:id="@+id/tv_about_us"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:drawableLeft="@drawable/navi_about_us"
+                android:drawablePadding="30dp"
+                android:gravity="center_vertical"
+                android:paddingLeft="40dp"
+                android:text="@string/home_navi_about"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
+
+            <au.mccann.oztaxreturn.view.TextViewCustom
+                android:id="@+id/tv_privacy"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:drawableLeft="@drawable/navi_policy"
+                android:drawablePadding="30dp"
+                android:gravity="center_vertical"
+                android:paddingLeft="40dp"
+                android:text="@string/home_navi_privacy"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
+
+            <au.mccann.oztaxreturn.view.TextViewCustom
+                android:id="@+id/tv_terms"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:drawableLeft="@drawable/navi_terms"
+                android:drawablePadding="30dp"
+                android:gravity="center_vertical"
+                android:paddingLeft="40dp"
+                android:text="@string/home_navi_terms"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
+
+            <au.mccann.oztaxreturn.view.TextViewCustom
+                android:id="@+id/tv_share"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:drawableLeft="@drawable/navi_share"
+                android:drawablePadding="30dp"
+                android:gravity="center_vertical"
+                android:paddingLeft="40dp"
+                android:text="@string/home_navi_share"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
+
+            <LinearLayout
+                android:id="@+id/layout_rate"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:background="#66BFC9CA"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/home_rate_star" />
+
+                <au.mccann.oztaxreturn.view.TextViewCustom
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="@string/home_rate"
+                    android:textColor="@color/white"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/layout_footer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:gravity="center_vertical">
+
+            <au.mccann.oztaxreturn.view.TextViewCustom
+                android:id="@+id/tv_version"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="@string/home_version"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
+
+            <ImageView
+                android:id="@+id/img_logout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/img_logout" />
+
+        </RelativeLayout>
+    </RelativeLayout>
+
+</RelativeLayout>
+

@@ -66,7 +66,7 @@ public class Deduction extends BaseFragment implements View.OnClickListener {
     @Override
     protected void initData() {
         setTitle(getString(R.string.deduction_title));
-        appBarVisibility(false, true);
+        appBarVisibility(false, true,0);
         bundle = getArguments();
         LogUtils.d(TAG, "initData bundle : " + bundle.toString());
         if (images.size() == 0) {

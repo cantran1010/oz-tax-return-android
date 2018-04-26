@@ -14,7 +14,6 @@ import au.mccann.oztaxreturn.utils.TransitionScreen;
 public class ReviewBeginBFragment extends BaseFragment implements View.OnClickListener {
 
     private static final String TAG = ReviewBeginBFragment.class.getSimpleName();
-    private Bundle bundle;
 
     @Override
     protected int getLayout() {
@@ -29,9 +28,7 @@ public class ReviewBeginBFragment extends BaseFragment implements View.OnClickLi
     @Override
     protected void initData() {
         setTitle(getString(R.string.review_begin_a));
-        appBarVisibility(false, true);
-
-        bundle = getArguments();
+        appBarVisibility(true, true, 1);
     }
 
     @Override
@@ -48,7 +45,7 @@ public class ReviewBeginBFragment extends BaseFragment implements View.OnClickLi
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_review:
-                openFragment(R.id.layout_container, ReviewPersonalInfomationA.class, true, bundle, TransitionScreen.RIGHT_TO_LEFT);
+                openFragment(R.id.layout_container, ReviewPersonalInfomationA.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
                 break;
         }
     }

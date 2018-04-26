@@ -207,4 +207,13 @@
     <string name="menu_family_health_private">Private Health</string>
     <string name="menu_family_health_spouse">Spouse</string>
 
+    <!-- -->
+    <string name="home_version">Version %1$s</string>
+    <string name="home_navi_about">About us</string>
+    <string name="home_navi_privacy">Privacy policy</string>
+    <string name="home_navi_terms">Terms &amp; Condition</string>
+    <string name="home_navi_share">Share</string>
+    <string name="home_rate">Rate us</string>
+
+
 </resources>

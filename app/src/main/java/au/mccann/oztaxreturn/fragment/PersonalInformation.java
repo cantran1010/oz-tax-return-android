@@ -62,7 +62,7 @@ public class PersonalInformation extends BaseFragment implements View.OnClickLis
     @Override
     protected void initData() {
         setTitle(getString(R.string.personal_information_title));
-        appBarVisibility(false, true);
+        appBarVisibility(false, true,0);
         bundle = getArguments();
         LogUtils.d(TAG, "initData bundle : " + bundle.toString());
         genders = Arrays.asList(getResources().getStringArray(R.array.string_array_gender));
