@@ -2,6 +2,8 @@ package au.mccann.oztaxreturn.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,20 +29,6 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.MyViewHolder> {
         this.context = context;
     }
 
-    public interface OnClickListener {
-        public void onClick(int position);
-    }
-
-    private OnClickListener onClickListener;
-
-    public OnClickListener getOnClickListener() {
-        return onClickListener;
-    }
-
-    public void setOnClickListener(OnClickListener onClickListener) {
-        this.onClickListener = onClickListener;
-    }
-
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
@@ -48,10 +36,11 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.MyViewHolder> {
         return new MyViewHolder(itemView);
     }
 
+
     @Override
     public void onBindViewHolder(MyViewHolder holder, final int position) {
         final Job job = jobs.get(position);
-        holder.tvJob.setText("job " + position);
+        holder.tvJob.setText(context.getString(R.string.job) + (position + 1));
         holder.edtGroos.setText(job.getTotalGrossIncom());
         holder.edtTax.setText(job.getTotalTaxWidthheld());
         holder.edtAllow.setText(job.getAllowances());
@@ -63,6 +52,7 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.MyViewHolder> {
         if (job.isEdit()) {
             holder.edtGroos.setEnabled(true);
             holder.edtGroos.requestFocus();
+            holder.edtGroos.setSelection(holder.edtGroos.length());
             holder.edtTax.setEnabled(true);
             holder.edtAllow.setEnabled(true);
             holder.edtFringer.setEnabled(true);
@@ -81,6 +71,135 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.MyViewHolder> {
             holder.edtCompanyAbn.setEnabled(false);
             holder.edtCompanyContact.setEnabled(false);
         }
+
+        holder.edtGroos.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                jobs.get(position).setTotalGrossIncom(editable.toString().trim());
+            }
+        });
+        holder.edtTax.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                jobs.get(position).setTotalTaxWidthheld(editable.toString().trim());
+            }
+        });
+        holder.edtAllow.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                jobs.get(position).setAllowances(editable.toString().trim());
+            }
+        });
+        holder.edtFringer.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                jobs.get(position).setReporTableFringerBenefits(editable.toString().trim());
+            }
+        });
+        holder.edtEmployer.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                jobs.get(position).setReporTableEmployerSupper(editable.toString().trim());
+            }
+        });
+        holder.edtCompanyName.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                jobs.get(position).setCompanyName(editable.toString().trim());
+            }
+        });
+        holder.edtCompanyAbn.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                jobs.get(position).setCompanyAbn(editable.toString().trim());
+            }
+        });
+        holder.edtCompanyContact.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                jobs.get(position).setCompanyAbn(editable.toString().trim());
+            }
+        });
     }
 
     @Override

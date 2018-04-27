@@ -8,6 +8,7 @@ import java.util.ArrayList;
  * Created by CanTran on 4/23/18.
  */
 public class Bank {
+    private boolean had;
     @SerializedName("bank_name")
     private String bankName;
     @SerializedName("account_number")
@@ -20,6 +21,14 @@ public class Bank {
     private String fees;
     @SerializedName("attachments")
     private ArrayList<Attachment> attachments;
+
+    public boolean isHad() {
+        return had;
+    }
+
+    public void setHad(boolean had) {
+        this.had = had;
+    }
 
     public String getBankName() {
         return bankName;
@@ -72,7 +81,8 @@ public class Bank {
     @Override
     public String toString() {
         return "Bank{" +
-                "bankName='" + bankName + '\'' +
+                "had=" + had +
+                ", bankName='" + bankName + '\'' +
                 ", accountNumber='" + accountNumber + '\'' +
                 ", totalInterest='" + totalInterest + '\'' +
                 ", taxWithheld='" + taxWithheld + '\'' +

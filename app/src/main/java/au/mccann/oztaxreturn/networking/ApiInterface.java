@@ -50,6 +50,9 @@ public interface ApiInterface {
     @DELETE("application/{application_id}")
     Call<Void> deleteApplication(@Header("Authorization") String token, @Path("application_id") int appId);
 
+    @GET("application/{application_id}/basic_info")
+    Call<ResponseBasicInformation> getBasicInformation(@Header("Authorization") String token, @Path("application_id") int appId);
+
     @PUT("application/{application_id}/basic_info")
     Call<ResponseBasicInformation> saveBasicInformation(@Header("Authorization") String token, @Path("application_id") int appId, @Body RequestBody body);
 
@@ -61,8 +64,6 @@ public interface ApiInterface {
     @PUT("application/{application_id}/review/income")
     Call<IncomeResponse> putReviewIncom(@Header("Authorization") String token, @Path("application_id") int appId, @Body RequestBody body);
 
-    @GET("application/{application_id}/basic_info")
-    Call<ResponseBasicInformation> getBasicInformation(@Header("Authorization") String token, @Path("application_id") int appId);
 
     @PUT("application/{application_id}/review/personal_info")
     Call<PersonalInfomationResponse> updatePersonalInfo(@Header("Authorization") String token, @Path("application_id") int appId, @Body RequestBody body);

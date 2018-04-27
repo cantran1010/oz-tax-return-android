@@ -25,6 +25,7 @@ public class Job {
     private String companyContact;
     private boolean edit;
 
+
     public int getId() {
         return id;
     }
@@ -104,7 +105,7 @@ public class Job {
     public void setEdit(boolean edit) {
         this.edit = edit;
     }
-
+    
     @Override
     public String toString() {
         return "Job{" +

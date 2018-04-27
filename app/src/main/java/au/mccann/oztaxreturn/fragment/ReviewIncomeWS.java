@@ -6,7 +6,10 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import java.io.Serializable;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 import au.mccann.oztaxreturn.R;
@@ -25,6 +28,8 @@ import au.mccann.oztaxreturn.utils.ProgressDialogUtils;
 import au.mccann.oztaxreturn.utils.TransitionScreen;
 import au.mccann.oztaxreturn.utils.Utils;
 import au.mccann.oztaxreturn.view.ButtonCustom;
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -37,8 +42,7 @@ public class ReviewIncomeWS extends BaseFragment implements View.OnClickListener
     private JobAdapter jobAdapter;
     private ArrayList<Job> jobs = new ArrayList<>();
     private RecyclerView recyclerView;
-    private Bundle bundle = new Bundle();
-    private IncomeResponse incomeResponse = new IncomeResponse();
+    private int appID;
 
     @Override
     protected int getLayout() {
@@ -58,12 +62,11 @@ public class ReviewIncomeWS extends BaseFragment implements View.OnClickListener
 
     @Override
     protected void initData() {
-        bundle = getArguments();
+        appID = getArguments().getInt(Constants.PARAMETER_APP_ID);
         setTitle(getString(R.string.review_income_title));
         appBarVisibility(true, false);
         getReviewIncome();
         updateList();
-
     }
 
 
@@ -76,15 +79,14 @@ public class ReviewIncomeWS extends BaseFragment implements View.OnClickListener
 
     private void getReviewIncome() {
         ProgressDialogUtils.showProgressDialog(getActivity());
-        LogUtils.d(TAG, "getReviewIncome code : " + bundle.getInt(Constants.PARAMETER_APP_ID));
-        ApiClient.getApiService().getReviewIncome(UserManager.getUserToken(), bundle.getInt(Constants.PARAMETER_APP_ID)).enqueue(new Callback<IncomeResponse>() {
+        LogUtils.d(TAG, "getReviewIncome code : " + appID);
+        ApiClient.getApiService().getReviewIncome(UserManager.getUserToken(), appID).enqueue(new Callback<IncomeResponse>() {
             @Override
             public void onResponse(Call<IncomeResponse> call, Response<IncomeResponse> response) {
                 ProgressDialogUtils.dismissProgressDialog();
                 LogUtils.d(TAG, "getReviewIncome code : " + response.code());
                 if (response.code() == Constants.HTTP_CODE_OK) {
                     LogUtils.d(TAG, "getReviewIncome body : " + response.body().toString());
-                    incomeResponse = response.body();
                     jobs.clear();
                     jobs.addAll(response.body().getJobs());
                     jobAdapter.notifyDataSetChanged();
@@ -122,6 +124,76 @@ public class ReviewIncomeWS extends BaseFragment implements View.OnClickListener
         });
     }
 
+    private void doSaveReview() {
+        ProgressDialogUtils.showProgressDialog(getContext());
+        JSONObject jsonRequest = new JSONObject();
+        try {
+            JSONArray jsonArray = new JSONArray();
+            for (Job job : jobs
+                    ) {
+                JSONObject mJs = new JSONObject();
+                mJs.put(Constants.PARAMETER_REVIEW_INCOM_JOB_ID, job.getId());
+                mJs.put(Constants.PARAMETER_REVIEW_INCOM_JOB_GROSS, job.getTotalGrossIncom());
+                mJs.put(Constants.PARAMETER_REVIEW_INCOM_JOB_TAX, job.getTotalTaxWidthheld());
+                mJs.put(Constants.PARAMETER_REVIEW_INCOM_JOB_ALLOWANCES, job.getTotalTaxWidthheld());
+                mJs.put(Constants.PARAMETER_REVIEW_INCOM_JOB_FRINGE, job.getReporTableFringerBenefits());
+                mJs.put(Constants.PARAMETER_REVIEW_INCOM_JOB_EMPLOYER, job.getReporTableEmployerSupper());
+                mJs.put(Constants.PARAMETER_REVIEW_INCOM_JOB_COMPANY_NAME, job.getCompanyName());
+                mJs.put(Constants.PARAMETER_REVIEW_INCOM_JOB_COMPANY_ABN, job.getCompanyAbn());
+                mJs.put(Constants.PARAMETER_REVIEW_INCOM_JOB_COMPANY_CONTACT, job.getCompanyContact());
+                jsonArray.put(mJs);
+            }
+            jsonRequest.put(Constants.PARAMETER_REVIEW_INCOME_JOB, jsonArray);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        LogUtils.d(TAG, "doSaveReview jsonRequest : " + jsonRequest.toString());
+        RequestBody body = RequestBody.create(MediaType.parse("application/json"), jsonRequest.toString());
+        ApiClient.getApiService().putReviewIncom(UserManager.getUserToken(), appID, body).enqueue(new Callback<IncomeResponse>() {
+            @Override
+            public void onResponse(Call<IncomeResponse> call, Response<IncomeResponse> response) {
+                ProgressDialogUtils.dismissProgressDialog();
+                LogUtils.d(TAG, "doSaveReview code: " + response.code());
+                if (response.code() == Constants.HTTP_CODE_OK) {
+                    LogUtils.d(TAG, "doSaveReview code: " + response.body().getJobs().toString());
+                    Bundle bundle = new Bundle();
+                    bundle.putInt(Constants.PARAMETER_APP_ID, appID);
+                    openFragment(R.id.layout_container, GovementPayment.class, true, bundle, TransitionScreen.RIGHT_TO_LEFT);
+                } else {
+                    APIError error = Utils.parseError(response);
+                    LogUtils.e(TAG, "doSaveReview error : " + error.message());
+                    if (error != null) {
+                        DialogUtils.showOkDialog(getContext(), getString(R.string.error), error.message(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                            @Override
+                            public void onSubmit() {
+
+                            }
+                        });
+                    }
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<IncomeResponse> call, Throwable t) {
+                LogUtils.e(TAG, "doSaveReview onFailure : " + t.getMessage());
+                ProgressDialogUtils.dismissProgressDialog();
+                DialogUtils.showRetryDialog(getContext(), new AlertDialogOkAndCancel.AlertDialogListener() {
+                    @Override
+                    public void onSubmit() {
+                        doSaveReview();
+                    }
+
+                    @Override
+                    public void onCancel() {
+
+                    }
+                });
+            }
+        });
+    }
+
+
     @Override
     protected void resumeData() {
 
@@ -143,8 +215,7 @@ public class ReviewIncomeWS extends BaseFragment implements View.OnClickListener
                 jobAdapter.notifyDataSetChanged();
                 break;
             case R.id.btn_next:
-                bundle.putSerializable(Constants.KEY_REVIEW, (Serializable) incomeResponse);
-                openFragment(R.id.layout_container, GovementPayment.class, true, bundle, TransitionScreen.RIGHT_TO_LEFT);
+                doSaveReview();
                 break;
         }
 

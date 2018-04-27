@@ -226,12 +226,12 @@ public class IncomeWagesSalaryFragment extends BaseFragment implements View.OnCl
         WagesSalary wagesSalary = basic.getIncomeWagesSalary();
         if (wagesSalary.getAttachments() != null && wagesSalary.getAttachments().size() > 0) {
             cbYes.setChecked(true);
-            if (images.size() == 0) {
-                final Image image = new Image();
-                image.setId(0);
-                image.setAdd(true);
-                images.add(image);
-            }
+//            if (images.size() == 0) {
+//                final Image image = new Image();
+//                image.setId(0);
+//                image.setAdd(true);
+//                images.add(image);
+//            }
             showImage(basic.getIncomeWagesSalary().getAttachments(), images, imageAdapter);
         } else {
             cbNo.setChecked(true);

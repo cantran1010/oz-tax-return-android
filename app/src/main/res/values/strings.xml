@@ -228,6 +228,7 @@
     <string name="company_name">company name</string>
     <string name="company_abn">company ABN</string>
     <string name="company_contact">company contact</string>
+    <string name="job">Job</string>
 
     <!-- review govement payment -->
     <string name="review_govement_payment">Govement payment</string>
@@ -236,6 +237,18 @@
     <string name="gross_payment">gross payment</string>
     <string name="tax_widthheld">Tax widthheld</string>
     <string name="label_image">image</string>
+
+    <!-- review bank interest  -->
+    <string name="review_Interest">Interest</string>
+    <string name="review_Interest_ask">Do you receive any interest from your bank account?</string>
+    <string name="interest_bank_name">Bank name</string>
+    <string name="interes_account_number">account number</string>
+    <string name="interest_total">Total interests</string>
+    <string name="interest_tax_widthheld">Tax widthheld</string>
+    <string name="interest_bank_fees">bank fees</string>
+    <string name="valid_bank_tax">Enter your tax withheld</string>
+    <string name="valid_bank_total">Enter your total interests</string>
+    <string name="valid_bank_fees">Enter bank fees</string>
 
 
 </resources>
