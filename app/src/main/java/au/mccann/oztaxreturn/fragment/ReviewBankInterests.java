@@ -115,7 +115,7 @@ public class ReviewBankInterests extends BaseFragment implements View.OnClickLis
         attach = new ArrayList<>();
         appID = getArguments().getInt(Constants.PARAMETER_APP_ID);
         setTitle(getString(R.string.review_income_title));
-        appBarVisibility(true, true);
+        appBarVisibility(true, true,0);
         //images
         if (images.size() == 0) {
             final Image image = new Image();

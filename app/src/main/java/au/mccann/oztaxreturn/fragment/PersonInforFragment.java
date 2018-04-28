@@ -81,7 +81,7 @@ public class PersonInforFragment extends BaseFragment implements View.OnClickLis
     @Override
     protected void initData() {
         setTitle(getString(R.string.personal_information_title));
-        appBarVisibility(false, true);
+        appBarVisibility(false, true,0);
         basic = (ResponseBasicInformation) getArguments().getSerializable(Constants.KEY_BASIC_INFORMATION);
         appID = basic.getAppId();
         LogUtils.d(TAG, "initData ResponseBasicInformation" + basic.toString());

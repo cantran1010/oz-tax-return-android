@@ -94,7 +94,7 @@ public class HomeFragment extends BaseFragment {
                 bundle.putInt(Constants.PARAMETER_APP_ID, applicationResponses.get(position).getId());
                 setApplicationResponse(applicationResponses.get(position));
                 updateAppInNavigation(applicationResponses.get(position));
-                openFragment(R.id.layout_container, ReviewBeginBFragment.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
+                openFragment(R.id.layout_container, IncomeWagesSalaryFragment.class, true, bundle, TransitionScreen.RIGHT_TO_LEFT);
             }
         });
     }

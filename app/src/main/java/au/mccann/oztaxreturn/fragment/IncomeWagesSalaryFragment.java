@@ -117,7 +117,7 @@ public class IncomeWagesSalaryFragment extends BaseFragment implements View.OnCl
         attach = new ArrayList<>();
         basicInformation = new ResponseBasicInformation();
         setTitle(getString(R.string.income_ws_title));
-        appBarVisibility(false, true,0);
+        appBarVisibility(false, true, 0);
         appID = getArguments().getInt(Constants.PARAMETER_APP_ID);
         //images
         if (images.size() == 0) {
@@ -187,7 +187,8 @@ public class IncomeWagesSalaryFragment extends BaseFragment implements View.OnCl
                 LogUtils.d(TAG, "getBasicInformation code : " + response.code());
                 if (response.code() == Constants.HTTP_CODE_OK) {
                     LogUtils.d(TAG, "getBasicInformation body : " + response.body().toString());
-                    updateUI(response.body());
+                    if (response.body().getIncomeWagesSalary() != null)
+                        updateUI(response.body().getIncomeWagesSalary());
                 } else {
                     APIError error = Utils.parseError(response);
                     if (error != null) {
@@ -222,9 +223,8 @@ public class IncomeWagesSalaryFragment extends BaseFragment implements View.OnCl
         });
     }
 
-    private void updateUI(ResponseBasicInformation basic) {
-        WagesSalary wagesSalary = basic.getIncomeWagesSalary();
-        if (wagesSalary.getAttachments() != null && wagesSalary.getAttachments().size() > 0) {
+    private void updateUI(WagesSalary salary) {
+        if (salary.getAttachments() != null && salary.getAttachments().size() > 0) {
             cbYes.setChecked(true);
 //            if (images.size() == 0) {
 //                final Image image = new Image();
@@ -232,14 +232,14 @@ public class IncomeWagesSalaryFragment extends BaseFragment implements View.OnCl
 //                image.setAdd(true);
 //                images.add(image);
 //            }
-            showImage(basic.getIncomeWagesSalary().getAttachments(), images, imageAdapter);
+            showImage(salary.getAttachments(), images, imageAdapter);
         } else {
             cbNo.setChecked(true);
-            edtTfn.setText(basic.getIncomeWagesSalary().getTfnNumber());
-            edtFirstName.setText(basic.getIncomeWagesSalary().getFirstName());
-            edtMidName.setText(basic.getIncomeWagesSalary().getLastName());
-            edtLastName.setText(basic.getIncomeWagesSalary().getLastName());
-            edtBirthday.setText(basic.getIncomeWagesSalary().getBirthday());
+            edtTfn.setText(salary.getTfnNumber());
+            edtFirstName.setText(salary.getFirstName());
+            edtMidName.setText(salary.getLastName());
+            edtLastName.setText(salary.getLastName());
+            edtBirthday.setText(salary.getBirthday());
         }
 
     }

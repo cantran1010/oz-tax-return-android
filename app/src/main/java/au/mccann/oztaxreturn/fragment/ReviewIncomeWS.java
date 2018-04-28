@@ -64,7 +64,7 @@ public class ReviewIncomeWS extends BaseFragment implements View.OnClickListener
     protected void initData() {
         appID = getArguments().getInt(Constants.PARAMETER_APP_ID);
         setTitle(getString(R.string.review_income_title));
-        appBarVisibility(true, false);
+        appBarVisibility(true, false,0);
         getReviewIncome();
         updateList();
     }
