@@ -257,6 +257,13 @@
     <string name="valid_bank_tax">Enter your tax withheld</string>
     <string name="valid_bank_total">Enter your total interests</string>
     <string name="valid_bank_fees">Enter bank fees</string>
+    <string name="review_income_dividends">Dividends</string>
+    <string name="review_income_dividends_ask">Do you receive any dividends from any sources?</string>
+    <string name="dividends_company_name">company name</string>
+    <string name="unfrank_dividends">unfranks dividends</string>
+    <string name="franking_credits">franking credits</string>
+    <string name="dividends_tax_widthheld">Tax widthheld</string>
+    <string name="label_add">add new dividends</string>
 
     <!-- checkout -->
     <string name="checkout_des">Please provide your payment info</string>

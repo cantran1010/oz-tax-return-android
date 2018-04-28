@@ -26,6 +26,7 @@ import au.mccann.oztaxreturn.common.Constants;
 import au.mccann.oztaxreturn.database.UserManager;
 import au.mccann.oztaxreturn.dialog.AlertDialogOk;
 import au.mccann.oztaxreturn.dialog.AlertDialogOkAndCancel;
+import au.mccann.oztaxreturn.fragment.basic.SubmitInformation;
 import au.mccann.oztaxreturn.model.APIError;
 import au.mccann.oztaxreturn.model.PersonalInformation;
 import au.mccann.oztaxreturn.model.ResponseBasicInformation;

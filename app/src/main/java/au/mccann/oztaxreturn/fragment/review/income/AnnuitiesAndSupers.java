@@ -1,4 +1,4 @@
-package au.mccann.oztaxreturn.fragment;
+package au.mccann.oztaxreturn.fragment.review.income;
 
 import android.Manifest;
 import android.animation.ObjectAnimator;
@@ -33,6 +33,8 @@ import au.mccann.oztaxreturn.database.UserManager;
 import au.mccann.oztaxreturn.dialog.AlertDialogOk;
 import au.mccann.oztaxreturn.dialog.AlertDialogOkAndCancel;
 import au.mccann.oztaxreturn.dialog.PickImageDialog;
+import au.mccann.oztaxreturn.fragment.BaseFragment;
+import au.mccann.oztaxreturn.fragment.basic.IncomeOther;
 import au.mccann.oztaxreturn.model.APIError;
 import au.mccann.oztaxreturn.model.Attachment;
 import au.mccann.oztaxreturn.model.Bank;
@@ -62,7 +64,7 @@ import static au.mccann.oztaxreturn.utils.TooltipUtils.showToolTipView;
 /**
  * Created by CanTran on 4/24/18.
  */
-public class ReviewBankInterests extends BaseFragment implements View.OnClickListener {
+public class AnnuitiesAndSupers extends BaseFragment implements View.OnClickListener {
     private RadioButtonCustom rbYes, rbNo;
     private EdittextCustom edtBankName, edtBankNumber, edtTotalInteres, edtTax, edtBankFees;
     private MyGridView myGridView;
@@ -80,7 +82,7 @@ public class ReviewBankInterests extends BaseFragment implements View.OnClickLis
 
     @Override
     protected int getLayout() {
-        return R.layout.fragment_review_interest;
+        return R.layout.fragment_review_income_dividends;
     }
 
     @Override

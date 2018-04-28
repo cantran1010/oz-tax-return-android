@@ -1,4 +1,4 @@
-package au.mccann.oztaxreturn.fragment;
+package au.mccann.oztaxreturn.fragment.review.income;
 
 import android.Manifest;
 import android.animation.ObjectAnimator;
@@ -33,9 +33,11 @@ import au.mccann.oztaxreturn.database.UserManager;
 import au.mccann.oztaxreturn.dialog.AlertDialogOk;
 import au.mccann.oztaxreturn.dialog.AlertDialogOkAndCancel;
 import au.mccann.oztaxreturn.dialog.PickImageDialog;
+import au.mccann.oztaxreturn.fragment.BaseFragment;
+import au.mccann.oztaxreturn.fragment.basic.IncomeOther;
 import au.mccann.oztaxreturn.model.APIError;
 import au.mccann.oztaxreturn.model.Attachment;
-import au.mccann.oztaxreturn.model.GovPayment;
+import au.mccann.oztaxreturn.model.Bank;
 import au.mccann.oztaxreturn.model.Image;
 import au.mccann.oztaxreturn.model.IncomeResponse;
 import au.mccann.oztaxreturn.networking.ApiClient;
@@ -62,9 +64,9 @@ import static au.mccann.oztaxreturn.utils.TooltipUtils.showToolTipView;
 /**
  * Created by CanTran on 4/24/18.
  */
-public class GovementPayment extends BaseFragment implements View.OnClickListener {
+public class RentalProperties extends BaseFragment implements View.OnClickListener {
     private RadioButtonCustom rbYes, rbNo;
-    private EdittextCustom edtIncomeType, edtGrossPayment, edtTax;
+    private EdittextCustom edtBankName, edtBankNumber, edtTotalInteres, edtTax, edtBankFees;
     private MyGridView myGridView;
     private static final String TAG = IncomeOther.class.getSimpleName();
     private MyGridView grImage;
@@ -74,13 +76,13 @@ public class GovementPayment extends BaseFragment implements View.OnClickListene
     private String imgPath;
     private ScrollView scrollView;
     private ExpandableLayout layout;
-    private GovPayment govPayment = new GovPayment();
+    private Bank bank = new Bank();
     private ArrayList<Attachment> attach;
     private int appID;
 
     @Override
     protected int getLayout() {
-        return R.layout.fragment_review_govement_payment;
+        return R.layout.fragment_review_income_dividends;
     }
 
     @Override
@@ -91,12 +93,16 @@ public class GovementPayment extends BaseFragment implements View.OnClickListene
         rbYes.setEnabled(false);
         rbNo = (RadioButtonCustom) findViewById(R.id.rb_no);
         rbNo.setEnabled(false);
-        edtIncomeType = (EdittextCustom) findViewById(R.id.edt_income_type);
-        edtIncomeType.setEnabled(false);
-        edtGrossPayment = (EdittextCustom) findViewById(R.id.edt_gross_payment);
-        edtGrossPayment.setEnabled(false);
-        edtTax = (EdittextCustom) findViewById(R.id.edt_tax_widthheld);
+        edtBankName = (EdittextCustom) findViewById(R.id.edt_interest_bank_name);
+        edtBankName.setEnabled(false);
+        edtBankNumber = (EdittextCustom) findViewById(R.id.edt_interest_account_number);
+        edtBankNumber.setEnabled(false);
+        edtTotalInteres = (EdittextCustom) findViewById(R.id.edt_total_interests);
+        edtTotalInteres.setEnabled(false);
+        edtTax = (EdittextCustom) findViewById(R.id.edt_interest_tax);
         edtTax.setEnabled(false);
+        edtBankFees = (EdittextCustom) findViewById(R.id.edt_interest_bank_fees);
+        edtBankFees.setEnabled(false);
         myGridView = (MyGridView) findViewById(R.id.gr_image);
         myGridView.setEnabled(false);
         scrollView = (ScrollView) findViewById(R.id.scrollView);
@@ -145,8 +151,6 @@ public class GovementPayment extends BaseFragment implements View.OnClickListene
                 if (b) {
                     layout.setExpanded(true);
                     scollLayout();
-                    edtIncomeType.requestFocus();
-                    edtIncomeType.setSelection(edtIncomeType.length());
                 } else {
                     layout.setExpanded(false);
                 }
@@ -156,12 +160,14 @@ public class GovementPayment extends BaseFragment implements View.OnClickListene
     }
 
 
-    private void updateUI(GovPayment govPayment) {
-        rbYes.setChecked(govPayment.isHad());
-        edtIncomeType.setText(govPayment.getType());
-        edtGrossPayment.setText(govPayment.getGross());
-        edtTax.setText(govPayment.getTax());
-        showImage(govPayment.getAttachments(), images, imageAdapter);
+    private void updateUI(Bank b) {
+        rbYes.setChecked(b.isHad());
+        edtBankName.setText(b.getBankName());
+        edtBankNumber.setText(b.getAccountNumber());
+        edtTotalInteres.setText(b.getTotalInterest());
+        edtTax.setText(b.getTaxWithheld());
+        edtBankFees.setText(b.getFees());
+        showImage(b.getAttachments(), images, imageAdapter);
     }
 
     private void checkPermissionImageAttach() {
@@ -268,9 +274,8 @@ public class GovementPayment extends BaseFragment implements View.OnClickListene
                 ProgressDialogUtils.dismissProgressDialog();
                 LogUtils.d(TAG, "getReviewIncome code : " + response.code());
                 if (response.code() == Constants.HTTP_CODE_OK) {
-//                    LogUtils.d(TAG, "getReviewIncome body : " + response.body().getGovPayment().toString());
-                    govPayment = response.body().getGovPayment();
-                    if (govPayment != null) updateUI(govPayment);
+                    bank = response.body().getBank();
+                    if (bank != null) updateUI(bank);
                 } else {
                     APIError error = Utils.parseError(response);
                     if (error != null) {
@@ -334,9 +339,11 @@ public class GovementPayment extends BaseFragment implements View.OnClickListene
         try {
             JSONObject govJson = new JSONObject();
             govJson.put(Constants.PARAMETER_REVIEW_INCOME_GOVEMENT_HAD, rbYes.isChecked());
-            govJson.put(Constants.PARAMETER_REVIEW_INCOME_GOVEMENT_TYPE, edtIncomeType.getText().toString().trim());
-            govJson.put(Constants.PARAMETER_REVIEW_INCOME_GOVEMENT_GROSS, edtGrossPayment.getText().toString().trim());
-            govJson.put(Constants.PARAMETER_REVIEW_INCOME_GOVEMENT_TAX, edtTax.getText().toString().trim());
+            govJson.put(Constants.PARAMETER_REVIEW_INCOME_BANK_NAME, edtBankName.getText().toString().trim());
+            govJson.put(Constants.PARAMETER_REVIEW_INCOME_BANK_NUMBER, edtBankNumber.getText().toString().trim());
+            govJson.put(Constants.PARAMETER_REVIEW_INCOME_BANK_TOTAL_INTEREST, edtTotalInteres.getText().toString().trim());
+            govJson.put(Constants.PARAMETER_REVIEW_INCOME_BANK_TAX, edtTax.getText().toString().trim());
+            govJson.put(Constants.PARAMETER_REVIEW_INCOME_BANK_FEES, edtBankFees.getText().toString().trim());
             if (images.size() > 1) {
                 for (Image image : images
                         ) {
@@ -352,7 +359,7 @@ public class GovementPayment extends BaseFragment implements View.OnClickListene
                     jsonArray.put(mId.getId());
                 govJson.put(Constants.PARAMETER_ATTACHMENTS, jsonArray);
             }
-            jsonRequest.put(Constants.PARAMETER_REVIEW_INCOME_GOVEMENT, govJson);
+            jsonRequest.put(Constants.PARAMETER_REVIEW_INCOME_BANK, govJson);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -367,7 +374,7 @@ public class GovementPayment extends BaseFragment implements View.OnClickListene
                     LogUtils.d(TAG, "doSaveReview code: " + response.body().getJobs().toString());
                     Bundle bundle = new Bundle();
                     bundle.putInt(Constants.PARAMETER_APP_ID, appID);
-                    openFragment(R.id.layout_container, ReviewBankInterests.class, true, bundle, TransitionScreen.RIGHT_TO_LEFT);
+//                    openFragment(R.id.layout_container, GovementPayment.class, true, bundle, TransitionScreen.RIGHT_TO_LEFT);
                 } else {
                     APIError error = Utils.parseError(response);
                     LogUtils.e(TAG, "doSaveReview error : " + error.message());
@@ -406,26 +413,38 @@ public class GovementPayment extends BaseFragment implements View.OnClickListene
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.fab:
+                edtBankName.requestFocus();
+                edtBankName.setSelection(edtBankName.length());
                 rbYes.setEnabled(true);
                 rbNo.setEnabled(true);
-                edtIncomeType.setEnabled(true);
-                edtGrossPayment.setEnabled(true);
+                edtBankName.setEnabled(true);
+                edtBankNumber.setEnabled(true);
+                edtTotalInteres.setEnabled(true);
                 edtTax.setEnabled(true);
+                edtBankFees.setEnabled(true);
                 myGridView.setEnabled(true);
                 break;
             case R.id.btn_next:
-
+                final Bundle bundle = new Bundle();
                 if (rbYes.isChecked()) {
-                    if (edtIncomeType.getText().toString().trim().isEmpty()) {
-                        showToolTipView(getContext(), edtIncomeType, Gravity.TOP, getString(R.string.valid_income_content), ContextCompat.getColor(getContext(), R.color.red));
+                    if (edtBankName.getText().toString().trim().isEmpty()) {
+                        showToolTipView(getContext(), edtBankName, Gravity.TOP, getString(R.string.valid_app_bank_name), ContextCompat.getColor(getContext(), R.color.red));
                         return;
                     }
-                    if (edtGrossPayment.getText().toString().trim().isEmpty()) {
-                        showToolTipView(getContext(), edtGrossPayment, Gravity.TOP, getString(R.string.valid_income_content), ContextCompat.getColor(getContext(), R.color.red));
+                    if (edtBankNumber.getText().toString().trim().isEmpty()) {
+                        showToolTipView(getContext(), edtBankNumber, Gravity.TOP, getString(R.string.valid_app_account_number), ContextCompat.getColor(getContext(), R.color.red));
+                        return;
+                    }
+                    if (edtTotalInteres.getText().toString().trim().isEmpty()) {
+                        showToolTipView(getContext(), edtTotalInteres, Gravity.TOP, getString(R.string.valid_bank_total), ContextCompat.getColor(getContext(), R.color.red));
+                        return;
+                    }
+                    if (edtBankFees.getText().toString().trim().isEmpty()) {
+                        showToolTipView(getContext(), edtBankFees, Gravity.TOP, getString(R.string.valid_bank_fees), ContextCompat.getColor(getContext(), R.color.red));
                         return;
                     }
                     if (edtTax.getText().toString().trim().isEmpty()) {
-                        showToolTipView(getContext(), edtTax, Gravity.TOP, getString(R.string.valid_income_content), ContextCompat.getColor(getContext(), R.color.red));
+                        showToolTipView(getContext(), edtTax, Gravity.TOP, getString(R.string.valid_bank_tax), ContextCompat.getColor(getContext(), R.color.red));
                         return;
                     }
                     if (images.size() < 2) {
@@ -435,9 +454,8 @@ public class GovementPayment extends BaseFragment implements View.OnClickListene
                     uploadImage();
 
                 } else {
-                    Bundle bundle = new Bundle();
                     bundle.putInt(Constants.PARAMETER_APP_ID, appID);
-                    openFragment(R.id.layout_container, ReviewBankInterests.class, true, bundle, TransitionScreen.RIGHT_TO_LEFT);
+//                    openFragment(R.id.layout_container, DeductionFragment.class, true, bundle, TransitionScreen.RIGHT_TO_LEFT);
                 }
                 break;
 
