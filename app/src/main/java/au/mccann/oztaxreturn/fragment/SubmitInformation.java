@@ -4,9 +4,7 @@ import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.view.Gravity;
 import android.view.View;
-import android.widget.Toast;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -16,10 +14,13 @@ import au.mccann.oztaxreturn.database.UserManager;
 import au.mccann.oztaxreturn.dialog.AlertDialogOk;
 import au.mccann.oztaxreturn.dialog.AlertDialogOkAndCancel;
 import au.mccann.oztaxreturn.model.APIError;
+import au.mccann.oztaxreturn.model.PersonalInformation;
+import au.mccann.oztaxreturn.model.ResponseBasicInformation;
 import au.mccann.oztaxreturn.networking.ApiClient;
 import au.mccann.oztaxreturn.utils.DialogUtils;
 import au.mccann.oztaxreturn.utils.LogUtils;
 import au.mccann.oztaxreturn.utils.ProgressDialogUtils;
+import au.mccann.oztaxreturn.utils.TransitionScreen;
 import au.mccann.oztaxreturn.utils.Utils;
 import au.mccann.oztaxreturn.view.ButtonCustom;
 import au.mccann.oztaxreturn.view.EdittextCustom;
@@ -38,7 +39,8 @@ public class SubmitInformation extends BaseFragment implements View.OnClickListe
     private static final String TAG = SubmitInformation.class.getSimpleName();
     private EdittextCustom edtBankName, edtBSB, edtAccountNumber, edtStreetName, edtSuburb, edtState, edtPostCode, edtPhone, edtEmail;
     private ButtonCustom btnSubmit;
-    private Bundle bundle = new Bundle();
+    private ResponseBasicInformation basic;
+
 
     @Override
     protected int getLayout() {
@@ -62,12 +64,25 @@ public class SubmitInformation extends BaseFragment implements View.OnClickListe
 
     @Override
     protected void initData() {
-        bundle = getArguments();
-        LogUtils.d(TAG, "initData bundle : " + bundle.toString());
         setTitle(getString(R.string.personal_information_title));
         appBarVisibility(false, true,0);
+        basic = (ResponseBasicInformation) getArguments().getSerializable(Constants.KEY_BASIC_INFORMATION);
+        LogUtils.d(TAG, "initData ResponseBasicInformation" + basic.toString());
+        updateUI(basic);
 
     }
+
+    private void updateUI(ResponseBasicInformation basic) {
+        PersonalInformation pf = basic.getPersonalInformation();
+        edtBankName.setText(pf.getBankAccountName());
+        edtAccountNumber.setText(pf.getBankAccountNumber());
+        edtBSB.setText(pf.getBankAccountBsb());
+        edtStreetName.setText(pf.getStreet());
+        edtSuburb.setText(pf.getSuburb());
+        edtPhone.setText(pf.getPhone());
+        edtEmail.setText(pf.getEmail());
+    }
+
 
     @Override
     protected void resumeData() {
@@ -78,6 +93,65 @@ public class SubmitInformation extends BaseFragment implements View.OnClickListe
     @Override
     public void onRefresh() {
 
+    }
+
+    private void doSaveBasic() {
+        ProgressDialogUtils.showProgressDialog(getContext());
+        JSONObject jsonRequest = new JSONObject();
+        try {
+            JSONObject salaryJson = new JSONObject();
+            salaryJson.put(Constants.PARAMETER_BASIC_INFO_BANK_NAME, edtBankName.getText().toString().trim());
+            salaryJson.put(Constants.PARAMETER_BASIC_INFO_BANK_NUMBER, edtAccountNumber.getText().toString().trim());
+            salaryJson.put(Constants.PARAMETER_BASIC_INFO_BANK_BSB, edtBSB.getText().toString().trim());
+            salaryJson.put(Constants.PARAMETER_BASIC_INFO_STREET, edtStreetName.getText().toString().trim());
+            salaryJson.put(Constants.PARAMETER_BASIC_INFO_SUBURB, edtSuburb.getText().toString().trim());
+            salaryJson.put(Constants.PARAMETER_BASIC_INFO_STATE, edtState.getText().toString().trim());
+            salaryJson.put(Constants.PARAMETER_BASIC_INFO_EMAIL, edtEmail.getText().toString().trim());
+            jsonRequest.put(Constants.PARAMETER_BASIC_INFO, salaryJson);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        LogUtils.d(TAG, "doSaveBasic jsonRequest : " + jsonRequest.toString());
+        RequestBody body = RequestBody.create(MediaType.parse("application/json"), jsonRequest.toString());
+        ApiClient.getApiService().saveBasicInformation(UserManager.getUserToken(), basic.getAppId(), body).enqueue(new Callback<ResponseBasicInformation>() {
+            @Override
+            public void onResponse(Call<ResponseBasicInformation> call, Response<ResponseBasicInformation> response) {
+                ProgressDialogUtils.dismissProgressDialog();
+                LogUtils.d(TAG, "doSaveBasic code: " + response.code());
+                if (response.code() == Constants.HTTP_CODE_OK) {
+                    openFragment(R.id.layout_container, HomeFragment.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
+                } else {
+                    APIError error = Utils.parseError(response);
+                    LogUtils.e(TAG, "doSaveBasic error : " + error.message());
+                    if (error != null) {
+                        DialogUtils.showOkDialog(getContext(), getString(R.string.error), error.message(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                            @Override
+                            public void onSubmit() {
+
+                            }
+                        });
+                    }
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBasicInformation> call, Throwable t) {
+                LogUtils.e(TAG, "doSaveBasic onFailure : " + t.getMessage());
+                ProgressDialogUtils.dismissProgressDialog();
+                DialogUtils.showRetryDialog(getContext(), new AlertDialogOkAndCancel.AlertDialogListener() {
+                    @Override
+                    public void onSubmit() {
+                        doSaveBasic();
+                    }
+
+                    @Override
+                    public void onCancel() {
+
+                    }
+                });
+            }
+        });
     }
 
     private void doSubmit() {
@@ -126,103 +200,14 @@ public class SubmitInformation extends BaseFragment implements View.OnClickListe
                     ContextCompat.getColor(getContext(), R.color.red));
             return;
         }
-        saveBasicInformation();
-    }
-
-    private void saveBasicInformation() {
-        ProgressDialogUtils.showProgressDialog(getContext());
-        JSONObject jsonRequest = new JSONObject();
-        try {
-            if (bundle.getIntArray(Constants.PARAMETER_WAGE_ATTACHMENTS) != null) {
-                JSONArray jsonArray = new JSONArray();
-                for (int anImagesArr : bundle.getIntArray(Constants.PARAMETER_WAGE_ATTACHMENTS))
-                    jsonArray.put(anImagesArr);
-                jsonRequest.put(Constants.PARAMETER_WAGE_ATTACHMENTS, jsonArray);
-            }
-            if (bundle.getIntArray(Constants.PARAMETER_INCOME_CONTENT_ATTACHMENTS) != null) {
-                JSONArray jsonArray = new JSONArray();
-                for (int anImagesArr : bundle.getIntArray(Constants.PARAMETER_INCOME_CONTENT_ATTACHMENTS))
-                    jsonArray.put(anImagesArr);
-                jsonRequest.put(Constants.PARAMETER_INCOME_CONTENT_ATTACHMENTS, jsonArray);
-            }
-            if (bundle.getIntArray(Constants.PARAMETER_DEDUCTION_ATTACHMENTS) != null) {
-                JSONArray jsonArray = new JSONArray();
-                for (int anImagesArr : bundle.getIntArray(Constants.PARAMETER_DEDUCTION_ATTACHMENTS))
-                    jsonArray.put(anImagesArr);
-                jsonRequest.put(Constants.PARAMETER_DEDUCTION_ATTACHMENTS, jsonArray);
-            }
-            jsonRequest.put(Constants.PARAMETER_INCOME_TFN, bundle.getString(Constants.PARAMETER_INCOME_TFN));
-            jsonRequest.put(Constants.PARAMETER_INCOME_FIRST_NAME, bundle.getString(Constants.PARAMETER_INCOME_FIRST_NAME));
-            jsonRequest.put(Constants.PARAMETER_INCOME_MID_NAME, bundle.getString(Constants.PARAMETER_INCOME_MID_NAME));
-            jsonRequest.put(Constants.PARAMETER_INCOME_LAST_NAME, bundle.getString(Constants.PARAMETER_INCOME_LAST_NAME));
-            jsonRequest.put(Constants.PARAMETER_INCOME_BIRTH_DAY, bundle.getString(Constants.PARAMETER_INCOME_BIRTH_DAY));
-            jsonRequest.put(Constants.PARAMETER_INCOME_CONTENT, bundle.getString(Constants.PARAMETER_INCOME_CONTENT));
-            jsonRequest.put(Constants.PARAMETER_DEDUCTION_CONTENT, bundle.getString(Constants.PARAMETER_DEDUCTION_CONTENT));
-            jsonRequest.put(Constants.PARAMETER_APP_TITLE, bundle.getString(Constants.PARAMETER_APP_TITLE));
-            jsonRequest.put(Constants.PARAMETER_APP_FIRST_NAME, bundle.getString(Constants.PARAMETER_APP_FIRST_NAME));
-            jsonRequest.put(Constants.PARAMETER_APP_MID_NAME, bundle.getString(Constants.PARAMETER_APP_MID_NAME));
-            jsonRequest.put(Constants.PARAMETER_APP_LAST_NAME, bundle.getString(Constants.PARAMETER_APP_LAST_NAME));
-            jsonRequest.put(Constants.PARAMETER_APP_BIRTH_DAY, bundle.getString(Constants.PARAMETER_APP_BIRTH_DAY));
-            jsonRequest.put(Constants.PARAMETER_APP_GENDER, bundle.getString(Constants.PARAMETER_APP_GENDER));
-            jsonRequest.put(Constants.PARAMETER_APP_GENDER, bundle.getString(Constants.PARAMETER_APP_GENDER));
-            jsonRequest.put(Constants.PARAMETER_APP_LOCAL, bundle.getBoolean(Constants.PARAMETER_APP_LOCAL));
-            jsonRequest.put(Constants.PARAMETER_APP_BANK_ACCOUNT_NAME, edtBankName.getText().toString().trim());
-            jsonRequest.put(Constants.PARAMETER_APP_BANK_ACCOUNT_NUMBER, edtAccountNumber.getText().toString().trim());
-            jsonRequest.put(Constants.PARAMETER_APP_BANK_ACCOUNT_BSB, edtBSB.getText().toString().trim());
-            jsonRequest.put(Constants.PARAMETER_APP_STREET, edtStreetName.getText().toString().trim());
-            jsonRequest.put(Constants.PARAMETER_APP_SUBURB, edtSuburb.getText().toString().trim());
-            jsonRequest.put(Constants.PARAMETER_APP_STATE, edtState.getText().toString().trim());
-            jsonRequest.put(Constants.PARAMETER_APP_POST_CODE, edtPostCode.getText().toString().trim());
-            jsonRequest.put(Constants.PARAMETER_APP_PHONE, edtPhone.getText().toString().trim());
-            jsonRequest.put(Constants.PARAMETER_APP_EMAIL, edtEmail.getText().toString().trim());
-        } catch (JSONException e) {
-            e.printStackTrace();
+        if (!Utils.isValidEmail(edtEmail.getText().toString().trim())) {
+            showToolTipView(getContext(), edtEmail, Gravity.TOP, getString(R.string.valid_app_email_2),
+                    ContextCompat.getColor(getContext(), R.color.red));
+            return;
         }
-        LogUtils.d(TAG, "saveBasicInformation jsonRequest : " + jsonRequest.toString());
-        LogUtils.d(TAG, "saveBasicInformation PARAMETER_APP_ID : " + bundle.getInt(Constants.PARAMETER_APP_ID));
-        RequestBody body = RequestBody.create(MediaType.parse("application/json"), jsonRequest.toString());
-        ApiClient.getApiService().saveBasicInformation(UserManager.getUserToken(), bundle.getInt(Constants.PARAMETER_APP_ID), body).enqueue(new Callback<Void>() {
-            @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
-                ProgressDialogUtils.dismissProgressDialog();
-                LogUtils.d(TAG, "saveBasicInformation code: " + response.code());
-                if (response.code() == Constants.HTTP_CODE_NO_CONTENT) {
-                    Toast.makeText(getContext(), "success", Toast.LENGTH_SHORT).show();
-                } else {
-                    APIError error = Utils.parseError(response);
-                    LogUtils.e(TAG, "saveBasicInformation onFailure : " + error.message());
-                    if (error != null) {
-                        DialogUtils.showOkDialog(getContext(), getString(R.string.error), error.message(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
-                            @Override
-                            public void onSubmit() {
-
-                            }
-                        });
-                    }
-                }
-
-            }
-
-            @Override
-            public void onFailure(Call<Void> call, Throwable t) {
-                LogUtils.e(TAG, "saveBasicInformation onFailure : " + t.getMessage());
-                ProgressDialogUtils.dismissProgressDialog();
-                DialogUtils.showRetryDialog(getContext(), new AlertDialogOkAndCancel.AlertDialogListener() {
-                    @Override
-                    public void onSubmit() {
-                        saveBasicInformation();
-                    }
-
-                    @Override
-                    public void onCancel() {
-
-                    }
-                });
-            }
-        });
-
-
+        doSaveBasic();
     }
+
 
     @Override
     public void onClick(View view) {

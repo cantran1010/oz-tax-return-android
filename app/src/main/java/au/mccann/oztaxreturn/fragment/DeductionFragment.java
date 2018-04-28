@@ -13,6 +13,10 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,33 +26,48 @@ import au.mccann.oztaxreturn.activity.AlbumActivity;
 import au.mccann.oztaxreturn.activity.PreviewImageActivity;
 import au.mccann.oztaxreturn.adapter.ImageAdapter;
 import au.mccann.oztaxreturn.common.Constants;
+import au.mccann.oztaxreturn.database.UserManager;
+import au.mccann.oztaxreturn.dialog.AlertDialogOk;
+import au.mccann.oztaxreturn.dialog.AlertDialogOkAndCancel;
 import au.mccann.oztaxreturn.dialog.PickImageDialog;
+import au.mccann.oztaxreturn.model.APIError;
+import au.mccann.oztaxreturn.model.Attachment;
 import au.mccann.oztaxreturn.model.Image;
-import au.mccann.oztaxreturn.model.ImageResponse;
+import au.mccann.oztaxreturn.model.ResponseBasicInformation;
+import au.mccann.oztaxreturn.networking.ApiClient;
+import au.mccann.oztaxreturn.utils.DialogUtils;
 import au.mccann.oztaxreturn.utils.FileUtils;
 import au.mccann.oztaxreturn.utils.ImageUtils;
 import au.mccann.oztaxreturn.utils.LogUtils;
+import au.mccann.oztaxreturn.utils.ProgressDialogUtils;
 import au.mccann.oztaxreturn.utils.TransitionScreen;
 import au.mccann.oztaxreturn.utils.Utils;
 import au.mccann.oztaxreturn.view.EdittextCustom;
 import au.mccann.oztaxreturn.view.MyGridView;
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
+import static au.mccann.oztaxreturn.utils.ImageUtils.showImage;
 import static au.mccann.oztaxreturn.utils.TooltipUtils.showToolTipView;
 
 /**
  * Created by LongBui on 4/17/18.
  */
 
-public class Deduction extends BaseFragment implements View.OnClickListener {
-
-    private static final String TAG = Deduction.class.getSimpleName();
+public class DeductionFragment extends BaseFragment implements View.OnClickListener {
+    private static final String TAG = DeductionFragment.class.getSimpleName();
     private MyGridView grImage;
     private ImageAdapter imageAdapter;
-    private final ArrayList<Image> images = new ArrayList<>();
+    private ArrayList<Image> images;
     private final String[] permissions = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
     private String imgPath;
-    private Bundle bundle=new Bundle();
     private EdittextCustom edtDeduction;
+    private ArrayList<Attachment> attach;
+    private ResponseBasicInformation basic;
+    private int appID;
 
     @Override
     protected int getLayout() {
@@ -65,12 +84,17 @@ public class Deduction extends BaseFragment implements View.OnClickListener {
 
     @Override
     protected void initData() {
+        basic = (ResponseBasicInformation) getArguments().getSerializable(Constants.KEY_BASIC_INFORMATION);
+        appID = basic.getAppId();
+        LogUtils.d(TAG, "initData ResponseBasicInformation" + basic.toString());
+        images = new ArrayList<>();
+        attach = new ArrayList<>();
         setTitle(getString(R.string.deduction_title));
         appBarVisibility(false, true,0);
-        bundle = getArguments();
-        LogUtils.d(TAG, "initData bundle : " + bundle.toString());
+        //images
         if (images.size() == 0) {
             final Image image = new Image();
+            image.setId(0);
             image.setAdd(true);
             images.add(image);
         }
@@ -92,8 +116,16 @@ public class Deduction extends BaseFragment implements View.OnClickListener {
                 }
             }
         });
+        updateUI(basic);
 
     }
+
+    private void updateUI(ResponseBasicInformation basic) {
+        au.mccann.oztaxreturn.model.Deduction deduction = basic.getDeduction();
+        edtDeduction.setText(deduction.getContent());
+        showImage(deduction.getAttachments(), images, imageAdapter);
+    }
+
 
     @Override
     protected void resumeData() {
@@ -161,6 +193,7 @@ public class Deduction extends BaseFragment implements View.OnClickListener {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        // image attach
         if (requestCode == Constants.REQUEST_CODE_PICK_IMAGE
                 && resultCode == Constants.RESPONSE_CODE_PICK_IMAGE
                 && data != null) {
@@ -172,6 +205,7 @@ public class Deduction extends BaseFragment implements View.OnClickListener {
             LogUtils.d(TAG, "onActivityResult selectedImagePath : " + selectedImagePath);
             Image image = new Image();
             image.setAdd(false);
+            image.setId(0);
             image.setPath(selectedImagePath);
             images.add(0, image);
             imageAdapter.notifyDataSetChanged();
@@ -180,6 +214,98 @@ public class Deduction extends BaseFragment implements View.OnClickListener {
 
     private String getImagePath() {
         return imgPath;
+    }
+
+    private void doSaveBasic() {
+        ProgressDialogUtils.showProgressDialog(getContext());
+        JSONObject jsonRequest = new JSONObject();
+        try {
+            JSONObject salaryJson = new JSONObject();
+            for (Image image : images
+                    ) {
+                if (image.getId() > 0) {
+                    Attachment attachment = new Attachment();
+                    attachment.setId((int) image.getId());
+                    attachment.setUrl(image.getPath());
+                    attach.add(attachment);
+                }
+            }
+            JSONArray jsonArray = new JSONArray();
+            for (Attachment mId : attach)
+                jsonArray.put(mId.getId());
+            salaryJson.put(Constants.PARAMETER_ATTACHMENTS, jsonArray);
+            salaryJson.put(Constants.PARAMETER_BASIC_CONTENT, edtDeduction.getText().toString().trim());
+            jsonRequest.put(Constants.PARAMETER_BASIC_INCOME_DEDUCTION, salaryJson);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        LogUtils.d(TAG, "doSaveBasic jsonRequest : " + jsonRequest.toString());
+        RequestBody body = RequestBody.create(MediaType.parse("application/json"), jsonRequest.toString());
+        ApiClient.getApiService().saveBasicInformation(UserManager.getUserToken(), appID, body).enqueue(new Callback<ResponseBasicInformation>() {
+            @Override
+            public void onResponse(Call<ResponseBasicInformation> call, Response<ResponseBasicInformation> response) {
+                ProgressDialogUtils.dismissProgressDialog();
+                LogUtils.d(TAG, "doSaveBasic code: " + response.code());
+                if (response.code() == Constants.HTTP_CODE_OK) {
+                    basic = response.body();
+                    basic.setAppId(appID);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable(Constants.KEY_BASIC_INFORMATION,  basic);
+                    openFragment(R.id.layout_container, EstimateTaxRefund.class, true, bundle, TransitionScreen.RIGHT_TO_LEFT);
+                } else {
+                    APIError error = Utils.parseError(response);
+                    LogUtils.e(TAG, "doSaveBasic error : " + error.message());
+                    if (error != null) {
+                        DialogUtils.showOkDialog(getContext(), getString(R.string.error), error.message(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                            @Override
+                            public void onSubmit() {
+
+                            }
+                        });
+                    }
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBasicInformation> call, Throwable t) {
+                LogUtils.e(TAG, "doSaveBasic onFailure : " + t.getMessage());
+                ProgressDialogUtils.dismissProgressDialog();
+                DialogUtils.showRetryDialog(getContext(), new AlertDialogOkAndCancel.AlertDialogListener() {
+                    @Override
+                    public void onSubmit() {
+                        doSaveBasic();
+                    }
+
+                    @Override
+                    public void onCancel() {
+
+                    }
+                });
+            }
+        });
+    }
+
+    private void uploadImage() {
+        final ArrayList<Image> listUp = new ArrayList<>();
+        for (Image image : images
+                ) {
+            if (image.getId() == 0 && !image.isAdd()) listUp.add(image);
+        }
+        if (listUp.size() > 0) {
+            LogUtils.d(TAG, "uploadImage" + listUp.toString());
+            ImageUtils.doUploadImage(getContext(), listUp, new ImageUtils.UpImagesListener() {
+                @Override
+                public void onSuccess(List<Attachment> responses) {
+                    attach.addAll(responses);
+                    doSaveBasic();
+                }
+            });
+        } else {
+            doSaveBasic();
+        }
+
+
     }
 
     @Override
@@ -194,17 +320,7 @@ public class Deduction extends BaseFragment implements View.OnClickListener {
                     showToolTipView(getContext(), grImage, Gravity.TOP, getString(R.string.valid_deduction_image), ContextCompat.getColor(getContext(), R.color.red));
                     return;
                 }
-                ImageUtils.doUploadImage(getContext(), images, new ImageUtils.UpImagesListener() {
-                    @Override
-                    public void onSuccess(List<ImageResponse> responses) {
-                        int[] imageArrIds = new int[responses.size()];
-                        for (int i = 0; i < responses.size(); i++)
-                            imageArrIds[i] = responses.get(i).getId();
-                        bundle.putString(Constants.PARAMETER_DEDUCTION_CONTENT, edtDeduction.getText().toString().trim());
-                        bundle.putIntArray(Constants.PARAMETER_DEDUCTION_ATTACHMENTS, imageArrIds);
-                        openFragment(R.id.layout_container, EstimateTaxRefund.class, true, bundle, TransitionScreen.RIGHT_TO_LEFT);
-                    }
-                });
+                uploadImage();
                 break;
 
         }

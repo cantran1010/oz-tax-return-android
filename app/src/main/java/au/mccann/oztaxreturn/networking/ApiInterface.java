@@ -2,7 +2,9 @@ package au.mccann.oztaxreturn.networking;
 
 import java.util.List;
 
-import au.mccann.oztaxreturn.model.ImageResponse;
+import au.mccann.oztaxreturn.model.Attachment;
+import au.mccann.oztaxreturn.model.IncomeResponse;
+import au.mccann.oztaxreturn.model.ResponseBasicInformation;
 import au.mccann.oztaxreturn.model.UserReponse;
 import au.mccann.oztaxreturn.rest.response.ApplicationResponse;
 import au.mccann.oztaxreturn.rest.response.PersonalInfomationResponse;
@@ -43,16 +45,25 @@ public interface ApiInterface {
 
     @Multipart
     @POST("attachment")
-    Call<List<ImageResponse>> uploadImage(@Header("Authorization") String token, @Part List<MultipartBody.Part> files);
+    Call<List<Attachment>> uploadImage(@Header("Authorization") String token, @Part List<MultipartBody.Part> files);
 
     @DELETE("application/{application_id}")
     Call<Void> deleteApplication(@Header("Authorization") String token, @Path("application_id") int appId);
 
-    @PUT("application/{application_id}")
-    Call<Void> saveBasicInformation(@Header("Authorization") String token, @Path("application_id") int appId, @Body RequestBody body);
+    @GET("application/{application_id}/basic_info")
+    Call<ResponseBasicInformation> getBasicInformation(@Header("Authorization") String token, @Path("application_id") int appId);
+
+    @PUT("application/{application_id}/basic_info")
+    Call<ResponseBasicInformation> saveBasicInformation(@Header("Authorization") String token, @Path("application_id") int appId, @Body RequestBody body);
 
     @GET("application/{application_id}/review/personal_info")
-    Call<PersonalInfomationResponse> getReviewPersonalInfo(@Header("Authorization") String token,@Path("application_id") int appId);
+    Call<PersonalInfomationResponse> getReviewPersonalInfo(@Header("Authorization") String token, @Path("application_id") int appId);
+
+    @GET("application/{application_id}/review/income")
+    Call<IncomeResponse> getReviewIncome(@Header("Authorization") String token, @Path("application_id") int appId);
+
+    @PUT("application/{application_id}/review/income")
+    Call<IncomeResponse> putReviewIncom(@Header("Authorization") String token, @Path("application_id") int appId, @Body RequestBody body);
 
     @PUT("application/{application_id}/review/personal_info")
     Call<PersonalInfomationResponse> updatePersonalInfo(@Header("Authorization") String token, @Path("application_id") int appId, @Body RequestBody body);

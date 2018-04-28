@@ -5,14 +5,11 @@ import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
-import android.text.SpannableString;
-import android.text.style.StyleSpan;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
@@ -24,7 +21,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,9 +35,9 @@ import au.mccann.oztaxreturn.dialog.AlertDialogOkAndCancel;
 import au.mccann.oztaxreturn.dialog.PickImageDialog;
 import au.mccann.oztaxreturn.model.APIError;
 import au.mccann.oztaxreturn.model.Attachment;
+import au.mccann.oztaxreturn.model.GovPayment;
 import au.mccann.oztaxreturn.model.Image;
-import au.mccann.oztaxreturn.model.Other;
-import au.mccann.oztaxreturn.model.ResponseBasicInformation;
+import au.mccann.oztaxreturn.model.IncomeResponse;
 import au.mccann.oztaxreturn.networking.ApiClient;
 import au.mccann.oztaxreturn.utils.DialogUtils;
 import au.mccann.oztaxreturn.utils.FileUtils;
@@ -64,51 +60,58 @@ import static au.mccann.oztaxreturn.utils.ImageUtils.showImage;
 import static au.mccann.oztaxreturn.utils.TooltipUtils.showToolTipView;
 
 /**
- * Created by LongBui on 4/17/18.
+ * Created by CanTran on 4/24/18.
  */
-
-public class IncomeOther extends BaseFragment implements View.OnClickListener {
+public class GovementPayment extends BaseFragment implements View.OnClickListener {
+    private RadioButtonCustom rbYes, rbNo;
+    private EdittextCustom edtIncomeType, edtGrossPayment, edtTax;
+    private MyGridView myGridView;
     private static final String TAG = IncomeOther.class.getSimpleName();
     private MyGridView grImage;
     private ImageAdapter imageAdapter;
     private ArrayList<Image> images;
     private final String[] permissions = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
     private String imgPath;
-    private RadioButtonCustom rbYes, rbNo;
-    private ExpandableLayout layout;
     private ScrollView scrollView;
-    private EdittextCustom edtResource;
+    private ExpandableLayout layout;
+    private GovPayment govPayment = new GovPayment();
     private ArrayList<Attachment> attach;
-    private ResponseBasicInformation basic;
     private int appID;
 
     @Override
     protected int getLayout() {
-        return R.layout.fragment_income_other;
+        return R.layout.fragment_review_govement_payment;
     }
 
     @Override
     protected void initView() {
-        grImage = (MyGridView) findViewById(R.id.gr_image);
-        rbYes = (RadioButtonCustom) findViewById(R.id.rb_yes);
-        rbNo = (RadioButtonCustom) findViewById(R.id.rb_no);
-        scrollView = (ScrollView) findViewById(R.id.scrollView);
-        edtResource = (EdittextCustom) findViewById(R.id.edt_resource);
-        layout = (ExpandableLayout) findViewById(R.id.layout_expandable);
+        findViewById(R.id.fab).setOnClickListener(this);
         findViewById(R.id.btn_next).setOnClickListener(this);
-        underLineText(getString(R.string.income_radio_text_yes), 3, rbYes);
-        underLineText(getString(R.string.income_radio_text_no), 2, rbNo);
+        rbYes = (RadioButtonCustom) findViewById(R.id.rb_yes);
+        rbYes.setEnabled(false);
+        rbNo = (RadioButtonCustom) findViewById(R.id.rb_no);
+        rbNo.setEnabled(false);
+        edtIncomeType = (EdittextCustom) findViewById(R.id.edt_income_type);
+        edtIncomeType.setEnabled(false);
+        edtGrossPayment = (EdittextCustom) findViewById(R.id.edt_gross_payment);
+        edtGrossPayment.setEnabled(false);
+        edtTax = (EdittextCustom) findViewById(R.id.edt_tax_widthheld);
+        edtTax.setEnabled(false);
+        myGridView = (MyGridView) findViewById(R.id.gr_image);
+        myGridView.setEnabled(false);
+        scrollView = (ScrollView) findViewById(R.id.scrollView);
+        layout = (ExpandableLayout) findViewById(R.id.layout_expandable);
+        grImage = (MyGridView) findViewById(R.id.gr_image);
+
     }
 
     @Override
     protected void initData() {
-        basic = (ResponseBasicInformation) getArguments().getSerializable(Constants.KEY_BASIC_INFORMATION);
-        appID = basic.getAppId();
-        LogUtils.d(TAG, "initData ResponseBasicInformation" + basic.toString());
         images = new ArrayList<>();
         attach = new ArrayList<>();
-        setTitle(getString(R.string.income_ws_title));
-        appBarVisibility(false, true,0);
+        appID = getArguments().getInt(Constants.PARAMETER_APP_ID);
+        setTitle(getString(R.string.review_income_title));
+        appBarVisibility(true, true,0);
         //images
         if (images.size() == 0) {
             final Image image = new Image();
@@ -118,6 +121,7 @@ public class IncomeOther extends BaseFragment implements View.OnClickListener {
         }
         imageAdapter = new ImageAdapter(getActivity(), images);
         grImage.setAdapter(imageAdapter);
+
         grImage.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -141,35 +145,24 @@ public class IncomeOther extends BaseFragment implements View.OnClickListener {
                 if (b) {
                     layout.setExpanded(true);
                     scollLayout();
-
-
+                    edtIncomeType.requestFocus();
+                    edtIncomeType.setSelection(edtIncomeType.length());
                 } else {
                     layout.setExpanded(false);
                 }
             }
         });
-        updateUI(basic);
+        getReviewIncome();
     }
 
-    @Override
-    protected void resumeData() {
 
+    private void updateUI(GovPayment govPayment) {
+        rbYes.setChecked(govPayment.isHad());
+        edtIncomeType.setText(govPayment.getType());
+        edtGrossPayment.setText(govPayment.getGross());
+        edtTax.setText(govPayment.getTax());
+        showImage(govPayment.getAttachments(), images, imageAdapter);
     }
-
-    @Override
-    public void onRefresh() {
-
-    }
-
-    private void updateUI(ResponseBasicInformation basic) {
-        Other other = basic.getOther();
-        if (other.getContent() != null || (other.getAttachments() != null && other.getAttachments().size() > 0)) {
-            rbYes.setChecked(true);
-            edtResource.setText(other.getContent());
-            showImage(other.getAttachments(), images, imageAdapter);
-        } else rbNo.setChecked(true);
-    }
-
 
     private void checkPermissionImageAttach() {
         if (ContextCompat.checkSelfPermission(getContext(),
@@ -213,11 +206,9 @@ public class IncomeOther extends BaseFragment implements View.OnClickListener {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull final String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
         if (grantResults.length > 0) {
             boolean cameraPermission = grantResults[1] == PackageManager.PERMISSION_GRANTED;
             boolean readExternalFile = grantResults[0] == PackageManager.PERMISSION_GRANTED;
-
             if (cameraPermission && readExternalFile) {
                 permissionGrantedImageAttach();
             }
@@ -238,8 +229,8 @@ public class IncomeOther extends BaseFragment implements View.OnClickListener {
             final String selectedImagePath = getImagePath();
             LogUtils.d(TAG, "onActivityResult selectedImagePath : " + selectedImagePath);
             Image image = new Image();
-            image.setAdd(false);
             image.setId(0);
+            image.setAdd(false);
             image.setPath(selectedImagePath);
             images.add(0, image);
             imageAdapter.notifyDataSetChanged();
@@ -258,53 +249,33 @@ public class IncomeOther extends BaseFragment implements View.OnClickListener {
         objectAnimator.start();
     }
 
-    private void underLineText(String mystring, int n, RadioButtonCustom radioButtonCustom) {
-        SpannableString content = new SpannableString(mystring);
-        content.setSpan(new StyleSpan(Typeface.BOLD), 0, n, 0);
-        radioButtonCustom.setText(content);
+    @Override
+    protected void resumeData() {
+
     }
 
-    private void doSaveBasic() {
-        ProgressDialogUtils.showProgressDialog(getContext());
-        JSONObject jsonRequest = new JSONObject();
-        try {
-            JSONObject salaryJson = new JSONObject();
-            for (Image image : images
-                    ) {
-                if (image.getId() > 0) {
-                    Attachment attachment = new Attachment();
-                    attachment.setId((int) image.getId());
-                    attachment.setUrl(image.getPath());
-                    attach.add(attachment);
-                }
-            }
-            JSONArray jsonArray = new JSONArray();
-            for (Attachment mId : attach)
-                jsonArray.put(mId.getId());
-            salaryJson.put("attachments", jsonArray);
-            salaryJson.put(Constants.PARAMETER_BASIC_CONTENT, edtResource.getText().toString().trim());
-            jsonRequest.put(Constants.PARAMETER_BASIC_INCOME_OTHER, salaryJson);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        LogUtils.d(TAG, "doSaveBasic jsonRequest : " + jsonRequest.toString());
-        RequestBody body = RequestBody.create(MediaType.parse("application/json"), jsonRequest.toString());
-        ApiClient.getApiService().saveBasicInformation(UserManager.getUserToken(), appID, body).enqueue(new Callback<ResponseBasicInformation>() {
+    @Override
+    public void onRefresh() {
+
+    }
+
+    private void getReviewIncome() {
+        ProgressDialogUtils.showProgressDialog(getActivity());
+        LogUtils.d(TAG, "getReviewIncome code : " + appID);
+        ApiClient.getApiService().getReviewIncome(UserManager.getUserToken(), appID).enqueue(new Callback<IncomeResponse>() {
             @Override
-            public void onResponse(Call<ResponseBasicInformation> call, Response<ResponseBasicInformation> response) {
+            public void onResponse(Call<IncomeResponse> call, Response<IncomeResponse> response) {
                 ProgressDialogUtils.dismissProgressDialog();
-                LogUtils.d(TAG, "doSaveBasic code: " + response.code());
+                LogUtils.d(TAG, "getReviewIncome code : " + response.code());
                 if (response.code() == Constants.HTTP_CODE_OK) {
-                    basic = response.body();
-                    basic.setAppId(appID);
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable(Constants.KEY_BASIC_INFORMATION, (Serializable) basic);
-                    openFragment(R.id.layout_container, DeductionFragment.class, true, bundle, TransitionScreen.RIGHT_TO_LEFT);
+//                    LogUtils.d(TAG, "getReviewIncome body : " + response.body().getGovPayment().toString());
+                    govPayment = response.body().getGovPayment();
+                    if (govPayment != null) updateUI(govPayment);
                 } else {
                     APIError error = Utils.parseError(response);
-                    LogUtils.e(TAG, "doSaveBasic error : " + error.message());
                     if (error != null) {
-                        DialogUtils.showOkDialog(getContext(), getString(R.string.error), error.message(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                        LogUtils.d(TAG, "getReviewIncome error : " + error.message());
+                        DialogUtils.showOkDialog(getActivity(), getString(R.string.error), error.message(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
                             @Override
                             public void onSubmit() {
 
@@ -316,13 +287,13 @@ public class IncomeOther extends BaseFragment implements View.OnClickListener {
             }
 
             @Override
-            public void onFailure(Call<ResponseBasicInformation> call, Throwable t) {
-                LogUtils.e(TAG, "doSaveBasic onFailure : " + t.getMessage());
+            public void onFailure(Call<IncomeResponse> call, Throwable t) {
+                LogUtils.e(TAG, "getReviewIncome onFailure : " + t.getMessage());
                 ProgressDialogUtils.dismissProgressDialog();
-                DialogUtils.showRetryDialog(getContext(), new AlertDialogOkAndCancel.AlertDialogListener() {
+                DialogUtils.showRetryDialog(getActivity(), new AlertDialogOkAndCancel.AlertDialogListener() {
                     @Override
                     public void onSubmit() {
-                        doSaveBasic();
+                        getReviewIncome();
                     }
 
                     @Override
@@ -333,6 +304,7 @@ public class IncomeOther extends BaseFragment implements View.OnClickListener {
             }
         });
     }
+
 
     private void uploadImage() {
         final ArrayList<Image> listUp = new ArrayList<>();
@@ -346,24 +318,114 @@ public class IncomeOther extends BaseFragment implements View.OnClickListener {
                 @Override
                 public void onSuccess(List<Attachment> responses) {
                     attach.addAll(responses);
-                    doSaveBasic();
+                    doSaveReview();
                 }
             });
         } else {
-            doSaveBasic();
+            doSaveReview();
         }
 
 
     }
 
+    private void doSaveReview() {
+        ProgressDialogUtils.showProgressDialog(getContext());
+        final JSONObject jsonRequest = new JSONObject();
+        try {
+            JSONObject govJson = new JSONObject();
+            govJson.put(Constants.PARAMETER_REVIEW_INCOME_GOVEMENT_HAD, rbYes.isChecked());
+            govJson.put(Constants.PARAMETER_REVIEW_INCOME_GOVEMENT_TYPE, edtIncomeType.getText().toString().trim());
+            govJson.put(Constants.PARAMETER_REVIEW_INCOME_GOVEMENT_GROSS, edtGrossPayment.getText().toString().trim());
+            govJson.put(Constants.PARAMETER_REVIEW_INCOME_GOVEMENT_TAX, edtTax.getText().toString().trim());
+            if (images.size() > 1) {
+                for (Image image : images
+                        ) {
+                    if (image.getId() > 0) {
+                        Attachment attachment = new Attachment();
+                        attachment.setId((int) image.getId());
+                        attachment.setUrl(image.getPath());
+                        attach.add(attachment);
+                    }
+                }
+                JSONArray jsonArray = new JSONArray();
+                for (Attachment mId : attach)
+                    jsonArray.put(mId.getId());
+                govJson.put(Constants.PARAMETER_ATTACHMENTS, jsonArray);
+            }
+            jsonRequest.put(Constants.PARAMETER_REVIEW_INCOME_GOVEMENT, govJson);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        LogUtils.d(TAG, "doSaveReview jsonRequest : " + jsonRequest.toString());
+        RequestBody body = RequestBody.create(MediaType.parse("application/json"), jsonRequest.toString());
+        ApiClient.getApiService().putReviewIncom(UserManager.getUserToken(), appID, body).enqueue(new Callback<IncomeResponse>() {
+            @Override
+            public void onResponse(Call<IncomeResponse> call, Response<IncomeResponse> response) {
+                ProgressDialogUtils.dismissProgressDialog();
+                LogUtils.d(TAG, "doSaveReview code: " + response.code());
+                if (response.code() == Constants.HTTP_CODE_OK) {
+                    LogUtils.d(TAG, "doSaveReview code: " + response.body().getJobs().toString());
+                    Bundle bundle = new Bundle();
+                    bundle.putInt(Constants.PARAMETER_APP_ID, appID);
+                    openFragment(R.id.layout_container, ReviewBankInterests.class, true, bundle, TransitionScreen.RIGHT_TO_LEFT);
+                } else {
+                    APIError error = Utils.parseError(response);
+                    LogUtils.e(TAG, "doSaveReview error : " + error.message());
+                    if (error != null) {
+                        DialogUtils.showOkDialog(getContext(), getString(R.string.error), error.message(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                            @Override
+                            public void onSubmit() {
+
+                            }
+                        });
+                    }
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<IncomeResponse> call, Throwable t) {
+                LogUtils.e(TAG, "doSaveReview onFailure : " + t.getMessage());
+                ProgressDialogUtils.dismissProgressDialog();
+                DialogUtils.showRetryDialog(getContext(), new AlertDialogOkAndCancel.AlertDialogListener() {
+                    @Override
+                    public void onSubmit() {
+                        doSaveReview();
+                    }
+
+                    @Override
+                    public void onCancel() {
+
+                    }
+                });
+            }
+        });
+    }
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.fab:
+                rbYes.setEnabled(true);
+                rbNo.setEnabled(true);
+                edtIncomeType.setEnabled(true);
+                edtGrossPayment.setEnabled(true);
+                edtTax.setEnabled(true);
+                myGridView.setEnabled(true);
+                break;
             case R.id.btn_next:
-                final Bundle bundle = new Bundle();
+
                 if (rbYes.isChecked()) {
-                    if (edtResource.getText().toString().trim().isEmpty()) {
-                        showToolTipView(getContext(), edtResource, Gravity.TOP, getString(R.string.valid_income_content), ContextCompat.getColor(getContext(), R.color.red));
+                    if (edtIncomeType.getText().toString().trim().isEmpty()) {
+                        showToolTipView(getContext(), edtIncomeType, Gravity.TOP, getString(R.string.valid_income_content), ContextCompat.getColor(getContext(), R.color.red));
+                        return;
+                    }
+                    if (edtGrossPayment.getText().toString().trim().isEmpty()) {
+                        showToolTipView(getContext(), edtGrossPayment, Gravity.TOP, getString(R.string.valid_income_content), ContextCompat.getColor(getContext(), R.color.red));
+                        return;
+                    }
+                    if (edtTax.getText().toString().trim().isEmpty()) {
+                        showToolTipView(getContext(), edtTax, Gravity.TOP, getString(R.string.valid_income_content), ContextCompat.getColor(getContext(), R.color.red));
                         return;
                     }
                     if (images.size() < 2) {
@@ -373,11 +435,14 @@ public class IncomeOther extends BaseFragment implements View.OnClickListener {
                     uploadImage();
 
                 } else {
-                    bundle.putSerializable(Constants.KEY_BASIC_INFORMATION, basic);
-                    openFragment(R.id.layout_container, DeductionFragment.class, true, bundle, TransitionScreen.RIGHT_TO_LEFT);
+                    Bundle bundle = new Bundle();
+                    bundle.putInt(Constants.PARAMETER_APP_ID, appID);
+                    openFragment(R.id.layout_container, ReviewBankInterests.class, true, bundle, TransitionScreen.RIGHT_TO_LEFT);
                 }
                 break;
 
+
         }
+
     }
 }

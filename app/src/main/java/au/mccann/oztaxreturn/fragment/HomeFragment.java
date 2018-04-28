@@ -38,6 +38,7 @@ public class HomeFragment extends BaseFragment {
     private RecyclerView recyclerView;
     private HomeAdapter homeAdapter;
     private ArrayList<ApplicationResponse> applicationResponses;
+    private Bundle bundle = new Bundle();
 
     @Override
     protected int getLayout() {
@@ -61,7 +62,6 @@ public class HomeFragment extends BaseFragment {
                 startActivityForResult(intent, Constants.CREATE_APP_REQUEST_CODE, TransitionScreen.RIGHT_TO_LEFT);
             }
         });
-
     }
 
     @Override
@@ -91,9 +91,10 @@ public class HomeFragment extends BaseFragment {
         homeAdapter.setOnClickListener(new HomeAdapter.OnClickListener() {
             @Override
             public void onClick(int position) {
+                bundle.putInt(Constants.PARAMETER_APP_ID, applicationResponses.get(position).getId());
                 setApplicationResponse(applicationResponses.get(position));
                 updateAppInNavigation(applicationResponses.get(position));
-                openFragment(R.id.layout_container, ReviewBeginBFragment.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
+                openFragment(R.id.layout_container, IncomeWagesSalaryFragment.class, true, bundle, TransitionScreen.RIGHT_TO_LEFT);
             }
         });
     }

@@ -92,7 +92,7 @@
     <!-- income other -->
     <string name="income_other_title">Income</string>
     <string name="income_other_resource">Other resource</string>
-    <string name="income_other_content">It will help us your return faster if your could provide some extra ìnorrmation about your income</string>
+    <string name="income_other_content">It will help us your return faster if your could provide some extra inforrmation about your income</string>
     <string name="income_radio_text_no">No, I don’t have any other source of income</string>
     <string name="income_radio_text_yes">Yes, and i want the acountant take a look at my case and get back to me for addtional information</string>
     <string name="income_other_hint">Your extra sources of income. Example: Retail properties, investment</string>
@@ -147,6 +147,7 @@
     <string name="valid_app_post_code">Enter post code</string>
     <string name="valid_app_phone">Enter Phone number</string>
     <string name="valid_app_email">Enter email address</string>
+    <string name="valid_app_email_2">Email address is not available</string>
 
     <!-- first checkout -->
     <string name="first_checkout_title">CHECK OUT</string>
@@ -214,6 +215,40 @@
     <string name="home_navi_terms">Terms &amp; Condition</string>
     <string name="home_navi_share">Share</string>
     <string name="home_rate">Rate us</string>
+
+    <!-- review income ws -->
+    <string name="review_income_title">Review income</string>
+    <string name="review_income_ws_title">Personal infomation</string>
+    <string name="job_1">job 1:</string>
+    <string name="total_gross">Total gross income</string>
+    <string name="total_tax_width_held">Total tax widthheld</string>
+    <string name="allowances">Allowances</string>
+    <string name="reportable_fringer_benefits">reportable fringer benefits</string>
+    <string name="reportable_employer_super_contribution">reportable employer super contribution</string>
+    <string name="company_name">company name</string>
+    <string name="company_abn">company ABN</string>
+    <string name="company_contact">company contact</string>
+    <string name="job">Job</string>
+
+    <!-- review govement payment -->
+    <string name="review_govement_payment">Govement payment</string>
+    <string name="review_govement_payment_ask">Do you receive government such as Newstart, Youth Allowance or Parenting payment</string>
+    <string name="income_type">income type</string>
+    <string name="gross_payment">gross payment</string>
+    <string name="tax_widthheld">Tax widthheld</string>
+    <string name="label_image">image</string>
+
+    <!-- review bank interest  -->
+    <string name="review_Interest">Interest</string>
+    <string name="review_Interest_ask">Do you receive any interest from your bank account?</string>
+    <string name="interest_bank_name">Bank name</string>
+    <string name="interes_account_number">account number</string>
+    <string name="interest_total">Total interests</string>
+    <string name="interest_tax_widthheld">Tax widthheld</string>
+    <string name="interest_bank_fees">bank fees</string>
+    <string name="valid_bank_tax">Enter your tax withheld</string>
+    <string name="valid_bank_total">Enter your total interests</string>
+    <string name="valid_bank_fees">Enter bank fees</string>
 
 
 </resources>
