@@ -106,6 +106,12 @@ public class Constants {
     public static final String PARAMETER_FEE_EXTRA = "fee_extra";
     public static final String URL_EXTRA = "url_extra";
     public static final String TITLE_INFO_EXTRA = "title_extra";
+    public static final String PARAMETER_PUT_ID = "id";
+    public static final String PARAMETER_REVIEW_INCOM_DIVIDEND_COMPANY = "company_name";
+    public static final String PARAMETER_REVIEW_INCOM_DIVIDEND_UNFRANKED ="unfranked" ;
+    public static final String PARAMETER_REVIEW_INCOM_DIVIDEND_FRANKED = "franked";
+    public static final String PARAMETER_REVIEW_INCOM_DIVIDEND_FRANKED_CREATE = "franking_credits";
+    public static final String PARAMETER_REVIEW_INCOM_DIVIDEND_TAX ="tax_withheld" ;
     public static int MAX_IMAGE_ATTACH = 9;
     public static final String INTENT_EXTRA_ALBUM = "album_name";
     public static final int REQUEST_CODE_PICK_IMAGE = 357;

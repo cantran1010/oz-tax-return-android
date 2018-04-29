@@ -16,9 +16,9 @@ public class Dividend {
     @SerializedName("franked")
     private String franked;
     @SerializedName("franking_credits")
-    private String franking_credits;
+    private String frankingCredits;
     @SerializedName("tax_withheld")
-    private String tax_withheld;
+    private String taxWithheld;
     @SerializedName("attachments")
     private ArrayList<Attachment> attachments;
 
@@ -54,20 +54,20 @@ public class Dividend {
         this.franked = franked;
     }
 
-    public String getFranking_credits() {
-        return franking_credits;
+    public String getFrankingCredits() {
+        return frankingCredits;
     }
 
-    public void setFranking_credits(String franking_credits) {
-        this.franking_credits = franking_credits;
+    public void setFrankingCredits(String frankingCredits) {
+        this.frankingCredits = frankingCredits;
     }
 
-    public String getTax_withheld() {
-        return tax_withheld;
+    public String getTaxWithheld() {
+        return taxWithheld;
     }
 
-    public void setTax_withheld(String tax_withheld) {
-        this.tax_withheld = tax_withheld;
+    public void setTaxWithheld(String taxWithheld) {
+        this.taxWithheld = taxWithheld;
     }
 
     public ArrayList<Attachment> getAttachments() {
@@ -85,8 +85,8 @@ public class Dividend {
                 ", companyName='" + companyName + '\'' +
                 ", unfranked='" + unfranked + '\'' +
                 ", franked='" + franked + '\'' +
-                ", franking_credits='" + franking_credits + '\'' +
-                ", tax_withheld='" + tax_withheld + '\'' +
+                ", franking_credits='" + frankingCredits + '\'' +
+                ", tax_withheld='" + taxWithheld + '\'' +
                 ", attachments='" + attachments + '\'' +
                 '}';
     }

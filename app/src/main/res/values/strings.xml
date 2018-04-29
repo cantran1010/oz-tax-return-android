@@ -257,6 +257,8 @@
     <string name="valid_bank_tax">Enter your tax withheld</string>
     <string name="valid_bank_total">Enter your total interests</string>
     <string name="valid_bank_fees">Enter bank fees</string>
+
+    <!-- review dividends   -->
     <string name="review_income_dividends">Dividends</string>
     <string name="review_income_dividends_ask">Do you receive any dividends from any sources?</string>
     <string name="dividends_company_name">company name</string>
@@ -264,6 +266,12 @@
     <string name="franking_credits">franking credits</string>
     <string name="dividends_tax_widthheld">Tax widthheld</string>
     <string name="label_add">add new dividends</string>
+    <string name="franked_dividends">franked dividends</string>
+    <string name="early_termination_payment">Early termination payment</string>
+    <string name="review_early_ask">Did you receive any early termination payment?</string>
+    <string name="payment_date">Payment date</string>
+    <string name="payer_abn">payer’s ABN</string>
+    <string name="taxtable_component">taxtable component</string>
 
     <!-- checkout -->
     <string name="checkout_des">Please provide your payment info</string>

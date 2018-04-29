@@ -82,7 +82,7 @@ public class EarlyTerminationPayments extends BaseFragment implements View.OnCli
 
     @Override
     protected int getLayout() {
-        return R.layout.fragment_review_income_dividends;
+        return R.layout.fragment_early_termination_payments;
     }
 
     @Override
