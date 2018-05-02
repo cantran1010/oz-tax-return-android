@@ -32,6 +32,7 @@ import au.mccann.oztaxreturn.dialog.AlertDialogOkAndCancel;
 import au.mccann.oztaxreturn.dialog.PickImageDialog;
 import au.mccann.oztaxreturn.model.APIError;
 import au.mccann.oztaxreturn.model.Attachment;
+import au.mccann.oztaxreturn.model.Deduction;
 import au.mccann.oztaxreturn.model.Image;
 import au.mccann.oztaxreturn.model.ResponseBasicInformation;
 import au.mccann.oztaxreturn.networking.ApiClient;
@@ -121,7 +122,7 @@ public class DeductionFragment extends BaseFragment implements View.OnClickListe
     }
 
     private void updateUI(ResponseBasicInformation basic) {
-        au.mccann.oztaxreturn.model.Deduction deduction = basic.getDeduction();
+        Deduction deduction = basic.getDeduction();
         edtDeduction.setText(deduction.getContent());
         showImage(deduction.getAttachments(), images, imageAdapter);
     }

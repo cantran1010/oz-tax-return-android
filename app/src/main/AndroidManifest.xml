@@ -70,6 +70,7 @@
         <activity
             android:name=".activity.AlbumActivity"
             android:screenOrientation="portrait" />
+
         <activity
             android:name=".activity.RecoverActivity"
             android:label="@string/title_activity_home"
@@ -82,6 +83,10 @@
 
         <activity
             android:name=".activity.ImageSelectActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".activity.GeneralInfoActivity"
             android:screenOrientation="portrait" />
 
     </application>

@@ -38,6 +38,7 @@
     <!-- common -->
     <string name="preview_image_title">Preview</string>
     <string name="error_must_one">You must select at least one option!</string>
+    <string name="logout">Are you sure you want to logout?</string>
 
     <!-- pick image dialog -->
     <string name="attach_img_title">Attach image</string>
@@ -56,6 +57,12 @@
     <string name="home_menu3">Notification</string>
     <string name="delete_application">Are you sure to delete this application?</string>
     <string name="delete_application_title">Delete Application</string>
+    <string name="start">START</string>
+    <string name="review">REVIEW</string>
+    <string name="submitted">Submitted</string>
+    <string name="completed">Completed</string>
+    <string name="auditing">Auditing</string>
+    <string name="percent">%1$d %</string>
 
     <!-- add new board -->
     <string name="add_new_board_title">NEW TAX RETURN APPLICATION</string>
@@ -261,5 +268,6 @@
     <string name="checkout_cvm">CVM</string>
     <string name="checkout_btn">CHECK OUT</string>
     <string name="checkout_success">Checkout Success!</string>
+    <string name="reviewed">Reviewed</string>
 
 </resources>

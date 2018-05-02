@@ -104,6 +104,8 @@ public class Constants {
     public static final String KEY_REVIEW ="key_review" ;
     public static final String PERSONNAL_INFO_EXTRA = "personnal_info_extra";
     public static final String PARAMETER_FEE_EXTRA = "fee_extra";
+    public static final String URL_EXTRA = "url_extra";
+    public static final String TITLE_INFO_EXTRA = "title_extra";
     public static int MAX_IMAGE_ATTACH = 9;
     public static final String INTENT_EXTRA_ALBUM = "album_name";
     public static final int REQUEST_CODE_PICK_IMAGE = 357;

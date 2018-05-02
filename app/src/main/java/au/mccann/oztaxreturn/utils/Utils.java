@@ -9,10 +9,12 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
+import android.graphics.drawable.Drawable;
 import android.media.ExifInterface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.os.Build;
 import android.text.TextUtils;
 import android.util.Base64;
 import android.view.Gravity;
@@ -425,6 +427,18 @@ public class Utils {
             } else
                 return fileIn;
 
+        }
+    }
+
+    @SuppressWarnings("deprecation")
+    public static void setViewBackground(View view, Drawable background) {
+        if (view == null || background == null)
+            return;
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            view.setBackground(background);
+        } else {
+            view.setBackgroundDrawable(background);
         }
     }
 
