@@ -35,6 +35,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.lang.annotation.Annotation;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -453,6 +454,16 @@ public class Utils {
             return Bitmap.createScaledBitmap(bmInput, (int) (bmInput.getWidth() / scale), (int) (bmInput.getHeight() / scale), false);
         } else
             return bmInput;
+    }
+
+    public static String formatNumber(int input) {
+        DecimalFormat myFormatter = new DecimalFormat("###,###.###");
+        return myFormatter.format(input);
+    }
+
+    public static String formatNumber(long input) {
+        DecimalFormat myFormatter = new DecimalFormat("###,###.###");
+        return myFormatter.format(input);
     }
 
     // format phone number to nation format

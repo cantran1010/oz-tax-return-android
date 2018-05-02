@@ -181,6 +181,7 @@
     <string name="infomation_c_des">Do you have any remaining student loan schem debt such as HECS/HELP? </string>
     <string name="infomation_c_remain">REMAINING</string>
     <string name="USD">$</string>
+    <string name="USD2">$ %1$s</string>
 
     <!-- navigation menu review -->
     <string name="menu_personal">Personal information</string>
@@ -250,5 +251,15 @@
     <string name="valid_bank_total">Enter your total interests</string>
     <string name="valid_bank_fees">Enter bank fees</string>
 
+    <!-- checkout -->
+    <string name="checkout_des">Please provide your payment info</string>
+    <string name="checkout_name">NAME ON CARD</string>
+    <string name="checkout_number">CARD NUMBER</string>
+    <string name="checkout_date">EXPIRATION DATE</string>
+    <string name="checkout_month">Month</string>
+    <string name="checkout_year">Year</string>
+    <string name="checkout_cvm">CVM</string>
+    <string name="checkout_btn">CHECK OUT</string>
+    <string name="checkout_success">Checkout Success!</string>
 
 </resources>
