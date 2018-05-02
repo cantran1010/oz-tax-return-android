@@ -72,4 +72,5 @@ dependencies {
     implementation 'me.relex:circleindicator:1.2.2@aar'
 
     compile 'com.googlecode.libphonenumber:libphonenumber:8.9.4'
+    implementation 'com.stripe:stripe-android:6.1.2'
 }

@@ -9,10 +9,12 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
+import android.graphics.drawable.Drawable;
 import android.media.ExifInterface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.os.Build;
 import android.text.TextUtils;
 import android.util.Base64;
 import android.view.Gravity;
@@ -35,6 +37,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.lang.annotation.Annotation;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -427,6 +430,18 @@ public class Utils {
         }
     }
 
+    @SuppressWarnings("deprecation")
+    public static void setViewBackground(View view, Drawable background) {
+        if (view == null || background == null)
+            return;
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            view.setBackground(background);
+        } else {
+            view.setBackgroundDrawable(background);
+        }
+    }
+
 
     public static void compressBitmapToFile(Bitmap bmp, String path) {
         FileOutputStream out = null;
@@ -453,6 +468,16 @@ public class Utils {
             return Bitmap.createScaledBitmap(bmInput, (int) (bmInput.getWidth() / scale), (int) (bmInput.getHeight() / scale), false);
         } else
             return bmInput;
+    }
+
+    public static String formatNumber(int input) {
+        DecimalFormat myFormatter = new DecimalFormat("###,###.###");
+        return myFormatter.format(input);
+    }
+
+    public static String formatNumber(long input) {
+        DecimalFormat myFormatter = new DecimalFormat("###,###.###");
+        return myFormatter.format(input);
     }
 
     // format phone number to nation format

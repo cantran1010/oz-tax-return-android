@@ -86,7 +86,6 @@ public class IncomeWagesSalaryFragment extends BaseFragment implements View.OnCl
     private Calendar calendar = GregorianCalendar.getInstance();
     private ResponseBasicInformation basicInformation;
     private ArrayList<Attachment> attach;
-    private int appID;
 
     @Override
     protected int getLayout() {
@@ -118,7 +117,6 @@ public class IncomeWagesSalaryFragment extends BaseFragment implements View.OnCl
         basicInformation = new ResponseBasicInformation();
         setTitle(getString(R.string.income_ws_title));
         appBarVisibility(false, true, 0);
-        appID = getArguments().getInt(Constants.PARAMETER_APP_ID);
         //images
         if (images.size() == 0) {
             final Image image = new Image();
@@ -179,8 +177,7 @@ public class IncomeWagesSalaryFragment extends BaseFragment implements View.OnCl
 
     private void getBasicInformation() {
         ProgressDialogUtils.showProgressDialog(getActivity());
-        LogUtils.d(TAG, "getBasicInformation code : " + appID);
-        ApiClient.getApiService().getBasicInformation(UserManager.getUserToken(), appID).enqueue(new Callback<ResponseBasicInformation>() {
+        ApiClient.getApiService().getBasicInformation(UserManager.getUserToken(), getApplicationResponse().getId()).enqueue(new Callback<ResponseBasicInformation>() {
             @Override
             public void onResponse(Call<ResponseBasicInformation> call, Response<ResponseBasicInformation> response) {
                 ProgressDialogUtils.dismissProgressDialog();
@@ -246,8 +243,7 @@ public class IncomeWagesSalaryFragment extends BaseFragment implements View.OnCl
 
     private void uploadImage() {
         final ArrayList<Image> listUp = new ArrayList<>();
-        for (Image image : images
-                ) {
+        for (Image image : images) {
             if (image.getId() == 0 && !image.isAdd()) listUp.add(image);
         }
         if (listUp.size() > 0) {
@@ -273,8 +269,7 @@ public class IncomeWagesSalaryFragment extends BaseFragment implements View.OnCl
         try {
             JSONObject salaryJson = new JSONObject();
             if (cbYes.isChecked()) {
-                for (Image image : images
-                        ) {
+                for (Image image : images) {
                     if (image.getId() > 0) {
                         Attachment attachment = new Attachment();
                         attachment.setId((int) image.getId());
@@ -300,9 +295,9 @@ public class IncomeWagesSalaryFragment extends BaseFragment implements View.OnCl
             e.printStackTrace();
         }
         LogUtils.d(TAG, "doSaveBasic jsonRequest : " + jsonRequest.toString());
-        LogUtils.d(TAG, "doSaveBasic appId : " + appID);
+        LogUtils.d(TAG, "doSaveBasic appId : " + getApplicationResponse().getId());
         RequestBody body = RequestBody.create(MediaType.parse("application/json"), jsonRequest.toString());
-        ApiClient.getApiService().saveBasicInformation(UserManager.getUserToken(), appID, body).enqueue(new Callback<ResponseBasicInformation>() {
+        ApiClient.getApiService().saveBasicInformation(UserManager.getUserToken(), getApplicationResponse().getId(), body).enqueue(new Callback<ResponseBasicInformation>() {
             @Override
             public void onResponse(Call<ResponseBasicInformation> call, Response<ResponseBasicInformation> response) {
                 ProgressDialogUtils.dismissProgressDialog();
@@ -310,7 +305,7 @@ public class IncomeWagesSalaryFragment extends BaseFragment implements View.OnCl
                 if (response.code() == Constants.HTTP_CODE_OK) {
                     LogUtils.d(TAG, "doSaveBasic body: " + response.body());
                     basicInformation = response.body();
-                    basicInformation.setAppId(appID);
+                    basicInformation.setAppId(getApplicationResponse().getId());
                     Bundle bundle = new Bundle();
                     bundle.putSerializable(Constants.KEY_BASIC_INFORMATION, basicInformation);
                     openFragment(R.id.layout_container, IncomeOther.class, true, bundle, TransitionScreen.RIGHT_TO_LEFT);
@@ -360,12 +355,12 @@ public class IncomeWagesSalaryFragment extends BaseFragment implements View.OnCl
     }
 
     private void checkPermissionImageAttach() {
-        if (ContextCompat.checkSelfPermission(getActivity(),
+        if (ActivityCompat.checkSelfPermission(getActivity(),
                 Manifest.permission.CAMERA) + ContextCompat
                 .checkSelfPermission(getActivity(),
                         Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(getActivity(), permissions, Constants.PERMISSION_REQUEST_CODE);
+            requestPermissions(permissions, Constants.PERMISSION_REQUEST_CODE);
         } else {
             permissionGrantedImageAttach();
         }

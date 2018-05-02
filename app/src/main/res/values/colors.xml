@@ -21,4 +21,7 @@
     <color name="estimate_bg">#f5f5f5</color>
     <color name="oz_red">#f26c4f</color>
     <color name="oz_blue">#577bb5</color>
+    <color name="sumitted">#333333</color>
+    <color name="complete">#0e76bc</color>
+    <color name="autiting">#e55a1d</color>
 </resources>

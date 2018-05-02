@@ -17,6 +17,8 @@ public class ApplicationResponse implements Parcelable,Serializable {
     private String payerName;
     @SerializedName("financial_year")
     private String financialYear;
+    private int progress;
+    private String status;
 
     public ApplicationResponse(Parcel in) {
         id = in.readInt();
@@ -72,12 +74,31 @@ public class ApplicationResponse implements Parcelable,Serializable {
         this.financialYear = financialYear;
     }
 
+    public int getProgress() {
+        return progress;
+    }
+
+    public void setProgress(int progress) {
+        this.progress = progress;
+    }
+
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
     @Override
     public String toString() {
         return "ApplicationResponse{" +
                 "id=" + id +
                 ", payerName='" + payerName + '\'' +
                 ", financialYear='" + financialYear + '\'' +
+                ", progress=" + progress +
+                ", status='" + status + '\'' +
                 '}';
     }
 

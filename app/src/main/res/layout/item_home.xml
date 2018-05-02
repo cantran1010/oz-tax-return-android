@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -9,7 +10,7 @@
     <RelativeLayout
         android:id="@+id/relativeLayout"
         android:layout_width="match_parent"
-        android:layout_height="85dp"
+        android:layout_height="90dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
@@ -17,16 +18,17 @@
 
         <RelativeLayout
             android:id="@+id/layout_left"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp">
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp">
 
             <au.mccann.oztaxreturn.view.TextViewCustom
                 android:id="@+id/tv_status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
                 android:text="Complete"
                 android:textColor="@color/black"
                 android:textSize="12sp"
@@ -34,22 +36,25 @@
 
             <RelativeLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true">
 
                 <ProgressBar
-                    android:id="@+id/progressBar"
+                    android:id="@+id/progress_bar"
                     style="?android:attr/progressBarStyleHorizontal"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="55dp"
+                    android:layout_height="55dp"
                     android:layout_centerInParent="true"
                     android:layout_margin="5dp"
                     android:indeterminateTint="@color/red"
                     android:max="100"
                     android:padding="5dp"
                     android:progress="75"
-                    android:progressDrawable="@drawable/progress_circular" />
+                    android:progressDrawable="@drawable/progress_circular"
+                    android:secondaryProgress="100" />
 
                 <au.mccann.oztaxreturn.view.TextViewCustom
+                    android:id="@+id/tv_progress"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
@@ -65,10 +70,10 @@
             android:id="@+id/v"
             android:layout_width="1dp"
             android:layout_height="match_parent"
-            android:layout_marginBottom="15dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="20dp"
             android:layout_toRightOf="@id/layout_left"
-            android:background="@color/line_color" />
+            android:background="#cdcdcc" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -113,6 +118,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
+                android:drawablePadding="5dp"
                 android:text="REVIEW"
                 android:textColor="@color/white"
                 android:textSize="13sp"
@@ -122,13 +128,15 @@
 
     </RelativeLayout>
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/img_delete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:src="@drawable/img_close"
+        app:civ_border_color="#f1f1f1"
+        app:civ_border_width="3dp"
         tools:ignore="ContentDescription" />
 
 

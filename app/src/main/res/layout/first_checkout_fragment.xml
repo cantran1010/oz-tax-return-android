@@ -109,14 +109,15 @@
 
         <au.mccann.oztaxreturn.view.EdittextCustom
             android:id="@+id/edt_promotion_code"
-            style="@style/EditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/left_right_margin_screen"
             android:layout_marginRight="@dimen/left_right_margin_screen"
             android:layout_marginTop="20dp"
+            android:background="@drawable/bg_edittext"
             android:gravity="center"
             android:hint="@string/promotion_hint"
+            android:minHeight="45dp"
             android:textSize="15sp" />
 
         <au.mccann.oztaxreturn.view.TextViewCustom

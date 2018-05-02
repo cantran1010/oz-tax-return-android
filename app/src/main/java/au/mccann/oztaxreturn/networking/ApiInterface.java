@@ -7,6 +7,7 @@ import au.mccann.oztaxreturn.model.IncomeResponse;
 import au.mccann.oztaxreturn.model.ResponseBasicInformation;
 import au.mccann.oztaxreturn.model.UserReponse;
 import au.mccann.oztaxreturn.rest.response.ApplicationResponse;
+import au.mccann.oztaxreturn.rest.response.FeeResponse;
 import au.mccann.oztaxreturn.rest.response.PersonalInfomationResponse;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -67,4 +68,14 @@ public interface ApiInterface {
 
     @PUT("application/{application_id}/review/personal_info")
     Call<PersonalInfomationResponse> updatePersonalInfo(@Header("Authorization") String token, @Path("application_id") int appId, @Body RequestBody body);
+
+
+    @GET("application/{application_id}/fees")
+    Call<FeeResponse> getPromotionFee(@Header("Authorization") String token, @Path("application_id") int appId);
+
+    @POST("application/{application_id}/promotion")
+    Call<FeeResponse> checkPromotionCode(@Header("Authorization") String token, @Path("application_id") int appId, @Body RequestBody body);
+
+    @POST("application/{application_id}/checkout")
+    Call<Void> checkout(@Header("Authorization") String token, @Path("application_id") int appId, @Body RequestBody body);
 }

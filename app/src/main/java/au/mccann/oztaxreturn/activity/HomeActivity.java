@@ -12,6 +12,8 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import au.mccann.oztaxreturn.R;
+import au.mccann.oztaxreturn.common.Constants;
+import au.mccann.oztaxreturn.dialog.AlertDialogOkAndCancel;
 import au.mccann.oztaxreturn.fragment.ContactFragment;
 import au.mccann.oztaxreturn.fragment.HomeFragment;
 import au.mccann.oztaxreturn.fragment.NotificationFragment;
@@ -19,6 +21,7 @@ import au.mccann.oztaxreturn.fragment.review.personal.ReviewPersonalInfomationA;
 import au.mccann.oztaxreturn.fragment.review.personal.ReviewPersonalInfomationB;
 import au.mccann.oztaxreturn.fragment.review.personal.ReviewPersonalInfomationC;
 import au.mccann.oztaxreturn.rest.response.ApplicationResponse;
+import au.mccann.oztaxreturn.utils.DialogUtils;
 import au.mccann.oztaxreturn.utils.LogUtils;
 import au.mccann.oztaxreturn.utils.TransitionScreen;
 import au.mccann.oztaxreturn.utils.Utils;
@@ -237,13 +240,26 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
     }
 
     private void doLogout() {
-        Realm realm = Realm.getDefaultInstance();
-        realm.beginTransaction();
-        realm.deleteAll();
-        realm.commitTransaction();
-        Intent intent = new Intent(this, LoginActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
+
+        DialogUtils.showOkAndCancelDialog(this, getString(R.string.app_name), getString(R.string.logout), getString(R.string.Yes), getString(R.string.No), new AlertDialogOkAndCancel.AlertDialogListener() {
+            @Override
+            public void onSubmit() {
+                Realm realm = Realm.getDefaultInstance();
+                realm.beginTransaction();
+                realm.deleteAll();
+                realm.commitTransaction();
+                Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onCancel() {
+
+            }
+        });
+
+
     }
 
     private void doShareApp() {
@@ -265,6 +281,14 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
         tvAppName.setText(applicationResponse.getPayerName());
         tvYear.setText(applicationResponse.getFinancialYear());
     }
+
+    private void openGeneralInfoActivity(String title, String url) {
+        Intent intent = new Intent(this, GeneralInfoActivity.class);
+        intent.putExtra(Constants.URL_EXTRA, url);
+        intent.putExtra(Constants.TITLE_INFO_EXTRA, title);
+        startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
+    }
+
 
     @Override
     public void onClick(View view) {
@@ -363,6 +387,24 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
 
             case R.id.tv_share:
                 doShareApp();
+                break;
+
+            case R.id.tv_about_us:
+                if (drawer.isDrawerOpen(GravityCompat.END))
+                    drawer.closeDrawer(GravityCompat.END);
+                openGeneralInfoActivity(getString(R.string.home_navi_about), "http://oztax.tonishdev.com/about-us");
+                break;
+
+            case R.id.tv_privacy:
+                if (drawer.isDrawerOpen(GravityCompat.END))
+                    drawer.closeDrawer(GravityCompat.END);
+                openGeneralInfoActivity(getString(R.string.home_navi_privacy), "http://oztax.tonishdev.com/privacy-policy");
+                break;
+
+            case R.id.tv_terms:
+                if (drawer.isDrawerOpen(GravityCompat.END))
+                    drawer.closeDrawer(GravityCompat.END);
+                openGeneralInfoActivity(getString(R.string.home_navi_terms), "http://oztax.tonishdev.com/terms-and-conditions");
                 break;
 
         }
