@@ -21,6 +21,7 @@ public class Dividend {
     private String taxWithheld;
     @SerializedName("attachments")
     private ArrayList<Attachment> attachments;
+    private ArrayList<Image> images;
 
     public String getId() {
         return id;
@@ -78,6 +79,14 @@ public class Dividend {
         this.attachments = attachments;
     }
 
+    public ArrayList<Image> getImages() {
+        return images;
+    }
+
+    public void setImages(ArrayList<Image> images) {
+        this.images = images;
+    }
+
     @Override
     public String toString() {
         return "Dividend{" +
@@ -85,9 +94,10 @@ public class Dividend {
                 ", companyName='" + companyName + '\'' +
                 ", unfranked='" + unfranked + '\'' +
                 ", franked='" + franked + '\'' +
-                ", franking_credits='" + frankingCredits + '\'' +
-                ", tax_withheld='" + taxWithheld + '\'' +
-                ", attachments='" + attachments + '\'' +
+                ", frankingCredits='" + frankingCredits + '\'' +
+                ", taxWithheld='" + taxWithheld + '\'' +
+                ", attachments=" + attachments +
+                ", images=" + images +
                 '}';
     }
 }

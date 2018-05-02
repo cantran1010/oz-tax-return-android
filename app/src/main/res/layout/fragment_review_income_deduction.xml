@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginEnd="@dimen/left_right_margin_screen"
+    android:layout_marginLeft="@dimen/left_right_margin_screen"
+    android:layout_marginRight="@dimen/left_right_margin_screen"
+    android:layout_marginStart="@dimen/left_right_margin_screen">
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="@dimen/left_right_margin_screen"
+        android:padding="25dp"
+        android:src="@drawable/ic_write" />
+
+    <au.mccann.oztaxreturn.view.ButtonCustom
+        android:id="@+id/btn_next"
+        style="@style/Button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20dp"
+        android:text="@string/next" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rcv_job"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:paddingBottom="20dp" />
+
+
+</RelativeLayout>

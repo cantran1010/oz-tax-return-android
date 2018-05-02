@@ -34,9 +34,9 @@
                 android:id="@+id/tv_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
                 android:layout_marginTop="25dp"
-                android:gravity="center_horizontal"
-                android:text="@string/early_termination_payment"
+                android:text="@string/rental_properties"
                 android:textColor="@color/title_color"
                 android:textSize="@dimen/tv_size_xxxlager" />
 
@@ -53,7 +53,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="25dp"
                 android:gravity="center"
-                android:text="@string/review_early_ask"
+                android:text="@string/rental_ask"
                 android:textColor="@color/title_color"
                 android:textSize="@dimen/size_nomal" />
 
@@ -112,52 +112,13 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="25dp"
-                        android:text="@string/payment_date"
+                        android:text="@string/ownership_percentage"
                         android:textAllCaps="true"
                         android:textColor="@color/tv_gray"
                         android:textSize="@dimen/size_small" />
 
                     <au.mccann.oztaxreturn.view.EdittextCustom
-                        android:id="@+id/edt_payment_date"
-                        style="@style/EditText"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:focusable="false"
-                        android:inputType="text"
-                        android:textColor="@color/income_conten"
-                        android:textColorHint="@color/tv_gray" />
-
-                    <au.mccann.oztaxreturn.view.TextViewCustom
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="20dp"
-                        android:text="@string/payer_abn"
-                        android:textAllCaps="true"
-                        android:textColor="@color/tv_gray"
-                        android:textSize="@dimen/size_small" />
-
-                    <au.mccann.oztaxreturn.view.EdittextCustom
-                        android:id="@+id/edt_payer_abn"
-                        style="@style/EditText"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:inputType="text"
-                        android:textColor="@color/income_conten"
-                        android:textColorHint="@color/tv_gray" />
-
-                    <au.mccann.oztaxreturn.view.TextViewCustom
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="20dp"
-                        android:text="@string/tax_widthheld"
-                        android:textAllCaps="true"
-                        android:textColor="@color/tv_gray"
-                        android:textSize="@dimen/size_small" />
-
-                    <au.mccann.oztaxreturn.view.EdittextCustom
-                        android:id="@+id/edt_tax_widthheld"
+                        android:id="@+id/edt_owership"
                         style="@style/EditText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -170,13 +131,135 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="20dp"
-                        android:text="@string/taxtable_component"
+                        android:text="@string/street_number"
                         android:textAllCaps="true"
                         android:textColor="@color/tv_gray"
                         android:textSize="@dimen/size_small" />
 
                     <au.mccann.oztaxreturn.view.EdittextCustom
-                        android:id="@+id/edt_taxtable_component"
+                        android:id="@+id/edt_street_name"
+                        style="@style/EditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:inputType="text"
+                        android:textColor="@color/income_conten"
+                        android:textColorHint="@color/tv_gray" />
+
+                    <au.mccann.oztaxreturn.view.TextViewCustom
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:text="@string/suburb"
+                        android:textAllCaps="true"
+                        android:textColor="@color/tv_gray"
+                        android:textSize="@dimen/size_small" />
+
+                    <au.mccann.oztaxreturn.view.EdittextCustom
+                        android:id="@+id/edt_suburb"
+                        style="@style/EditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:inputType="text"
+                        android:textColor="@color/income_conten"
+                        android:textColorHint="@color/tv_gray" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:baselineAligned="false">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <au.mccann.oztaxreturn.view.TextViewCustom
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                android:text="@string/state"
+                                android:textAllCaps="true"
+                                android:textColor="@color/tv_gray"
+                                android:textSize="@dimen/size_small" />
+
+                            <au.mccann.oztaxreturn.view.EdittextCustom
+                                android:id="@+id/edt_state"
+                                style="@style/EditText"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="5dp"
+                                android:layout_marginRight="5dp"
+                                android:layout_marginTop="10dp"
+                                android:inputType="text"
+                                android:textColor="@color/income_conten"
+                                android:textColorHint="@color/tv_gray" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <au.mccann.oztaxreturn.view.TextViewCustom
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="5dp"
+                                android:layout_marginStart="5dp"
+                                android:layout_marginTop="10dp"
+                                android:text="@string/post_code"
+                                android:textAllCaps="true"
+                                android:textColor="@color/tv_gray"
+                                android:textSize="@dimen/size_small" />
+
+                            <au.mccann.oztaxreturn.view.EdittextCustom
+                                android:id="@+id/edt_post_code"
+                                style="@style/EditText"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="5dp"
+                                android:layout_marginStart="5dp"
+                                android:layout_marginTop="10dp"
+                                android:inputType="number"
+                                android:textColor="@color/income_conten"
+                                android:textColorHint="@color/tv_gray" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <au.mccann.oztaxreturn.view.TextViewCustom
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:text="@string/first_earned_date"
+                        android:textAllCaps="true"
+                        android:textColor="@color/tv_gray"
+                        android:textSize="@dimen/size_small" />
+
+                    <au.mccann.oztaxreturn.view.EdittextCustom
+                        android:id="@+id/edt_first_date"
+                        style="@style/EditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:focusable="false"
+                        android:textColor="@color/income_conten"
+                        android:textColorHint="@color/tv_gray" />
+
+                    <au.mccann.oztaxreturn.view.TextViewCustom
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:text="@string/rental_income"
+                        android:textAllCaps="true"
+                        android:textColor="@color/tv_gray"
+                        android:textSize="@dimen/size_small" />
+
+                    <au.mccann.oztaxreturn.view.EdittextCustom
+                        android:id="@+id/edt_rental_income"
                         style="@style/EditText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -185,18 +268,23 @@
                         android:textColor="@color/income_conten"
                         android:textColorHint="@color/tv_gray" />
 
+
+                    <au.mccann.oztaxreturn.view.TextViewCustom
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:text="@string/rental_expenses"
+                        android:textAllCaps="true"
+                        android:textColor="@color/tv_gray"
+                        android:textSize="@dimen/size_small" />
+
                     <au.mccann.oztaxreturn.view.EdittextCustom
-                        android:id="@+id/edt_code"
+                        android:id="@+id/edt_rental_expenses"
                         style="@style/EditText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:background="@drawable/bg_line"
-                        android:drawableEnd="@drawable/ic_code"
-                        android:drawableRight="@drawable/ic_code"
-                        android:focusable="false"
-                        android:hint="@string/early_termination_payment_code"
-                        android:inputType="text"
+                        android:inputType="number"
                         android:textColor="@color/income_conten"
                         android:textColorHint="@color/tv_gray" />
 

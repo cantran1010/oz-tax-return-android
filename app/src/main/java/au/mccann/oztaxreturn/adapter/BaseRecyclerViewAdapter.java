@@ -12,8 +12,7 @@ import java.util.List;
 /**
  * Created by CanTran on 4/13/18.
  */
-public abstract class BaseRecyclerViewAdapter<T>
-        extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public abstract class BaseRecyclerViewAdapter<T> extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     protected LayoutInflater mInflater;
     protected List<T> mDataList;
     protected ItemClickListener mItemClickListener;

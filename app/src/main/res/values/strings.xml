@@ -267,11 +267,32 @@
     <string name="dividends_tax_widthheld">Tax widthheld</string>
     <string name="label_add">add new dividends</string>
     <string name="franked_dividends">franked dividends</string>
+
+    <!-- review etps   -->
     <string name="early_termination_payment">Early termination payment</string>
     <string name="review_early_ask">Did you receive any early termination payment?</string>
     <string name="payment_date">Payment date</string>
     <string name="payer_abn">payer’s ABN</string>
     <string name="taxtable_component">taxtable component</string>
+    <string name="radio_payment_r">R: Excluded life benefit termination payment for early retirement scheme, genuine redundancy, invalidity, compensation for personal injury, unfair dismissal, harassment, discrimination</string>
+    <string name="radio_payment_s">S: Excluded life benefit termination payment that is part of an excluded or non-excluded payment made in an earlier income year for the same termination of employment.</string>
+    <string name="radio_payment_o">O: Non-excluded life benefit termination payment for golden handshake, gratuity, payment in lieu of notice, payment for unused sick leave, payment for unused rostered days off.</string>
+    <string name="radio_payment_p">P: Non-excluded life benefit termination payment that is a part of an excluded or non-excluded payment or transitional termination payment made in an earlier income year for the same termination of employment.</string>
+    <string name="radio_payment_d">D: Death benefit termination payment paid to a dependant.</string>
+    <string name="radio_payment_n">N: Death benefit termination payment paid to a non-dependant</string>
+    <string name="radio_payment_m">M:Multiple</string>
+    <string name="valid_payment_date">Enter payment date</string>
+    <string name="valid_payment_abn">Enter payment abn</string>
+    <string name="valid_table_component">Enter table component</string>
+    <string name="valid_code">Please select ETPs code</string>
+    <string name="early_termination_payment_code">Seclect ETPs code</string>
+    <string name="rental_properties">Rental properties</string>
+    <string name="rental_ask">Did you receive any income from rental properties?</string>
+    <string name="ownership_percentage">ownership percentage</string>
+    <string name="first_earned_date">first earned date</string>
+    <string name="rental_income">rental income</string>
+    <string name="rental_expenses">rental expenses</string>
+    <string name="vali_all_empty">This field is required!</string>
 
     <!-- checkout -->
     <string name="checkout_des">Please provide your payment info</string>

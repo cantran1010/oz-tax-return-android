@@ -8,8 +8,9 @@ import java.util.ArrayList;
  * Created by CanTran on 4/23/18.
  */
 public class Rental {
+    private boolean had;
     @SerializedName("ownership_per")
-    private String ownership_per;
+    private String ownership;
     @SerializedName("street")
     private String street;
     @SerializedName("suburb")
@@ -27,12 +28,20 @@ public class Rental {
     @SerializedName("attachments")
     private ArrayList<Attachment> attachments;
 
-    public String getOwnership_per() {
-        return ownership_per;
+    public boolean isHad() {
+        return had;
     }
 
-    public void setOwnership_per(String ownership_per) {
-        this.ownership_per = ownership_per;
+    public void setHad(boolean had) {
+        this.had = had;
+    }
+
+    public String getOwnership() {
+        return ownership;
+    }
+
+    public void setOwnership(String ownership) {
+        this.ownership = ownership;
     }
 
     public String getStreet() {
@@ -102,7 +111,8 @@ public class Rental {
     @Override
     public String toString() {
         return "Rental{" +
-                "ownership_per='" + ownership_per + '\'' +
+                "had=" + had +
+                ", ownership='" + ownership + '\'' +
                 ", street='" + street + '\'' +
                 ", suburb='" + suburb + '\'' +
                 ", state='" + state + '\'' +

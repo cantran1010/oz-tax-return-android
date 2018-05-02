@@ -3,6 +3,8 @@ package au.mccann.oztaxreturn.fragment.review.income;
 import android.Manifest;
 import android.animation.ObjectAnimator;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -14,6 +16,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CompoundButton;
+import android.widget.DatePicker;
 import android.widget.ScrollView;
 
 import org.json.JSONArray;
@@ -22,6 +25,9 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import au.mccann.oztaxreturn.R;
@@ -32,15 +38,17 @@ import au.mccann.oztaxreturn.common.Constants;
 import au.mccann.oztaxreturn.database.UserManager;
 import au.mccann.oztaxreturn.dialog.AlertDialogOk;
 import au.mccann.oztaxreturn.dialog.AlertDialogOkAndCancel;
+import au.mccann.oztaxreturn.dialog.CodeDialog;
 import au.mccann.oztaxreturn.dialog.PickImageDialog;
 import au.mccann.oztaxreturn.fragment.BaseFragment;
 import au.mccann.oztaxreturn.fragment.basic.IncomeOther;
 import au.mccann.oztaxreturn.model.APIError;
 import au.mccann.oztaxreturn.model.Attachment;
-import au.mccann.oztaxreturn.model.Bank;
+import au.mccann.oztaxreturn.model.Etps;
 import au.mccann.oztaxreturn.model.Image;
 import au.mccann.oztaxreturn.model.IncomeResponse;
 import au.mccann.oztaxreturn.networking.ApiClient;
+import au.mccann.oztaxreturn.utils.DateTimeUtils;
 import au.mccann.oztaxreturn.utils.DialogUtils;
 import au.mccann.oztaxreturn.utils.FileUtils;
 import au.mccann.oztaxreturn.utils.ImageUtils;
@@ -66,8 +74,7 @@ import static au.mccann.oztaxreturn.utils.TooltipUtils.showToolTipView;
  */
 public class EarlyTerminationPayments extends BaseFragment implements View.OnClickListener {
     private RadioButtonCustom rbYes, rbNo;
-    private EdittextCustom edtBankName, edtBankNumber, edtTotalInteres, edtTax, edtBankFees;
-    private MyGridView myGridView;
+    private EdittextCustom edtPaymentDate, edtPayerAbn, edtTaxWidthheld, edtTaxtableComponent, edtCode;
     private static final String TAG = IncomeOther.class.getSimpleName();
     private MyGridView grImage;
     private ImageAdapter imageAdapter;
@@ -76,9 +83,10 @@ public class EarlyTerminationPayments extends BaseFragment implements View.OnCli
     private String imgPath;
     private ScrollView scrollView;
     private ExpandableLayout layout;
-    private Bank bank = new Bank();
+    private Etps etps = new Etps();
     private ArrayList<Attachment> attach;
     private int appID;
+    private final Calendar calendar = GregorianCalendar.getInstance();
 
     @Override
     protected int getLayout() {
@@ -93,21 +101,23 @@ public class EarlyTerminationPayments extends BaseFragment implements View.OnCli
         rbYes.setEnabled(false);
         rbNo = (RadioButtonCustom) findViewById(R.id.rb_no);
         rbNo.setEnabled(false);
-        edtBankName = (EdittextCustom) findViewById(R.id.edt_interest_bank_name);
-        edtBankName.setEnabled(false);
-        edtBankNumber = (EdittextCustom) findViewById(R.id.edt_interest_account_number);
-        edtBankNumber.setEnabled(false);
-        edtTotalInteres = (EdittextCustom) findViewById(R.id.edt_total_interests);
-        edtTotalInteres.setEnabled(false);
-        edtTax = (EdittextCustom) findViewById(R.id.edt_interest_tax);
-        edtTax.setEnabled(false);
-        edtBankFees = (EdittextCustom) findViewById(R.id.edt_interest_bank_fees);
-        edtBankFees.setEnabled(false);
-        myGridView = (MyGridView) findViewById(R.id.gr_image);
-        myGridView.setEnabled(false);
+        edtPaymentDate = (EdittextCustom) findViewById(R.id.edt_payment_date);
+        edtPaymentDate.setEnabled(false);
+        edtPaymentDate.setOnClickListener(this);
+        edtPayerAbn = (EdittextCustom) findViewById(R.id.edt_payer_abn);
+        edtPayerAbn.setEnabled(false);
+        edtTaxWidthheld = (EdittextCustom) findViewById(R.id.edt_tax_widthheld);
+        edtTaxWidthheld.setEnabled(false);
+        edtTaxtableComponent = (EdittextCustom) findViewById(R.id.edt_taxtable_component);
+        edtTaxtableComponent.setEnabled(false);
+        edtCode = (EdittextCustom) findViewById(R.id.edt_code);
+        edtCode.setEnabled(false);
+        edtCode.setOnClickListener(this);
+        grImage = (MyGridView) findViewById(R.id.gr_image);
+        grImage.setEnabled(false);
         scrollView = (ScrollView) findViewById(R.id.scrollView);
         layout = (ExpandableLayout) findViewById(R.id.layout_expandable);
-        grImage = (MyGridView) findViewById(R.id.gr_image);
+
 
     }
 
@@ -117,7 +127,7 @@ public class EarlyTerminationPayments extends BaseFragment implements View.OnCli
         attach = new ArrayList<>();
         appID = getArguments().getInt(Constants.PARAMETER_APP_ID);
         setTitle(getString(R.string.review_income_title));
-        appBarVisibility(true, true,0);
+        appBarVisibility(true, true, 0);
         //images
         if (images.size() == 0) {
             final Image image = new Image();
@@ -160,14 +170,14 @@ public class EarlyTerminationPayments extends BaseFragment implements View.OnCli
     }
 
 
-    private void updateUI(Bank b) {
-        rbYes.setChecked(b.isHad());
-        edtBankName.setText(b.getBankName());
-        edtBankNumber.setText(b.getAccountNumber());
-        edtTotalInteres.setText(b.getTotalInterest());
-        edtTax.setText(b.getTaxWithheld());
-        edtBankFees.setText(b.getFees());
-        showImage(b.getAttachments(), images, imageAdapter);
+    private void updateUI(Etps e) {
+        rbYes.setChecked(e.isHad());
+        edtPaymentDate.setText(e.getPaymentDate());
+        edtPayerAbn.setText(e.getPayerAbn());
+        edtTaxWidthheld.setText(e.getTaxWithheld());
+        edtTaxtableComponent.setText(e.getTaxableCom());
+        edtCode.setText(e.getCode());
+        showImage(e.getAttachments(), images, imageAdapter);
     }
 
     private void checkPermissionImageAttach() {
@@ -274,8 +284,8 @@ public class EarlyTerminationPayments extends BaseFragment implements View.OnCli
                 ProgressDialogUtils.dismissProgressDialog();
                 LogUtils.d(TAG, "getReviewIncome code : " + response.code());
                 if (response.code() == Constants.HTTP_CODE_OK) {
-                    bank = response.body().getBank();
-                    if (bank != null) updateUI(bank);
+                    etps = response.body().getEtps();
+                    if (etps != null) updateUI(etps);
                 } else {
                     APIError error = Utils.parseError(response);
                     if (error != null) {
@@ -339,11 +349,11 @@ public class EarlyTerminationPayments extends BaseFragment implements View.OnCli
         try {
             JSONObject govJson = new JSONObject();
             govJson.put(Constants.PARAMETER_REVIEW_INCOME_GOVEMENT_HAD, rbYes.isChecked());
-            govJson.put(Constants.PARAMETER_REVIEW_INCOME_BANK_NAME, edtBankName.getText().toString().trim());
-            govJson.put(Constants.PARAMETER_REVIEW_INCOME_BANK_NUMBER, edtBankNumber.getText().toString().trim());
-            govJson.put(Constants.PARAMETER_REVIEW_INCOME_BANK_TOTAL_INTEREST, edtTotalInteres.getText().toString().trim());
-            govJson.put(Constants.PARAMETER_REVIEW_INCOME_BANK_TAX, edtTax.getText().toString().trim());
-            govJson.put(Constants.PARAMETER_REVIEW_INCOME_BANK_FEES, edtBankFees.getText().toString().trim());
+            govJson.put(Constants.PARAMETER_REVIEW_ETPS_PAYMENT_DATE, edtPaymentDate.getText().toString().trim());
+            govJson.put(Constants.PARAMETER_REVIEW_ETPS_PAYMENT_ABN, edtPayerAbn.getText().toString().trim());
+            govJson.put(Constants.PARAMETER_REVIEW_ETPS_PAYMENT_TAX, edtTaxWidthheld.getText().toString().trim());
+            govJson.put(Constants.PARAMETER_REVIEW_ETPS_PAYMENT_COM, edtTaxtableComponent.getText().toString().trim());
+            govJson.put(Constants.PARAMETER_REVIEW_ETPS_PAYMENT_CODE, edtCode.getText().toString().trim());
             if (images.size() > 1) {
                 for (Image image : images
                         ) {
@@ -359,7 +369,7 @@ public class EarlyTerminationPayments extends BaseFragment implements View.OnCli
                     jsonArray.put(mId.getId());
                 govJson.put(Constants.PARAMETER_ATTACHMENTS, jsonArray);
             }
-            jsonRequest.put(Constants.PARAMETER_REVIEW_INCOME_BANK, govJson);
+            jsonRequest.put(Constants.PARAMETER_REVIEW_INCOME_ETPS, govJson);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -409,42 +419,77 @@ public class EarlyTerminationPayments extends BaseFragment implements View.OnCli
         });
     }
 
+    private void openDatePicker() {
+        @SuppressWarnings("deprecation") DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), AlertDialog.THEME_HOLO_LIGHT,
+                new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, final int year,
+                                          final int monthOfYear, final int dayOfMonth) {
+                        if (view.isShown()) {
+                            calendar.set(year, monthOfYear, dayOfMonth);
+                            edtPaymentDate.setText(DateTimeUtils.fromCalendarToBirthday(calendar));
+                        }
+                    }
+                }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+        datePickerDialog.getDatePicker().setMaxDate(new Date().getTime() - 10000);
+        datePickerDialog.setTitle(getString(R.string.your_birthday));
+        datePickerDialog.show();
+    }
+
+    private void selectCode() {
+        CodeDialog codeDialog = new CodeDialog(getContext());
+        codeDialog.setValues(edtCode.getText().toString());
+        codeDialog.setCodeListenner(new CodeDialog.CodeListenner() {
+            @Override
+            public void onCodeListenner(String values) {
+                edtCode.setText(values);
+            }
+        });
+        codeDialog.showView();
+    }
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.fab:
-                edtBankName.requestFocus();
-                edtBankName.setSelection(edtBankName.length());
                 rbYes.setEnabled(true);
                 rbNo.setEnabled(true);
-                edtBankName.setEnabled(true);
-                edtBankNumber.setEnabled(true);
-                edtTotalInteres.setEnabled(true);
-                edtTax.setEnabled(true);
-                edtBankFees.setEnabled(true);
-                myGridView.setEnabled(true);
+                edtPayerAbn.setEnabled(true);
+                edtPayerAbn.requestFocus();
+                edtPayerAbn.setSelection(edtPayerAbn.length());
+                edtPaymentDate.setEnabled(true);
+                edtTaxtableComponent.setEnabled(true);
+                edtTaxWidthheld.setEnabled(true);
+                edtCode.setEnabled(true);
+                grImage.setEnabled(true);
+                break;
+            case R.id.edt_payment_date:
+                openDatePicker();
+                break;
+            case R.id.edt_code:
+                selectCode();
                 break;
             case R.id.btn_next:
                 final Bundle bundle = new Bundle();
                 if (rbYes.isChecked()) {
-                    if (edtBankName.getText().toString().trim().isEmpty()) {
-                        showToolTipView(getContext(), edtBankName, Gravity.TOP, getString(R.string.valid_app_bank_name), ContextCompat.getColor(getContext(), R.color.red));
+                    if (edtPaymentDate.getText().toString().trim().isEmpty()) {
+                        showToolTipView(getContext(), edtPaymentDate, Gravity.TOP, getString(R.string.valid_payment_date), ContextCompat.getColor(getContext(), R.color.red));
                         return;
                     }
-                    if (edtBankNumber.getText().toString().trim().isEmpty()) {
-                        showToolTipView(getContext(), edtBankNumber, Gravity.TOP, getString(R.string.valid_app_account_number), ContextCompat.getColor(getContext(), R.color.red));
+                    if (edtPayerAbn.getText().toString().trim().isEmpty()) {
+                        showToolTipView(getContext(), edtPayerAbn, Gravity.TOP, getString(R.string.valid_payment_abn), ContextCompat.getColor(getContext(), R.color.red));
                         return;
                     }
-                    if (edtTotalInteres.getText().toString().trim().isEmpty()) {
-                        showToolTipView(getContext(), edtTotalInteres, Gravity.TOP, getString(R.string.valid_bank_total), ContextCompat.getColor(getContext(), R.color.red));
+                    if (edtTaxWidthheld.getText().toString().trim().isEmpty()) {
+                        showToolTipView(getContext(), edtTaxWidthheld, Gravity.TOP, getString(R.string.valid_bank_tax), ContextCompat.getColor(getContext(), R.color.red));
                         return;
                     }
-                    if (edtBankFees.getText().toString().trim().isEmpty()) {
-                        showToolTipView(getContext(), edtBankFees, Gravity.TOP, getString(R.string.valid_bank_fees), ContextCompat.getColor(getContext(), R.color.red));
+                    if (edtTaxtableComponent.getText().toString().trim().isEmpty()) {
+                        showToolTipView(getContext(), edtTaxtableComponent, Gravity.TOP, getString(R.string.valid_table_component), ContextCompat.getColor(getContext(), R.color.red));
                         return;
                     }
-                    if (edtTax.getText().toString().trim().isEmpty()) {
-                        showToolTipView(getContext(), edtTax, Gravity.TOP, getString(R.string.valid_bank_tax), ContextCompat.getColor(getContext(), R.color.red));
+                    if (edtCode.getText().toString().trim().isEmpty()) {
+                        showToolTipView(getContext(), edtCode, Gravity.TOP, getString(R.string.valid_code), ContextCompat.getColor(getContext(), R.color.red));
                         return;
                     }
                     if (images.size() < 2) {
@@ -463,4 +508,6 @@ public class EarlyTerminationPayments extends BaseFragment implements View.OnCli
         }
 
     }
+
+
 }

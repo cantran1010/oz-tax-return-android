@@ -67,7 +67,6 @@ import static au.mccann.oztaxreturn.utils.TooltipUtils.showToolTipView;
 public class AnnuitiesAndSupers extends BaseFragment implements View.OnClickListener {
     private RadioButtonCustom rbYes, rbNo;
     private EdittextCustom edtBankName, edtBankNumber, edtTotalInteres, edtTax, edtBankFees;
-    private MyGridView myGridView;
     private static final String TAG = IncomeOther.class.getSimpleName();
     private MyGridView grImage;
     private ImageAdapter imageAdapter;
@@ -103,11 +102,10 @@ public class AnnuitiesAndSupers extends BaseFragment implements View.OnClickList
         edtTax.setEnabled(false);
         edtBankFees = (EdittextCustom) findViewById(R.id.edt_interest_bank_fees);
         edtBankFees.setEnabled(false);
-        myGridView = (MyGridView) findViewById(R.id.gr_image);
-        myGridView.setEnabled(false);
+        grImage = (MyGridView) findViewById(R.id.gr_image);
+        grImage.setEnabled(false);
         scrollView = (ScrollView) findViewById(R.id.scrollView);
         layout = (ExpandableLayout) findViewById(R.id.layout_expandable);
-        grImage = (MyGridView) findViewById(R.id.gr_image);
 
     }
 
@@ -422,7 +420,7 @@ public class AnnuitiesAndSupers extends BaseFragment implements View.OnClickList
                 edtTotalInteres.setEnabled(true);
                 edtTax.setEnabled(true);
                 edtBankFees.setEnabled(true);
-                myGridView.setEnabled(true);
+                grImage.setEnabled(true);
                 break;
             case R.id.btn_next:
                 final Bundle bundle = new Bundle();
