@@ -1,7 +1,6 @@
 package au.mccann.oztaxreturn.fragment.review.income;
 
 import android.Manifest;
-import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -9,12 +8,11 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
-import android.view.Gravity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.CompoundButton;
-import android.widget.ScrollView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -27,17 +25,16 @@ import java.util.List;
 import au.mccann.oztaxreturn.R;
 import au.mccann.oztaxreturn.activity.AlbumActivity;
 import au.mccann.oztaxreturn.activity.PreviewImageActivity;
-import au.mccann.oztaxreturn.adapter.ImageAdapter;
+import au.mccann.oztaxreturn.adapter.AnnuitiesAdapter;
 import au.mccann.oztaxreturn.common.Constants;
 import au.mccann.oztaxreturn.database.UserManager;
 import au.mccann.oztaxreturn.dialog.AlertDialogOk;
 import au.mccann.oztaxreturn.dialog.AlertDialogOkAndCancel;
 import au.mccann.oztaxreturn.dialog.PickImageDialog;
 import au.mccann.oztaxreturn.fragment.BaseFragment;
-import au.mccann.oztaxreturn.fragment.basic.IncomeOther;
 import au.mccann.oztaxreturn.model.APIError;
+import au.mccann.oztaxreturn.model.Annuity;
 import au.mccann.oztaxreturn.model.Attachment;
-import au.mccann.oztaxreturn.model.Bank;
 import au.mccann.oztaxreturn.model.Image;
 import au.mccann.oztaxreturn.model.IncomeResponse;
 import au.mccann.oztaxreturn.networking.ApiClient;
@@ -48,124 +45,103 @@ import au.mccann.oztaxreturn.utils.LogUtils;
 import au.mccann.oztaxreturn.utils.ProgressDialogUtils;
 import au.mccann.oztaxreturn.utils.TransitionScreen;
 import au.mccann.oztaxreturn.utils.Utils;
-import au.mccann.oztaxreturn.view.EdittextCustom;
-import au.mccann.oztaxreturn.view.ExpandableLayout;
-import au.mccann.oztaxreturn.view.MyGridView;
-import au.mccann.oztaxreturn.view.RadioButtonCustom;
+import au.mccann.oztaxreturn.view.ButtonCustom;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static au.mccann.oztaxreturn.utils.ImageUtils.showImage;
-import static au.mccann.oztaxreturn.utils.TooltipUtils.showToolTipView;
-
 /**
- * Created by CanTran on 4/24/18.
+ * Created by CanTran on 4/23/18.
  */
 public class AnnuitiesAndSupers extends BaseFragment implements View.OnClickListener {
-    private RadioButtonCustom rbYes, rbNo;
-    private EdittextCustom edtBankName, edtBankNumber, edtTotalInteres, edtTax, edtBankFees;
-    private static final String TAG = IncomeOther.class.getSimpleName();
-    private MyGridView grImage;
-    private ImageAdapter imageAdapter;
-    private ArrayList<Image> images;
+    private static final String TAG = FragmentReviewDividends.class.getSimpleName();
+    private AnnuitiesAdapter adapter;
+    private ArrayList<Annuity> annuities = new ArrayList<>();
+    private RecyclerView recyclerView;
+    private int appID;
+    private ArrayList<Image> images = new ArrayList<>();
     private final String[] permissions = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
     private String imgPath;
-    private ScrollView scrollView;
-    private ExpandableLayout layout;
-    private Bank bank = new Bank();
-    private ArrayList<Attachment> attach;
-    private int appID;
 
     @Override
     protected int getLayout() {
-        return R.layout.fragment_review_income_dividends;
+        return R.layout.fragment_review_income_dividend;
     }
 
     @Override
     protected void initView() {
-        findViewById(R.id.fab).setOnClickListener(this);
-        findViewById(R.id.btn_next).setOnClickListener(this);
-        rbYes = (RadioButtonCustom) findViewById(R.id.rb_yes);
-        rbYes.setEnabled(false);
-        rbNo = (RadioButtonCustom) findViewById(R.id.rb_no);
-        rbNo.setEnabled(false);
-        edtBankName = (EdittextCustom) findViewById(R.id.edt_interest_bank_name);
-        edtBankName.setEnabled(false);
-        edtBankNumber = (EdittextCustom) findViewById(R.id.edt_interest_account_number);
-        edtBankNumber.setEnabled(false);
-        edtTotalInteres = (EdittextCustom) findViewById(R.id.edt_total_interests);
-        edtTotalInteres.setEnabled(false);
-        edtTax = (EdittextCustom) findViewById(R.id.edt_interest_tax);
-        edtTax.setEnabled(false);
-        edtBankFees = (EdittextCustom) findViewById(R.id.edt_interest_bank_fees);
-        edtBankFees.setEnabled(false);
-        grImage = (MyGridView) findViewById(R.id.gr_image);
-        grImage.setEnabled(false);
-        scrollView = (ScrollView) findViewById(R.id.scrollView);
-        layout = (ExpandableLayout) findViewById(R.id.layout_expandable);
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(this);
+        ButtonCustom btnnext = (ButtonCustom) findViewById(R.id.btn_next);
+        btnnext.setOnClickListener(this);
+        recyclerView = (RecyclerView) findViewById(R.id.rcv_job);
 
     }
 
+
     @Override
     protected void initData() {
-        images = new ArrayList<>();
-        attach = new ArrayList<>();
         appID = getArguments().getInt(Constants.PARAMETER_APP_ID);
         setTitle(getString(R.string.review_income_title));
-        appBarVisibility(true, true,0);
-        //images
-        if (images.size() == 0) {
-            final Image image = new Image();
-            image.setId(0);
-            image.setAdd(true);
-            images.add(image);
-        }
-        imageAdapter = new ImageAdapter(getActivity(), images);
-        grImage.setAdapter(imageAdapter);
+        appBarVisibility(true, false, 0);
+        updateList();
+        getReviewIncome();
+    }
 
-        grImage.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+    private void updateUI(ArrayList<Annuity> ds) {
+        annuities.clear();
+        annuities.addAll(ds);
+        for (Annuity dividend : annuities
+                ) {
+            AddIconAdd(dividend);
+            showImage(dividend.getAttachments(), dividend.getImages());
+        }
+        adapter.notifyDataSetChanged();
+
+    }
+
+    public static void showImage(ArrayList<Attachment> attachments, ArrayList<Image> images) {
+        if (attachments.size() > 0) {
+            for (Attachment attachment : attachments
+                    ) {
+                Image image = new Image();
+                image.setId(attachment.getId());
+                image.setAdd(false);
+                image.setPath(attachment.getUrl());
+                images.add(0, image);
+            }
+
+        }
+    }
+
+    private void updateList() {
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+        recyclerView.setLayoutManager(linearLayoutManager);
+        adapter = new AnnuitiesAdapter(getContext(), annuities);
+        recyclerView.setAdapter(adapter);
+        adapter.setOnClickImageListener(new AnnuitiesAdapter.OnClickImageListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (images.get(position).isAdd) {
+            public void onClick(int position, int n) {
+                LogUtils.d(TAG, "setOnClickImageListener" + n + " position " + position + annuities.get(position).getImages().toString());
+                images = annuities.get(position).getImages();
+                if (images.get(n).isAdd) {
+                    LogUtils.d(TAG, "setOnClickImageListener 3");
                     if (images.size() >= 10) {
                         Utils.showLongToast(getActivity(), getString(R.string.max_image_attach_err, 9), true, false);
                     } else {
                         checkPermissionImageAttach();
                     }
                 } else {
+                    LogUtils.d(TAG, "setOnClickImageListener 1");
                     Intent intent = new Intent(getActivity(), PreviewImageActivity.class);
                     intent.putExtra(Constants.EXTRA_IMAGE_PATH, images.get(position).getPath());
                     startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
                 }
             }
         });
-        rbYes.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                LogUtils.d(TAG, "setOnCheckedChangeListener : " + b);
-                if (b) {
-                    layout.setExpanded(true);
-                    scollLayout();
-                } else {
-                    layout.setExpanded(false);
-                }
-            }
-        });
-        getReviewIncome();
-    }
 
-
-    private void updateUI(Bank b) {
-        rbYes.setChecked(b.isHad());
-        edtBankName.setText(b.getBankName());
-        edtBankNumber.setText(b.getAccountNumber());
-        edtTotalInteres.setText(b.getTotalInterest());
-        edtTax.setText(b.getTaxWithheld());
-        edtBankFees.setText(b.getFees());
-        showImage(b.getAttachments(), images, imageAdapter);
     }
 
     private void checkPermissionImageAttach() {
@@ -228,7 +204,7 @@ public class AnnuitiesAndSupers extends BaseFragment implements View.OnClickList
                 && data != null) {
             ArrayList<Image> imagesSelected = data.getParcelableArrayListExtra(Constants.INTENT_EXTRA_IMAGES);
             images.addAll(0, imagesSelected);
-            imageAdapter.notifyDataSetChanged();
+            adapter.notifyDataSetChanged();
         } else if (requestCode == Constants.REQUEST_CODE_CAMERA && resultCode == Activity.RESULT_OK) {
             final String selectedImagePath = getImagePath();
             LogUtils.d(TAG, "onActivityResult selectedImagePath : " + selectedImagePath);
@@ -237,7 +213,7 @@ public class AnnuitiesAndSupers extends BaseFragment implements View.OnClickList
             image.setAdd(false);
             image.setPath(selectedImagePath);
             images.add(0, image);
-            imageAdapter.notifyDataSetChanged();
+            adapter.notifyDataSetChanged();
         }
     }
 
@@ -245,35 +221,17 @@ public class AnnuitiesAndSupers extends BaseFragment implements View.OnClickList
         return imgPath;
     }
 
-    private void scollLayout() {
-        int[] coords = {0, 0};
-        scrollView.getLocationOnScreen(coords);
-        int absoluteBottom = coords[1] + scrollView.getHeight();
-        ObjectAnimator objectAnimator = ObjectAnimator.ofInt(scrollView, "scrollY", absoluteBottom).setDuration(1500);
-        objectAnimator.start();
-    }
-
-    @Override
-    protected void resumeData() {
-
-    }
-
-    @Override
-    public void onRefresh() {
-
-    }
-
     private void getReviewIncome() {
         ProgressDialogUtils.showProgressDialog(getActivity());
-        LogUtils.d(TAG, "getReviewIncome code : " + appID);
+        LogUtils.d(TAG, "getReviewIncome id : " + appID);
         ApiClient.getApiService().getReviewIncome(UserManager.getUserToken(), appID).enqueue(new Callback<IncomeResponse>() {
             @Override
             public void onResponse(Call<IncomeResponse> call, Response<IncomeResponse> response) {
                 ProgressDialogUtils.dismissProgressDialog();
                 LogUtils.d(TAG, "getReviewIncome code : " + response.code());
                 if (response.code() == Constants.HTTP_CODE_OK) {
-                    bank = response.body().getBank();
-                    if (bank != null) updateUI(bank);
+                    LogUtils.d(TAG, "getReviewIncome body : " + response.body().getAnnuities().toString());
+                    updateUI(response.body().getAnnuities());
                 } else {
                     APIError error = Utils.parseError(response);
                     if (error != null) {
@@ -308,56 +266,82 @@ public class AnnuitiesAndSupers extends BaseFragment implements View.OnClickList
         });
     }
 
-
-    private void uploadImage() {
-        final ArrayList<Image> listUp = new ArrayList<>();
-        for (Image image : images
+    private void uploadImage(final ArrayList<Annuity> ds) {
+        int count = 0;
+        for (final Annuity dividend : ds
                 ) {
-            if (image.getId() == 0 && !image.isAdd()) listUp.add(image);
+            dividend.setListUp(new ArrayList<Image>());
+            for (Image image : dividend.getImages()
+                    ) {
+                if (image.getId() == 0 && !image.isAdd()) dividend.getListUp().add(image);
+            }
         }
-        if (listUp.size() > 0) {
-            LogUtils.d(TAG, "uploadImage" + listUp.toString());
-            ImageUtils.doUploadImage(getContext(), listUp, new ImageUtils.UpImagesListener() {
-                @Override
-                public void onSuccess(List<Attachment> responses) {
-                    attach.addAll(responses);
-                    doSaveReview();
+
+        for (Annuity dividend1 : ds
+                ) {
+            if (dividend1.getListUp().size() > 0) count++;
+        }
+
+        if (count == 0) doSaveReview();
+        else {
+            for (final Annuity d : ds
+                    ) {
+                if (d.getListUp().size() > 0) {
+                    count--;
+                    final int finalCount = count;
+                    LogUtils.d(TAG, "doUploadImage count" + finalCount + annuities.toString());
+                    ImageUtils.doUploadImage(getContext(), d.getListUp(), new ImageUtils.UpImagesListener() {
+                        @Override
+                        public void onSuccess(List<Attachment> responses) {
+//                            LogUtils.d(TAG, "doUploadImage" + finalCount + responses.toString());
+                            d.getAttach().addAll(responses);
+                            LogUtils.d(TAG, "doUploadImage finalCount" + finalCount + annuities.toString());
+                            doSaveReview();
+                        }
+                    });
                 }
-            });
-        } else {
-            doSaveReview();
+
+            }
+
         }
-
-
     }
+
 
     private void doSaveReview() {
         ProgressDialogUtils.showProgressDialog(getContext());
-        final JSONObject jsonRequest = new JSONObject();
+        LogUtils.d(TAG, "doSaveReview" + annuities.toString());
+        JSONObject jsonRequest = new JSONObject();
         try {
-            JSONObject govJson = new JSONObject();
-            govJson.put(Constants.PARAMETER_REVIEW_INCOME_GOVEMENT_HAD, rbYes.isChecked());
-            govJson.put(Constants.PARAMETER_REVIEW_INCOME_BANK_NAME, edtBankName.getText().toString().trim());
-            govJson.put(Constants.PARAMETER_REVIEW_INCOME_BANK_NUMBER, edtBankNumber.getText().toString().trim());
-            govJson.put(Constants.PARAMETER_REVIEW_INCOME_BANK_TOTAL_INTEREST, edtTotalInteres.getText().toString().trim());
-            govJson.put(Constants.PARAMETER_REVIEW_INCOME_BANK_TAX, edtTax.getText().toString().trim());
-            govJson.put(Constants.PARAMETER_REVIEW_INCOME_BANK_FEES, edtBankFees.getText().toString().trim());
-            if (images.size() > 1) {
-                for (Image image : images
-                        ) {
-                    if (image.getId() > 0) {
-                        Attachment attachment = new Attachment();
-                        attachment.setId((int) image.getId());
-                        attachment.setUrl(image.getPath());
-                        attach.add(attachment);
+            JSONArray jsonArray = new JSONArray();
+            for (Annuity d : annuities
+                    ) {
+                JSONObject mJs = new JSONObject();
+                mJs.put(Constants.PARAMETER_PUT_ID, d.getId());
+                mJs.put(Constants.PARAMETER_REVIEW_INCOM_ANNUITY_TAX, d.getTaxWithheld());
+                mJs.put(Constants.PARAMETER_REVIEW_INCOM_ANNUITY_COM_TAX, d.getTaxableComTaxed());
+                mJs.put(Constants.PARAMETER_REVIEW_INCOM_ANNUITY_COM_UNTAX, d.getTaxableComUntaxed());
+                mJs.put(Constants.PARAMETER_REVIEW_INCOM_ANNUITY_ARREAR_TAX, d.getArrearsTaxed());
+                mJs.put(Constants.PARAMETER_REVIEW_INCOM_ANNUITY_ARREAR_UNTAX, d.getArrearsUntaxed());
+                if (d.getImages().size() > 1) {
+                    for (Image image : d.getImages()
+                            ) {
+                        if (image.getId() > 0) {
+                            Attachment attachment = new Attachment();
+                            attachment.setId((int) image.getId());
+                            attachment.setUrl(image.getPath());
+                            d.getAttach().add(attachment);
+                        }
                     }
+                    JSONArray js = new JSONArray();
+                    for (Attachment mId : d.getAttach())
+                        js.put(mId.getId());
+                    mJs.put(Constants.PARAMETER_ATTACHMENTS, js);
+                } else {
+                    mJs.put(Constants.PARAMETER_ATTACHMENTS, new JSONArray());
                 }
-                JSONArray jsonArray = new JSONArray();
-                for (Attachment mId : attach)
-                    jsonArray.put(mId.getId());
-                govJson.put(Constants.PARAMETER_ATTACHMENTS, jsonArray);
+                jsonArray.put(mJs);
             }
-            jsonRequest.put(Constants.PARAMETER_REVIEW_INCOME_BANK, govJson);
+            jsonRequest.put(Constants.PARAMETER_REVIEW_INCOME_ANNUITY, jsonArray);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -369,10 +353,11 @@ public class AnnuitiesAndSupers extends BaseFragment implements View.OnClickList
                 ProgressDialogUtils.dismissProgressDialog();
                 LogUtils.d(TAG, "doSaveReview code: " + response.code());
                 if (response.code() == Constants.HTTP_CODE_OK) {
-                    LogUtils.d(TAG, "doSaveReview code: " + response.body().getJobs().toString());
+                    LogUtils.d(TAG, "doSaveReview body: " + response.body().getDividends().toString());
+                    LogUtils.d(TAG, " dividends image " + annuities.toString());
                     Bundle bundle = new Bundle();
                     bundle.putInt(Constants.PARAMETER_APP_ID, appID);
-//                    openFragment(R.id.layout_container, GovementPayment.class, true, bundle, TransitionScreen.RIGHT_TO_LEFT);
+                    openFragment(R.id.layout_container, EarlyTerminationPayments.class, true, bundle, TransitionScreen.RIGHT_TO_LEFT);
                 } else {
                     APIError error = Utils.parseError(response);
                     LogUtils.e(TAG, "doSaveReview error : " + error.message());
@@ -407,57 +392,42 @@ public class AnnuitiesAndSupers extends BaseFragment implements View.OnClickList
         });
     }
 
+
+    public void AddIconAdd(Annuity dividend) {
+        if (dividend.getImages() == null || dividend.getImages().size() == 0) {
+            final Image image = new Image();
+            image.setId(0);
+            image.setAdd(true);
+            dividend.getImages().add(image);
+        }
+    }
+
+    @Override
+    protected void resumeData() {
+
+    }
+
+    @Override
+    public void onRefresh() {
+
+    }
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.fab:
-                edtBankName.requestFocus();
-                edtBankName.setSelection(edtBankName.length());
-                rbYes.setEnabled(true);
-                rbNo.setEnabled(true);
-                edtBankName.setEnabled(true);
-                edtBankNumber.setEnabled(true);
-                edtTotalInteres.setEnabled(true);
-                edtTax.setEnabled(true);
-                edtBankFees.setEnabled(true);
-                grImage.setEnabled(true);
+                adapter.setEdit(true);
+                adapter.notifyDataSetChanged();
                 break;
             case R.id.btn_next:
-                final Bundle bundle = new Bundle();
-                if (rbYes.isChecked()) {
-                    if (edtBankName.getText().toString().trim().isEmpty()) {
-                        showToolTipView(getContext(), edtBankName, Gravity.TOP, getString(R.string.valid_app_bank_name), ContextCompat.getColor(getContext(), R.color.red));
-                        return;
-                    }
-                    if (edtBankNumber.getText().toString().trim().isEmpty()) {
-                        showToolTipView(getContext(), edtBankNumber, Gravity.TOP, getString(R.string.valid_app_account_number), ContextCompat.getColor(getContext(), R.color.red));
-                        return;
-                    }
-                    if (edtTotalInteres.getText().toString().trim().isEmpty()) {
-                        showToolTipView(getContext(), edtTotalInteres, Gravity.TOP, getString(R.string.valid_bank_total), ContextCompat.getColor(getContext(), R.color.red));
-                        return;
-                    }
-                    if (edtBankFees.getText().toString().trim().isEmpty()) {
-                        showToolTipView(getContext(), edtBankFees, Gravity.TOP, getString(R.string.valid_bank_fees), ContextCompat.getColor(getContext(), R.color.red));
-                        return;
-                    }
-                    if (edtTax.getText().toString().trim().isEmpty()) {
-                        showToolTipView(getContext(), edtTax, Gravity.TOP, getString(R.string.valid_bank_tax), ContextCompat.getColor(getContext(), R.color.red));
-                        return;
-                    }
-                    if (images.size() < 2) {
-                        showToolTipView(getContext(), grImage, Gravity.TOP, getString(R.string.valid_deduction_image), ContextCompat.getColor(getContext(), R.color.red));
-                        return;
-                    }
-                    uploadImage();
-
-                } else {
+                if (adapter.isExpend())
+                    uploadImage(annuities);
+                else {
+                    Bundle bundle = new Bundle();
                     bundle.putInt(Constants.PARAMETER_APP_ID, appID);
-//                    openFragment(R.id.layout_container, DeductionFragment.class, true, bundle, TransitionScreen.RIGHT_TO_LEFT);
+                    openFragment(R.id.layout_container, EarlyTerminationPayments.class, true, bundle, TransitionScreen.RIGHT_TO_LEFT);
                 }
                 break;
-
-
         }
 
     }

@@ -286,6 +286,8 @@
     <string name="valid_table_component">Enter table component</string>
     <string name="valid_code">Please select ETPs code</string>
     <string name="early_termination_payment_code">Seclect ETPs code</string>
+
+    <!-- review rental   -->
     <string name="rental_properties">Rental properties</string>
     <string name="rental_ask">Did you receive any income from rental properties?</string>
     <string name="ownership_percentage">ownership percentage</string>
@@ -293,6 +295,14 @@
     <string name="rental_income">rental income</string>
     <string name="rental_expenses">rental expenses</string>
     <string name="vali_all_empty">This field is required!</string>
+
+    <!-- review annuities   -->
+    <string name="annuities_and_super">Annuities and Super</string>
+    <string name="annuities_ask">Did you receive any annuity or super income?</string>
+    <string name="annuity_taxed">taxable component (taxed)</string>
+    <string name="annuity_untaxed" >taxable component (untaxed)</string>
+    <string name="lump">lump sum in arrear(taxed)</string>
+    <string name="lump_untaxed">lump sum in arrear(untaxed)</string>
 
     <!-- checkout -->
     <string name="checkout_des">Please provide your payment info</string>

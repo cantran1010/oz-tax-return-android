@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="25dp"
-        android:text="@string/review_income_dividends"
+        android:text="@string/annuities_and_super"
         android:textColor="@color/title_color"
         android:textSize="@dimen/tv_size_xxxlager" />
 
@@ -26,11 +26,10 @@
         android:background="@color/app_bg" />
 
     <au.mccann.oztaxreturn.view.TextViewCustom
-        android:id="@+id/dividend_ask"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="25dp"
-        android:text="@string/review_income_dividends_ask"
+        android:text="@string/annuities_ask"
         android:textColor="@color/title_color"
         android:textSize="@dimen/size_nomal" />
 

@@ -9,7 +9,7 @@
     android:layout_marginRight="@dimen/left_right_margin_screen"
     android:layout_marginStart="@dimen/left_right_margin_screen"
     app:el_duration="@integer/AnimTime"
-    app:el_expanded="false">
+    app:el_expanded="true">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -26,13 +26,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:text="@string/dividends_company_name"
+            android:text="@string/tax_widthheld"
             android:textAllCaps="true"
             android:textColor="@color/tv_gray"
             android:textSize="@dimen/size_small" />
 
         <au.mccann.oztaxreturn.view.EdittextCustom
-            android:id="@+id/edt_dividends_bank_name"
+            android:id="@+id/edt_tax"
             style="@style/EditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -45,13 +45,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:text="@string/unfrank_dividends"
+            android:text="@string/annuity_taxed"
             android:textAllCaps="true"
             android:textColor="@color/tv_gray"
             android:textSize="@dimen/size_small" />
 
         <au.mccann.oztaxreturn.view.EdittextCustom
-            android:id="@+id/edt_unfrank_dividends"
+            android:id="@+id/edt_taxed"
             style="@style/EditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -64,13 +64,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:text="@string/franked_dividends"
+            android:text="@string/annuity_untaxed"
             android:textAllCaps="true"
             android:textColor="@color/tv_gray"
             android:textSize="@dimen/size_small" />
 
         <au.mccann.oztaxreturn.view.EdittextCustom
-            android:id="@+id/edt_franked_dividends"
+            android:id="@+id/edt_untaxed"
             style="@style/EditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -83,13 +83,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:text="@string/franking_credits"
+            android:text="@string/lump"
             android:textAllCaps="true"
             android:textColor="@color/tv_gray"
             android:textSize="@dimen/size_small" />
 
         <au.mccann.oztaxreturn.view.EdittextCustom
-            android:id="@+id/edt_franking_credits"
+            android:id="@+id/edt_lump_taxed"
             style="@style/EditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -103,13 +103,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:text="@string/dividends_tax_widthheld"
+            android:text="@string/lump_untaxed"
             android:textAllCaps="true"
             android:textColor="@color/tv_gray"
             android:textSize="@dimen/size_small" />
 
         <au.mccann.oztaxreturn.view.EdittextCustom
-            android:id="@+id/edt_tax_widthheld"
+            android:id="@+id/edt_lump_untaxed"
             style="@style/EditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
