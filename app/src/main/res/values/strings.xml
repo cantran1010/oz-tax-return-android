@@ -360,5 +360,11 @@
     <string name="tax_agents_organization">ozganization</string>
     <string name="organization_hint">Example: OZ Tax Return</string>
 
+    <!-- review family and health dependants -->
+    <string name="review_fhd_title">Review Family &amp; Health</string>
+    <string name="review_fhd_dependants">Dependants</string>
+    <string name="review_fhd_des">Do you have any dependants or children?</string>
+    <string name="review_fhd_number">Number of dependants</string>
+    <string name="valid_number">Input Number</string>
 
 </resources>
