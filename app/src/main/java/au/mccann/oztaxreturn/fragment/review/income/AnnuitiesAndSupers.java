@@ -93,18 +93,6 @@ public class AnnuitiesAndSupers extends BaseFragment implements View.OnClickList
     private void updateUI(ArrayList<Annuity> ds) {
         annuities.clear();
         annuities.addAll(ds);
-        if (annuities.size() == 0) {
-            Annuity a = new Annuity();
-            a.setTaxWithheld("");
-            a.setTaxableComTaxed("");
-            a.setTaxableComUntaxed("");
-            a.setArrearsTaxed("");
-            a.setArrearsUntaxed("");
-            a.setAttachments(new ArrayList<Attachment>());
-            a.setImages(new ArrayList<Image>());
-            a.setAttach(new ArrayList<Attachment>());
-            annuities.add(a);
-        }
         for (Annuity dividend : annuities
                 ) {
             AddIconAdd(dividend);
@@ -369,7 +357,7 @@ public class AnnuitiesAndSupers extends BaseFragment implements View.OnClickList
                     LogUtils.d(TAG, " dividends image " + annuities.toString());
                     Bundle bundle = new Bundle();
                     bundle.putInt(Constants.PARAMETER_APP_ID, appID);
-                    openFragment(R.id.layout_container, EarlyTerminationPayments.class, true, bundle, TransitionScreen.RIGHT_TO_LEFT);
+                    openFragment(R.id.layout_container, RentalProperties.class, true, bundle, TransitionScreen.RIGHT_TO_LEFT);
                 } else {
                     APIError error = Utils.parseError(response);
                     LogUtils.e(TAG, "doSaveReview error : " + error.message());
@@ -437,7 +425,7 @@ public class AnnuitiesAndSupers extends BaseFragment implements View.OnClickList
                 else {
                     Bundle bundle = new Bundle();
                     bundle.putInt(Constants.PARAMETER_APP_ID, appID);
-                    openFragment(R.id.layout_container, EarlyTerminationPayments.class, true, bundle, TransitionScreen.RIGHT_TO_LEFT);
+                    openFragment(R.id.layout_container, RentalProperties.class, true, bundle, TransitionScreen.RIGHT_TO_LEFT);
                 }
                 break;
         }

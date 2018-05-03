@@ -64,7 +64,7 @@ public class AnnuitiesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == TYPE_ITEM) {
             //Inflating recycle view item layout
-            View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_dividend, parent, false);
+            View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_annuity, parent, false);
             return new ItemViewHolder(itemView);
         } else if (viewType == TYPE_HEADER) {
             //Inflating header view
@@ -220,11 +220,6 @@ public class AnnuitiesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 @Override
                 public void onClick(View view) {
                     Annuity dividend = new Annuity();
-                    dividend.setTaxWithheld("");
-                    dividend.setTaxableComTaxed("");
-                    dividend.setTaxableComUntaxed("");
-                    dividend.setArrearsTaxed("");
-                    dividend.setArrearsUntaxed("");
                     dividend.setImages(new ArrayList<Image>());
                     dividend.setAttach(new ArrayList<Attachment>());
                     AddList(dividend);
