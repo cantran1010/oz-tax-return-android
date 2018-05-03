@@ -367,4 +367,8 @@
     <string name="review_fhd_number">Number of dependants</string>
     <string name="valid_number">Input Number</string>
 
+    <!-- review family and health medicare examption -->
+    <string name="review_fhm_title">Medicare Levy Exemption</string>
+    <string name="review_fhm_des">Do you have Medicare Exemption certificates issued by "The Department of Human Services"</string>
+
 </resources>
