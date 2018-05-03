@@ -93,6 +93,18 @@ public class AnnuitiesAndSupers extends BaseFragment implements View.OnClickList
     private void updateUI(ArrayList<Annuity> ds) {
         annuities.clear();
         annuities.addAll(ds);
+        if (annuities.size() == 0) {
+            Annuity a = new Annuity();
+            a.setTaxWithheld("");
+            a.setTaxableComTaxed("");
+            a.setTaxableComUntaxed("");
+            a.setArrearsTaxed("");
+            a.setArrearsUntaxed("");
+            a.setAttachments(new ArrayList<Attachment>());
+            a.setImages(new ArrayList<Image>());
+            a.setAttach(new ArrayList<Attachment>());
+            annuities.add(a);
+        }
         for (Annuity dividend : annuities
                 ) {
             AddIconAdd(dividend);
