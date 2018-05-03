@@ -270,4 +270,12 @@
     <string name="checkout_success">Checkout Success!</string>
     <string name="reviewed">Reviewed</string>
 
+    <!-- review family and health dependants -->
+    <string name="review_fhd_title">Review Family &amp; Health</string>
+    <string name="review_fhd_dependants">Dependants</string>
+    <string name="review_fhd_des">Do you have any dependants or children?</string>
+    <string name="review_fhd_number">Number of dependants</string>
+    <string name="valid_number">Input Number</string>
+
+
 </resources>

@@ -421,6 +421,7 @@
                     android:orientation="vertical">
 
                     <au.mccann.oztaxreturn.view.TextViewCustom
+                        android:id="@+id/tv_review_family_health_dependants"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
@@ -429,6 +430,7 @@
                         android:textSize="16sp" />
 
                     <au.mccann.oztaxreturn.view.TextViewCustom
+                        android:id="@+id/tv_review_family_health_medicare"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
@@ -437,6 +439,7 @@
                         android:textSize="16sp" />
 
                     <au.mccann.oztaxreturn.view.TextViewCustom
+                        android:id="@+id/tv_review_family_health_private"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
@@ -445,6 +448,7 @@
                         android:textSize="16sp" />
 
                     <au.mccann.oztaxreturn.view.TextViewCustom
+                        android:id="@+id/tv_review_family_health_spouse"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="10dp"

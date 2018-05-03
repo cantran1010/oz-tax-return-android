@@ -9,6 +9,7 @@ import au.mccann.oztaxreturn.model.UserReponse;
 import au.mccann.oztaxreturn.rest.response.ApplicationResponse;
 import au.mccann.oztaxreturn.rest.response.FeeResponse;
 import au.mccann.oztaxreturn.rest.response.PersonalInfomationResponse;
+import au.mccann.oztaxreturn.rest.response.ReviewFamilyHealthResponse;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
@@ -69,7 +70,6 @@ public interface ApiInterface {
     @PUT("application/{application_id}/review/personal_info")
     Call<PersonalInfomationResponse> updatePersonalInfo(@Header("Authorization") String token, @Path("application_id") int appId, @Body RequestBody body);
 
-
     @GET("application/{application_id}/fees")
     Call<FeeResponse> getPromotionFee(@Header("Authorization") String token, @Path("application_id") int appId);
 
@@ -78,4 +78,10 @@ public interface ApiInterface {
 
     @POST("application/{application_id}/checkout")
     Call<Void> checkout(@Header("Authorization") String token, @Path("application_id") int appId, @Body RequestBody body);
+
+    @GET("application/{application_id}/review/health")
+    Call<ReviewFamilyHealthResponse> getReviewFamilyHealth(@Header("Authorization") String token, @Path("application_id") int appId);
+
+    @PUT("application/{application_id}/review/health")
+    Call<ReviewFamilyHealthResponse> updateReviewFamilyHealth(@Header("Authorization") String token, @Path("application_id") int appId, @Body RequestBody body);
 }

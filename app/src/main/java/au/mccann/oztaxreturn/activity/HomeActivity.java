@@ -17,6 +17,7 @@ import au.mccann.oztaxreturn.dialog.AlertDialogOkAndCancel;
 import au.mccann.oztaxreturn.fragment.ContactFragment;
 import au.mccann.oztaxreturn.fragment.HomeFragment;
 import au.mccann.oztaxreturn.fragment.NotificationFragment;
+import au.mccann.oztaxreturn.fragment.review.family.ReviewFamilyHealthDependantsFragment;
 import au.mccann.oztaxreturn.fragment.review.personal.ReviewPersonalInfomationA;
 import au.mccann.oztaxreturn.fragment.review.personal.ReviewPersonalInfomationB;
 import au.mccann.oztaxreturn.fragment.review.personal.ReviewPersonalInfomationC;
@@ -69,6 +70,11 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
         findViewById(R.id.layout_incomes).setOnClickListener(this);
         findViewById(R.id.layout_deductions).setOnClickListener(this);
         findViewById(R.id.layout_family).setOnClickListener(this);
+
+        findViewById(R.id.tv_review_family_health_dependants).setOnClickListener(this);
+        findViewById(R.id.tv_review_family_health_medicare).setOnClickListener(this);
+        findViewById(R.id.tv_review_family_health_private).setOnClickListener(this);
+        findViewById(R.id.tv_review_family_health_spouse).setOnClickListener(this);
 
         findViewById(R.id.tv_review_personal_name).setOnClickListener(this);
         findViewById(R.id.tv_review_personal_bank).setOnClickListener(this);
@@ -405,6 +411,30 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
                 if (drawer.isDrawerOpen(GravityCompat.END))
                     drawer.closeDrawer(GravityCompat.END);
                 openGeneralInfoActivity(getString(R.string.home_navi_terms), "http://oztax.tonishdev.com/terms-and-conditions");
+                break;
+
+            case R.id.tv_review_family_health_dependants:
+                if (drawer.isDrawerOpen(GravityCompat.END))
+                    drawer.closeDrawer(GravityCompat.END);
+                openFragment(R.id.layout_container, ReviewFamilyHealthDependantsFragment.class, true, new Bundle(), TransitionScreen.FADE_IN);
+                break;
+
+            case R.id.tv_review_family_health_medicare:
+                if (drawer.isDrawerOpen(GravityCompat.END))
+                    drawer.closeDrawer(GravityCompat.END);
+                openFragment(R.id.layout_container, ReviewFamilyHealthDependantsFragment.class, true, new Bundle(), TransitionScreen.FADE_IN);
+                break;
+
+            case R.id.tv_review_family_health_private:
+                if (drawer.isDrawerOpen(GravityCompat.END))
+                    drawer.closeDrawer(GravityCompat.END);
+                openFragment(R.id.layout_container, ReviewFamilyHealthDependantsFragment.class, true, new Bundle(), TransitionScreen.FADE_IN);
+                break;
+
+            case R.id.tv_review_family_health_spouse:
+                if (drawer.isDrawerOpen(GravityCompat.END))
+                    drawer.closeDrawer(GravityCompat.END);
+                openFragment(R.id.layout_container, ReviewFamilyHealthDependantsFragment.class, true, new Bundle(), TransitionScreen.FADE_IN);
                 break;
 
         }
