@@ -220,6 +220,11 @@ public class AnnuitiesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 @Override
                 public void onClick(View view) {
                     Annuity dividend = new Annuity();
+                    dividend.setTaxWithheld(null);
+                    dividend.setTaxableComTaxed(null);
+                    dividend.setTaxableComUntaxed(null);
+                    dividend.setArrearsTaxed(null);
+                    dividend.setArrearsUntaxed(null);
                     dividend.setImages(new ArrayList<Image>());
                     dividend.setAttach(new ArrayList<Attachment>());
                     AddList(dividend);

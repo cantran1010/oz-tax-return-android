@@ -41,6 +41,7 @@ import au.mccann.oztaxreturn.dialog.AlertDialogOkAndCancel;
 import au.mccann.oztaxreturn.dialog.CodeDialog;
 import au.mccann.oztaxreturn.dialog.PickImageDialog;
 import au.mccann.oztaxreturn.fragment.BaseFragment;
+import au.mccann.oztaxreturn.fragment.basic.DeductionFragment;
 import au.mccann.oztaxreturn.fragment.basic.IncomeOther;
 import au.mccann.oztaxreturn.model.APIError;
 import au.mccann.oztaxreturn.model.Attachment;
@@ -384,7 +385,7 @@ public class EarlyTerminationPayments extends BaseFragment implements View.OnCli
                     LogUtils.d(TAG, "doSaveReview code: " + response.body().getJobs().toString());
                     Bundle bundle = new Bundle();
                     bundle.putInt(Constants.PARAMETER_APP_ID, appID);
-//                    openFragment(R.id.layout_container, GovementPayment.class, true, bundle, TransitionScreen.RIGHT_TO_LEFT);
+                    openFragment(R.id.layout_container, AnnuitiesAndSupers.class, true, bundle, TransitionScreen.RIGHT_TO_LEFT);
                 } else {
                     APIError error = Utils.parseError(response);
                     LogUtils.e(TAG, "doSaveReview error : " + error.message());
@@ -500,7 +501,7 @@ public class EarlyTerminationPayments extends BaseFragment implements View.OnCli
 
                 } else {
                     bundle.putInt(Constants.PARAMETER_APP_ID, appID);
-//                    openFragment(R.id.layout_container, DeductionFragment.class, true, bundle, TransitionScreen.RIGHT_TO_LEFT);
+                    openFragment(R.id.layout_container, AnnuitiesAndSupers.class, true, bundle, TransitionScreen.RIGHT_TO_LEFT);
                 }
                 break;
 
