@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -90,14 +91,13 @@ public class ReviewFamilyHealthMedicareFragment extends BaseFragment implements 
 
     @Override
     protected void initData() {
+        setTitle(getString(R.string.review_fhd_title));
+        appBarVisibility(true, true,1);
 
         getReviewFamilyAndHealth();
 
         images = new ArrayList<>();
         attach = new ArrayList<>();
-
-        setTitle(getString(R.string.review_fhd_title));
-        appBarVisibility(false, true, 0);
 
         //images
         if (images.size() == 0) {
@@ -199,7 +199,7 @@ public class ReviewFamilyHealthMedicareFragment extends BaseFragment implements 
                 LogUtils.d(TAG, "doUpdate code : " + response.code());
                 if (response.code() == Constants.HTTP_CODE_OK) {
                     LogUtils.d(TAG, "doUpdate body : " + response.body().toString());
-//                    openFragment(R.id.layout_container, ReviewPersonalInfomationB.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
+                    openFragment(R.id.layout_container, ReviewFamilyHealthPrivateFragment.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
                 } else {
                     APIError error = Utils.parseError(response);
                     LogUtils.d(TAG, "doUpdate error : " + error.message());

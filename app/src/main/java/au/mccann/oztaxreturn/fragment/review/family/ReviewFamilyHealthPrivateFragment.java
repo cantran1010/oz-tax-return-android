@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -103,6 +104,8 @@ public class ReviewFamilyHealthPrivateFragment extends BaseFragment implements V
 
     @Override
     protected void initData() {
+        setTitle(getString(R.string.review_fhd_title));
+        appBarVisibility(true, true, 1);
 
         cbYes.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -351,7 +354,7 @@ public class ReviewFamilyHealthPrivateFragment extends BaseFragment implements V
                 LogUtils.d(TAG, "doNext code : " + response.code());
                 if (response.code() == Constants.HTTP_CODE_OK) {
                     LogUtils.d(TAG, "doNext body : " + response.body().toString());
-//                    openFragment(R.id.layout_container, ReviewPersonalInfomationB.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
+                    openFragment(R.id.layout_container, ReviewFamilyHealthSpouseFragment.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
                     Utils.showLongToast(getActivity(), "DONE NEXT !!!", false, false);
                 } else {
                     APIError error = Utils.parseError(response);

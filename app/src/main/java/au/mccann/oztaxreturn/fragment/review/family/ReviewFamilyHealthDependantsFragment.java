@@ -71,6 +71,8 @@ public class ReviewFamilyHealthDependantsFragment extends BaseFragment implement
 
     @Override
     protected void initData() {
+        setTitle(getString(R.string.review_fhd_title));
+        appBarVisibility(true, true,1);
 
         cbYes.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override

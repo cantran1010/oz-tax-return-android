@@ -219,6 +219,11 @@ public class ReviewFHPAdapter extends RecyclerView.Adapter<ReviewFHPAdapter.MyVi
     }
 
     @Override
+    public int getItemViewType(int position) {
+        return position;
+    }
+
+    @Override
     public int getItemCount() {
         return reviewPrivateResponses.size();
     }
