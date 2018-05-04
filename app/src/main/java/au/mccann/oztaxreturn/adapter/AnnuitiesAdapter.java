@@ -62,19 +62,19 @@ public class AnnuitiesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        if (viewType == TYPE_ITEM) {
-            //Inflating recycle view item layout
-            View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_annuity, parent, false);
-            return new ItemViewHolder(itemView);
-        } else if (viewType == TYPE_HEADER) {
+        if (viewType == TYPE_HEADER) {
             //Inflating header view
-            View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_annuities_header, parent, false);
+            View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_education_header, parent, false);
             return new HeaderViewHolder(itemView);
         } else if (viewType == TYPE_FOOTER) {
             //Inflating footer view
-            View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_dividend_footer, parent, false);
+            View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_adapter_footer, parent, false);
             return new FooterViewHolder(itemView);
-        } else return null;
+        } else {
+            //Inflating recycle view item layout
+            View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_education, parent, false);
+            return new ItemViewHolder(itemView);
+        }
     }
 
     @Override
@@ -216,6 +216,10 @@ public class AnnuitiesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             });
         } else if (holder instanceof FooterViewHolder) {
             FooterViewHolder itemViewHolder = (FooterViewHolder) holder;
+            if (isEdit) itemViewHolder.flAdd.setEnabled(true);
+            else {
+                itemViewHolder.flAdd.setEnabled(false);
+            }
             itemViewHolder.flAdd.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -240,7 +244,7 @@ public class AnnuitiesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         } else if (position == annuities.size() + 1) {
             return TYPE_FOOTER;
         }
-        return TYPE_ITEM;
+        return position + 1;
     }
 
     @Override

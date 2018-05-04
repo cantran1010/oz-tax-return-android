@@ -15,7 +15,7 @@ import java.util.ArrayList;
 
 import au.mccann.oztaxreturn.R;
 import au.mccann.oztaxreturn.model.Attachment;
-import au.mccann.oztaxreturn.model.Dividend;
+import au.mccann.oztaxreturn.model.Education;
 import au.mccann.oztaxreturn.model.Image;
 import au.mccann.oztaxreturn.utils.LogUtils;
 import au.mccann.oztaxreturn.view.EdittextCustom;
@@ -27,11 +27,11 @@ import au.mccann.oztaxreturn.view.RadioButtonCustom;
  * Created by cantran on 4/18/18.
  */
 
-public class DividendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class EducationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final int TYPE_HEADER = 0;
     private static final int TYPE_FOOTER = 1;
     private static final int TYPE_ITEM = 2;
-    private ArrayList<Dividend> dividends;
+    private ArrayList<Education> educations;
     private Context context;
     private boolean isEdit;
     private boolean isExpend = true;
@@ -55,9 +55,9 @@ public class DividendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         return isExpend;
     }
 
-    public DividendAdapter(Context context, ArrayList<Dividend> dividends) {
+    public EducationAdapter(Context context, ArrayList<Education> educations) {
         this.context = context;
-        this.dividends = dividends;
+        this.educations = educations;
     }
 
     @Override
@@ -83,7 +83,6 @@ public class DividendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             HeaderViewHolder headerViewHolder = (HeaderViewHolder) holder;
             onBind = true;
             headerViewHolder.rbYes.setChecked(isExpend);
-            onBind = false;
             if (isEdit) {
                 headerViewHolder.rbYes.setEnabled(true);
                 headerViewHolder.rbNo.setEnabled(true);
@@ -92,39 +91,33 @@ public class DividendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 headerViewHolder.rbNo.setEnabled(false);
             }
         } else if (holder instanceof ItemViewHolder) {
-            LogUtils.d("onBindViewHolder", dividends.toString() + "position" + position);
-            Dividend dividend = dividends.get(position - 1);
+            LogUtils.d("onBindViewHolder", educations.toString() + "position" + position);
+            Education education = educations.get(position - 1);
             ItemViewHolder itemViewHolder = (ItemViewHolder) holder;
             if (isExpend) {
                 itemViewHolder.expandableLayout.setExpanded(true);
             } else itemViewHolder.expandableLayout.setExpanded(false);
             if (isEdit) {
-                itemViewHolder.edtCompanyName.setEnabled(true);
-                itemViewHolder.edtUnFrankDividends.setEnabled(true);
-                itemViewHolder.edtFrankDividends.setEnabled(true);
-                itemViewHolder.edtFrankingCredits.setEnabled(true);
-                itemViewHolder.edtTaxWidthheld.setEnabled(true);
+                itemViewHolder.edtType.setEnabled(true);
+                itemViewHolder.edtCourse.setEnabled(true);
+                itemViewHolder.edtAmount.setEnabled(true);
                 itemViewHolder.grImage.setEnabled(true);
             } else {
-                itemViewHolder.edtCompanyName.setEnabled(false);
-                itemViewHolder.edtUnFrankDividends.setEnabled(false);
-                itemViewHolder.edtFrankDividends.setEnabled(false);
-                itemViewHolder.edtFrankingCredits.setEnabled(false);
-                itemViewHolder.edtTaxWidthheld.setEnabled(false);
+                itemViewHolder.edtType.setEnabled(false);
+                itemViewHolder.edtCourse.setEnabled(false);
+                itemViewHolder.edtAmount.setEnabled(false);
                 itemViewHolder.grImage.setEnabled(false);
             }
-            itemViewHolder.edtCompanyName.setText(dividend.getCompanyName());
-            itemViewHolder.edtUnFrankDividends.setText(dividend.getUnfranked());
-            itemViewHolder.edtFrankDividends.setText(dividend.getUnfranked());
-            itemViewHolder.edtFrankingCredits.setText(dividend.getFrankingCredits());
-            itemViewHolder.edtTaxWidthheld.setText(dividend.getTaxWithheld());
-            if (dividend.getImages() == null || dividend.getImages().size() == 0) {
+            itemViewHolder.edtType.setText(education.getType());
+            itemViewHolder.edtCourse.setText(education.getCourse());
+            itemViewHolder.edtAmount.setText(education.getAmount());
+            if (education.getImages() == null || education.getImages().size() == 0) {
                 final Image image = new Image();
                 image.setId(0);
                 image.setAdd(true);
-                dividend.getImages().add(image);
+                education.getImages().add(image);
             }
-            ImageAdapter imageAdapter = new ImageAdapter(context, dividend.getImages());
+            ImageAdapter imageAdapter = new ImageAdapter(context, education.getImages());
             itemViewHolder.grImage.setAdapter(imageAdapter);
             itemViewHolder.grImage.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
@@ -133,7 +126,7 @@ public class DividendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 }
             });
 
-            ((ItemViewHolder) holder).edtCompanyName.addTextChangedListener(new TextWatcher() {
+            ((ItemViewHolder) holder).edtType.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
@@ -141,15 +134,15 @@ public class DividendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
                 @Override
                 public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                    dividends.get(position - 1).setCompanyName(charSequence.toString().trim());
+
                 }
 
                 @Override
                 public void afterTextChanged(Editable editable) {
-
+                    educations.get(position - 1).setType(editable.toString().trim());
                 }
             });
-            ((ItemViewHolder) holder).edtUnFrankDividends.addTextChangedListener(new TextWatcher() {
+            ((ItemViewHolder) holder).edtCourse.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
@@ -162,10 +155,10 @@ public class DividendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
                 @Override
                 public void afterTextChanged(Editable editable) {
-                    dividends.get(position - 1).setUnfranked(editable.toString().trim());
+                    educations.get(position - 1).setCourse(editable.toString().trim());
                 }
             });
-            ((ItemViewHolder) holder).edtFrankDividends.addTextChangedListener(new TextWatcher() {
+            ((ItemViewHolder) holder).edtAmount.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
@@ -178,60 +171,33 @@ public class DividendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
                 @Override
                 public void afterTextChanged(Editable editable) {
-                    dividends.get(position - 1).setFranked(editable.toString().trim());
-                }
-            });
-            ((ItemViewHolder) holder).edtFrankingCredits.addTextChangedListener(new TextWatcher() {
-                @Override
-                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-                }
-
-                @Override
-                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-                }
-
-                @Override
-                public void afterTextChanged(Editable editable) {
-                    dividends.get(position - 1).setFrankingCredits(editable.toString().trim());
-                }
-            });
-            ((ItemViewHolder) holder).edtTaxWidthheld.addTextChangedListener(new TextWatcher() {
-                @Override
-                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-                }
-
-                @Override
-                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-                }
-
-                @Override
-                public void afterTextChanged(Editable editable) {
-                    dividends.get(position - 1).setTaxWithheld(editable.toString().trim());
+                    educations.get(position - 1).setAmount(editable.toString().trim());
                 }
             });
         } else if (holder instanceof FooterViewHolder) {
             FooterViewHolder itemViewHolder = (FooterViewHolder) holder;
+            if (isEdit) itemViewHolder.flAdd.setEnabled(true);
+            else {
+                itemViewHolder.flAdd.setEnabled(false);
+            }
             itemViewHolder.flAdd.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Dividend dividend = new Dividend();
-                    dividend.setImages(new ArrayList<Image>());
-                    dividend.setAttach(new ArrayList<Attachment>());
-                    AddList(dividend);
+                    Education education = new Education();
+                    education.setImages(new ArrayList<Image>());
+                    education.setAttach(new ArrayList<Attachment>());
+                    AddList(education);
                 }
             });
         }
+        onBind = false;
     }
 
     @Override
     public int getItemViewType(int position) {
         if (position == 0) {
             return TYPE_HEADER;
-        } else if (position == dividends.size() + 1) {
+        } else if (position == educations.size() + 1) {
             return TYPE_FOOTER;
         }
         return position + 1;
@@ -239,7 +205,7 @@ public class DividendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     @Override
     public int getItemCount() {
-        return dividends.size() + 2;
+        return educations.size() + 2;
     }
 
     private class HeaderViewHolder extends RecyclerView.ViewHolder implements CompoundButton.OnCheckedChangeListener {
@@ -273,24 +239,22 @@ public class DividendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     private class ItemViewHolder extends RecyclerView.ViewHolder {
         ExpandableLayout expandableLayout;
-        EdittextCustom edtCompanyName, edtUnFrankDividends, edtFrankDividends, edtFrankingCredits, edtTaxWidthheld;
+        EdittextCustom edtType, edtCourse, edtAmount;
         MyGridView grImage;
 
         public ItemViewHolder(View itemView) {
             super(itemView);
             expandableLayout = itemView.findViewById(R.id.expand_layout);
-            edtCompanyName = itemView.findViewById(R.id.edt_dividends_bank_name);
-            edtUnFrankDividends = itemView.findViewById(R.id.edt_unfrank_dividends);
-            edtFrankDividends = itemView.findViewById(R.id.edt_franked_dividends);
-            edtFrankingCredits = itemView.findViewById(R.id.edt_franking_credits);
-            edtTaxWidthheld = itemView.findViewById(R.id.edt_tax_widthheld);
+            edtType = itemView.findViewById(R.id.edt_deduction_type);
+            edtCourse = itemView.findViewById(R.id.edt_course);
+            edtAmount = itemView.findViewById(R.id.edt_education_amount);
             grImage = itemView.findViewById(R.id.gr_image);
         }
     }
 
-    public void AddList(Dividend dividend) {
-        if (dividends.size() > 3) return;
-        dividends.add(dividend);
+    public void AddList(Education e) {
+        if (educations.size() > 3) return;
+        educations.add(e);
         notifyDataSetChanged();
     }
 

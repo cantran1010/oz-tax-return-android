@@ -300,7 +300,7 @@
     <string name="annuities_and_super">Annuities and Super</string>
     <string name="annuities_ask">Did you receive any annuity or super income?</string>
     <string name="annuity_taxed">taxable component (taxed)</string>
-    <string name="annuity_untaxed" >taxable component (untaxed)</string>
+    <string name="annuity_untaxed">taxable component (untaxed)</string>
     <string name="lump">lump sum in arrear(taxed)</string>
     <string name="lump_untaxed">lump sum in arrear(untaxed)</string>
 
@@ -350,11 +350,16 @@
     <!-- review deduction Other Work Related Expenses -->
     <string name="review_other_work">Other Work Related Expenses</string>
     <string name="review_ohter_work_ask">This could relate to union fees, home office expenses and other expenses.\n\nDo you want to claim for this type?</string>
+    <string name="description">description</string>
     <string name="other_work_type_hint">Example: telephone</string>
+    <string name="description_hint">Example: Phone call to Customers</string>
+
+    <!-- review deduction Tax Agents -->
     <string name="tax_agents">Tax Agents</string>
     <string name="review_tax_agents_ask">Did you pay any fee to tax agents for your last year  tax return?</string>
     <string name="tax_agents_organization">ozganization</string>
     <string name="organization_hint">Example: OZ Tax Return</string>
+
 
 
 </resources>
