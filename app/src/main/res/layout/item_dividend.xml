@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<au.mccann.oztaxreturn.view.ExpandableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/expand_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginEnd="@dimen/left_right_margin_screen"
+    android:layout_marginLeft="@dimen/left_right_margin_screen"
+    android:layout_marginRight="@dimen/left_right_margin_screen"
+    android:layout_marginStart="@dimen/left_right_margin_screen"
+    app:el_duration="@integer/AnimTime"
+    app:el_expanded="false">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginTop="20dp"
+            android:background="@color/border_gray" />
+
+        <au.mccann.oztaxreturn.view.TextViewCustom
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="@string/dividends_company_name"
+            android:textAllCaps="true"
+            android:textColor="@color/tv_gray"
+            android:textSize="@dimen/size_small" />
+
+        <au.mccann.oztaxreturn.view.EdittextCustom
+            android:id="@+id/edt_dividends_bank_name"
+            style="@style/EditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:inputType="text"
+            android:textColor="@color/income_conten"
+            android:textColorHint="@color/tv_gray" />
+
+        <au.mccann.oztaxreturn.view.TextViewCustom
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="@string/unfrank_dividends"
+            android:textAllCaps="true"
+            android:textColor="@color/tv_gray"
+            android:textSize="@dimen/size_small" />
+
+        <au.mccann.oztaxreturn.view.EdittextCustom
+            android:id="@+id/edt_unfrank_dividends"
+            style="@style/EditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:inputType="text"
+            android:textColor="@color/income_conten"
+            android:textColorHint="@color/tv_gray" />
+
+        <au.mccann.oztaxreturn.view.TextViewCustom
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="@string/franked_dividends"
+            android:textAllCaps="true"
+            android:textColor="@color/tv_gray"
+            android:textSize="@dimen/size_small" />
+
+        <au.mccann.oztaxreturn.view.EdittextCustom
+            android:id="@+id/edt_franked_dividends"
+            style="@style/EditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:inputType="text"
+            android:textColor="@color/income_conten"
+            android:textColorHint="@color/tv_gray" />
+
+        <au.mccann.oztaxreturn.view.TextViewCustom
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="@string/franking_credits"
+            android:textAllCaps="true"
+            android:textColor="@color/tv_gray"
+            android:textSize="@dimen/size_small" />
+
+        <au.mccann.oztaxreturn.view.EdittextCustom
+            android:id="@+id/edt_franking_credits"
+            style="@style/EditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:inputType="text"
+            android:textColor="@color/income_conten"
+            android:textColorHint="@color/tv_gray" />
+
+
+        <au.mccann.oztaxreturn.view.TextViewCustom
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="@string/dividends_tax_widthheld"
+            android:textAllCaps="true"
+            android:textColor="@color/tv_gray"
+            android:textSize="@dimen/size_small" />
+
+        <au.mccann.oztaxreturn.view.EdittextCustom
+            android:id="@+id/edt_tax_widthheld"
+            style="@style/EditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:inputType="text"
+            android:textColor="@color/income_conten"
+            android:textColorHint="@color/tv_gray" />
+
+        <au.mccann.oztaxreturn.view.TextViewCustom
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="@string/label_image"
+            android:textAllCaps="true"
+            android:textColor="@color/tv_gray"
+            android:textSize="@dimen/size_small" />
+
+        <au.mccann.oztaxreturn.view.MyGridView
+            android:id="@+id/gr_image"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:numColumns="3"
+            android:paddingBottom="20dp" />
+    </LinearLayout>
+</au.mccann.oztaxreturn.view.ExpandableLayout>

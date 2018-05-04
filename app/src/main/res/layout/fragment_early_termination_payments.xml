@@ -22,27 +22,23 @@
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/btn_next">
+        android:layout_above="@+id/btn_next"
+        android:scrollbars="none">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <au.mccann.oztaxreturn.view.TextViewCustom
-                    android:id="@+id/tv_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="25dp"
-                    android:text="@string/review_Interest"
-                    android:textColor="@color/title_color"
-                    android:textSize="@dimen/tv_size_xxxlager" />
-            </RelativeLayout>
+            <au.mccann.oztaxreturn.view.TextViewCustom
+                android:id="@+id/tv_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:gravity="center_horizontal"
+                android:text="@string/early_termination_payment"
+                android:textColor="@color/title_color"
+                android:textSize="@dimen/tv_size_xxxlager" />
 
             <View
                 android:id="@+id/line"
@@ -57,7 +53,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="25dp"
                 android:gravity="center"
-                android:text="@string/review_Interest_ask"
+                android:text="@string/review_early_ask"
                 android:textColor="@color/title_color"
                 android:textSize="@dimen/size_nomal" />
 
@@ -105,7 +101,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:el_duration="500"
-                app:el_expanded="true">
+                app:el_expanded="false">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -116,13 +112,33 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="25dp"
-                        android:text="@string/interest_bank_name"
+                        android:text="@string/payment_date"
                         android:textAllCaps="true"
                         android:textColor="@color/tv_gray"
                         android:textSize="@dimen/size_small" />
 
                     <au.mccann.oztaxreturn.view.EdittextCustom
-                        android:id="@+id/edt_interest_bank_name"
+                        android:id="@+id/edt_payment_date"
+                        style="@style/EditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:focusable="false"
+                        android:inputType="text"
+                        android:textColor="@color/income_conten"
+                        android:textColorHint="@color/tv_gray" />
+
+                    <au.mccann.oztaxreturn.view.TextViewCustom
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:text="@string/payer_abn"
+                        android:textAllCaps="true"
+                        android:textColor="@color/tv_gray"
+                        android:textSize="@dimen/size_small" />
+
+                    <au.mccann.oztaxreturn.view.EdittextCustom
+                        android:id="@+id/edt_payer_abn"
                         style="@style/EditText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -135,18 +151,18 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="20dp"
-                        android:text="@string/interes_account_number"
+                        android:text="@string/tax_widthheld"
                         android:textAllCaps="true"
                         android:textColor="@color/tv_gray"
                         android:textSize="@dimen/size_small" />
 
                     <au.mccann.oztaxreturn.view.EdittextCustom
-                        android:id="@+id/edt_interest_account_number"
+                        android:id="@+id/edt_tax_widthheld"
                         style="@style/EditText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:inputType="text"
+                        android:inputType="number"
                         android:textColor="@color/income_conten"
                         android:textColorHint="@color/tv_gray" />
 
@@ -154,57 +170,32 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="20dp"
-                        android:text="@string/interest_total"
+                        android:text="@string/taxtable_component"
                         android:textAllCaps="true"
                         android:textColor="@color/tv_gray"
                         android:textSize="@dimen/size_small" />
 
                     <au.mccann.oztaxreturn.view.EdittextCustom
-                        android:id="@+id/edt_total_interests"
+                        android:id="@+id/edt_taxtable_component"
                         style="@style/EditText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:inputType="text"
+                        android:inputType="number"
                         android:textColor="@color/income_conten"
                         android:textColorHint="@color/tv_gray" />
 
-
-                    <au.mccann.oztaxreturn.view.TextViewCustom
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="20dp"
-                        android:text="@string/interest_tax_widthheld"
-                        android:textAllCaps="true"
-                        android:textColor="@color/tv_gray"
-                        android:textSize="@dimen/size_small" />
-
                     <au.mccann.oztaxreturn.view.EdittextCustom
-                        android:id="@+id/edt_interest_tax"
+                        android:id="@+id/edt_code"
                         style="@style/EditText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:inputType="text"
-                        android:textColor="@color/income_conten"
-                        android:textColorHint="@color/tv_gray" />
-
-
-                    <au.mccann.oztaxreturn.view.TextViewCustom
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="20dp"
-                        android:text="@string/interest_bank_fees"
-                        android:textAllCaps="true"
-                        android:textColor="@color/tv_gray"
-                        android:textSize="@dimen/size_small" />
-
-                    <au.mccann.oztaxreturn.view.EdittextCustom
-                        android:id="@+id/edt_interest_bank_fees"
-                        style="@style/EditText"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
+                        android:background="@drawable/bg_line"
+                        android:drawableEnd="@drawable/ic_code"
+                        android:drawableRight="@drawable/ic_code"
+                        android:focusable="false"
+                        android:hint="@string/early_termination_payment_code"
                         android:inputType="text"
                         android:textColor="@color/income_conten"
                         android:textColorHint="@color/tv_gray" />

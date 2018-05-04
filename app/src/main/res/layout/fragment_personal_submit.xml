@@ -231,7 +231,6 @@
                         android:layout_marginLeft="5dp"
                         android:layout_marginStart="5dp"
                         android:layout_marginTop="10dp"
-                        android:layout_weight="1"
                         android:inputType="number"
                         android:textColor="@color/income_conten"
                         android:textColorHint="@color/tv_gray" />
@@ -296,7 +295,6 @@
                         android:layout_marginLeft="5dp"
                         android:layout_marginStart="5dp"
                         android:layout_marginTop="10dp"
-                        android:layout_weight="1"
                         android:inputType="textEmailAddress"
                         android:textColor="@color/income_conten"
                         android:textColorHint="@color/tv_gray" />

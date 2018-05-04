@@ -16,11 +16,14 @@ public class Dividend {
     @SerializedName("franked")
     private String franked;
     @SerializedName("franking_credits")
-    private String franking_credits;
+    private String frankingCredits;
     @SerializedName("tax_withheld")
-    private String tax_withheld;
+    private String taxWithheld;
     @SerializedName("attachments")
     private ArrayList<Attachment> attachments;
+    private ArrayList<Image> images = new ArrayList<>();
+    private ArrayList<Attachment> attach = new ArrayList<>();
+    private ArrayList<Image> listUp = new ArrayList<>();
 
     public String getId() {
         return id;
@@ -54,20 +57,20 @@ public class Dividend {
         this.franked = franked;
     }
 
-    public String getFranking_credits() {
-        return franking_credits;
+    public String getFrankingCredits() {
+        return frankingCredits;
     }
 
-    public void setFranking_credits(String franking_credits) {
-        this.franking_credits = franking_credits;
+    public void setFrankingCredits(String frankingCredits) {
+        this.frankingCredits = frankingCredits;
     }
 
-    public String getTax_withheld() {
-        return tax_withheld;
+    public String getTaxWithheld() {
+        return taxWithheld;
     }
 
-    public void setTax_withheld(String tax_withheld) {
-        this.tax_withheld = tax_withheld;
+    public void setTaxWithheld(String taxWithheld) {
+        this.taxWithheld = taxWithheld;
     }
 
     public ArrayList<Attachment> getAttachments() {
@@ -78,6 +81,30 @@ public class Dividend {
         this.attachments = attachments;
     }
 
+    public ArrayList<Image> getImages() {
+        return images;
+    }
+
+    public ArrayList<Attachment> getAttach() {
+        return attach;
+    }
+
+    public void setAttach(ArrayList<Attachment> attach) {
+        this.attach = attach;
+    }
+
+    public void setImages(ArrayList<Image> images) {
+        this.images = images;
+    }
+
+    public ArrayList<Image> getListUp() {
+        return listUp;
+    }
+
+    public void setListUp(ArrayList<Image> listUp) {
+        this.listUp = listUp;
+    }
+
     @Override
     public String toString() {
         return "Dividend{" +
@@ -85,9 +112,12 @@ public class Dividend {
                 ", companyName='" + companyName + '\'' +
                 ", unfranked='" + unfranked + '\'' +
                 ", franked='" + franked + '\'' +
-                ", franking_credits='" + franking_credits + '\'' +
-                ", tax_withheld='" + tax_withheld + '\'' +
-                ", attachments='" + attachments + '\'' +
+                ", frankingCredits='" + frankingCredits + '\'' +
+                ", taxWithheld='" + taxWithheld + '\'' +
+                ", attachments=" + attachments +
+                ", images=" + images +
+                ", attach=" + attach +
+                ", listUp=" + listUp +
                 '}';
     }
 }

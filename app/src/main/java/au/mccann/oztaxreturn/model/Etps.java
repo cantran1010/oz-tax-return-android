@@ -8,49 +8,58 @@ import java.util.ArrayList;
  * Created by CanTran on 4/23/18.
  */
 public class Etps {
+    private boolean had;
     @SerializedName("payment_date")
-    private String payment_date;
+    private String paymentDate;
     @SerializedName("payer_abn")
-    private String payer_abn;
+    private String payerAbn;
     @SerializedName("tax_withheld")
-    private String tax_withheld;
+    private String taxWithheld;
     @SerializedName("taxable_com")
-    private String taxable_com;
+    private String taxableCom;
     @SerializedName("code")
     private String code;
     @SerializedName("attachments")
     private ArrayList<Attachment> attachments;
 
-    public String getPayment_date() {
-        return payment_date;
+    public boolean isHad() {
+        return had;
     }
 
-    public void setPayment_date(String payment_date) {
-        this.payment_date = payment_date;
+    public void setHad(boolean had) {
+        this.had = had;
     }
 
-    public String getPayer_abn() {
-        return payer_abn;
+    public String getPaymentDate() {
+        return paymentDate;
     }
 
-    public void setPayer_abn(String payer_abn) {
-        this.payer_abn = payer_abn;
+    public void setPaymentDate(String paymentDate) {
+        this.paymentDate = paymentDate;
     }
 
-    public String getTax_withheld() {
-        return tax_withheld;
+    public String getPayerAbn() {
+        return payerAbn;
     }
 
-    public void setTax_withheld(String tax_withheld) {
-        this.tax_withheld = tax_withheld;
+    public void setPayerAbn(String payerAbn) {
+        this.payerAbn = payerAbn;
     }
 
-    public String getTaxable_com() {
-        return taxable_com;
+    public String getTaxWithheld() {
+        return taxWithheld;
     }
 
-    public void setTaxable_com(String taxable_com) {
-        this.taxable_com = taxable_com;
+    public void setTaxWithheld(String taxWithheld) {
+        this.taxWithheld = taxWithheld;
+    }
+
+    public String getTaxableCom() {
+        return taxableCom;
+    }
+
+    public void setTaxableCom(String taxableCom) {
+        this.taxableCom = taxableCom;
     }
 
     public String getCode() {
@@ -72,12 +81,13 @@ public class Etps {
     @Override
     public String toString() {
         return "Etps{" +
-                "payment_date='" + payment_date + '\'' +
-                ", payer_abn='" + payer_abn + '\'' +
-                ", tax_withheld='" + tax_withheld + '\'' +
-                ", taxable_com='" + taxable_com + '\'' +
+                "had=" + had +
+                ", paymentDate='" + paymentDate + '\'' +
+                ", payerAbn='" + payerAbn + '\'' +
+                ", taxWithheld='" + taxWithheld + '\'' +
+                ", taxableCom='" + taxableCom + '\'' +
                 ", code='" + code + '\'' +
-                ", attachments='" + attachments + '\'' +
+                ", attachments=" + attachments +
                 '}';
     }
 }
