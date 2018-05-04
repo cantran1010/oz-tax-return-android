@@ -24,6 +24,20 @@ public class ImageAdapter extends ArrayAdapter<Image> {
     private static final String TAG = ImageAdapter.class.getName();
     private final ArrayList<Image> images;
 
+    public interface RemoveListener {
+        public void remove(int position);
+    }
+
+    private RemoveListener removeListener;
+
+    public RemoveListener getRemoveListener() {
+        return removeListener;
+    }
+
+    public void setRemoveListener(RemoveListener removeListener) {
+        this.removeListener = removeListener;
+    }
+
     public ImageAdapter(Context _context, ArrayList<Image> images) {
         super(_context, R.layout.item_image, images);
         this.images = images;
@@ -68,6 +82,8 @@ public class ImageAdapter extends ArrayAdapter<Image> {
             public void onClick(View v) {
                 images.remove(position);
                 notifyDataSetChanged();
+
+                if (removeListener != null) removeListener.remove(position);
             }
         });
 

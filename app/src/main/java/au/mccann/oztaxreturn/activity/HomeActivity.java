@@ -19,6 +19,7 @@ import au.mccann.oztaxreturn.fragment.HomeFragment;
 import au.mccann.oztaxreturn.fragment.NotificationFragment;
 import au.mccann.oztaxreturn.fragment.review.family.ReviewFamilyHealthDependantsFragment;
 import au.mccann.oztaxreturn.fragment.review.family.ReviewFamilyHealthMedicareFragment;
+import au.mccann.oztaxreturn.fragment.review.family.ReviewFamilyHealthPrivateFragment;
 import au.mccann.oztaxreturn.fragment.review.personal.ReviewPersonalInfomationA;
 import au.mccann.oztaxreturn.fragment.review.personal.ReviewPersonalInfomationB;
 import au.mccann.oztaxreturn.fragment.review.personal.ReviewPersonalInfomationC;
@@ -429,7 +430,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
             case R.id.tv_review_family_health_private:
                 if (drawer.isDrawerOpen(GravityCompat.END))
                     drawer.closeDrawer(GravityCompat.END);
-                openFragment(R.id.layout_container, ReviewFamilyHealthDependantsFragment.class, true, new Bundle(), TransitionScreen.FADE_IN);
+                openFragment(R.id.layout_container, ReviewFamilyHealthPrivateFragment.class, true, new Bundle(), TransitionScreen.FADE_IN);
                 break;
 
             case R.id.tv_review_family_health_spouse:
