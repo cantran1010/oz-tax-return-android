@@ -41,7 +41,6 @@ import au.mccann.oztaxreturn.dialog.AlertDialogOkAndCancel;
 import au.mccann.oztaxreturn.dialog.CodeDialog;
 import au.mccann.oztaxreturn.dialog.PickImageDialog;
 import au.mccann.oztaxreturn.fragment.BaseFragment;
-import au.mccann.oztaxreturn.fragment.basic.DeductionFragment;
 import au.mccann.oztaxreturn.fragment.basic.IncomeOther;
 import au.mccann.oztaxreturn.model.APIError;
 import au.mccann.oztaxreturn.model.Attachment;
@@ -349,7 +348,7 @@ public class EarlyTerminationPayments extends BaseFragment implements View.OnCli
         final JSONObject jsonRequest = new JSONObject();
         try {
             JSONObject govJson = new JSONObject();
-            govJson.put(Constants.PARAMETER_REVIEW_INCOME_GOVEMENT_HAD, rbYes.isChecked());
+            govJson.put(Constants.PARAMETER_REVIEW_HAD, rbYes.isChecked());
             govJson.put(Constants.PARAMETER_REVIEW_ETPS_PAYMENT_DATE, edtPaymentDate.getText().toString().trim());
             govJson.put(Constants.PARAMETER_REVIEW_ETPS_PAYMENT_ABN, edtPayerAbn.getText().toString().trim());
             govJson.put(Constants.PARAMETER_REVIEW_ETPS_PAYMENT_TAX, edtTaxWidthheld.getText().toString().trim());

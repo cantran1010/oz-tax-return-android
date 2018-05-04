@@ -289,12 +289,12 @@ public class Utils {
     }
 
 
-    public static void showSoftKeyboard(Context context, View EdittextHozo) {
-        if (EdittextHozo == null)
+    public static void showSoftKeyboard(Context context, View v) {
+        if (v == null)
             return;
 
         InputMethodManager imm = (InputMethodManager) context.getSystemService(Service.INPUT_METHOD_SERVICE);
-        imm.showSoftInput(EdittextHozo, 0);
+        imm.showSoftInput(v, 0);
     }
 
     public static APIError parseError(Response<?> response) {

@@ -91,7 +91,7 @@ public class Constants {
     public static final String PARAMETER_REVIEW_INCOM_JOB_COMPANY_CONTACT = "company_contact";
     public static final String PARAMETER_REVIEW_INCOME_JOB = "jobs";
     public static final String PARAMETER_REVIEW_INCOME_GOVEMENT = "gov_payments";
-    public static final String PARAMETER_REVIEW_INCOME_GOVEMENT_HAD = "had";
+    public static final String PARAMETER_REVIEW_HAD = "had";
     public static final String PARAMETER_REVIEW_INCOME_GOVEMENT_TYPE = "income_type";
     public static final String PARAMETER_REVIEW_INCOME_GOVEMENT_GROSS = "gross_income";
     public static final String PARAMETER_REVIEW_INCOME_GOVEMENT_TAX = "tax_withheld";
@@ -134,6 +134,13 @@ public class Constants {
     public static final String PARAMETER_REVIEW_INCOM_ANNUITY_COM_UNTAX = "taxable_com_untaxed";
     public static final String PARAMETER_REVIEW_INCOM_ANNUITY_ARREAR_TAX = "arrears_taxed";
     public static final String PARAMETER_REVIEW_INCOM_ANNUITY_ARREAR_UNTAX = "arrears_untaxed";
+    public static final String PARAMETER_REVIEW_DEDUCTION_VEHICLES = "vehicles";
+    public static final String PARAMETER_REVIEW_DEDUCTION_HOW = "how_related";
+    public static final String PARAMETER_REVIEW_DEDUCTION_KM = "km_travelled";
+    public static final String PARAMETER_REVIEW_DEDUCTION_TYPE = "type_brand";
+    public static final String PARAMETER_REVIEW_DEDUCTION_REG = "reg_number";
+    public static final String PARAMETER_REVIEW_AMOUNT = "amount";
+    public static final String PARAMETER_REVIEW_TYPE = "type";
     public static int MAX_IMAGE_ATTACH = 9;
     public static final String INTENT_EXTRA_ALBUM = "album_name";
     public static final int REQUEST_CODE_PICK_IMAGE = 357;

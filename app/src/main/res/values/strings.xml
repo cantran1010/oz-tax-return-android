@@ -316,4 +316,45 @@
     <string name="checkout_success">Checkout Success!</string>
     <string name="reviewed">Reviewed</string>
 
+    <!-- review deduction vehicle -->
+    <string name="review_vehicle">Vehicle</string>
+    <string name="review_vehicle_ask">Our accountant has review your information and suggest that you may be eligible to claim up to 5000 KM for vehicle deduction.\n\n Do you want to claim for verhicle deduction?</string>
+    <string name="how_your_vehicle">how your vehicle is related to your work?</string>
+    <string name="your_work_hint">Example:  Delivery</string>
+    <string name="km_vehicle">km\'s travelled</string>
+    <string name="km_hint">70</string>
+    <string name="vehicle_type_brand">vehicle type/brand</string>
+    <string name="hint_type_vehicle">Example: toyota Camry</string>
+    <string name="registration_number">vehicle registration number</string>
+    <string name="hint_registration">Example: XDS 325</string>
+    <string name="calculated_amount">calculated amount</string>
+    <string name="hint_calculated">Example: $100</string>
+
+    <!-- review deduction clothing -->
+    <string name="review_clothing">Work relate clothing</string>
+    <string name="review_clothing_ask">Our accountant has review your information and suggest that you can claim for upto $1000 for work relate clothing and laundary deduction.\n\nDo you want to claim for this type?</string>
+    <string name="deduction_type">Deduction type</string>
+    <string name="unfranks_dividends">unfranks dividends</string>
+    <string name="unfranks_dividends_hint">$ 100</string>
+    <string name="deduction_type_hint">Deduction type</string>
+
+    <!-- review deduction education -->
+    <string name="review_education">Work relate education</string>
+    <string name="review_education_ask">This could relate to any spending on fees, books, travel and epuipment that heva a direct connection to your current work.\n\nDo you want to claim for this type?</string>
+    <string name="education_type_hint">Example: tultion fees</string>
+    <string name="course_and_institution">course and instutition</string>
+    <string name="course_hint">Example: food safety certificate from ABC TAPE</string>
+    <string name="ed_amount">amount</string>
+    <string name="amount_hint">$ 1000</string>
+
+    <!-- review deduction Other Work Related Expenses -->
+    <string name="review_other_work">Other Work Related Expenses</string>
+    <string name="review_ohter_work_ask">This could relate to union fees, home office expenses and other expenses.\n\nDo you want to claim for this type?</string>
+    <string name="other_work_type_hint">Example: telephone</string>
+    <string name="tax_agents">Tax Agents</string>
+    <string name="review_tax_agents_ask">Did you pay any fee to tax agents for your last year  tax return?</string>
+    <string name="tax_agents_organization">ozganization</string>
+    <string name="organization_hint">Example: OZ Tax Return</string>
+
+
 </resources>

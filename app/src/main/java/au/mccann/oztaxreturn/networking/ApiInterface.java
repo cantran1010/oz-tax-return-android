@@ -3,6 +3,7 @@ package au.mccann.oztaxreturn.networking;
 import java.util.List;
 
 import au.mccann.oztaxreturn.model.Attachment;
+import au.mccann.oztaxreturn.model.DeductionResponse;
 import au.mccann.oztaxreturn.model.IncomeResponse;
 import au.mccann.oztaxreturn.model.ResponseBasicInformation;
 import au.mccann.oztaxreturn.model.UserReponse;
@@ -78,4 +79,10 @@ public interface ApiInterface {
 
     @POST("application/{application_id}/checkout")
     Call<Void> checkout(@Header("Authorization") String token, @Path("application_id") int appId, @Body RequestBody body);
+
+    @GET("application/{application_id}/review/deduction")
+    Call<DeductionResponse> getReviewDeduction(@Header("Authorization") String token, @Path("application_id") int appId);
+
+    @PUT("application/{application_id}/review/deduction")
+    Call<DeductionResponse> putReviewDeduction(@Header("Authorization") String token, @Path("application_id") int appId, @Body RequestBody body);
 }
