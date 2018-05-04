@@ -83,7 +83,7 @@ public class FragmentReviewDividends extends BaseFragment implements View.OnClic
 
     @Override
     protected void initData() {
-        appID = getArguments().getInt(Constants.PARAMETER_APP_ID);
+        appID = getApplicationResponse().getId();
         setTitle(getString(R.string.review_income_title));
         appBarVisibility(true, false, 0);
         updateList();

@@ -3,8 +3,6 @@ package au.mccann.oztaxreturn.fragment.review.income;
 import android.Manifest;
 import android.animation.ObjectAnimator;
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -16,7 +14,6 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CompoundButton;
-import android.widget.DatePicker;
 import android.widget.ScrollView;
 
 import org.json.JSONArray;
@@ -25,9 +22,6 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 import au.mccann.oztaxreturn.R;
@@ -43,11 +37,10 @@ import au.mccann.oztaxreturn.fragment.BaseFragment;
 import au.mccann.oztaxreturn.fragment.basic.IncomeOther;
 import au.mccann.oztaxreturn.model.APIError;
 import au.mccann.oztaxreturn.model.Attachment;
+import au.mccann.oztaxreturn.model.GovPayment;
 import au.mccann.oztaxreturn.model.Image;
 import au.mccann.oztaxreturn.model.IncomeResponse;
-import au.mccann.oztaxreturn.model.Rental;
 import au.mccann.oztaxreturn.networking.ApiClient;
-import au.mccann.oztaxreturn.utils.DateTimeUtils;
 import au.mccann.oztaxreturn.utils.DialogUtils;
 import au.mccann.oztaxreturn.utils.FileUtils;
 import au.mccann.oztaxreturn.utils.ImageUtils;
@@ -71,9 +64,9 @@ import static au.mccann.oztaxreturn.utils.TooltipUtils.showToolTipView;
 /**
  * Created by CanTran on 4/24/18.
  */
-public class RentalProperties extends BaseFragment implements View.OnClickListener {
+public class GovementPayment extends BaseFragment implements View.OnClickListener {
     private RadioButtonCustom rbYes, rbNo;
-    private EdittextCustom edtOwnerShip, edtStreet, edtSuburb, edtState, edtPostCode, edtFirstDate, edtRentalIncome, edtRentalExpenses;
+    private EdittextCustom edtIncomeType, edtGrossPayment, edtTax;
     private static final String TAG = IncomeOther.class.getSimpleName();
     private MyGridView grImage;
     private ImageAdapter imageAdapter;
@@ -82,14 +75,13 @@ public class RentalProperties extends BaseFragment implements View.OnClickListen
     private String imgPath;
     private ScrollView scrollView;
     private ExpandableLayout layout;
-    private Rental rental = new Rental();
+    private GovPayment govPayment = new GovPayment();
     private ArrayList<Attachment> attach;
     private int appID;
-    private final Calendar calendar = GregorianCalendar.getInstance();
 
     @Override
     protected int getLayout() {
-        return R.layout.fragment_review_income_rental;
+        return R.layout.fragment_review_govement_payment;
     }
 
     @Override
@@ -100,27 +92,17 @@ public class RentalProperties extends BaseFragment implements View.OnClickListen
         rbYes.setEnabled(false);
         rbNo = (RadioButtonCustom) findViewById(R.id.rb_no);
         rbNo.setEnabled(false);
-        edtOwnerShip = (EdittextCustom) findViewById(R.id.edt_owership);
-        edtOwnerShip.setEnabled(false);
-        edtStreet = (EdittextCustom) findViewById(R.id.edt_street_name);
-        edtStreet.setEnabled(false);
-        edtSuburb = (EdittextCustom) findViewById(R.id.edt_suburb);
-        edtSuburb.setEnabled(false);
-        edtState = (EdittextCustom) findViewById(R.id.edt_state);
-        edtState.setEnabled(false);
-        edtPostCode = (EdittextCustom) findViewById(R.id.edt_post_code);
-        edtPostCode.setEnabled(false);
-        edtFirstDate = (EdittextCustom) findViewById(R.id.edt_first_date);
-        edtFirstDate.setEnabled(false);
-        edtFirstDate.setOnClickListener(this);
-        edtRentalIncome = (EdittextCustom) findViewById(R.id.edt_rental_income);
-        edtRentalIncome.setEnabled(false);
-        edtRentalExpenses = (EdittextCustom) findViewById(R.id.edt_rental_expenses);
-        edtRentalExpenses.setEnabled(false);
+        edtIncomeType = (EdittextCustom) findViewById(R.id.edt_income_type);
+        edtIncomeType.setEnabled(false);
+        edtGrossPayment = (EdittextCustom) findViewById(R.id.edt_gross_payment);
+        edtGrossPayment.setEnabled(false);
+        edtTax = (EdittextCustom) findViewById(R.id.edt_tax_widthheld);
+        edtTax.setEnabled(false);
         grImage = (MyGridView) findViewById(R.id.gr_image);
         grImage.setEnabled(false);
         scrollView = (ScrollView) findViewById(R.id.scrollView);
         layout = (ExpandableLayout) findViewById(R.id.layout_expandable);
+
     }
 
     @Override
@@ -139,6 +121,7 @@ public class RentalProperties extends BaseFragment implements View.OnClickListen
         }
         imageAdapter = new ImageAdapter(getActivity(), images);
         grImage.setAdapter(imageAdapter);
+
         grImage.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -162,6 +145,8 @@ public class RentalProperties extends BaseFragment implements View.OnClickListen
                 if (b) {
                     layout.setExpanded(true);
                     scollLayout();
+                    edtIncomeType.requestFocus();
+                    edtIncomeType.setSelection(edtIncomeType.length());
                 } else {
                     layout.setExpanded(false);
                 }
@@ -171,17 +156,12 @@ public class RentalProperties extends BaseFragment implements View.OnClickListen
     }
 
 
-    private void updateUI(Rental r) {
-        rbYes.setChecked(r.isHad());
-        edtOwnerShip.setText(r.getOwnership());
-        edtStreet.setText(r.getStreet());
-        edtSuburb.setText(r.getSuburb());
-        edtFirstDate.setText(r.getFirstEarned());
-        edtState.setText(r.getState());
-        edtPostCode.setText(r.getPostcode());
-        edtRentalIncome.setText(r.getIncome());
-        edtRentalExpenses.setText(r.getExpenses());
-        showImage(r.getAttachments(), images, imageAdapter);
+    private void updateUI(GovPayment govPayment) {
+        rbYes.setChecked(govPayment.isHad());
+        edtIncomeType.setText(govPayment.getType());
+        edtGrossPayment.setText(govPayment.getGross());
+        edtTax.setText(govPayment.getTax());
+        showImage(govPayment.getAttachments(), images, imageAdapter);
     }
 
     private void checkPermissionImageAttach() {
@@ -288,8 +268,9 @@ public class RentalProperties extends BaseFragment implements View.OnClickListen
                 ProgressDialogUtils.dismissProgressDialog();
                 LogUtils.d(TAG, "getReviewIncome code : " + response.code());
                 if (response.code() == Constants.HTTP_CODE_OK) {
-                    rental = response.body().getRental();
-                    if (rental != null) updateUI(rental);
+//                    LogUtils.d(TAG, "getReviewIncome body : " + response.body().getGovPayment().toString());
+                    govPayment = response.body().getGovPayment();
+                    if (govPayment != null) updateUI(govPayment);
                 } else {
                     APIError error = Utils.parseError(response);
                     if (error != null) {
@@ -353,14 +334,9 @@ public class RentalProperties extends BaseFragment implements View.OnClickListen
         try {
             JSONObject govJson = new JSONObject();
             govJson.put(Constants.PARAMETER_REVIEW_HAD, rbYes.isChecked());
-            govJson.put(Constants.PARAMETER_REVIEW_INCOME_RENTAL_OWNERSHIP_PER, edtOwnerShip.getText().toString().trim());
-            govJson.put(Constants.PARAMETER_REVIEW_INCOME_RENTAL_STREET, edtStreet.getText().toString().trim());
-            govJson.put(Constants.PARAMETER_REVIEW_INCOME_RENTAL_SUBURB, edtSuburb.getText().toString().trim());
-            govJson.put(Constants.PARAMETER_REVIEW_INCOME_RENTAL_STARTE, edtState.getText().toString().trim());
-            govJson.put(Constants.PARAMETER_REVIEW_INCOME_RENTAL_POST_CODE, edtPostCode.getText().toString().trim());
-            govJson.put(Constants.PARAMETER_REVIEW_INCOME_RENTAL_FIRST_DATE, edtFirstDate.getText().toString().trim());
-            govJson.put(Constants.PARAMETER_REVIEW_INCOME_RENTAL_INCOME, edtRentalIncome.getText().toString().trim());
-            govJson.put(Constants.PARAMETER_REVIEW_INCOME_RENTAL_EXPENSES, edtRentalExpenses.getText().toString().trim());
+            govJson.put(Constants.PARAMETER_REVIEW_INCOME_GOVEMENT_TYPE, edtIncomeType.getText().toString().trim());
+            govJson.put(Constants.PARAMETER_REVIEW_INCOME_GOVEMENT_GROSS, edtGrossPayment.getText().toString().trim());
+            govJson.put(Constants.PARAMETER_REVIEW_INCOME_GOVEMENT_TAX, edtTax.getText().toString().trim());
             if (images.size() > 1) {
                 for (Image image : images
                         ) {
@@ -376,7 +352,7 @@ public class RentalProperties extends BaseFragment implements View.OnClickListen
                     jsonArray.put(mId.getId());
                 govJson.put(Constants.PARAMETER_ATTACHMENTS, jsonArray);
             }
-            jsonRequest.put(Constants.PARAMETER_REVIEW_INCOME_RENTAL, govJson);
+            jsonRequest.put(Constants.PARAMETER_REVIEW_INCOME_GOVEMENT, govJson);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -391,7 +367,7 @@ public class RentalProperties extends BaseFragment implements View.OnClickListen
                     LogUtils.d(TAG, "doSaveReview code: " + response.body().getJobs().toString());
                     Bundle bundle = new Bundle();
                     bundle.putInt(Constants.PARAMETER_APP_ID, appID);
-//                    openFragment(R.id.layout_container, GovementPayment.class, true, bundle, TransitionScreen.RIGHT_TO_LEFT);
+                    openFragment(R.id.layout_container, ReviewBankInterests.class, true, bundle, TransitionScreen.RIGHT_TO_LEFT);
                 } else {
                     APIError error = Utils.parseError(response);
                     LogUtils.e(TAG, "doSaveReview error : " + error.message());
@@ -426,77 +402,30 @@ public class RentalProperties extends BaseFragment implements View.OnClickListen
         });
     }
 
-    private void openDatePicker() {
-        @SuppressWarnings("deprecation") DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), AlertDialog.THEME_HOLO_LIGHT,
-                new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker view, final int year,
-                                          final int monthOfYear, final int dayOfMonth) {
-                        if (view.isShown()) {
-                            calendar.set(year, monthOfYear, dayOfMonth);
-                            edtFirstDate.setText(DateTimeUtils.fromCalendarToBirthday(calendar));
-                        }
-                    }
-                }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
-        datePickerDialog.getDatePicker().setMaxDate(new Date().getTime() - 10000);
-        datePickerDialog.setTitle(getString(R.string.your_birthday));
-        datePickerDialog.show();
-    }
-
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.fab:
                 rbYes.setEnabled(true);
                 rbNo.setEnabled(true);
-                edtOwnerShip.setEnabled(true);
-                edtOwnerShip.requestFocus();
-                edtOwnerShip.setSelection(edtOwnerShip.length());
-                edtStreet.setEnabled(true);
-                edtSuburb.setEnabled(true);
-                edtFirstDate.setEnabled(true);
-                edtState.setEnabled(true);
-                edtPostCode.setEnabled(true);
-                edtRentalIncome.setEnabled(true);
-                edtRentalExpenses.setEnabled(true);
+                edtIncomeType.setEnabled(true);
+                edtGrossPayment.setEnabled(true);
+                edtTax.setEnabled(true);
                 grImage.setEnabled(true);
                 break;
-            case R.id.edt_first_date:
-                openDatePicker();
-                break;
             case R.id.btn_next:
-                final Bundle bundle = new Bundle();
+
                 if (rbYes.isChecked()) {
-                    if (edtOwnerShip.getText().toString().trim().isEmpty()) {
-                        showToolTipView(getContext(), edtOwnerShip, Gravity.TOP, getString(R.string.vali_all_empty), ContextCompat.getColor(getContext(), R.color.red));
+                    if (edtIncomeType.getText().toString().trim().isEmpty()) {
+                        showToolTipView(getContext(), edtIncomeType, Gravity.TOP, getString(R.string.valid_income_content), ContextCompat.getColor(getContext(), R.color.red));
                         return;
                     }
-                    if (edtStreet.getText().toString().trim().isEmpty()) {
-                        showToolTipView(getContext(), edtStreet, Gravity.TOP, getString(R.string.vali_all_empty), ContextCompat.getColor(getContext(), R.color.red));
+                    if (edtGrossPayment.getText().toString().trim().isEmpty()) {
+                        showToolTipView(getContext(), edtGrossPayment, Gravity.TOP, getString(R.string.valid_income_content), ContextCompat.getColor(getContext(), R.color.red));
                         return;
                     }
-                    if (edtSuburb.getText().toString().trim().isEmpty()) {
-                        showToolTipView(getContext(), edtSuburb, Gravity.TOP, getString(R.string.vali_all_empty), ContextCompat.getColor(getContext(), R.color.red));
-                        return;
-                    }
-                    if (edtState.getText().toString().trim().isEmpty()) {
-                        showToolTipView(getContext(), edtState, Gravity.TOP, getString(R.string.vali_all_empty), ContextCompat.getColor(getContext(), R.color.red));
-                        return;
-                    }
-                    if (edtPostCode.getText().toString().trim().isEmpty()) {
-                        showToolTipView(getContext(), edtPostCode, Gravity.TOP, getString(R.string.vali_all_empty), ContextCompat.getColor(getContext(), R.color.red));
-                        return;
-                    }
-                    if (edtFirstDate.getText().toString().trim().isEmpty()) {
-                        showToolTipView(getContext(), edtFirstDate, Gravity.TOP, getString(R.string.vali_all_empty), ContextCompat.getColor(getContext(), R.color.red));
-                        return;
-                    }
-                    if (edtRentalIncome.getText().toString().trim().isEmpty()) {
-                        showToolTipView(getContext(), edtRentalIncome, Gravity.TOP, getString(R.string.vali_all_empty), ContextCompat.getColor(getContext(), R.color.red));
-                        return;
-                    }
-                    if (edtRentalExpenses.getText().toString().trim().isEmpty()) {
-                        showToolTipView(getContext(), edtRentalExpenses, Gravity.TOP, getString(R.string.vali_all_empty), ContextCompat.getColor(getContext(), R.color.red));
+                    if (edtTax.getText().toString().trim().isEmpty()) {
+                        showToolTipView(getContext(), edtTax, Gravity.TOP, getString(R.string.valid_income_content), ContextCompat.getColor(getContext(), R.color.red));
                         return;
                     }
                     if (images.size() < 2) {
@@ -506,8 +435,9 @@ public class RentalProperties extends BaseFragment implements View.OnClickListen
                     uploadImage();
 
                 } else {
+                    Bundle bundle = new Bundle();
                     bundle.putInt(Constants.PARAMETER_APP_ID, appID);
-//                    openFragment(R.id.layout_container, DeductionFragment.class, true, bundle, TransitionScreen.RIGHT_TO_LEFT);
+                    openFragment(R.id.layout_container, ReviewBankInterests.class, true, bundle, TransitionScreen.RIGHT_TO_LEFT);
                 }
                 break;
 

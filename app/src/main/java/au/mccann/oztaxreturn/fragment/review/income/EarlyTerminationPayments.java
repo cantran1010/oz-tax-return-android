@@ -125,7 +125,7 @@ public class EarlyTerminationPayments extends BaseFragment implements View.OnCli
     protected void initData() {
         images = new ArrayList<>();
         attach = new ArrayList<>();
-        appID = getArguments().getInt(Constants.PARAMETER_APP_ID);
+        appID = getApplicationResponse().getId();
         setTitle(getString(R.string.review_income_title));
         appBarVisibility(true, true, 0);
         //images
