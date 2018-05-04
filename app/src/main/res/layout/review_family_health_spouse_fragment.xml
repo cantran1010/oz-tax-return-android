@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginLeft="@dimen/left_right_margin_screen"
+    android:layout_marginRight="@dimen/left_right_margin_screen">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/btn_next">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="20dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <au.mccann.oztaxreturn.view.TextViewCustom
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/review_fhs_title"
+                    android:textColor="@color/black"
+                    android:textSize="20sp" />
+
+                <ImageView
+                    android:id="@+id/img_edit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:src="@drawable/img_edit" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="30dp"
+                android:layout_height="3dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@color/app_bg" />
+
+            <au.mccann.oztaxreturn.view.TextViewCustom
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="20dp"
+                android:gravity="center"
+                android:text="@string/review_fhs_des" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <au.mccann.oztaxreturn.view.CheckBoxCustom
+                    android:id="@+id/cb_yes"
+                    style="@style/TextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:button="@drawable/checkbox_selector"
+                    android:enabled="false"
+                    android:paddingLeft="5dp"
+                    android:paddingStart="5dp"
+                    android:text="@string/Yes" />
+
+                <au.mccann.oztaxreturn.view.CheckBoxCustom
+                    android:id="@+id/cb_no"
+                    style="@style/TextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="50dp"
+                    android:button="@drawable/checkbox_selector"
+                    android:enabled="false"
+                    android:paddingLeft="5dp"
+                    android:paddingStart="5dp"
+                    android:text="@string/No" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/yes_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <au.mccann.oztaxreturn.view.TextViewCustom
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:text="@string/review_fhs_first_name"
+                    android:textAllCaps="true"
+                    android:textColor="@color/tv_gray"
+                    android:textSize="@dimen/size_small" />
+
+                <au.mccann.oztaxreturn.view.EdittextCustom
+                    android:id="@+id/edt_first_name"
+                    style="@style/EditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:enabled="false"
+                    android:inputType="text"
+                    android:textColor="@color/income_conten"
+                    android:textColorHint="@color/tv_gray" />
+
+                <au.mccann.oztaxreturn.view.TextViewCustom
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:text="@string/review_fhs_middle_name"
+                    android:textAllCaps="true"
+                    android:textColor="@color/tv_gray"
+                    android:textSize="@dimen/size_small" />
+
+                <au.mccann.oztaxreturn.view.EdittextCustom
+                    android:id="@+id/edt_middle_name"
+                    style="@style/EditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:enabled="false"
+                    android:inputType="text"
+                    android:textColor="@color/income_conten"
+                    android:textColorHint="@color/tv_gray" />
+
+                <au.mccann.oztaxreturn.view.TextViewCustom
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:text="@string/review_fhs_last_name"
+                    android:textAllCaps="true"
+                    android:textColor="@color/tv_gray"
+                    android:textSize="@dimen/size_small" />
+
+                <au.mccann.oztaxreturn.view.EdittextCustom
+                    android:id="@+id/edt_last_name"
+                    style="@style/EditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:enabled="false"
+                    android:inputType="text"
+                    android:textColor="@color/income_conten"
+                    android:textColorHint="@color/tv_gray" />
+
+                <au.mccann.oztaxreturn.view.TextViewCustom
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:text="@string/review_fhs_birth"
+                    android:textAllCaps="true"
+                    android:textColor="@color/tv_gray"
+                    android:textSize="@dimen/size_small" />
+
+                <au.mccann.oztaxreturn.view.TextViewCustom
+                    android:id="@+id/tv_birthday"
+                    style="@style/EditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginTop="10dp"
+                    android:enabled="false"
+                    android:gravity="center_vertical"
+                    android:inputType="text"
+                    android:textColor="@color/income_conten"
+                    android:textColorHint="@color/tv_gray" />
+
+                <au.mccann.oztaxreturn.view.TextViewCustom
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:text="@string/review_fhs_taxable"
+                    android:textAllCaps="true"
+                    android:textColor="@color/tv_gray"
+                    android:textSize="@dimen/size_small" />
+
+                <au.mccann.oztaxreturn.view.EdittextCustom
+                    android:id="@+id/edt_taxable"
+                    style="@style/EditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:enabled="false"
+                    android:inputType="numberDecimal"
+                    android:textColor="@color/income_conten"
+                    android:textColorHint="@color/tv_gray" />
+
+                <au.mccann.oztaxreturn.view.MyGridView
+                    android:id="@+id/gr_image"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="40dp"
+                    android:layout_marginTop="20dp"
+                    android:numColumns="3" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+    </ScrollView>
+
+    <au.mccann.oztaxreturn.view.ButtonCustom
+        android:id="@+id/btn_next"
+        style="@style/Button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/btn_selector"
+        android:text="@string/next" />
+</RelativeLayout>

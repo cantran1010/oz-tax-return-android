@@ -16,6 +16,9 @@ public class ReviewFamilyHealthResponse {
     @SerializedName("medicares")
     private MedicareResponse medicareResponse;
 
+    @SerializedName("spouses")
+    private ReviewSpouseResponse reviewSpouseResponse;
+
     private List<ReviewPrivateResponse> privates;
 
     public DependantsResponse getDependantsResponse() {
@@ -42,11 +45,20 @@ public class ReviewFamilyHealthResponse {
         this.privates = privates;
     }
 
+    public ReviewSpouseResponse getReviewSpouseResponse() {
+        return reviewSpouseResponse;
+    }
+
+    public void setReviewSpouseResponse(ReviewSpouseResponse reviewSpouseResponse) {
+        this.reviewSpouseResponse = reviewSpouseResponse;
+    }
+
     @Override
     public String toString() {
         return "ReviewFamilyHealthResponse{" +
                 "dependantsResponse=" + dependantsResponse +
                 ", medicareResponse=" + medicareResponse +
+                ", reviewSpouseResponse=" + reviewSpouseResponse +
                 ", privates=" + privates +
                 '}';
     }

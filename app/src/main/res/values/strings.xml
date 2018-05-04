@@ -388,4 +388,14 @@
     <string name="review_fhp_day_hint">30</string>
     <string name="review_fhp_add_new">ADD NEW PRIVATE HEALTH</string>
 
+    <!-- review family and health private -->
+    <string name="review_fhs_title">Spouse</string>
+    <string name="review_fhs_des">Were you, or are you married or in a defacto relationship?</string>
+    <string name="review_fhs_first_name">SPOUSE IS FIRST NAME</string>
+    <string name="review_fhs_middle_name">SPOUSE IS MIDDLE NAME</string>
+    <string name="review_fhs_last_name">SPOUSE IS LAST NAME</string>
+    <string name="review_fhs_birth">SPOUSE IS DATE OF BIRTH</string>
+    <string name="review_fhs_taxable">$ SPOUSE IS TAXABLE INCOME</string>
+
+
 </resources>
