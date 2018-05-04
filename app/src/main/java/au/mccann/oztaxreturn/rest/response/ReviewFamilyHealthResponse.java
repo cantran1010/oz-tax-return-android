@@ -2,6 +2,8 @@ package au.mccann.oztaxreturn.rest.response;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 /**
  * Created by LongBui on 5/3/18.
  */
@@ -13,6 +15,8 @@ public class ReviewFamilyHealthResponse {
 
     @SerializedName("medicares")
     private MedicareResponse medicareResponse;
+
+    private List<ReviewPrivateResponse> privates;
 
     public DependantsResponse getDependantsResponse() {
         return dependantsResponse;
@@ -30,11 +34,20 @@ public class ReviewFamilyHealthResponse {
         this.medicareResponse = medicareResponse;
     }
 
+    public List<ReviewPrivateResponse> getPrivates() {
+        return privates;
+    }
+
+    public void setPrivates(List<ReviewPrivateResponse> privates) {
+        this.privates = privates;
+    }
+
     @Override
     public String toString() {
         return "ReviewFamilyHealthResponse{" +
                 "dependantsResponse=" + dependantsResponse +
                 ", medicareResponse=" + medicareResponse +
+                ", privates=" + privates +
                 '}';
     }
 
