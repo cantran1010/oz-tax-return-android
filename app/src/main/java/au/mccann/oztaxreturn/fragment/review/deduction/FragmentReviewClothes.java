@@ -141,7 +141,7 @@ public class FragmentReviewClothes extends BaseFragment implements View.OnClickL
                 LogUtils.d(TAG, "setOnCheckedChangeListener : " + b);
                 if (b) {
                     layout.setExpanded(true);
-                    scollLayout();
+//                    scollLayout();
                 } else {
                     layout.setExpanded(false);
                 }
@@ -327,22 +327,24 @@ public class FragmentReviewClothes extends BaseFragment implements View.OnClickL
         try {
             JSONObject govJson = new JSONObject();
             govJson.put(Constants.PARAMETER_REVIEW_HAD, rbYes.isChecked());
-            govJson.put(Constants.PARAMETER_REVIEW_TYPE, edtType.getText().toString().trim());
-            govJson.put(Constants.PARAMETER_REVIEW_AMOUNT, edtAmount.getText().toString().trim());
-            if (images.size() > 1) {
-                for (Image image : images
-                        ) {
-                    if (image.getId() > 0) {
-                        Attachment attachment = new Attachment();
-                        attachment.setId((int) image.getId());
-                        attachment.setUrl(image.getPath());
-                        attach.add(attachment);
+            if (rbYes.isChecked()) {
+                govJson.put(Constants.PARAMETER_REVIEW_TYPE, edtType.getText().toString().trim());
+                govJson.put(Constants.PARAMETER_REVIEW_AMOUNT, edtAmount.getText().toString().trim());
+                if (images.size() > 1) {
+                    for (Image image : images
+                            ) {
+                        if (image.getId() > 0) {
+                            Attachment attachment = new Attachment();
+                            attachment.setId((int) image.getId());
+                            attachment.setUrl(image.getPath());
+                            attach.add(attachment);
+                        }
                     }
+                    JSONArray jsonArray = new JSONArray();
+                    for (Attachment mId : attach)
+                        jsonArray.put(mId.getId());
+                    govJson.put(Constants.PARAMETER_ATTACHMENTS, jsonArray);
                 }
-                JSONArray jsonArray = new JSONArray();
-                for (Attachment mId : attach)
-                    jsonArray.put(mId.getId());
-                govJson.put(Constants.PARAMETER_ATTACHMENTS, jsonArray);
             }
             jsonRequest.put(Constants.PARAMETER_REVIEW_DEDUCTION_VEHICLES, govJson);
         } catch (JSONException e) {
@@ -356,10 +358,7 @@ public class FragmentReviewClothes extends BaseFragment implements View.OnClickL
                 ProgressDialogUtils.dismissProgressDialog();
                 LogUtils.d(TAG, "doSaveReview code: " + response.code());
                 if (response.code() == Constants.HTTP_CODE_OK) {
-//                    LogUtils.d(TAG, "doSaveReview code: " + response.body().getClothes().toString());
-                    Bundle bundle = new Bundle();
-                    bundle.putInt(Constants.PARAMETER_APP_ID, appID);
-//                    openFragment(R.id.layout_container, FragmentReviewDividends.class, true, bundle, TransitionScreen.RIGHT_TO_LEFT);
+                    openFragment(R.id.layout_container, FragmentReviewEducations.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
                 } else {
                     APIError error = Utils.parseError(response);
                     LogUtils.e(TAG, "doSaveReview error : " + error.message());
@@ -409,7 +408,6 @@ public class FragmentReviewClothes extends BaseFragment implements View.OnClickL
 //               if (rbYes.isChecked())Utils.showSoftKeyboard(getContext(), edtHow);
                 break;
             case R.id.btn_next:
-                final Bundle bundle = new Bundle();
                 if (rbYes.isChecked()) {
                     if (edtType.getText().toString().trim().isEmpty()) {
                         edtType.getParent().requestChildFocus(edtType, edtType);
@@ -426,10 +424,8 @@ public class FragmentReviewClothes extends BaseFragment implements View.OnClickL
                         return;
                     }
                     uploadImage();
-
                 } else {
-                    bundle.putInt(Constants.PARAMETER_APP_ID, appID);
-//                    openFragment(R.id.layout_container, FragmentReviewDividends.class, true, bundle, TransitionScreen.RIGHT_TO_LEFT);
+                    doSaveReview();
                 }
                 break;
 

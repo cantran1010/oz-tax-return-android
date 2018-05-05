@@ -1,6 +1,8 @@
 package au.mccann.oztaxreturn.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -10,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.CompoundButton;
+import android.widget.RelativeLayout;
 
 import java.util.ArrayList;
 
@@ -30,11 +33,10 @@ import au.mccann.oztaxreturn.view.RadioButtonCustom;
 public class EducationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final int TYPE_HEADER = 0;
     private static final int TYPE_FOOTER = 1;
-    private static final int TYPE_ITEM = 2;
-    private ArrayList<Education> educations;
-    private Context context;
+    private final ArrayList<Education> educations;
+    private final Context context;
     private boolean isEdit;
-    private boolean isExpend = true;
+    private boolean isExpend;
     private boolean onBind;
 
     public interface OnClickImageListener {
@@ -58,27 +60,34 @@ public class EducationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     public EducationAdapter(Context context, ArrayList<Education> educations) {
         this.context = context;
         this.educations = educations;
+        if (educations != null && educations.size() > 0) isExpend = true;
     }
 
+    @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        if (viewType == TYPE_HEADER) {
-            //Inflating header view
-            View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_education_header, parent, false);
-            return new HeaderViewHolder(itemView);
-        } else if (viewType == TYPE_FOOTER) {
-            //Inflating footer view
-            View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_adapter_footer, parent, false);
-            return new FooterViewHolder(itemView);
-        } else {
-            //Inflating recycle view item layout
-            View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_education, parent, false);
-            return new ItemViewHolder(itemView);
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        switch (viewType) {
+            case TYPE_HEADER: {
+                //Inflating header view
+                View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_education_header, parent, false);
+                return new HeaderViewHolder(itemView);
+            }
+            case TYPE_FOOTER: {
+                //Inflating footer view
+                View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_adapter_footer, parent, false);
+                return new FooterViewHolder(itemView);
+            }
+            default: {
+                //Inflating recycle view item layout
+                View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_education, parent, false);
+                return new ItemViewHolder(itemView);
+            }
         }
     }
 
+    @SuppressLint("RecyclerView")
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position) {
         if (holder instanceof HeaderViewHolder) {
             HeaderViewHolder headerViewHolder = (HeaderViewHolder) holder;
             onBind = true;
@@ -176,19 +185,23 @@ public class EducationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             });
         } else if (holder instanceof FooterViewHolder) {
             FooterViewHolder itemViewHolder = (FooterViewHolder) holder;
-            if (isEdit) itemViewHolder.flAdd.setEnabled(true);
-            else {
-                itemViewHolder.flAdd.setEnabled(false);
-            }
-            itemViewHolder.flAdd.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Education education = new Education();
-                    education.setImages(new ArrayList<Image>());
-                    education.setAttach(new ArrayList<Attachment>());
-                    AddList(education);
+            if (isExpend) {
+                itemViewHolder.footerLayout.setVisibility(View.VISIBLE);
+                if (isEdit) itemViewHolder.flAdd.setEnabled(true);
+                else {
+                    itemViewHolder.flAdd.setEnabled(false);
                 }
-            });
+                itemViewHolder.flAdd.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Education education = new Education();
+                        education.setImages(new ArrayList<Image>());
+                        education.setAttach(new ArrayList<Attachment>());
+                        AddList(education);
+                    }
+                });
+            } else
+                itemViewHolder.footerLayout.setVisibility(View.GONE);
         }
         onBind = false;
     }
@@ -209,13 +222,14 @@ public class EducationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     }
 
     private class HeaderViewHolder extends RecyclerView.ViewHolder implements CompoundButton.OnCheckedChangeListener {
-        RadioButtonCustom rbYes, rbNo;
+        final RadioButtonCustom rbYes;
+        final RadioButtonCustom rbNo;
 
-        public HeaderViewHolder(View view) {
+        HeaderViewHolder(View view) {
             super(view);
             rbYes = itemView.findViewById(R.id.rb_yes);
             rbNo = itemView.findViewById(R.id.rb_no);
-            rbYes.setOnCheckedChangeListener((CompoundButton.OnCheckedChangeListener) this);
+            rbYes.setOnCheckedChangeListener(this);
         }
 
         @Override
@@ -229,20 +243,25 @@ public class EducationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     }
 
     private class FooterViewHolder extends RecyclerView.ViewHolder {
-        FloatingActionButton flAdd;
+        final FloatingActionButton flAdd;
+        final RelativeLayout footerLayout;
 
-        public FooterViewHolder(View view) {
+        FooterViewHolder(View view) {
             super(view);
-            flAdd = itemView.findViewById(R.id.add);
+            flAdd = view.findViewById(R.id.add);
+            footerLayout = view.findViewById(R.id.layout_footer);
         }
     }
 
-    private class ItemViewHolder extends RecyclerView.ViewHolder {
-        ExpandableLayout expandableLayout;
-        EdittextCustom edtType, edtCourse, edtAmount;
-        MyGridView grImage;
 
-        public ItemViewHolder(View itemView) {
+    private class ItemViewHolder extends RecyclerView.ViewHolder {
+        final ExpandableLayout expandableLayout;
+        final EdittextCustom edtType;
+        final EdittextCustom edtCourse;
+        final EdittextCustom edtAmount;
+        final MyGridView grImage;
+
+        ItemViewHolder(View itemView) {
             super(itemView);
             expandableLayout = itemView.findViewById(R.id.expand_layout);
             edtType = itemView.findViewById(R.id.edt_deduction_type);
@@ -252,8 +271,8 @@ public class EducationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         }
     }
 
-    public void AddList(Education e) {
-        if (educations.size() > 3) return;
+    private void AddList(Education e) {
+        if (educations.size() > 2) return;
         educations.add(e);
         notifyDataSetChanged();
     }

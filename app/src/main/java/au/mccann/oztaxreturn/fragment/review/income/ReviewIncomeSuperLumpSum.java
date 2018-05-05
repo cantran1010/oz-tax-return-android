@@ -2,6 +2,8 @@ package au.mccann.oztaxreturn.fragment.review.income;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -13,6 +15,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.DatePicker;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -20,6 +23,9 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import au.mccann.oztaxreturn.R;
@@ -38,6 +44,7 @@ import au.mccann.oztaxreturn.model.Image;
 import au.mccann.oztaxreturn.model.IncomeResponse;
 import au.mccann.oztaxreturn.model.LumpSum;
 import au.mccann.oztaxreturn.networking.ApiClient;
+import au.mccann.oztaxreturn.utils.DateTimeUtils;
 import au.mccann.oztaxreturn.utils.DialogUtils;
 import au.mccann.oztaxreturn.utils.FileUtils;
 import au.mccann.oztaxreturn.utils.ImageUtils;
@@ -64,6 +71,7 @@ public class ReviewIncomeSuperLumpSum extends BaseFragment implements View.OnCli
     private ArrayList<Image> images = new ArrayList<>();
     private final String[] permissions = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
     private String imgPath;
+    private Calendar calendar = GregorianCalendar.getInstance();
 
     @Override
     protected int getLayout() {
@@ -85,7 +93,7 @@ public class ReviewIncomeSuperLumpSum extends BaseFragment implements View.OnCli
     protected void initData() {
         appID = getApplicationResponse().getId();
         setTitle(getString(R.string.review_income_title));
-        appBarVisibility(true, false, 0);
+        appBarVisibility(true, true, 0);
         updateList();
         getReviewIncome();
     }
@@ -141,7 +149,31 @@ public class ReviewIncomeSuperLumpSum extends BaseFragment implements View.OnCli
                 }
             }
         });
+        adapter.setOnclickDateListener(new LumpSumAdapter.OnclickDateListener() {
+            @Override
+            public void onClick(int position) {
+                openDatePicker(position);
+            }
+        });
 
+    }
+
+    private void openDatePicker(final int pos) {
+        @SuppressWarnings("deprecation") DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), AlertDialog.THEME_HOLO_LIGHT,
+                new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, final int year,
+                                          final int monthOfYear, final int dayOfMonth) {
+                        if (view.isShown()) {
+                            calendar.set(year, monthOfYear, dayOfMonth);
+                            lumpSums.get(pos).setPaymentDate(DateTimeUtils.fromCalendarToBirthday(calendar));
+                            adapter.notifyDataSetChanged();
+                        }
+                    }
+                }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+        datePickerDialog.getDatePicker().setMaxDate(new Date().getTime() - 10000);
+        datePickerDialog.setTitle(getString(R.string.your_birthday));
+        datePickerDialog.show();
     }
 
     private void checkPermissionImageAttach() {
@@ -340,7 +372,9 @@ public class ReviewIncomeSuperLumpSum extends BaseFragment implements View.OnCli
                 }
                 jsonArray.put(mJs);
             }
-            jsonRequest.put(Constants.PARAMETER_REVIEW_INCOME_LUMP_SUM, jsonArray);
+            if (adapter.isExpend())
+                jsonRequest.put(Constants.PARAMETER_REVIEW_INCOME_LUMP_SUM, jsonArray);
+            else jsonRequest.put(Constants.PARAMETER_REVIEW_INCOME_LUMP_SUM, new JSONArray());
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -420,9 +454,7 @@ public class ReviewIncomeSuperLumpSum extends BaseFragment implements View.OnCli
                 if (adapter.isExpend())
                     uploadImage(lumpSums);
                 else {
-                    Bundle bundle = new Bundle();
-                    bundle.putInt(Constants.PARAMETER_APP_ID, appID);
-                    openFragment(R.id.layout_container, RentalProperties.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
+                    doSaveReview();
                 }
                 break;
         }

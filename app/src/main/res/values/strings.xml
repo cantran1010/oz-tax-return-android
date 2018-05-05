@@ -227,7 +227,7 @@
 
     <!-- review income ws -->
     <string name="review_income_title">Review income</string>
-    <string name="review_income_ws_title">Personal infomation</string>
+    <string name="review_income_ws_title">Wages/Salary</string>
     <string name="job_1">job 1:</string>
     <string name="total_gross">Total gross income</string>
     <string name="total_tax_width_held">Total tax widthheld</string>

@@ -33,7 +33,7 @@
                 android:id="@+id/tv_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="25dp"
+                android:layout_marginTop="20dp"
                 android:gravity="center"
                 android:text="@string/review_vehicle"
                 android:textColor="@color/title_color"

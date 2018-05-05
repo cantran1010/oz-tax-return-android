@@ -85,7 +85,7 @@ public class FragmentReviewDividends extends BaseFragment implements View.OnClic
     protected void initData() {
         appID = getApplicationResponse().getId();
         setTitle(getString(R.string.review_income_title));
-        appBarVisibility(true, false, 0);
+        appBarVisibility(true, true, 0);
         updateList();
         getReviewIncome();
     }
@@ -341,7 +341,9 @@ public class FragmentReviewDividends extends BaseFragment implements View.OnClic
                 }
                 jsonArray.put(mJs);
             }
-            jsonRequest.put(Constants.PARAMETER_REVIEW_INCOME_DIVIDEND, jsonArray);
+            if (adapter.isExpend())
+                jsonRequest.put(Constants.PARAMETER_REVIEW_INCOME_DIVIDEND, jsonArray);
+            else jsonRequest.put(Constants.PARAMETER_REVIEW_INCOME_DIVIDEND, new JSONArray());
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -355,9 +357,7 @@ public class FragmentReviewDividends extends BaseFragment implements View.OnClic
                 if (response.code() == Constants.HTTP_CODE_OK) {
                     LogUtils.d(TAG, "doSaveReview body: " + response.body().getDividends().toString());
                     LogUtils.d(TAG, " dividends image " + dividends.toString());
-                    Bundle bundle = new Bundle();
-                    bundle.putInt(Constants.PARAMETER_APP_ID, appID);
-                    openFragment(R.id.layout_container, EarlyTerminationPayments.class, true, bundle, TransitionScreen.RIGHT_TO_LEFT);
+                    openFragment(R.id.layout_container, EarlyTerminationPayments.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
                 } else {
                     APIError error = Utils.parseError(response);
                     LogUtils.e(TAG, "doSaveReview error : " + error.message());
@@ -423,9 +423,7 @@ public class FragmentReviewDividends extends BaseFragment implements View.OnClic
                 if (adapter.isExpend())
                     uploadImage(dividends);
                 else {
-                    Bundle bundle = new Bundle();
-                    bundle.putInt(Constants.PARAMETER_APP_ID, appID);
-                    openFragment(R.id.layout_container, EarlyTerminationPayments.class, true, bundle, TransitionScreen.RIGHT_TO_LEFT);
+                    doSaveReview();
                 }
                 break;
         }

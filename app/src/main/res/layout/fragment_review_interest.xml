@@ -38,7 +38,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginTop="25dp"
+                    android:layout_marginTop="20dp"
                     android:text="@string/review_Interest"
                     android:textColor="@color/title_color"
                     android:textSize="@dimen/tv_size_xxxlager" />
@@ -104,8 +104,8 @@
                 android:id="@+id/layout_expandable"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:el_duration="500"
-                app:el_expanded="true">
+                app:el_duration="1000"
+                app:el_expanded="false">
 
                 <LinearLayout
                     android:layout_width="match_parent"

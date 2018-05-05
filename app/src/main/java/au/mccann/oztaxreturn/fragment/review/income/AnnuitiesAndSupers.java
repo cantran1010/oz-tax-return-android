@@ -85,7 +85,7 @@ public class AnnuitiesAndSupers extends BaseFragment implements View.OnClickList
     protected void initData() {
         appID = getApplicationResponse().getId();
         setTitle(getString(R.string.review_income_title));
-        appBarVisibility(true, false, 0);
+        appBarVisibility(true, true, 0);
         updateList();
         getReviewIncome();
     }
@@ -341,7 +341,9 @@ public class AnnuitiesAndSupers extends BaseFragment implements View.OnClickList
                 }
                 jsonArray.put(mJs);
             }
-            jsonRequest.put(Constants.PARAMETER_REVIEW_INCOME_ANNUITY, jsonArray);
+            if (adapter.isExpend())
+                jsonRequest.put(Constants.PARAMETER_REVIEW_INCOME_ANNUITY, jsonArray);
+            else jsonRequest.put(Constants.PARAMETER_REVIEW_INCOME_ANNUITY, new JSONArray());
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -421,7 +423,7 @@ public class AnnuitiesAndSupers extends BaseFragment implements View.OnClickList
                 if (adapter.isExpend())
                     uploadImage(annuities);
                 else {
-                    openFragment(R.id.layout_container, ReviewIncomeSuperLumpSum.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
+                    doSaveReview();
                 }
                 break;
         }

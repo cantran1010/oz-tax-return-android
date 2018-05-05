@@ -33,6 +33,7 @@ import au.mccann.oztaxreturn.dialog.PickImageDialog;
 import au.mccann.oztaxreturn.fragment.BaseFragment;
 import au.mccann.oztaxreturn.model.APIError;
 import au.mccann.oztaxreturn.model.Attachment;
+import au.mccann.oztaxreturn.model.Deduction;
 import au.mccann.oztaxreturn.model.Image;
 import au.mccann.oztaxreturn.model.ResponseBasicInformation;
 import au.mccann.oztaxreturn.networking.ApiClient;
@@ -91,7 +92,7 @@ public class DeductionFragment extends BaseFragment implements View.OnClickListe
         images = new ArrayList<>();
         attach = new ArrayList<>();
         setTitle(getString(R.string.deduction_title));
-        appBarVisibility(false, true,0);
+        appBarVisibility(false, true, 0);
         //images
         if (images.size() == 0) {
             final Image image = new Image();
@@ -122,9 +123,11 @@ public class DeductionFragment extends BaseFragment implements View.OnClickListe
     }
 
     private void updateUI(ResponseBasicInformation basic) {
-        au.mccann.oztaxreturn.model.Deduction deduction = basic.getDeduction();
-        edtDeduction.setText(deduction.getContent());
-        showImage(deduction.getAttachments(), images, imageAdapter);
+        Deduction deduction = basic.getDeduction();
+        if (deduction != null) {
+            edtDeduction.setText(deduction.getContent());
+            showImage(deduction.getAttachments(), images, imageAdapter);
+        }
     }
 
 
@@ -251,7 +254,7 @@ public class DeductionFragment extends BaseFragment implements View.OnClickListe
                     basic = response.body();
                     basic.setAppId(appID);
                     Bundle bundle = new Bundle();
-                    bundle.putSerializable(Constants.KEY_BASIC_INFORMATION,  basic);
+                    bundle.putSerializable(Constants.KEY_BASIC_INFORMATION, basic);
                     openFragment(R.id.layout_container, EstimateTaxRefund.class, true, bundle, TransitionScreen.RIGHT_TO_LEFT);
                 } else {
                     APIError error = Utils.parseError(response);

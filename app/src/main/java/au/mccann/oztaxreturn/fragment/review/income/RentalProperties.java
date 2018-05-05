@@ -41,6 +41,7 @@ import au.mccann.oztaxreturn.dialog.AlertDialogOkAndCancel;
 import au.mccann.oztaxreturn.dialog.PickImageDialog;
 import au.mccann.oztaxreturn.fragment.BaseFragment;
 import au.mccann.oztaxreturn.fragment.basic.IncomeOther;
+import au.mccann.oztaxreturn.fragment.review.deduction.FragmentReviewVehicle;
 import au.mccann.oztaxreturn.model.APIError;
 import au.mccann.oztaxreturn.model.Attachment;
 import au.mccann.oztaxreturn.model.Image;
@@ -161,7 +162,7 @@ public class RentalProperties extends BaseFragment implements View.OnClickListen
                 LogUtils.d(TAG, "setOnCheckedChangeListener : " + b);
                 if (b) {
                     layout.setExpanded(true);
-                    scollLayout();
+//                    scollLayout();
                 } else {
                     layout.setExpanded(false);
                 }
@@ -288,6 +289,7 @@ public class RentalProperties extends BaseFragment implements View.OnClickListen
                 ProgressDialogUtils.dismissProgressDialog();
                 LogUtils.d(TAG, "getReviewIncome code : " + response.code());
                 if (response.code() == Constants.HTTP_CODE_OK) {
+                    LogUtils.d(TAG, "getReviewIncome body : " + response.body().getRental());
                     rental = response.body().getRental();
                     if (rental != null) updateUI(rental);
                 } else {
@@ -353,28 +355,30 @@ public class RentalProperties extends BaseFragment implements View.OnClickListen
         try {
             JSONObject govJson = new JSONObject();
             govJson.put(Constants.PARAMETER_REVIEW_HAD, rbYes.isChecked());
-            govJson.put(Constants.PARAMETER_REVIEW_INCOME_RENTAL_OWNERSHIP_PER, edtOwnerShip.getText().toString().trim());
-            govJson.put(Constants.PARAMETER_REVIEW_INCOME_RENTAL_STREET, edtStreet.getText().toString().trim());
-            govJson.put(Constants.PARAMETER_REVIEW_INCOME_RENTAL_SUBURB, edtSuburb.getText().toString().trim());
-            govJson.put(Constants.PARAMETER_REVIEW_INCOME_RENTAL_STARTE, edtState.getText().toString().trim());
-            govJson.put(Constants.PARAMETER_REVIEW_INCOME_RENTAL_POST_CODE, edtPostCode.getText().toString().trim());
-            govJson.put(Constants.PARAMETER_REVIEW_INCOME_RENTAL_FIRST_DATE, edtFirstDate.getText().toString().trim());
-            govJson.put(Constants.PARAMETER_REVIEW_INCOME_RENTAL_INCOME, edtRentalIncome.getText().toString().trim());
-            govJson.put(Constants.PARAMETER_REVIEW_INCOME_RENTAL_EXPENSES, edtRentalExpenses.getText().toString().trim());
-            if (images.size() > 1) {
-                for (Image image : images
-                        ) {
-                    if (image.getId() > 0) {
-                        Attachment attachment = new Attachment();
-                        attachment.setId((int) image.getId());
-                        attachment.setUrl(image.getPath());
-                        attach.add(attachment);
+            if (rbYes.isChecked()) {
+                govJson.put(Constants.PARAMETER_REVIEW_INCOME_RENTAL_OWNERSHIP_PER, edtOwnerShip.getText().toString().trim());
+                govJson.put(Constants.PARAMETER_REVIEW_INCOME_RENTAL_STREET, edtStreet.getText().toString().trim());
+                govJson.put(Constants.PARAMETER_REVIEW_INCOME_RENTAL_SUBURB, edtSuburb.getText().toString().trim());
+                govJson.put(Constants.PARAMETER_REVIEW_INCOME_RENTAL_STARTE, edtState.getText().toString().trim());
+                govJson.put(Constants.PARAMETER_REVIEW_INCOME_RENTAL_POST_CODE, edtPostCode.getText().toString().trim());
+                govJson.put(Constants.PARAMETER_REVIEW_INCOME_RENTAL_FIRST_DATE, edtFirstDate.getText().toString().trim());
+                govJson.put(Constants.PARAMETER_REVIEW_INCOME_RENTAL_INCOME, edtRentalIncome.getText().toString().trim());
+                govJson.put(Constants.PARAMETER_REVIEW_INCOME_RENTAL_EXPENSES, edtRentalExpenses.getText().toString().trim());
+                if (images.size() > 1) {
+                    for (Image image : images
+                            ) {
+                        if (image.getId() > 0) {
+                            Attachment attachment = new Attachment();
+                            attachment.setId((int) image.getId());
+                            attachment.setUrl(image.getPath());
+                            attach.add(attachment);
+                        }
                     }
+                    JSONArray jsonArray = new JSONArray();
+                    for (Attachment mId : attach)
+                        jsonArray.put(mId.getId());
+                    govJson.put(Constants.PARAMETER_ATTACHMENTS, jsonArray);
                 }
-                JSONArray jsonArray = new JSONArray();
-                for (Attachment mId : attach)
-                    jsonArray.put(mId.getId());
-                govJson.put(Constants.PARAMETER_ATTACHMENTS, jsonArray);
             }
             jsonRequest.put(Constants.PARAMETER_REVIEW_INCOME_RENTAL, govJson);
         } catch (JSONException e) {
@@ -389,9 +393,7 @@ public class RentalProperties extends BaseFragment implements View.OnClickListen
                 LogUtils.d(TAG, "doSaveReview code: " + response.code());
                 if (response.code() == Constants.HTTP_CODE_OK) {
                     LogUtils.d(TAG, "doSaveReview code: " + response.body().getJobs().toString());
-                    Bundle bundle = new Bundle();
-                    bundle.putInt(Constants.PARAMETER_APP_ID, appID);
-//                    openFragment(R.id.layout_container, GovementPayment.class, true, bundle, TransitionScreen.RIGHT_TO_LEFT);
+                    openFragment(R.id.layout_container, FragmentReviewVehicle.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
                 } else {
                     APIError error = Utils.parseError(response);
                     LogUtils.e(TAG, "doSaveReview error : " + error.message());
@@ -465,7 +467,6 @@ public class RentalProperties extends BaseFragment implements View.OnClickListen
                 openDatePicker();
                 break;
             case R.id.btn_next:
-                final Bundle bundle = new Bundle();
                 if (rbYes.isChecked()) {
                     if (edtOwnerShip.getText().toString().trim().isEmpty()) {
                         showToolTipView(getContext(), edtOwnerShip, Gravity.TOP, getString(R.string.vali_all_empty), ContextCompat.getColor(getContext(), R.color.red));
@@ -506,8 +507,7 @@ public class RentalProperties extends BaseFragment implements View.OnClickListen
                     uploadImage();
 
                 } else {
-                    bundle.putInt(Constants.PARAMETER_APP_ID, appID);
-//                    openFragment(R.id.layout_container, DeductionFragment.class, true, bundle, TransitionScreen.RIGHT_TO_LEFT);
+                    doSaveReview();
                 }
                 break;
 

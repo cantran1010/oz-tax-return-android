@@ -34,7 +34,7 @@
                 android:id="@+id/tv_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="25dp"
+                android:layout_marginTop="20dp"
                 android:gravity="center_horizontal"
                 android:text="@string/early_termination_payment"
                 android:textColor="@color/title_color"
@@ -51,7 +51,7 @@
             <au.mccann.oztaxreturn.view.TextViewCustom
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="25dp"
+                android:layout_marginTop="20dp"
                 android:gravity="center"
                 android:text="@string/review_early_ask"
                 android:textColor="@color/title_color"
@@ -100,7 +100,7 @@
                 android:id="@+id/layout_expandable"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:el_duration="500"
+                app:el_duration="1000"
                 app:el_expanded="false">
 
                 <LinearLayout

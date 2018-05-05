@@ -1,6 +1,8 @@
 package au.mccann.oztaxreturn.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -10,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.CompoundButton;
+import android.widget.RelativeLayout;
 
 import java.util.ArrayList;
 
@@ -30,11 +33,10 @@ import au.mccann.oztaxreturn.view.RadioButtonCustom;
 public class DividendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final int TYPE_HEADER = 0;
     private static final int TYPE_FOOTER = 1;
-    private static final int TYPE_ITEM = 2;
-    private ArrayList<Dividend> dividends;
-    private Context context;
+    private final ArrayList<Dividend> dividends;
+    private final Context context;
     private boolean isEdit;
-    private boolean isExpend = true;
+    private boolean isExpend;
     private boolean onBind;
 
     public interface OnClickImageListener {
@@ -58,27 +60,35 @@ public class DividendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public DividendAdapter(Context context, ArrayList<Dividend> dividends) {
         this.context = context;
         this.dividends = dividends;
+        if (dividends != null && dividends.size() > 0) isExpend = true;
+
     }
 
+    @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        if (viewType == TYPE_HEADER) {
-            //Inflating header view
-            View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_dividend_header, parent, false);
-            return new HeaderViewHolder(itemView);
-        } else if (viewType == TYPE_FOOTER) {
-            //Inflating footer view
-            View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_adapter_footer, parent, false);
-            return new FooterViewHolder(itemView);
-        } else {
-            //Inflating recycle view item layout
-            View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_dividend, parent, false);
-            return new ItemViewHolder(itemView);
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        switch (viewType) {
+            case TYPE_HEADER: {
+                //Inflating header view
+                View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_dividend_header, parent, false);
+                return new HeaderViewHolder(itemView);
+            }
+            case TYPE_FOOTER: {
+                //Inflating footer view
+                View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_adapter_footer, parent, false);
+                return new FooterViewHolder(itemView);
+            }
+            default: {
+                //Inflating recycle view item layout
+                View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_dividend, parent, false);
+                return new ItemViewHolder(itemView);
+            }
         }
     }
 
+    @SuppressLint("RecyclerView")
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position) {
         if (holder instanceof HeaderViewHolder) {
             HeaderViewHolder headerViewHolder = (HeaderViewHolder) holder;
             onBind = true;
@@ -215,15 +225,23 @@ public class DividendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             });
         } else if (holder instanceof FooterViewHolder) {
             FooterViewHolder itemViewHolder = (FooterViewHolder) holder;
-            itemViewHolder.flAdd.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Dividend dividend = new Dividend();
-                    dividend.setImages(new ArrayList<Image>());
-                    dividend.setAttach(new ArrayList<Attachment>());
-                    AddList(dividend);
+            if (isExpend) {
+                itemViewHolder.footerLayout.setVisibility(View.VISIBLE);
+                if (isEdit) itemViewHolder.flAdd.setEnabled(true);
+                else {
+                    itemViewHolder.flAdd.setEnabled(false);
                 }
-            });
+                itemViewHolder.flAdd.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Dividend dividend = new Dividend();
+                        dividend.setImages(new ArrayList<Image>());
+                        dividend.setAttach(new ArrayList<Attachment>());
+                        AddList(dividend);
+                    }
+                });
+            } else
+                itemViewHolder.footerLayout.setVisibility(View.GONE);
         }
     }
 
@@ -243,13 +261,14 @@ public class DividendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     private class HeaderViewHolder extends RecyclerView.ViewHolder implements CompoundButton.OnCheckedChangeListener {
-        RadioButtonCustom rbYes, rbNo;
+        final RadioButtonCustom rbYes;
+        final RadioButtonCustom rbNo;
 
-        public HeaderViewHolder(View view) {
+        HeaderViewHolder(View view) {
             super(view);
             rbYes = itemView.findViewById(R.id.rb_yes);
             rbNo = itemView.findViewById(R.id.rb_no);
-            rbYes.setOnCheckedChangeListener((CompoundButton.OnCheckedChangeListener) this);
+            rbYes.setOnCheckedChangeListener(this);
         }
 
         @Override
@@ -263,20 +282,27 @@ public class DividendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     private class FooterViewHolder extends RecyclerView.ViewHolder {
-        FloatingActionButton flAdd;
+        final FloatingActionButton flAdd;
+        final RelativeLayout footerLayout;
 
-        public FooterViewHolder(View view) {
+        FooterViewHolder(View view) {
             super(view);
-            flAdd = itemView.findViewById(R.id.add);
+            flAdd = view.findViewById(R.id.add);
+            footerLayout = view.findViewById(R.id.layout_footer);
         }
     }
 
-    private class ItemViewHolder extends RecyclerView.ViewHolder {
-        ExpandableLayout expandableLayout;
-        EdittextCustom edtCompanyName, edtUnFrankDividends, edtFrankDividends, edtFrankingCredits, edtTaxWidthheld;
-        MyGridView grImage;
 
-        public ItemViewHolder(View itemView) {
+    private class ItemViewHolder extends RecyclerView.ViewHolder {
+        final ExpandableLayout expandableLayout;
+        final EdittextCustom edtCompanyName;
+        final EdittextCustom edtUnFrankDividends;
+        final EdittextCustom edtFrankDividends;
+        final EdittextCustom edtFrankingCredits;
+        final EdittextCustom edtTaxWidthheld;
+        final MyGridView grImage;
+
+        ItemViewHolder(View itemView) {
             super(itemView);
             expandableLayout = itemView.findViewById(R.id.expand_layout);
             edtCompanyName = itemView.findViewById(R.id.edt_dividends_bank_name);
@@ -288,8 +314,8 @@ public class DividendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         }
     }
 
-    public void AddList(Dividend dividend) {
-        if (dividends.size() > 3) return;
+    private void AddList(Dividend dividend) {
+        if (dividends.size() > 2) return;
         dividends.add(dividend);
         notifyDataSetChanged();
     }
