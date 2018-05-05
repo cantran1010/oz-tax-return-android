@@ -455,32 +455,32 @@ public class IncomeWagesSalaryFragment extends BaseFragment implements View.OnCl
                 LogUtils.d(TAG, "doSaveBasic" + cbYes.isChecked() + images.size());
                 if (cbYes.isChecked()) {
                     if (images.size() < 2) {
-                        showToolTipView(getContext(), grImage, Gravity.TOP, getString(R.string.valid_deduction_image), ContextCompat.getColor(getContext(), R.color.red));
+                        showToolTipView(getContext(), grImage, Gravity.TOP, getString(R.string.vali_all_empty), ContextCompat.getColor(getContext(), R.color.red));
                         return;
                     } else uploadImage();
                 } else if (cbNo.isChecked()) {
                     if (edtTfn.getText().toString().trim().isEmpty()) {
-                        showToolTipView(getContext(), edtTfn, Gravity.BOTTOM, getString(R.string.valid_tfn),
+                        showToolTipView(getContext(), edtTfn, Gravity.BOTTOM, getString(R.string.vali_all_empty),
                                 ContextCompat.getColor(getContext(), R.color.red));
                         return;
                     }
                     if (edtFirstName.getText().toString().trim().isEmpty()) {
-                        showToolTipView(getContext(), edtFirstName, Gravity.BOTTOM, getString(R.string.valid_first_name),
+                        showToolTipView(getContext(), edtFirstName, Gravity.BOTTOM, getString(R.string.vali_all_empty),
                                 ContextCompat.getColor(getContext(), R.color.red));
                         return;
                     }
                     if (edtMidName.getText().toString().trim().isEmpty()) {
-                        showToolTipView(getContext(), edtMidName, Gravity.TOP, getString(R.string.valid_mid_name),
+                        showToolTipView(getContext(), edtMidName, Gravity.TOP, getString(R.string.vali_all_empty),
                                 ContextCompat.getColor(getContext(), R.color.red));
                         return;
                     }
                     if (edtLastName.getText().toString().trim().isEmpty()) {
-                        showToolTipView(getContext(), edtLastName, Gravity.TOP, getString(R.string.valid_last_name),
+                        showToolTipView(getContext(), edtLastName, Gravity.TOP, getString(R.string.vali_all_empty),
                                 ContextCompat.getColor(getContext(), R.color.red));
                         return;
                     }
                     if (edtBirthday.getText().toString().trim().isEmpty()) {
-                        showToolTipView(getContext(), edtBirthday, Gravity.TOP, getString(R.string.valid_birth_day),
+                        showToolTipView(getContext(), edtBirthday, Gravity.TOP, getString(R.string.vali_all_empty),
                                 ContextCompat.getColor(getContext(), R.color.red));
                         return;
                     }

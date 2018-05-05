@@ -32,7 +32,6 @@ import au.mccann.oztaxreturn.dialog.AlertDialogOk;
 import au.mccann.oztaxreturn.dialog.AlertDialogOkAndCancel;
 import au.mccann.oztaxreturn.dialog.PickImageDialog;
 import au.mccann.oztaxreturn.fragment.BaseFragment;
-import au.mccann.oztaxreturn.fragment.review.income.EarlyTerminationPayments;
 import au.mccann.oztaxreturn.model.APIError;
 import au.mccann.oztaxreturn.model.Attachment;
 import au.mccann.oztaxreturn.model.DeductionResponse;
@@ -87,7 +86,7 @@ public class FragmentReviewEducations extends BaseFragment implements View.OnCli
     protected void initData() {
         appID = getApplicationResponse().getId();
         setTitle(getString(R.string.review_income_title));
-        appBarVisibility(true, false, 0);
+        appBarVisibility(true, true, 0);
         updateList();
         getReviewDeduction();
     }
@@ -336,7 +335,9 @@ public class FragmentReviewEducations extends BaseFragment implements View.OnCli
                 }
                 jsonArray.put(mJs);
             }
-            jsonRequest.put(Constants.PARAMETER_REVIEW_INCOME_EDUCATIONS, jsonArray);
+            if (adapter.isExpend())
+                jsonRequest.put(Constants.PARAMETER_REVIEW_INCOME_EDUCATIONS, jsonArray);
+            else jsonRequest.put(Constants.PARAMETER_REVIEW_INCOME_EDUCATIONS, new JSONArray());
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -352,7 +353,7 @@ public class FragmentReviewEducations extends BaseFragment implements View.OnCli
                     LogUtils.d(TAG, " dividends image " + educations.toString());
                     Bundle bundle = new Bundle();
                     bundle.putInt(Constants.PARAMETER_APP_ID, appID);
-                    openFragment(R.id.layout_container, EarlyTerminationPayments.class, true, bundle, TransitionScreen.RIGHT_TO_LEFT);
+                    openFragment(R.id.layout_container, FragmentReviewOthers.class, true, bundle, TransitionScreen.RIGHT_TO_LEFT);
                 } else {
                     APIError error = Utils.parseError(response);
                     LogUtils.e(TAG, "doSaveReview error : " + error.message());
@@ -418,9 +419,7 @@ public class FragmentReviewEducations extends BaseFragment implements View.OnCli
                 if (adapter.isExpend())
                     uploadImage(educations);
                 else {
-                    Bundle bundle = new Bundle();
-                    bundle.putInt(Constants.PARAMETER_APP_ID, appID);
-                    openFragment(R.id.layout_container, EarlyTerminationPayments.class, true, bundle, TransitionScreen.RIGHT_TO_LEFT);
+                    doSaveReview();
                 }
                 break;
         }

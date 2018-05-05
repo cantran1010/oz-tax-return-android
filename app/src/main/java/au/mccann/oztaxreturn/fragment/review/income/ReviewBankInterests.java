@@ -148,7 +148,7 @@ public class ReviewBankInterests extends BaseFragment implements View.OnClickLis
                 LogUtils.d(TAG, "setOnCheckedChangeListener : " + b);
                 if (b) {
                     layout.setExpanded(true);
-                    scollLayout();
+//                    scollLayout();
                 } else {
                     layout.setExpanded(false);
                 }
@@ -272,6 +272,7 @@ public class ReviewBankInterests extends BaseFragment implements View.OnClickLis
                 ProgressDialogUtils.dismissProgressDialog();
                 LogUtils.d(TAG, "getReviewIncome code : " + response.code());
                 if (response.code() == Constants.HTTP_CODE_OK) {
+                    LogUtils.d(TAG, "getReviewIncome body : " + response.body().getBank().toString());
                     bank = response.body().getBank();
                     if (bank != null) updateUI(bank);
                 } else {
@@ -337,25 +338,27 @@ public class ReviewBankInterests extends BaseFragment implements View.OnClickLis
         try {
             JSONObject govJson = new JSONObject();
             govJson.put(Constants.PARAMETER_REVIEW_HAD, rbYes.isChecked());
-            govJson.put(Constants.PARAMETER_REVIEW_INCOME_BANK_NAME, edtBankName.getText().toString().trim());
-            govJson.put(Constants.PARAMETER_REVIEW_INCOME_BANK_NUMBER, edtBankNumber.getText().toString().trim());
-            govJson.put(Constants.PARAMETER_REVIEW_INCOME_BANK_TOTAL_INTEREST, edtTotalInteres.getText().toString().trim());
-            govJson.put(Constants.PARAMETER_REVIEW_INCOME_BANK_TAX, edtTax.getText().toString().trim());
-            govJson.put(Constants.PARAMETER_REVIEW_INCOME_BANK_FEES, edtBankFees.getText().toString().trim());
-            if (images.size() > 1) {
-                for (Image image : images
-                        ) {
-                    if (image.getId() > 0) {
-                        Attachment attachment = new Attachment();
-                        attachment.setId((int) image.getId());
-                        attachment.setUrl(image.getPath());
-                        attach.add(attachment);
+            if (rbYes.isChecked()) {
+                govJson.put(Constants.PARAMETER_REVIEW_INCOME_BANK_NAME, edtBankName.getText().toString().trim());
+                govJson.put(Constants.PARAMETER_REVIEW_INCOME_BANK_NUMBER, edtBankNumber.getText().toString().trim());
+                govJson.put(Constants.PARAMETER_REVIEW_INCOME_BANK_TOTAL_INTEREST, edtTotalInteres.getText().toString().trim());
+                govJson.put(Constants.PARAMETER_REVIEW_INCOME_BANK_TAX, edtTax.getText().toString().trim());
+                govJson.put(Constants.PARAMETER_REVIEW_INCOME_BANK_FEES, edtBankFees.getText().toString().trim());
+                if (images.size() > 1) {
+                    for (Image image : images
+                            ) {
+                        if (image.getId() > 0) {
+                            Attachment attachment = new Attachment();
+                            attachment.setId((int) image.getId());
+                            attachment.setUrl(image.getPath());
+                            attach.add(attachment);
+                        }
                     }
+                    JSONArray jsonArray = new JSONArray();
+                    for (Attachment mId : attach)
+                        jsonArray.put(mId.getId());
+                    govJson.put(Constants.PARAMETER_ATTACHMENTS, jsonArray);
                 }
-                JSONArray jsonArray = new JSONArray();
-                for (Attachment mId : attach)
-                    jsonArray.put(mId.getId());
-                govJson.put(Constants.PARAMETER_ATTACHMENTS, jsonArray);
             }
             jsonRequest.put(Constants.PARAMETER_REVIEW_INCOME_BANK, govJson);
         } catch (JSONException e) {
@@ -370,9 +373,7 @@ public class ReviewBankInterests extends BaseFragment implements View.OnClickLis
                 LogUtils.d(TAG, "doSaveReview code: " + response.code());
                 if (response.code() == Constants.HTTP_CODE_OK) {
                     LogUtils.d(TAG, "doSaveReview code: " + response.body().getJobs().toString());
-                    Bundle bundle = new Bundle();
-                    bundle.putInt(Constants.PARAMETER_APP_ID, appID);
-                    openFragment(R.id.layout_container, FragmentReviewDividends.class, true, bundle, TransitionScreen.RIGHT_TO_LEFT);
+                    openFragment(R.id.layout_container, FragmentReviewDividends.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
                 } else {
                     APIError error = Utils.parseError(response);
                     LogUtils.e(TAG, "doSaveReview error : " + error.message());
@@ -423,26 +424,25 @@ public class ReviewBankInterests extends BaseFragment implements View.OnClickLis
                 grImage.setEnabled(true);
                 break;
             case R.id.btn_next:
-                final Bundle bundle = new Bundle();
                 if (rbYes.isChecked()) {
                     if (edtBankName.getText().toString().trim().isEmpty()) {
-                        showToolTipView(getContext(), edtBankName, Gravity.TOP, getString(R.string.valid_app_bank_name), ContextCompat.getColor(getContext(), R.color.red));
+                        showToolTipView(getContext(), edtBankName, Gravity.TOP, getString(R.string.vali_all_empty), ContextCompat.getColor(getContext(), R.color.red));
                         return;
                     }
                     if (edtBankNumber.getText().toString().trim().isEmpty()) {
-                        showToolTipView(getContext(), edtBankNumber, Gravity.TOP, getString(R.string.valid_app_account_number), ContextCompat.getColor(getContext(), R.color.red));
+                        showToolTipView(getContext(), edtBankNumber, Gravity.TOP, getString(R.string.vali_all_empty), ContextCompat.getColor(getContext(), R.color.red));
                         return;
                     }
                     if (edtTotalInteres.getText().toString().trim().isEmpty()) {
-                        showToolTipView(getContext(), edtTotalInteres, Gravity.TOP, getString(R.string.valid_bank_total), ContextCompat.getColor(getContext(), R.color.red));
+                        showToolTipView(getContext(), edtTotalInteres, Gravity.TOP, getString(R.string.vali_all_empty), ContextCompat.getColor(getContext(), R.color.red));
                         return;
                     }
                     if (edtBankFees.getText().toString().trim().isEmpty()) {
-                        showToolTipView(getContext(), edtBankFees, Gravity.TOP, getString(R.string.valid_bank_fees), ContextCompat.getColor(getContext(), R.color.red));
+                        showToolTipView(getContext(), edtBankFees, Gravity.TOP, getString(R.string.vali_all_empty), ContextCompat.getColor(getContext(), R.color.red));
                         return;
                     }
                     if (edtTax.getText().toString().trim().isEmpty()) {
-                        showToolTipView(getContext(), edtTax, Gravity.TOP, getString(R.string.valid_bank_tax), ContextCompat.getColor(getContext(), R.color.red));
+                        showToolTipView(getContext(), edtTax, Gravity.TOP, getString(R.string.vali_all_empty), ContextCompat.getColor(getContext(), R.color.red));
                         return;
                     }
                     if (images.size() < 2) {
@@ -450,10 +450,8 @@ public class ReviewBankInterests extends BaseFragment implements View.OnClickLis
                         return;
                     }
                     uploadImage();
-
                 } else {
-                    bundle.putInt(Constants.PARAMETER_APP_ID, appID);
-                    openFragment(R.id.layout_container, FragmentReviewDividends.class, true, bundle, TransitionScreen.RIGHT_TO_LEFT);
+                    doSaveReview();
                 }
                 break;
 

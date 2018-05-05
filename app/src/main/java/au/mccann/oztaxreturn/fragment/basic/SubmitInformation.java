@@ -14,7 +14,7 @@ import au.mccann.oztaxreturn.database.UserManager;
 import au.mccann.oztaxreturn.dialog.AlertDialogOk;
 import au.mccann.oztaxreturn.dialog.AlertDialogOkAndCancel;
 import au.mccann.oztaxreturn.fragment.BaseFragment;
-import au.mccann.oztaxreturn.fragment.HomeFragment;
+import au.mccann.oztaxreturn.fragment.FirstCheckoutFragment;
 import au.mccann.oztaxreturn.model.APIError;
 import au.mccann.oztaxreturn.model.PersonalInformation;
 import au.mccann.oztaxreturn.model.ResponseBasicInformation;
@@ -121,7 +121,7 @@ public class SubmitInformation extends BaseFragment implements View.OnClickListe
                 ProgressDialogUtils.dismissProgressDialog();
                 LogUtils.d(TAG, "doSaveBasic code: " + response.code());
                 if (response.code() == Constants.HTTP_CODE_OK) {
-                    openFragment(R.id.layout_container, HomeFragment.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
+                    openFragment(R.id.layout_container, FirstCheckoutFragment.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
                 } else {
                     APIError error = Utils.parseError(response);
                     LogUtils.e(TAG, "doSaveBasic error : " + error.message());
@@ -158,52 +158,52 @@ public class SubmitInformation extends BaseFragment implements View.OnClickListe
 
     private void doSubmit() {
         if (edtBankName.getText().toString().trim().isEmpty()) {
-            showToolTipView(getContext(), edtBankName, Gravity.BOTTOM, getString(R.string.valid_app_bank_name),
+            showToolTipView(getContext(), edtBankName, Gravity.BOTTOM, getString(R.string.vali_all_empty),
                     ContextCompat.getColor(getContext(), R.color.red));
             return;
         }
         if (edtBSB.getText().toString().trim().isEmpty()) {
-            showToolTipView(getContext(), edtBSB, Gravity.BOTTOM, getString(R.string.valid_app_bsb),
+            showToolTipView(getContext(), edtBSB, Gravity.BOTTOM, getString(R.string.vali_all_empty),
                     ContextCompat.getColor(getContext(), R.color.red));
             return;
         }
         if (edtAccountNumber.getText().toString().trim().isEmpty()) {
-            showToolTipView(getContext(), edtAccountNumber, Gravity.TOP, getString(R.string.valid_app_account_number),
+            showToolTipView(getContext(), edtAccountNumber, Gravity.TOP, getString(R.string.vali_all_empty),
                     ContextCompat.getColor(getContext(), R.color.red));
             return;
         }
         if (edtStreetName.getText().toString().trim().isEmpty()) {
-            showToolTipView(getContext(), edtStreetName, Gravity.TOP, getString(R.string.valid_app_street_name),
+            showToolTipView(getContext(), edtStreetName, Gravity.TOP, getString(R.string.vali_all_empty),
                     ContextCompat.getColor(getContext(), R.color.red));
             return;
         }
         if (edtSuburb.getText().toString().trim().isEmpty()) {
-            showToolTipView(getContext(), edtSuburb, Gravity.TOP, getString(R.string.valid_app_suburb),
+            showToolTipView(getContext(), edtSuburb, Gravity.TOP, getString(R.string.vali_all_empty),
                     ContextCompat.getColor(getContext(), R.color.red));
             return;
         }
         if (edtState.getText().toString().trim().isEmpty()) {
-            showToolTipView(getContext(), edtState, Gravity.TOP, getString(R.string.valid_app_state),
+            showToolTipView(getContext(), edtState, Gravity.TOP, getString(R.string.vali_all_empty),
                     ContextCompat.getColor(getContext(), R.color.red));
             return;
         }
         if (edtPostCode.getText().toString().trim().isEmpty()) {
-            showToolTipView(getContext(), edtPostCode, Gravity.TOP, getString(R.string.valid_app_post_code),
+            showToolTipView(getContext(), edtPostCode, Gravity.TOP, getString(R.string.vali_all_empty),
                     ContextCompat.getColor(getContext(), R.color.red));
             return;
         }
         if (edtPhone.getText().toString().trim().isEmpty()) {
-            showToolTipView(getContext(), edtPhone, Gravity.TOP, getString(R.string.valid_app_phone),
+            showToolTipView(getContext(), edtPhone, Gravity.TOP, getString(R.string.vali_all_empty),
                     ContextCompat.getColor(getContext(), R.color.red));
             return;
         }
         if (edtEmail.getText().toString().trim().isEmpty()) {
-            showToolTipView(getContext(), edtEmail, Gravity.TOP, getString(R.string.valid_app_email),
+            showToolTipView(getContext(), edtEmail, Gravity.TOP, getString(R.string.vali_all_empty),
                     ContextCompat.getColor(getContext(), R.color.red));
             return;
         }
         if (!Utils.isValidEmail(edtEmail.getText().toString().trim())) {
-            showToolTipView(getContext(), edtEmail, Gravity.TOP, getString(R.string.valid_app_email_2),
+            showToolTipView(getContext(), edtEmail, Gravity.TOP, getString(R.string.vali_all_empty),
                     ContextCompat.getColor(getContext(), R.color.red));
             return;
         }

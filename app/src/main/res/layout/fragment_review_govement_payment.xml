@@ -29,21 +29,17 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <RelativeLayout
+            <au.mccann.oztaxreturn.view.TextViewCustom
+                android:id="@+id/tv_title"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <au.mccann.oztaxreturn.view.TextViewCustom
-                    android:id="@+id/tv_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginStart="15dp"
-                    android:layout_marginTop="25dp"
-                    android:text="@string/review_govement_payment"
-                    android:textColor="@color/title_color"
-                    android:textSize="@dimen/tv_size_xxxlager" />
-            </RelativeLayout>
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="20dp"
+                android:gravity="center"
+                android:text="@string/review_govement_payment"
+                android:textColor="@color/title_color"
+                android:textSize="@dimen/tv_size_xxxlager" />
 
             <View
                 android:id="@+id/line"
@@ -105,7 +101,7 @@
                 android:id="@+id/layout_expandable"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:el_duration="500"
+                app:el_duration="1000"
                 app:el_expanded="false">
 
                 <LinearLayout

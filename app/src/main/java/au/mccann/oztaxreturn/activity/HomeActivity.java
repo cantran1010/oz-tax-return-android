@@ -17,10 +17,23 @@ import au.mccann.oztaxreturn.dialog.AlertDialogOkAndCancel;
 import au.mccann.oztaxreturn.fragment.ContactFragment;
 import au.mccann.oztaxreturn.fragment.HomeFragment;
 import au.mccann.oztaxreturn.fragment.NotificationFragment;
+import au.mccann.oztaxreturn.fragment.review.deduction.FragmentReviewClothes;
+import au.mccann.oztaxreturn.fragment.review.deduction.FragmentReviewDonations;
+import au.mccann.oztaxreturn.fragment.review.deduction.FragmentReviewEducations;
+import au.mccann.oztaxreturn.fragment.review.deduction.FragmentReviewOthers;
+import au.mccann.oztaxreturn.fragment.review.deduction.FragmentReviewTaxAgent;
+import au.mccann.oztaxreturn.fragment.review.deduction.FragmentReviewVehicle;
 import au.mccann.oztaxreturn.fragment.review.family.ReviewFamilyHealthDependantsFragment;
 import au.mccann.oztaxreturn.fragment.review.family.ReviewFamilyHealthMedicareFragment;
 import au.mccann.oztaxreturn.fragment.review.family.ReviewFamilyHealthPrivateFragment;
 import au.mccann.oztaxreturn.fragment.review.family.ReviewFamilyHealthSpouseFragment;
+import au.mccann.oztaxreturn.fragment.review.income.AnnuitiesAndSupers;
+import au.mccann.oztaxreturn.fragment.review.income.EarlyTerminationPayments;
+import au.mccann.oztaxreturn.fragment.review.income.FragmentReviewDividends;
+import au.mccann.oztaxreturn.fragment.review.income.GovementPayment;
+import au.mccann.oztaxreturn.fragment.review.income.RentalProperties;
+import au.mccann.oztaxreturn.fragment.review.income.ReviewBankInterests;
+import au.mccann.oztaxreturn.fragment.review.income.ReviewIncomeWS;
 import au.mccann.oztaxreturn.fragment.review.personal.ReviewPersonalInfomationA;
 import au.mccann.oztaxreturn.fragment.review.personal.ReviewPersonalInfomationB;
 import au.mccann.oztaxreturn.fragment.review.personal.ReviewPersonalInfomationC;
@@ -89,6 +102,23 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
         findViewById(R.id.tv_terms).setOnClickListener(this);
         findViewById(R.id.tv_share).setOnClickListener(this);
         findViewById(R.id.layout_rate).setOnClickListener(this);
+
+
+        findViewById(R.id.tv_wages_salary).setOnClickListener(this);
+        findViewById(R.id.tv_income_government_payment).setOnClickListener(this);
+        findViewById(R.id.tv_income_interests).setOnClickListener(this);
+        findViewById(R.id.tv_income_dividends).setOnClickListener(this);
+        findViewById(R.id.tv_incomes_early).setOnClickListener(this);
+        findViewById(R.id.tv_income_annuities_suppers).setOnClickListener(this);
+        findViewById(R.id.tv_income_rental).setOnClickListener(this);
+
+        findViewById(R.id.tv_deduction_vehicles).setOnClickListener(this);
+        findViewById(R.id.tv_deduction_clothing).setOnClickListener(this);
+        findViewById(R.id.tv_deduction_education).setOnClickListener(this);
+        findViewById(R.id.tv_deduction_other).setOnClickListener(this);
+        findViewById(R.id.tv_deduction_donation).setOnClickListener(this);
+        findViewById(R.id.tv_deduction_tax_agents).setOnClickListener(this);
+
 
         homeNavigation = findViewById(R.id.home_navi_layout);
         reviewNavigation = findViewById(R.id.review_navi_layout);
@@ -438,6 +468,74 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
                 if (drawer.isDrawerOpen(GravityCompat.END))
                     drawer.closeDrawer(GravityCompat.END);
                 openFragment(R.id.layout_container, ReviewFamilyHealthSpouseFragment.class, true, new Bundle(), TransitionScreen.FADE_IN);
+                break;
+
+            case R.id.tv_wages_salary:
+                if (drawer.isDrawerOpen(GravityCompat.END))
+                    drawer.closeDrawer(GravityCompat.END);
+                openFragment(R.id.layout_container, ReviewIncomeWS.class, true, new Bundle(), TransitionScreen.FADE_IN);
+                break;
+            case R.id.tv_income_government_payment:
+                if (drawer.isDrawerOpen(GravityCompat.END))
+                    drawer.closeDrawer(GravityCompat.END);
+                openFragment(R.id.layout_container, GovementPayment.class, true, new Bundle(), TransitionScreen.FADE_IN);
+                break;
+            case R.id.tv_income_interests:
+                if (drawer.isDrawerOpen(GravityCompat.END))
+                    drawer.closeDrawer(GravityCompat.END);
+                openFragment(R.id.layout_container, ReviewBankInterests.class, true, new Bundle(), TransitionScreen.FADE_IN);
+                break;
+            case R.id.tv_income_dividends:
+                if (drawer.isDrawerOpen(GravityCompat.END))
+                    drawer.closeDrawer(GravityCompat.END);
+                openFragment(R.id.layout_container, FragmentReviewDividends.class, true, new Bundle(), TransitionScreen.FADE_IN);
+                break;
+            case R.id.tv_incomes_early:
+                if (drawer.isDrawerOpen(GravityCompat.END))
+                    drawer.closeDrawer(GravityCompat.END);
+                openFragment(R.id.layout_container, EarlyTerminationPayments.class, true, new Bundle(), TransitionScreen.FADE_IN);
+                break;
+
+            case R.id.tv_income_annuities_suppers:
+                if (drawer.isDrawerOpen(GravityCompat.END))
+                    drawer.closeDrawer(GravityCompat.END);
+                openFragment(R.id.layout_container, AnnuitiesAndSupers.class, true, new Bundle(), TransitionScreen.FADE_IN);
+                break;
+            case R.id.tv_income_rental:
+                if (drawer.isDrawerOpen(GravityCompat.END))
+                    drawer.closeDrawer(GravityCompat.END);
+                openFragment(R.id.layout_container, RentalProperties.class, true, new Bundle(), TransitionScreen.FADE_IN);
+                break;
+
+            case R.id.tv_deduction_vehicles:
+                if (drawer.isDrawerOpen(GravityCompat.END))
+                    drawer.closeDrawer(GravityCompat.END);
+                openFragment(R.id.layout_container, FragmentReviewVehicle.class, true, new Bundle(), TransitionScreen.FADE_IN);
+                break;
+            case R.id.tv_deduction_clothing:
+                if (drawer.isDrawerOpen(GravityCompat.END))
+                    drawer.closeDrawer(GravityCompat.END);
+                openFragment(R.id.layout_container, FragmentReviewClothes.class, true, new Bundle(), TransitionScreen.FADE_IN);
+                break;
+            case R.id.tv_deduction_education:
+                if (drawer.isDrawerOpen(GravityCompat.END))
+                    drawer.closeDrawer(GravityCompat.END);
+                openFragment(R.id.layout_container, FragmentReviewEducations.class, true, new Bundle(), TransitionScreen.FADE_IN);
+                break;
+            case R.id.tv_deduction_other:
+                if (drawer.isDrawerOpen(GravityCompat.END))
+                    drawer.closeDrawer(GravityCompat.END);
+                openFragment(R.id.layout_container, FragmentReviewOthers.class, true, new Bundle(), TransitionScreen.FADE_IN);
+                break;
+            case R.id.tv_deduction_donation:
+                if (drawer.isDrawerOpen(GravityCompat.END))
+                    drawer.closeDrawer(GravityCompat.END);
+                openFragment(R.id.layout_container, FragmentReviewDonations.class, true, new Bundle(), TransitionScreen.FADE_IN);
+                break;
+            case R.id.tv_deduction_tax_agents:
+                if (drawer.isDrawerOpen(GravityCompat.END))
+                    drawer.closeDrawer(GravityCompat.END);
+                openFragment(R.id.layout_container, FragmentReviewTaxAgent.class, true, new Bundle(), TransitionScreen.FADE_IN);
                 break;
 
         }

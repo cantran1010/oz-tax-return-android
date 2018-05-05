@@ -197,7 +197,7 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.MyViewHolder> {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                jobs.get(position).setCompanyAbn(editable.toString().trim());
+                jobs.get(position).setCompanyContact(editable.toString().trim());
             }
         });
     }

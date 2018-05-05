@@ -1,5 +1,6 @@
 package au.mccann.oztaxreturn.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.CompoundButton;
+import android.widget.RelativeLayout;
 
 import java.util.ArrayList;
 
@@ -31,8 +33,8 @@ import au.mccann.oztaxreturn.view.RadioButtonCustom;
 public class DonationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final int TYPE_HEADER = 0;
     private static final int TYPE_FOOTER = 1;
-    private ArrayList<Donation> donations;
-    private Context context;
+    private final ArrayList<Donation> donations;
+    private final Context context;
     private boolean isEdit;
     private boolean isExpend = true;
     private boolean onBind;
@@ -58,25 +60,32 @@ public class DonationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public DonationAdapter(Context context, ArrayList<Donation> donations) {
         this.context = context;
         this.donations = donations;
+        if (donations != null && donations.size() > 0) isExpend = true;
     }
 
+    @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        if (viewType == TYPE_HEADER) {
-            //Inflating header view
-            View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_donation_header, parent, false);
-            return new HeaderViewHolder(itemView);
-        } else if (viewType == TYPE_FOOTER) {
-            //Inflating footer view
-            View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_adapter_footer, parent, false);
-            return new FooterViewHolder(itemView);
-        } else {
-            //Inflating recycle view item layout
-            View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_donation, parent, false);
-            return new ItemViewHolder(itemView);
+        switch (viewType) {
+            case TYPE_HEADER: {
+                //Inflating header view
+                View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_donation_header, parent, false);
+                return new HeaderViewHolder(itemView);
+            }
+            case TYPE_FOOTER: {
+                //Inflating footer view
+                View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_adapter_footer, parent, false);
+                return new FooterViewHolder(itemView);
+            }
+            default: {
+                //Inflating recycle view item layout
+                View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_donation, parent, false);
+                return new ItemViewHolder(itemView);
+            }
         }
     }
 
+    @SuppressLint("RecyclerView")
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position) {
         if (holder instanceof HeaderViewHolder) {
@@ -157,19 +166,23 @@ public class DonationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             });
         } else if (holder instanceof FooterViewHolder) {
             FooterViewHolder itemViewHolder = (FooterViewHolder) holder;
-            if (isEdit) itemViewHolder.flAdd.setEnabled(true);
-            else {
-                itemViewHolder.flAdd.setEnabled(false);
-            }
-            itemViewHolder.flAdd.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Donation otherResponse = new Donation();
-                    otherResponse.setImages(new ArrayList<Image>());
-                    otherResponse.setAttach(new ArrayList<Attachment>());
-                    AddList(otherResponse);
+            if (isExpend) {
+                itemViewHolder.footerLayout.setVisibility(View.VISIBLE);
+                if (isEdit) itemViewHolder.flAdd.setEnabled(true);
+                else {
+                    itemViewHolder.flAdd.setEnabled(false);
                 }
-            });
+                itemViewHolder.flAdd.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Donation otherResponse = new Donation();
+                        otherResponse.setImages(new ArrayList<Image>());
+                        otherResponse.setAttach(new ArrayList<Attachment>());
+                        AddList(otherResponse);
+                    }
+                });
+            } else
+                itemViewHolder.footerLayout.setVisibility(View.GONE);
         }
         onBind = false;
     }
@@ -190,9 +203,10 @@ public class DonationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     private class HeaderViewHolder extends RecyclerView.ViewHolder implements CompoundButton.OnCheckedChangeListener {
-        RadioButtonCustom rbYes, rbNo;
+        final RadioButtonCustom rbYes;
+        final RadioButtonCustom rbNo;
 
-        public HeaderViewHolder(View view) {
+        HeaderViewHolder(View view) {
             super(view);
             rbYes = itemView.findViewById(R.id.rb_yes);
             rbNo = itemView.findViewById(R.id.rb_no);
@@ -210,20 +224,24 @@ public class DonationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     private class FooterViewHolder extends RecyclerView.ViewHolder {
-        FloatingActionButton flAdd;
+        final FloatingActionButton flAdd;
+        final RelativeLayout footerLayout;
 
-        public FooterViewHolder(View view) {
+        FooterViewHolder(View view) {
             super(view);
-            flAdd = itemView.findViewById(R.id.add);
+            flAdd = view.findViewById(R.id.add);
+            footerLayout = view.findViewById(R.id.layout_footer);
         }
     }
 
-    private class ItemViewHolder extends RecyclerView.ViewHolder {
-        ExpandableLayout expandableLayout;
-        EdittextCustom edtOz, edtAmount;
-        MyGridView grImage;
 
-        public ItemViewHolder(View itemView) {
+    private class ItemViewHolder extends RecyclerView.ViewHolder {
+        final ExpandableLayout expandableLayout;
+        final EdittextCustom edtOz;
+        final EdittextCustom edtAmount;
+        final MyGridView grImage;
+
+        ItemViewHolder(View itemView) {
             super(itemView);
             expandableLayout = itemView.findViewById(R.id.expand_layout);
             edtOz = itemView.findViewById(R.id.edt_donation_oz);
@@ -232,8 +250,8 @@ public class DonationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         }
     }
 
-    public void AddList(Donation e) {
-        if (donations.size() > 3) return;
+    private void AddList(Donation e) {
+        if (donations.size() > 2) return;
         donations.add(e);
         notifyDataSetChanged();
     }

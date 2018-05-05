@@ -207,6 +207,7 @@
                     android:orientation="vertical">
 
                     <au.mccann.oztaxreturn.view.TextViewCustom
+                        android:id="@+id/tv_wages_salary"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
@@ -215,6 +216,7 @@
                         android:textSize="16sp" />
 
                     <au.mccann.oztaxreturn.view.TextViewCustom
+                        android:id="@+id/tv_income_government_payment"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
@@ -224,6 +226,7 @@
 
 
                     <au.mccann.oztaxreturn.view.TextViewCustom
+                        android:id="@+id/tv_income_interests"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
@@ -232,6 +235,7 @@
                         android:textSize="16sp" />
 
                     <au.mccann.oztaxreturn.view.TextViewCustom
+                        android:id="@+id/tv_income_dividends"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
@@ -240,6 +244,7 @@
                         android:textSize="16sp" />
 
                     <au.mccann.oztaxreturn.view.TextViewCustom
+                        android:id="@+id/tv_incomes_early"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
@@ -248,6 +253,7 @@
                         android:textSize="16sp" />
 
                     <au.mccann.oztaxreturn.view.TextViewCustom
+                        android:id="@+id/tv_income_annuities_suppers"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
@@ -256,6 +262,7 @@
                         android:textSize="16sp" />
 
                     <au.mccann.oztaxreturn.view.TextViewCustom
+                        android:id="@+id/tv_income_rental"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="10dp"
@@ -318,6 +325,7 @@
                     android:orientation="vertical">
 
                     <au.mccann.oztaxreturn.view.TextViewCustom
+                        android:id="@+id/tv_deduction_vehicles"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
@@ -326,6 +334,7 @@
                         android:textSize="16sp" />
 
                     <au.mccann.oztaxreturn.view.TextViewCustom
+                        android:id="@+id/tv_deduction_clothing"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
@@ -334,6 +343,7 @@
                         android:textSize="16sp" />
 
                     <au.mccann.oztaxreturn.view.TextViewCustom
+                        android:id="@+id/tv_deduction_education"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
@@ -342,6 +352,7 @@
                         android:textSize="16sp" />
 
                     <au.mccann.oztaxreturn.view.TextViewCustom
+                        android:id="@+id/tv_deduction_other"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
@@ -350,6 +361,7 @@
                         android:textSize="16sp" />
 
                     <au.mccann.oztaxreturn.view.TextViewCustom
+                        android:id="@+id/tv_deduction_donation"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
@@ -358,6 +370,7 @@
                         android:textSize="16sp" />
 
                     <au.mccann.oztaxreturn.view.TextViewCustom
+                        android:id="@+id/tv_deduction_tax_agents"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="10dp"

@@ -109,7 +109,7 @@ public class IncomeOther extends BaseFragment implements View.OnClickListener {
         images = new ArrayList<>();
         attach = new ArrayList<>();
         setTitle(getString(R.string.income_ws_title));
-        appBarVisibility(false, true,0);
+        appBarVisibility(false, true, 0);
         //images
         if (images.size() == 0) {
             final Image image = new Image();
@@ -284,7 +284,10 @@ public class IncomeOther extends BaseFragment implements View.OnClickListener {
                 jsonArray.put(mId.getId());
             salaryJson.put("attachments", jsonArray);
             salaryJson.put(Constants.PARAMETER_BASIC_CONTENT, edtResource.getText().toString().trim());
-            jsonRequest.put(Constants.PARAMETER_BASIC_INCOME_OTHER, salaryJson);
+            if (rbYes.isChecked())
+                jsonRequest.put(Constants.PARAMETER_BASIC_INCOME_OTHER, salaryJson);
+            else
+                jsonRequest.put(Constants.PARAMETER_BASIC_INCOME_OTHER, new JSONObject());
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -361,22 +364,20 @@ public class IncomeOther extends BaseFragment implements View.OnClickListener {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_next:
-                final Bundle bundle = new Bundle();
                 if (rbYes.isChecked()) {
                     if (edtResource.getText().toString().trim().isEmpty()) {
-                        showToolTipView(getContext(), edtResource, Gravity.TOP, getString(R.string.valid_income_content), ContextCompat.getColor(getContext(), R.color.red));
+                        showToolTipView(getContext(), edtResource, Gravity.TOP, getString(R.string.vali_all_empty), ContextCompat.getColor(getContext(), R.color.red));
                         return;
                     }
                     if (images.size() < 2) {
-                        showToolTipView(getContext(), grImage, Gravity.TOP, getString(R.string.valid_deduction_image), ContextCompat.getColor(getContext(), R.color.red));
+                        showToolTipView(getContext(), grImage, Gravity.TOP, getString(R.string.vali_all_empty), ContextCompat.getColor(getContext(), R.color.red));
                         return;
                     }
                     uploadImage();
-
                 } else {
-                    bundle.putSerializable(Constants.KEY_BASIC_INFORMATION, basic);
-                    openFragment(R.id.layout_container, DeductionFragment.class, true, bundle, TransitionScreen.RIGHT_TO_LEFT);
+                    doSaveBasic();
                 }
+
                 break;
 
         }

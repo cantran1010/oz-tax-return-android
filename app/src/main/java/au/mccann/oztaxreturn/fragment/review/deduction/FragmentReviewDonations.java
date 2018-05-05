@@ -32,7 +32,6 @@ import au.mccann.oztaxreturn.dialog.AlertDialogOk;
 import au.mccann.oztaxreturn.dialog.AlertDialogOkAndCancel;
 import au.mccann.oztaxreturn.dialog.PickImageDialog;
 import au.mccann.oztaxreturn.fragment.BaseFragment;
-import au.mccann.oztaxreturn.fragment.review.income.EarlyTerminationPayments;
 import au.mccann.oztaxreturn.model.APIError;
 import au.mccann.oztaxreturn.model.Attachment;
 import au.mccann.oztaxreturn.model.DeductionResponse;
@@ -335,7 +334,9 @@ public class FragmentReviewDonations extends BaseFragment implements View.OnClic
                 }
                 jsonArray.put(mJs);
             }
-            jsonRequest.put(Constants.PARAMETER_REVIEW_DEDUCTION_DONATION, jsonArray);
+            if (adapter.isExpend())
+                jsonRequest.put(Constants.PARAMETER_REVIEW_DEDUCTION_DONATION, jsonArray);
+            else jsonRequest.put(Constants.PARAMETER_REVIEW_DEDUCTION_DONATION, new JSONArray());
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -351,7 +352,7 @@ public class FragmentReviewDonations extends BaseFragment implements View.OnClic
                     LogUtils.d(TAG, " dividends image " + donations.toString());
                     Bundle bundle = new Bundle();
                     bundle.putInt(Constants.PARAMETER_APP_ID, appID);
-                    openFragment(R.id.layout_container, EarlyTerminationPayments.class, true, bundle, TransitionScreen.RIGHT_TO_LEFT);
+                    openFragment(R.id.layout_container, FragmentReviewTaxAgent.class, true, bundle, TransitionScreen.RIGHT_TO_LEFT);
                 } else {
                     APIError error = Utils.parseError(response);
                     LogUtils.e(TAG, "doSaveReview error : " + error.message());
@@ -417,9 +418,7 @@ public class FragmentReviewDonations extends BaseFragment implements View.OnClic
                 if (adapter.isExpend())
                     uploadImage(donations);
                 else {
-                    Bundle bundle = new Bundle();
-                    bundle.putInt(Constants.PARAMETER_APP_ID, appID);
-                    openFragment(R.id.layout_container, EarlyTerminationPayments.class, true, bundle, TransitionScreen.RIGHT_TO_LEFT);
+                    doSaveReview();
                 }
                 break;
         }

@@ -35,7 +35,6 @@ import au.mccann.oztaxreturn.dialog.AlertDialogOkAndCancel;
 import au.mccann.oztaxreturn.dialog.PickImageDialog;
 import au.mccann.oztaxreturn.fragment.BaseFragment;
 import au.mccann.oztaxreturn.fragment.basic.IncomeOther;
-import au.mccann.oztaxreturn.fragment.review.income.FragmentReviewDividends;
 import au.mccann.oztaxreturn.model.APIError;
 import au.mccann.oztaxreturn.model.Attachment;
 import au.mccann.oztaxreturn.model.DeductionResponse;
@@ -148,7 +147,7 @@ public class FragmentReviewVehicle extends BaseFragment implements View.OnClickL
                 LogUtils.d(TAG, "setOnCheckedChangeListener : " + b);
                 if (b) {
                     layout.setExpanded(true);
-                    scollLayout();
+//                    scollLayout();
                 } else {
                     layout.setExpanded(false);
                 }
@@ -337,25 +336,27 @@ public class FragmentReviewVehicle extends BaseFragment implements View.OnClickL
         try {
             JSONObject govJson = new JSONObject();
             govJson.put(Constants.PARAMETER_REVIEW_HAD, rbYes.isChecked());
-            govJson.put(Constants.PARAMETER_REVIEW_DEDUCTION_HOW, edtHow.getText().toString().trim());
-            govJson.put(Constants.PARAMETER_REVIEW_DEDUCTION_KM, edtKm.getText().toString().trim());
-            govJson.put(Constants.PARAMETER_REVIEW_DEDUCTION_TYPE, edtType.getText().toString().trim());
-            govJson.put(Constants.PARAMETER_REVIEW_DEDUCTION_REG, edtReg.getText().toString().trim());
-            govJson.put(Constants.PARAMETER_REVIEW_AMOUNT, edtAmount.getText().toString().trim());
-            if (images.size() > 1) {
-                for (Image image : images
-                        ) {
-                    if (image.getId() > 0) {
-                        Attachment attachment = new Attachment();
-                        attachment.setId((int) image.getId());
-                        attachment.setUrl(image.getPath());
-                        attach.add(attachment);
+            if (rbYes.isChecked()) {
+                govJson.put(Constants.PARAMETER_REVIEW_DEDUCTION_HOW, edtHow.getText().toString().trim());
+                govJson.put(Constants.PARAMETER_REVIEW_DEDUCTION_KM, edtKm.getText().toString().trim());
+                govJson.put(Constants.PARAMETER_REVIEW_DEDUCTION_TYPE, edtType.getText().toString().trim());
+                govJson.put(Constants.PARAMETER_REVIEW_DEDUCTION_REG, edtReg.getText().toString().trim());
+                govJson.put(Constants.PARAMETER_REVIEW_AMOUNT, edtAmount.getText().toString().trim());
+                if (images.size() > 1) {
+                    for (Image image : images
+                            ) {
+                        if (image.getId() > 0) {
+                            Attachment attachment = new Attachment();
+                            attachment.setId((int) image.getId());
+                            attachment.setUrl(image.getPath());
+                            attach.add(attachment);
+                        }
                     }
+                    JSONArray jsonArray = new JSONArray();
+                    for (Attachment mId : attach)
+                        jsonArray.put(mId.getId());
+                    govJson.put(Constants.PARAMETER_ATTACHMENTS, jsonArray);
                 }
-                JSONArray jsonArray = new JSONArray();
-                for (Attachment mId : attach)
-                    jsonArray.put(mId.getId());
-                govJson.put(Constants.PARAMETER_ATTACHMENTS, jsonArray);
             }
             jsonRequest.put(Constants.PARAMETER_REVIEW_DEDUCTION_VEHICLES, govJson);
         } catch (JSONException e) {
@@ -370,9 +371,7 @@ public class FragmentReviewVehicle extends BaseFragment implements View.OnClickL
                 LogUtils.d(TAG, "doSaveReview code: " + response.code());
                 if (response.code() == Constants.HTTP_CODE_OK) {
 //                    LogUtils.d(TAG, "doSaveReview code: " + response.body().getClothes().toString());
-                    Bundle bundle = new Bundle();
-                    bundle.putInt(Constants.PARAMETER_APP_ID, appID);
-                    openFragment(R.id.layout_container, FragmentReviewClothes.class, true, bundle, TransitionScreen.RIGHT_TO_LEFT);
+                    openFragment(R.id.layout_container, FragmentReviewClothes.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
                 } else {
                     APIError error = Utils.parseError(response);
                     LogUtils.e(TAG, "doSaveReview error : " + error.message());
@@ -424,7 +423,6 @@ public class FragmentReviewVehicle extends BaseFragment implements View.OnClickL
 //               if (rbYes.isChecked())Utils.showSoftKeyboard(getContext(), edtHow);
                 break;
             case R.id.btn_next:
-                final Bundle bundle = new Bundle();
                 if (rbYes.isChecked()) {
                     if (edtHow.getText().toString().trim().isEmpty()) {
                         edtHow.getParent().requestChildFocus(edtHow, edtHow);
@@ -456,10 +454,8 @@ public class FragmentReviewVehicle extends BaseFragment implements View.OnClickL
                         return;
                     }
                     uploadImage();
-
                 } else {
-                    bundle.putInt(Constants.PARAMETER_APP_ID, appID);
-                    openFragment(R.id.layout_container, FragmentReviewClothes.class, true, bundle, TransitionScreen.RIGHT_TO_LEFT);
+                    doSaveReview();
                 }
                 break;
 
