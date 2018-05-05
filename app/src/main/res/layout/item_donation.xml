@@ -16,11 +16,17 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/border_gray" />
+
         <au.mccann.oztaxreturn.view.TextViewCustom
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/donation_oz"
             android:textAllCaps="true"
+            android:layout_marginTop="20dp"
             android:textColor="@color/tv_gray"
             android:textSize="@dimen/size_small" />
 

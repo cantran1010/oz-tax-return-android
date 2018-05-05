@@ -1,6 +1,7 @@
 package au.mccann.oztaxreturn.adapter;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -60,7 +61,7 @@ public class DonationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         if (viewType == TYPE_HEADER) {
             //Inflating header view
             View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_donation_header, parent, false);
@@ -77,7 +78,7 @@ public class DonationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position) {
         if (holder instanceof HeaderViewHolder) {
             HeaderViewHolder headerViewHolder = (HeaderViewHolder) holder;
             onBind = true;
@@ -195,7 +196,7 @@ public class DonationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             super(view);
             rbYes = itemView.findViewById(R.id.rb_yes);
             rbNo = itemView.findViewById(R.id.rb_no);
-            rbYes.setOnCheckedChangeListener((CompoundButton.OnCheckedChangeListener) this);
+            rbYes.setOnCheckedChangeListener(this);
         }
 
         @Override
