@@ -64,7 +64,7 @@ public class DividendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == TYPE_HEADER) {
             //Inflating header view
-            View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_education_header, parent, false);
+            View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_dividend_header, parent, false);
             return new HeaderViewHolder(itemView);
         } else if (viewType == TYPE_FOOTER) {
             //Inflating footer view
@@ -72,7 +72,7 @@ public class DividendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             return new FooterViewHolder(itemView);
         } else {
             //Inflating recycle view item layout
-            View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_education, parent, false);
+            View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_dividend, parent, false);
             return new ItemViewHolder(itemView);
         }
     }

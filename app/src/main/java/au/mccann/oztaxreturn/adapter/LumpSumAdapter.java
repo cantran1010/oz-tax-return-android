@@ -14,9 +14,9 @@ import android.widget.CompoundButton;
 import java.util.ArrayList;
 
 import au.mccann.oztaxreturn.R;
-import au.mccann.oztaxreturn.model.Annuity;
 import au.mccann.oztaxreturn.model.Attachment;
 import au.mccann.oztaxreturn.model.Image;
+import au.mccann.oztaxreturn.model.LumpSum;
 import au.mccann.oztaxreturn.utils.LogUtils;
 import au.mccann.oztaxreturn.view.EdittextCustom;
 import au.mccann.oztaxreturn.view.ExpandableLayout;
@@ -27,10 +27,10 @@ import au.mccann.oztaxreturn.view.RadioButtonCustom;
  * Created by cantran on 4/18/18.
  */
 
-public class AnnuitiesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class LumpSumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final int TYPE_HEADER = 0;
     private static final int TYPE_FOOTER = 1;
-    private ArrayList<Annuity> annuities;
+    private ArrayList<LumpSum> lumpSums;
     private Context context;
     private boolean isEdit;
     private boolean isExpend = true;
@@ -40,10 +40,19 @@ public class AnnuitiesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         void onClick(int position, int n);
     }
 
+    public interface OnclickDateListener {
+        void onClick(int position);
+    }
+
     private OnClickImageListener onClickImageListener;
+    private OnclickDateListener onclickDateListener;
 
     public void setOnClickImageListener(OnClickImageListener onClickImageListener) {
         this.onClickImageListener = onClickImageListener;
+    }
+
+    public void setOnclickDateListener(OnclickDateListener onclickDateListener) {
+        this.onclickDateListener = onclickDateListener;
     }
 
     public void setEdit(boolean edit) {
@@ -54,16 +63,16 @@ public class AnnuitiesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         return isExpend;
     }
 
-    public AnnuitiesAdapter(Context context, ArrayList<Annuity> annuities) {
+    public LumpSumAdapter(Context context, ArrayList<LumpSum> lumpSums) {
         this.context = context;
-        this.annuities = annuities;
+        this.lumpSums = lumpSums;
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == TYPE_HEADER) {
             //Inflating header view
-            View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_education_header, parent, false);
+            View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_lump_sums_header, parent, false);
             return new HeaderViewHolder(itemView);
         } else if (viewType == TYPE_FOOTER) {
             //Inflating footer view
@@ -71,7 +80,7 @@ public class AnnuitiesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             return new FooterViewHolder(itemView);
         } else {
             //Inflating recycle view item layout
-            View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_education, parent, false);
+            View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_lump_sums, parent, false);
             return new ItemViewHolder(itemView);
         }
     }
@@ -91,8 +100,8 @@ public class AnnuitiesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 headerViewHolder.rbNo.setEnabled(false);
             }
         } else if (holder instanceof ItemViewHolder) {
-            LogUtils.d("onBindViewHolder", annuities.toString() + "position" + position);
-            final Annuity annuity = annuities.get(position - 1);
+            LogUtils.d("onBindViewHolder", lumpSums.toString() + "position" + position);
+            final LumpSum lumpSum = lumpSums.get(position - 1);
             ItemViewHolder itemViewHolder = (ItemViewHolder) holder;
             if (isExpend) {
                 itemViewHolder.expandableLayout.setExpanded(true);
@@ -101,30 +110,30 @@ public class AnnuitiesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 itemViewHolder.edtEdtTaxWidthheld.setEnabled(true);
                 itemViewHolder.edtTaxed.setEnabled(true);
                 itemViewHolder.edtUnTaxed.setEnabled(true);
-                itemViewHolder.edtLumpTaxed.setEnabled(true);
-                itemViewHolder.edtLumpUnTaxed.setEnabled(true);
+                itemViewHolder.edtPayerAbn.setEnabled(true);
+                itemViewHolder.edtPaymenDate.setEnabled(true);
                 itemViewHolder.grImage.setEnabled(true);
             } else {
                 itemViewHolder.edtEdtTaxWidthheld.setEnabled(false);
                 itemViewHolder.edtTaxed.setEnabled(false);
                 itemViewHolder.edtUnTaxed.setEnabled(false);
-                itemViewHolder.edtLumpTaxed.setEnabled(false);
-                itemViewHolder.edtLumpUnTaxed.setEnabled(false);
+                itemViewHolder.edtPayerAbn.setEnabled(false);
+                itemViewHolder.edtPaymenDate.setEnabled(false);
                 itemViewHolder.grImage.setEnabled(false);
             }
-            itemViewHolder.edtEdtTaxWidthheld.setText(annuity.getTaxWithheld());
-            itemViewHolder.edtTaxed.setText(annuity.getTaxableComTaxed());
-            itemViewHolder.edtUnTaxed.setText(annuity.getTaxableComUntaxed());
-            itemViewHolder.edtLumpTaxed.setText(annuity.getArrearsTaxed());
-            itemViewHolder.edtLumpUnTaxed.setText(annuity.getArrearsUntaxed());
+            itemViewHolder.edtEdtTaxWidthheld.setText(lumpSum.getTaxWithheld());
+            itemViewHolder.edtTaxed.setText(lumpSum.getTaxableComTaxed());
+            itemViewHolder.edtUnTaxed.setText(lumpSum.getTaxableComUntaxed());
+            itemViewHolder.edtPayerAbn.setText(lumpSum.getPayerAbn());
+            itemViewHolder.edtPaymenDate.setText(lumpSum.getPaymentDate());
 
-            if (annuity.getImages() == null || annuity.getImages().size() == 0) {
+            if (lumpSum.getImages() == null || lumpSum.getImages().size() == 0) {
                 final Image image = new Image();
                 image.setId(0);
                 image.setAdd(true);
-                annuity.getImages().add(image);
+                lumpSum.getImages().add(image);
             }
-            ImageAdapter imageAdapter = new ImageAdapter(context, annuity.getImages());
+            ImageAdapter imageAdapter = new ImageAdapter(context, lumpSum.getImages());
             itemViewHolder.grImage.setAdapter(imageAdapter);
             itemViewHolder.grImage.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
@@ -146,7 +155,7 @@ public class AnnuitiesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
                 @Override
                 public void afterTextChanged(Editable editable) {
-                    annuities.get(position - 1).setTaxWithheld(editable.toString().trim());
+                    lumpSums.get(position - 1).setTaxWithheld(editable.toString().trim());
                 }
             });
             ((ItemViewHolder) holder).edtTaxed.addTextChangedListener(new TextWatcher() {
@@ -162,7 +171,7 @@ public class AnnuitiesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
                 @Override
                 public void afterTextChanged(Editable editable) {
-                    annuities.get(position - 1).setTaxableComTaxed(editable.toString().trim());
+                    lumpSums.get(position - 1).setTaxableComTaxed(editable.toString().trim());
                 }
             });
             ((ItemViewHolder) holder).edtUnTaxed.addTextChangedListener(new TextWatcher() {
@@ -178,10 +187,10 @@ public class AnnuitiesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
                 @Override
                 public void afterTextChanged(Editable editable) {
-                    annuities.get(position - 1).setTaxableComUntaxed(editable.toString().trim());
+                    lumpSums.get(position - 1).setTaxableComUntaxed(editable.toString().trim());
                 }
             });
-            ((ItemViewHolder) holder).edtLumpTaxed.addTextChangedListener(new TextWatcher() {
+            ((ItemViewHolder) holder).edtPayerAbn.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
@@ -194,23 +203,14 @@ public class AnnuitiesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
                 @Override
                 public void afterTextChanged(Editable editable) {
-                    annuities.get(position - 1).setArrearsTaxed(editable.toString().trim());
+                    lumpSums.get(position - 1).setPayerAbn(editable.toString().trim());
                 }
             });
-            ((ItemViewHolder) holder).edtLumpUnTaxed.addTextChangedListener(new TextWatcher() {
+            ((ItemViewHolder) holder).edtPaymenDate.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                public void onClick(View view) {
+                    if (onclickDateListener != null) onclickDateListener.onClick(position);
 
-                }
-
-                @Override
-                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-                }
-
-                @Override
-                public void afterTextChanged(Editable editable) {
-                    annuities.get(position - 1).setArrearsUntaxed(editable.toString().trim());
                 }
             });
         } else if (holder instanceof FooterViewHolder) {
@@ -222,12 +222,12 @@ public class AnnuitiesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             itemViewHolder.flAdd.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Annuity dividend = new Annuity();
+                    LumpSum dividend = new LumpSum();
                     dividend.setTaxWithheld(null);
                     dividend.setTaxableComTaxed(null);
                     dividend.setTaxableComUntaxed(null);
-                    dividend.setArrearsTaxed(null);
-                    dividend.setArrearsUntaxed(null);
+                    dividend.setPayerAbn(null);
+                    dividend.setPaymentDate(null);
                     dividend.setImages(new ArrayList<Image>());
                     dividend.setAttach(new ArrayList<Attachment>());
                     AddList(dividend);
@@ -240,7 +240,7 @@ public class AnnuitiesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     public int getItemViewType(int position) {
         if (position == 0) {
             return TYPE_HEADER;
-        } else if (position == annuities.size() + 1) {
+        } else if (position == lumpSums.size() + 1) {
             return TYPE_FOOTER;
         }
         return position + 1;
@@ -248,7 +248,7 @@ public class AnnuitiesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     @Override
     public int getItemCount() {
-        return annuities.size() + 2;
+        return lumpSums.size() + 2;
     }
 
     private class HeaderViewHolder extends RecyclerView.ViewHolder implements CompoundButton.OnCheckedChangeListener {
@@ -283,25 +283,26 @@ public class AnnuitiesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     private class ItemViewHolder extends RecyclerView.ViewHolder {
         ExpandableLayout expandableLayout;
-        EdittextCustom edtEdtTaxWidthheld, edtTaxed, edtUnTaxed, edtLumpTaxed, edtLumpUnTaxed;
+        EdittextCustom edtEdtTaxWidthheld, edtTaxed, edtUnTaxed, edtPayerAbn, edtPaymenDate;
         MyGridView grImage;
 
         public ItemViewHolder(View itemView) {
             super(itemView);
             expandableLayout = itemView.findViewById(R.id.expand_layout);
-            edtEdtTaxWidthheld = itemView.findViewById(R.id.edt_tax);
+            edtEdtTaxWidthheld = itemView.findViewById(R.id.edt_tax_widthheld);
             edtTaxed = itemView.findViewById(R.id.edt_taxed);
             edtUnTaxed = itemView.findViewById(R.id.edt_untaxed);
-            edtLumpTaxed = itemView.findViewById(R.id.edt_lump_taxed);
-            edtLumpUnTaxed = itemView.findViewById(R.id.edt_lump_untaxed);
+            edtPayerAbn = itemView.findViewById(R.id.edt_payer_abn);
+            edtPaymenDate = itemView.findViewById(R.id.edt_payment_date);
             grImage = itemView.findViewById(R.id.gr_image);
         }
     }
 
-    public void AddList(Annuity annuity) {
-        if (annuities.size() > 3) return;
-        annuities.add(annuity);
-        notifyDataSetChanged();
+    public void AddList(LumpSum lumpSum) {
+        if (lumpSums.size() < 3) {
+            lumpSums.add(lumpSum);
+            notifyDataSetChanged();
+        } else return;
     }
 
 

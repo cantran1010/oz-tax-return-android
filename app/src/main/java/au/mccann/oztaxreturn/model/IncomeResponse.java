@@ -9,7 +9,6 @@ import java.util.ArrayList;
  * Created by CanTran on 4/23/18.
  */
 public class IncomeResponse implements Serializable {
-    private int id;
     @SerializedName("jobs")
     private ArrayList<Job> jobs;
     @SerializedName("gov_payments")
@@ -24,6 +23,8 @@ public class IncomeResponse implements Serializable {
     private ArrayList<Annuity> annuities;
     @SerializedName("rentals")
     private Rental rental;
+    @SerializedName("lump_sums")
+    private ArrayList<LumpSum> lumpSums;
 
     public ArrayList<Job> getJobs() {
         return jobs;
@@ -81,6 +82,14 @@ public class IncomeResponse implements Serializable {
         this.rental = rental;
     }
 
+    public ArrayList<LumpSum> getLumpSums() {
+        return lumpSums;
+    }
+
+    public void setLumpSums(ArrayList<LumpSum> lumpSums) {
+        this.lumpSums = lumpSums;
+    }
+
     @Override
     public String toString() {
         return "IncomeResponse{" +
@@ -91,6 +100,7 @@ public class IncomeResponse implements Serializable {
                 ", etps=" + etps +
                 ", annuities=" + annuities +
                 ", rental=" + rental +
+                ", lumpSums=" + lumpSums +
                 '}';
     }
 }

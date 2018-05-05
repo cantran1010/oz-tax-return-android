@@ -1,6 +1,7 @@
 package au.mccann.oztaxreturn.adapter;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -14,8 +15,8 @@ import android.widget.CompoundButton;
 import java.util.ArrayList;
 
 import au.mccann.oztaxreturn.R;
-import au.mccann.oztaxreturn.model.Annuity;
 import au.mccann.oztaxreturn.model.Attachment;
+import au.mccann.oztaxreturn.model.Donation;
 import au.mccann.oztaxreturn.model.Image;
 import au.mccann.oztaxreturn.utils.LogUtils;
 import au.mccann.oztaxreturn.view.EdittextCustom;
@@ -27,10 +28,10 @@ import au.mccann.oztaxreturn.view.RadioButtonCustom;
  * Created by cantran on 4/18/18.
  */
 
-public class AnnuitiesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class DonationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final int TYPE_HEADER = 0;
     private static final int TYPE_FOOTER = 1;
-    private ArrayList<Annuity> annuities;
+    private ArrayList<Donation> donations;
     private Context context;
     private boolean isEdit;
     private boolean isExpend = true;
@@ -54,16 +55,16 @@ public class AnnuitiesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         return isExpend;
     }
 
-    public AnnuitiesAdapter(Context context, ArrayList<Annuity> annuities) {
+    public DonationAdapter(Context context, ArrayList<Donation> donations) {
         this.context = context;
-        this.annuities = annuities;
+        this.donations = donations;
     }
 
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         if (viewType == TYPE_HEADER) {
             //Inflating header view
-            View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_education_header, parent, false);
+            View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_donation_header, parent, false);
             return new HeaderViewHolder(itemView);
         } else if (viewType == TYPE_FOOTER) {
             //Inflating footer view
@@ -71,18 +72,17 @@ public class AnnuitiesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             return new FooterViewHolder(itemView);
         } else {
             //Inflating recycle view item layout
-            View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_education, parent, false);
+            View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_donation, parent, false);
             return new ItemViewHolder(itemView);
         }
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position) {
         if (holder instanceof HeaderViewHolder) {
             HeaderViewHolder headerViewHolder = (HeaderViewHolder) holder;
             onBind = true;
             headerViewHolder.rbYes.setChecked(isExpend);
-            onBind = false;
             if (isEdit) {
                 headerViewHolder.rbYes.setEnabled(true);
                 headerViewHolder.rbNo.setEnabled(true);
@@ -91,40 +91,30 @@ public class AnnuitiesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 headerViewHolder.rbNo.setEnabled(false);
             }
         } else if (holder instanceof ItemViewHolder) {
-            LogUtils.d("onBindViewHolder", annuities.toString() + "position" + position);
-            final Annuity annuity = annuities.get(position - 1);
+            LogUtils.d("onBindViewHolder", donations.toString() + "position" + position);
+            Donation donation = donations.get(position - 1);
             ItemViewHolder itemViewHolder = (ItemViewHolder) holder;
             if (isExpend) {
                 itemViewHolder.expandableLayout.setExpanded(true);
             } else itemViewHolder.expandableLayout.setExpanded(false);
             if (isEdit) {
-                itemViewHolder.edtEdtTaxWidthheld.setEnabled(true);
-                itemViewHolder.edtTaxed.setEnabled(true);
-                itemViewHolder.edtUnTaxed.setEnabled(true);
-                itemViewHolder.edtLumpTaxed.setEnabled(true);
-                itemViewHolder.edtLumpUnTaxed.setEnabled(true);
+                itemViewHolder.edtOz.setEnabled(true);
+                itemViewHolder.edtAmount.setEnabled(true);
                 itemViewHolder.grImage.setEnabled(true);
             } else {
-                itemViewHolder.edtEdtTaxWidthheld.setEnabled(false);
-                itemViewHolder.edtTaxed.setEnabled(false);
-                itemViewHolder.edtUnTaxed.setEnabled(false);
-                itemViewHolder.edtLumpTaxed.setEnabled(false);
-                itemViewHolder.edtLumpUnTaxed.setEnabled(false);
+                itemViewHolder.edtOz.setEnabled(false);
+                itemViewHolder.edtAmount.setEnabled(false);
                 itemViewHolder.grImage.setEnabled(false);
             }
-            itemViewHolder.edtEdtTaxWidthheld.setText(annuity.getTaxWithheld());
-            itemViewHolder.edtTaxed.setText(annuity.getTaxableComTaxed());
-            itemViewHolder.edtUnTaxed.setText(annuity.getTaxableComUntaxed());
-            itemViewHolder.edtLumpTaxed.setText(annuity.getArrearsTaxed());
-            itemViewHolder.edtLumpUnTaxed.setText(annuity.getArrearsUntaxed());
-
-            if (annuity.getImages() == null || annuity.getImages().size() == 0) {
+            itemViewHolder.edtOz.setText(donation.getOrganization());
+            itemViewHolder.edtAmount.setText(donation.getAmount());
+            if (donation.getImages() == null || donation.getImages().size() == 0) {
                 final Image image = new Image();
                 image.setId(0);
                 image.setAdd(true);
-                annuity.getImages().add(image);
+                donation.getImages().add(image);
             }
-            ImageAdapter imageAdapter = new ImageAdapter(context, annuity.getImages());
+            ImageAdapter imageAdapter = new ImageAdapter(context, donation.getImages());
             itemViewHolder.grImage.setAdapter(imageAdapter);
             itemViewHolder.grImage.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
@@ -133,7 +123,7 @@ public class AnnuitiesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 }
             });
 
-            ((ItemViewHolder) holder).edtEdtTaxWidthheld.addTextChangedListener(new TextWatcher() {
+            ((ItemViewHolder) holder).edtOz.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
@@ -146,10 +136,10 @@ public class AnnuitiesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
                 @Override
                 public void afterTextChanged(Editable editable) {
-                    annuities.get(position - 1).setTaxWithheld(editable.toString().trim());
+                    donations.get(position - 1).setOrganization(editable.toString().trim());
                 }
             });
-            ((ItemViewHolder) holder).edtTaxed.addTextChangedListener(new TextWatcher() {
+            ((ItemViewHolder) holder).edtAmount.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
@@ -162,55 +152,7 @@ public class AnnuitiesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
                 @Override
                 public void afterTextChanged(Editable editable) {
-                    annuities.get(position - 1).setTaxableComTaxed(editable.toString().trim());
-                }
-            });
-            ((ItemViewHolder) holder).edtUnTaxed.addTextChangedListener(new TextWatcher() {
-                @Override
-                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-                }
-
-                @Override
-                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-                }
-
-                @Override
-                public void afterTextChanged(Editable editable) {
-                    annuities.get(position - 1).setTaxableComUntaxed(editable.toString().trim());
-                }
-            });
-            ((ItemViewHolder) holder).edtLumpTaxed.addTextChangedListener(new TextWatcher() {
-                @Override
-                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-                }
-
-                @Override
-                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-                }
-
-                @Override
-                public void afterTextChanged(Editable editable) {
-                    annuities.get(position - 1).setArrearsTaxed(editable.toString().trim());
-                }
-            });
-            ((ItemViewHolder) holder).edtLumpUnTaxed.addTextChangedListener(new TextWatcher() {
-                @Override
-                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-                }
-
-                @Override
-                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-                }
-
-                @Override
-                public void afterTextChanged(Editable editable) {
-                    annuities.get(position - 1).setArrearsUntaxed(editable.toString().trim());
+                    donations.get(position - 1).setAmount(editable.toString().trim());
                 }
             });
         } else if (holder instanceof FooterViewHolder) {
@@ -222,25 +164,21 @@ public class AnnuitiesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             itemViewHolder.flAdd.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Annuity dividend = new Annuity();
-                    dividend.setTaxWithheld(null);
-                    dividend.setTaxableComTaxed(null);
-                    dividend.setTaxableComUntaxed(null);
-                    dividend.setArrearsTaxed(null);
-                    dividend.setArrearsUntaxed(null);
-                    dividend.setImages(new ArrayList<Image>());
-                    dividend.setAttach(new ArrayList<Attachment>());
-                    AddList(dividend);
+                    Donation otherResponse = new Donation();
+                    otherResponse.setImages(new ArrayList<Image>());
+                    otherResponse.setAttach(new ArrayList<Attachment>());
+                    AddList(otherResponse);
                 }
             });
         }
+        onBind = false;
     }
 
     @Override
     public int getItemViewType(int position) {
         if (position == 0) {
             return TYPE_HEADER;
-        } else if (position == annuities.size() + 1) {
+        } else if (position == donations.size() + 1) {
             return TYPE_FOOTER;
         }
         return position + 1;
@@ -248,7 +186,7 @@ public class AnnuitiesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     @Override
     public int getItemCount() {
-        return annuities.size() + 2;
+        return donations.size() + 2;
     }
 
     private class HeaderViewHolder extends RecyclerView.ViewHolder implements CompoundButton.OnCheckedChangeListener {
@@ -258,14 +196,13 @@ public class AnnuitiesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             super(view);
             rbYes = itemView.findViewById(R.id.rb_yes);
             rbNo = itemView.findViewById(R.id.rb_no);
-            rbYes.setOnCheckedChangeListener((CompoundButton.OnCheckedChangeListener) this);
+            rbYes.setOnCheckedChangeListener(this);
         }
 
         @Override
         public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
             if (!onBind) {
                 isExpend = b;
-                LogUtils.d("adapter", "isExpend :" + isExpend);
                 notifyDataSetChanged();
             }
 
@@ -283,24 +220,21 @@ public class AnnuitiesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     private class ItemViewHolder extends RecyclerView.ViewHolder {
         ExpandableLayout expandableLayout;
-        EdittextCustom edtEdtTaxWidthheld, edtTaxed, edtUnTaxed, edtLumpTaxed, edtLumpUnTaxed;
+        EdittextCustom edtOz, edtAmount;
         MyGridView grImage;
 
         public ItemViewHolder(View itemView) {
             super(itemView);
             expandableLayout = itemView.findViewById(R.id.expand_layout);
-            edtEdtTaxWidthheld = itemView.findViewById(R.id.edt_tax);
-            edtTaxed = itemView.findViewById(R.id.edt_taxed);
-            edtUnTaxed = itemView.findViewById(R.id.edt_untaxed);
-            edtLumpTaxed = itemView.findViewById(R.id.edt_lump_taxed);
-            edtLumpUnTaxed = itemView.findViewById(R.id.edt_lump_untaxed);
+            edtOz = itemView.findViewById(R.id.edt_donation_oz);
+            edtAmount = itemView.findViewById(R.id.edt_education_amount);
             grImage = itemView.findViewById(R.id.gr_image);
         }
     }
 
-    public void AddList(Annuity annuity) {
-        if (annuities.size() > 3) return;
-        annuities.add(annuity);
+    public void AddList(Donation e) {
+        if (donations.size() > 3) return;
+        donations.add(e);
         notifyDataSetChanged();
     }
 

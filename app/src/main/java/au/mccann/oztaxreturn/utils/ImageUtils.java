@@ -174,7 +174,7 @@ public class ImageUtils {
     }
 
     public static void showImage(List<Attachment> attachments, List<Image> images, ImageAdapter imageAdapter) {
-        if (attachments.size() > 0) {
+        if (attachments!=null&&attachments.size() > 0) {
             for (Attachment attachment : attachments
                     ) {
                 Image image = new Image();
