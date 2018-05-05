@@ -25,7 +25,7 @@ import java.util.List;
 import au.mccann.oztaxreturn.R;
 import au.mccann.oztaxreturn.activity.AlbumActivity;
 import au.mccann.oztaxreturn.activity.PreviewImageActivity;
-import au.mccann.oztaxreturn.adapter.AnnuitiesAdapter;
+import au.mccann.oztaxreturn.adapter.LumpSumAdapter;
 import au.mccann.oztaxreturn.common.Constants;
 import au.mccann.oztaxreturn.database.UserManager;
 import au.mccann.oztaxreturn.dialog.AlertDialogOk;
@@ -33,10 +33,10 @@ import au.mccann.oztaxreturn.dialog.AlertDialogOkAndCancel;
 import au.mccann.oztaxreturn.dialog.PickImageDialog;
 import au.mccann.oztaxreturn.fragment.BaseFragment;
 import au.mccann.oztaxreturn.model.APIError;
-import au.mccann.oztaxreturn.model.Annuity;
 import au.mccann.oztaxreturn.model.Attachment;
 import au.mccann.oztaxreturn.model.Image;
 import au.mccann.oztaxreturn.model.IncomeResponse;
+import au.mccann.oztaxreturn.model.LumpSum;
 import au.mccann.oztaxreturn.networking.ApiClient;
 import au.mccann.oztaxreturn.utils.DialogUtils;
 import au.mccann.oztaxreturn.utils.FileUtils;
@@ -55,10 +55,10 @@ import retrofit2.Response;
 /**
  * Created by CanTran on 4/23/18.
  */
-public class AnnuitiesAndSupers extends BaseFragment implements View.OnClickListener {
+public class ReviewIncomeSuperLumpSum extends BaseFragment implements View.OnClickListener {
     private static final String TAG = FragmentReviewDividends.class.getSimpleName();
-    private AnnuitiesAdapter adapter;
-    private ArrayList<Annuity> annuities = new ArrayList<>();
+    private LumpSumAdapter adapter;
+    private ArrayList<LumpSum> lumpSums = new ArrayList<>();
     private RecyclerView recyclerView;
     private int appID;
     private ArrayList<Image> images = new ArrayList<>();
@@ -90,10 +90,10 @@ public class AnnuitiesAndSupers extends BaseFragment implements View.OnClickList
         getReviewIncome();
     }
 
-    private void updateUI(ArrayList<Annuity> ds) {
-        annuities.clear();
-        annuities.addAll(ds);
-        for (Annuity dividend : annuities
+    private void updateUI(ArrayList<LumpSum> ds) {
+        lumpSums.clear();
+        lumpSums.addAll(ds);
+        for (LumpSum dividend : lumpSums
                 ) {
             AddIconAdd(dividend);
             showImage(dividend.getAttachments(), dividend.getImages());
@@ -119,13 +119,13 @@ public class AnnuitiesAndSupers extends BaseFragment implements View.OnClickList
     private void updateList() {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(linearLayoutManager);
-        adapter = new AnnuitiesAdapter(getContext(), annuities);
+        adapter = new LumpSumAdapter(getContext(), lumpSums);
         recyclerView.setAdapter(adapter);
-        adapter.setOnClickImageListener(new AnnuitiesAdapter.OnClickImageListener() {
+        adapter.setOnClickImageListener(new LumpSumAdapter.OnClickImageListener() {
             @Override
             public void onClick(int position, int n) {
-                LogUtils.d(TAG, "setOnClickImageListener" + n + " position " + position + annuities.get(position).getImages().toString());
-                images = annuities.get(position).getImages();
+                LogUtils.d(TAG, "setOnClickImageListener" + n + " position " + position + lumpSums.get(position).getImages().toString());
+                images = lumpSums.get(position).getImages();
                 if (images.get(n).isAdd) {
                     LogUtils.d(TAG, "setOnClickImageListener 3");
                     if (images.size() >= 10) {
@@ -230,8 +230,8 @@ public class AnnuitiesAndSupers extends BaseFragment implements View.OnClickList
                 ProgressDialogUtils.dismissProgressDialog();
                 LogUtils.d(TAG, "getReviewIncome code : " + response.code());
                 if (response.code() == Constants.HTTP_CODE_OK) {
-                    LogUtils.d(TAG, "getReviewIncome body : " + response.body().getAnnuities().toString());
-                    updateUI(response.body().getAnnuities());
+                    LogUtils.d(TAG, "getReviewIncome body : " + response.body().getLumpSums().toString());
+                    updateUI(response.body().getLumpSums());
                 } else {
                     APIError error = Utils.parseError(response);
                     if (error != null) {
@@ -266,9 +266,9 @@ public class AnnuitiesAndSupers extends BaseFragment implements View.OnClickList
         });
     }
 
-    private void uploadImage(final ArrayList<Annuity> ds) {
+    private void uploadImage(final ArrayList<LumpSum> ds) {
         int count = 0;
-        for (final Annuity dividend : ds
+        for (final LumpSum dividend : ds
                 ) {
             dividend.setListUp(new ArrayList<Image>());
             for (Image image : dividend.getImages()
@@ -277,25 +277,25 @@ public class AnnuitiesAndSupers extends BaseFragment implements View.OnClickList
             }
         }
 
-        for (Annuity dividend1 : ds
+        for (LumpSum dividend1 : ds
                 ) {
             if (dividend1.getListUp().size() > 0) count++;
         }
 
         if (count == 0) doSaveReview();
         else {
-            for (final Annuity d : ds
+            for (final LumpSum d : ds
                     ) {
                 if (d.getListUp().size() > 0) {
                     count--;
                     final int finalCount = count;
-                    LogUtils.d(TAG, "doUploadImage count" + finalCount + annuities.toString());
+                    LogUtils.d(TAG, "doUploadImage count" + finalCount + lumpSums.toString());
                     ImageUtils.doUploadImage(getContext(), d.getListUp(), new ImageUtils.UpImagesListener() {
                         @Override
                         public void onSuccess(List<Attachment> responses) {
 //                            LogUtils.d(TAG, "doUploadImage" + finalCount + responses.toString());
                             d.getAttach().addAll(responses);
-                            LogUtils.d(TAG, "doUploadImage finalCount" + finalCount + annuities.toString());
+                            LogUtils.d(TAG, "doUploadImage finalCount" + finalCount + lumpSums.toString());
                             doSaveReview();
                         }
                     });
@@ -309,19 +309,18 @@ public class AnnuitiesAndSupers extends BaseFragment implements View.OnClickList
 
     private void doSaveReview() {
         ProgressDialogUtils.showProgressDialog(getContext());
-        LogUtils.d(TAG, "doSaveReview" + annuities.toString());
+        LogUtils.d(TAG, "doSaveReview" + lumpSums.toString());
         JSONObject jsonRequest = new JSONObject();
         try {
             JSONArray jsonArray = new JSONArray();
-            for (Annuity d : annuities
+            for (LumpSum d : lumpSums
                     ) {
                 JSONObject mJs = new JSONObject();
-                mJs.put(Constants.PARAMETER_PUT_ID, d.getId());
-                mJs.put(Constants.PARAMETER_REVIEW_INCOM_ANNUITY_TAX, d.getTaxWithheld());
-                mJs.put(Constants.PARAMETER_REVIEW_INCOM_ANNUITY_COM_TAX, d.getTaxableComTaxed());
-                mJs.put(Constants.PARAMETER_REVIEW_INCOM_ANNUITY_COM_UNTAX, d.getTaxableComUntaxed());
-                mJs.put(Constants.PARAMETER_REVIEW_INCOM_ANNUITY_ARREAR_TAX, d.getArrearsTaxed());
-                mJs.put(Constants.PARAMETER_REVIEW_INCOM_ANNUITY_ARREAR_UNTAX, d.getArrearsUntaxed());
+                mJs.put(Constants.PARAMETER_REVIEW_INCOME_LUMP_PAYER_ABN, d.getPayerAbn());
+                mJs.put(Constants.PARAMETER_REVIEW_INCOME_LUMP_TAX, d.getTaxWithheld());
+                mJs.put(Constants.PARAMETER_REVIEW_INCOME_LUMP_TAXED, d.getTaxableComTaxed());
+                mJs.put(Constants.PARAMETER_REVIEW_INCOME_LUMP_UNTAXED, d.getTaxableComUntaxed());
+                mJs.put(Constants.PARAMETER_REVIEW_INCOME_LUMP_DATE, d.getPaymentDate());
                 if (d.getImages().size() > 1) {
                     for (Image image : d.getImages()
                             ) {
@@ -341,7 +340,7 @@ public class AnnuitiesAndSupers extends BaseFragment implements View.OnClickList
                 }
                 jsonArray.put(mJs);
             }
-            jsonRequest.put(Constants.PARAMETER_REVIEW_INCOME_ANNUITY, jsonArray);
+            jsonRequest.put(Constants.PARAMETER_REVIEW_INCOME_LUMP_SUM, jsonArray);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -353,9 +352,9 @@ public class AnnuitiesAndSupers extends BaseFragment implements View.OnClickList
                 ProgressDialogUtils.dismissProgressDialog();
                 LogUtils.d(TAG, "doSaveReview code: " + response.code());
                 if (response.code() == Constants.HTTP_CODE_OK) {
-                    LogUtils.d(TAG, "doSaveReview body: " + response.body().getDividends().toString());
-                    LogUtils.d(TAG, " dividends image " + annuities.toString());
-                    openFragment(R.id.layout_container, ReviewIncomeSuperLumpSum.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
+                    LogUtils.d(TAG, "doSaveReview body: " + response.body().getLumpSums().toString());
+                    LogUtils.d(TAG, " dividends image " + lumpSums.toString());
+                    openFragment(R.id.layout_container, RentalProperties.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
                 } else {
                     APIError error = Utils.parseError(response);
                     LogUtils.e(TAG, "doSaveReview error : " + error.message());
@@ -391,7 +390,7 @@ public class AnnuitiesAndSupers extends BaseFragment implements View.OnClickList
     }
 
 
-    public void AddIconAdd(Annuity dividend) {
+    public void AddIconAdd(LumpSum dividend) {
         if (dividend.getImages() == null || dividend.getImages().size() == 0) {
             final Image image = new Image();
             image.setId(0);
@@ -419,9 +418,11 @@ public class AnnuitiesAndSupers extends BaseFragment implements View.OnClickList
                 break;
             case R.id.btn_next:
                 if (adapter.isExpend())
-                    uploadImage(annuities);
+                    uploadImage(lumpSums);
                 else {
-                    openFragment(R.id.layout_container, ReviewIncomeSuperLumpSum.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
+                    Bundle bundle = new Bundle();
+                    bundle.putInt(Constants.PARAMETER_APP_ID, appID);
+                    openFragment(R.id.layout_container, RentalProperties.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
                 }
                 break;
         }

@@ -147,6 +147,12 @@ public class Constants {
     public static final String PARAMETER_REVIEW_DEDUCTION_OTHERS = "others";
     public static final String PARAMETER_REVIEW_DEDUCTION_DONATION = "donations";
     public static final String PARAMETER_REVIEW_DONATION_OZ = "organization";
+    public static final String PARAMETER_REVIEW_INCOME_LUMP_SUM = "lump_sums";
+    public static final String PARAMETER_REVIEW_INCOME_LUMP_PAYER_ABN = "payer_abn";
+    public static final String PARAMETER_REVIEW_INCOME_LUMP_TAX =  "tax_withheld";
+    public static final String PARAMETER_REVIEW_INCOME_LUMP_TAXED = "taxable_com_taxed";
+    public static final String PARAMETER_REVIEW_INCOME_LUMP_UNTAXED ="taxable_com_untaxed" ;
+    public static final String PARAMETER_REVIEW_INCOME_LUMP_DATE ="payment_date" ;
     public static int MAX_IMAGE_ATTACH = 9;
     public static final String INTENT_EXTRA_ALBUM = "album_name";
     public static final int REQUEST_CODE_PICK_IMAGE = 357;

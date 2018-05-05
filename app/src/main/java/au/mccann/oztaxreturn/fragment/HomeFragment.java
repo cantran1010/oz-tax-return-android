@@ -18,7 +18,7 @@ import au.mccann.oztaxreturn.database.UserManager;
 import au.mccann.oztaxreturn.dialog.AlertDialogOk;
 import au.mccann.oztaxreturn.dialog.AlertDialogOkAndCancel;
 import au.mccann.oztaxreturn.fragment.basic.IncomeWagesSalaryFragment;
-import au.mccann.oztaxreturn.fragment.review.deduction.FragmentReviewDonations;
+import au.mccann.oztaxreturn.fragment.review.income.ReviewIncomeSuperLumpSum;
 import au.mccann.oztaxreturn.model.APIError;
 import au.mccann.oztaxreturn.networking.ApiClient;
 import au.mccann.oztaxreturn.rest.response.ApplicationResponse;
@@ -100,7 +100,7 @@ public class HomeFragment extends BaseFragment {
                 } else if (applicationResponse.getStatus().equals("submitted")) {
                     setApplicationResponse(applicationResponses.get(position));
                     updateAppInNavigation(applicationResponses.get(position));
-                    openFragment(R.id.layout_container, FragmentReviewDonations.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
+                    openFragment(R.id.layout_container, ReviewIncomeSuperLumpSum.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
                 } else if (applicationResponse.getStatus().equals("reviewed")) {
                     setApplicationResponse(applicationResponses.get(position));
                     updateAppInNavigation(applicationResponses.get(position));

@@ -402,5 +402,8 @@
     <string name="review_fhs_last_name">SPOUSE IS LAST NAME</string>
     <string name="review_fhs_birth">SPOUSE IS DATE OF BIRTH</string>
     <string name="review_fhs_taxable">$ SPOUSE IS TAXABLE INCOME</string>
+    <!-- review income Super Lump Sum -->
+    <string name="lumsum_ask">Did you receive any superannuation lump sum payment?</string>
+    <string name="lum_sums">Super Lump Sum</string>
 
 </resources>
