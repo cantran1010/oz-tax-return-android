@@ -117,13 +117,11 @@ public class HomeFragment extends BaseFragment {
         });
     }
 
-
     private void getAllApplication() {
         ProgressDialogUtils.showProgressDialog(getActivity());
         ApiClient.getApiService().getAllApplication(UserManager.getUserToken()).enqueue(new Callback<List<ApplicationResponse>>() {
             @Override
             public void onResponse(Call<List<ApplicationResponse>> call, Response<List<ApplicationResponse>> response) {
-                ProgressDialogUtils.dismissProgressDialog();
                 LogUtils.d(TAG, "getAllApplication code : " + response.code());
 
                 if (response.code() == Constants.HTTP_CODE_OK) {
@@ -142,7 +140,7 @@ public class HomeFragment extends BaseFragment {
                         });
                     }
                 }
-
+                ProgressDialogUtils.dismissProgressDialog();
             }
 
             @Override
