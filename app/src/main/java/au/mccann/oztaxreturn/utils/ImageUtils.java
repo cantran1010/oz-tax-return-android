@@ -33,7 +33,7 @@ import retrofit2.Response;
  * Created by CanTran on 4/14/18.
  */
 public class ImageUtils {
-    private final String TAG = ImageUtils.class.getName();
+    private static final String TAG = ImageUtils.class.getName();
 
     public interface UpImagesListener {
         void onSuccess(List<Attachment> responses);
@@ -123,7 +123,7 @@ public class ImageUtils {
 //        LogUtils.d(TAG, "doAttachImage , file Name : " + fileUp.getName());
 //        final RequestBody requestBody = RequestBody.create(MediaType.parse("image/*"), fileUp);
 //        MultipartBody.Part itemPart = MultipartBody.Part.createFormData("image", fileUp.getName(), requestBody);
-        LogUtils.d("", "doUploadImage onResponse images: " + images.size());
+        LogUtils.d(TAG, "doUploadImage onResponse images: " + images.size());
         List<MultipartBody.Part> parts = new ArrayList<>();
         // last image is "plus attach" , so realy size = size -1
         for (int i = 0; i < images.size(); i++)
@@ -132,14 +132,14 @@ public class ImageUtils {
             @Override
             public void onResponse(Call<List<Attachment>> call, Response<List<Attachment>> response) {
                 ProgressDialogUtils.dismissProgressDialog();
-                LogUtils.d("", "doUploadImage onResponse : " + response.body());
-                LogUtils.d("", "doUploadImage code : " + response.code());
+                LogUtils.d(TAG, "doUploadImage onResponse : " + response.body());
+                LogUtils.d(TAG, "doUploadImage code : " + response.code());
                 if (response.code() == Constants.HTTP_CODE_OK) {
                     upImagesListener.onSuccess(response.body());
 
                 } else {
                     APIError error = Utils.parseError(response);
-                    LogUtils.d("", "doUploadImage error : " + error.message());
+                    LogUtils.d(TAG, "doUploadImage error : " + error.message());
                     if (error != null) {
                         DialogUtils.showOkDialog(context, context.getString(R.string.error), error.message(), context.getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
                             @Override
@@ -155,7 +155,7 @@ public class ImageUtils {
             @Override
             public void onFailure(Call<List<Attachment>> call, Throwable t) {
                 ProgressDialogUtils.dismissProgressDialog();
-                LogUtils.e("", "doUploadImage onFailure : " + t.getMessage());
+                LogUtils.e(TAG, "doUploadImage onFailure : " + t.getMessage());
                 DialogUtils.showRetryDialog(context, new AlertDialogOkAndCancel.AlertDialogListener() {
                     @Override
                     public void onSubmit() {

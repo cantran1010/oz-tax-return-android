@@ -127,7 +127,7 @@
 
                     <au.mccann.oztaxreturn.view.TextViewCustom
                         android:id="@+id/tv_review_personal_name"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:text="@string/menu_personal_name"
@@ -136,7 +136,7 @@
 
                     <au.mccann.oztaxreturn.view.TextViewCustom
                         android:id="@+id/tv_review_personal_bank"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:text="@string/menu_personal_bank"
@@ -145,7 +145,7 @@
 
                     <au.mccann.oztaxreturn.view.TextViewCustom
                         android:id="@+id/tv_review_personal_education"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="10dp"
                         android:layout_marginTop="10dp"
@@ -207,7 +207,7 @@
                     android:orientation="vertical">
 
                     <au.mccann.oztaxreturn.view.TextViewCustom
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:text="@string/menu_incomes_wages"
@@ -215,7 +215,7 @@
                         android:textSize="16sp" />
 
                     <au.mccann.oztaxreturn.view.TextViewCustom
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:text="@string/menu_incomes_government"
@@ -224,7 +224,7 @@
 
 
                     <au.mccann.oztaxreturn.view.TextViewCustom
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:text="@string/menu_incomes_interests"
@@ -232,7 +232,7 @@
                         android:textSize="16sp" />
 
                     <au.mccann.oztaxreturn.view.TextViewCustom
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:text="@string/menu_incomes_dividends"
@@ -240,7 +240,7 @@
                         android:textSize="16sp" />
 
                     <au.mccann.oztaxreturn.view.TextViewCustom
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:text="@string/menu_incomes_early"
@@ -248,7 +248,7 @@
                         android:textSize="16sp" />
 
                     <au.mccann.oztaxreturn.view.TextViewCustom
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:text="@string/menu_incomes_annuities"
@@ -256,7 +256,7 @@
                         android:textSize="16sp" />
 
                     <au.mccann.oztaxreturn.view.TextViewCustom
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="10dp"
                         android:layout_marginTop="10dp"
@@ -318,7 +318,7 @@
                     android:orientation="vertical">
 
                     <au.mccann.oztaxreturn.view.TextViewCustom
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:text="@string/menu_deductions_vehicles"
@@ -326,7 +326,7 @@
                         android:textSize="16sp" />
 
                     <au.mccann.oztaxreturn.view.TextViewCustom
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:text="@string/menu_deductions_clothing"
@@ -334,7 +334,7 @@
                         android:textSize="16sp" />
 
                     <au.mccann.oztaxreturn.view.TextViewCustom
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:text="@string/menu_deductions_education"
@@ -342,7 +342,7 @@
                         android:textSize="16sp" />
 
                     <au.mccann.oztaxreturn.view.TextViewCustom
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:text="@string/menu_deductions_otherworks"
@@ -350,7 +350,7 @@
                         android:textSize="16sp" />
 
                     <au.mccann.oztaxreturn.view.TextViewCustom
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:text="@string/menu_deductions_donations"
@@ -358,7 +358,7 @@
                         android:textSize="16sp" />
 
                     <au.mccann.oztaxreturn.view.TextViewCustom
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="10dp"
                         android:layout_marginTop="10dp"
@@ -421,7 +421,8 @@
                     android:orientation="vertical">
 
                     <au.mccann.oztaxreturn.view.TextViewCustom
-                        android:layout_width="wrap_content"
+                        android:id="@+id/tv_review_family_health_dependants"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:text="@string/menu_family_health_dependants"
@@ -429,7 +430,8 @@
                         android:textSize="16sp" />
 
                     <au.mccann.oztaxreturn.view.TextViewCustom
-                        android:layout_width="wrap_content"
+                        android:id="@+id/tv_review_family_health_medicare"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:text="@string/menu_family_health_medicare"
@@ -437,7 +439,8 @@
                         android:textSize="16sp" />
 
                     <au.mccann.oztaxreturn.view.TextViewCustom
-                        android:layout_width="wrap_content"
+                        android:id="@+id/tv_review_family_health_private"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:text="@string/menu_family_health_private"
@@ -445,7 +448,8 @@
                         android:textSize="16sp" />
 
                     <au.mccann.oztaxreturn.view.TextViewCustom
-                        android:layout_width="wrap_content"
+                        android:id="@+id/tv_review_family_health_spouse"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="10dp"
                         android:layout_marginTop="10dp"

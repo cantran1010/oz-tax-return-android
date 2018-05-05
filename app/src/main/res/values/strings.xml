@@ -39,6 +39,7 @@
     <string name="preview_image_title">Preview</string>
     <string name="error_must_one">You must select at least one option!</string>
     <string name="logout">Are you sure you want to logout?</string>
+    <string name="required_all">All fields are required!</string>
 
     <!-- pick image dialog -->
     <string name="attach_img_title">Attach image</string>
@@ -360,5 +361,40 @@
     <string name="tax_agents_organization">ozganization</string>
     <string name="organization_hint">Example: OZ Tax Return</string>
 
+    <!-- review family and health dependants -->
+    <string name="review_fhd_title">Review Family &amp; Health</string>
+    <string name="review_fhd_dependants">Dependants</string>
+    <string name="review_fhd_des">Do you have any dependants or children?</string>
+    <string name="review_fhd_number">Number of dependants</string>
+    <string name="valid_number">Input Number</string>
+
+    <!-- review family and health medicare examption -->
+    <string name="review_fhm_title">Medicare Levy Exemption</string>
+    <string name="review_fhm_des">Do you have Medicare Exemption certificates issued by "The Department of Human Services"</string>
+
+    <!-- review family and health private -->
+    <string name="review_fhp_title">Private Health</string>
+    <string name="review_fhp_des">Did you have private health cover anytime during the financial year?</string>
+    <string name="review_fhp_add">ADD NEW PRIVATE HEALTH</string>
+    <string name="review_fhp_health">Health Insurer</string>
+    <string name="review_fhp_health_hint">Medibank</string>
+    <string name="review_fhp_membership">Membership Number</string>
+    <string name="review_fhp_membership_hint">123456789</string>
+    <string name="review_fhp_premiums">Premiums Paid</string>
+    <string name="review_fhp_premiums_hint">$1000</string>
+    <string name="review_fhp_government">Government Rebate Received</string>
+    <string name="review_fhp_government_hint">$1000</string>
+    <string name="review_fhp_day">How many days your private hospital is covered?</string>
+    <string name="review_fhp_day_hint">30</string>
+    <string name="review_fhp_add_new">ADD NEW PRIVATE HEALTH</string>
+
+    <!-- review family and health private -->
+    <string name="review_fhs_title">Spouse</string>
+    <string name="review_fhs_des">Were you, or are you married or in a defacto relationship?</string>
+    <string name="review_fhs_first_name">SPOUSE IS FIRST NAME</string>
+    <string name="review_fhs_middle_name">SPOUSE IS MIDDLE NAME</string>
+    <string name="review_fhs_last_name">SPOUSE IS LAST NAME</string>
+    <string name="review_fhs_birth">SPOUSE IS DATE OF BIRTH</string>
+    <string name="review_fhs_taxable">$ SPOUSE IS TAXABLE INCOME</string>
 
 </resources>
