@@ -141,10 +141,12 @@ public class Constants {
     public static final String PARAMETER_REVIEW_DEDUCTION_REG = "reg_number";
     public static final String PARAMETER_REVIEW_AMOUNT = "amount";
     public static final String PARAMETER_REVIEW_TYPE = "type";
-    public static final String PARAMETER_REVIEW_DEDUCTION_COURSE ="course" ;
-    public static final String PARAMETER_REVIEW_INCOME_EDUCATIONS ="educations" ;
+    public static final String PARAMETER_REVIEW_DEDUCTION_COURSE = "course";
+    public static final String PARAMETER_REVIEW_INCOME_EDUCATIONS = "educations";
     public static final String PARAMETER_REVIEW_DEDUCTION_OTHER_DESCRIPTION = "description";
-    public static final String PARAMETER_REVIEW_DEDUCTION_OTHERS ="others" ;
+    public static final String PARAMETER_REVIEW_DEDUCTION_OTHERS = "others";
+    public static final String PARAMETER_REVIEW_DEDUCTION_DONATION = "donations";
+    public static final String PARAMETER_REVIEW_DONATION_OZ = "organization";
     public static int MAX_IMAGE_ATTACH = 9;
     public static final String INTENT_EXTRA_ALBUM = "album_name";
     public static final int REQUEST_CODE_PICK_IMAGE = 357;
