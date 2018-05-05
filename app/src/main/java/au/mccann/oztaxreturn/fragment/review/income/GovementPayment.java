@@ -352,7 +352,9 @@ public class GovementPayment extends BaseFragment implements View.OnClickListene
                     jsonArray.put(mId.getId());
                 govJson.put(Constants.PARAMETER_ATTACHMENTS, jsonArray);
             }
-            jsonRequest.put(Constants.PARAMETER_REVIEW_INCOME_GOVEMENT, govJson);
+            if (rbYes.isChecked())
+                jsonRequest.put(Constants.PARAMETER_REVIEW_INCOME_GOVEMENT, govJson);
+            else jsonRequest.put(Constants.PARAMETER_REVIEW_INCOME_GOVEMENT, new JSONObject());
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -365,9 +367,7 @@ public class GovementPayment extends BaseFragment implements View.OnClickListene
                 LogUtils.d(TAG, "doSaveReview code: " + response.code());
                 if (response.code() == Constants.HTTP_CODE_OK) {
                     LogUtils.d(TAG, "doSaveReview code: " + response.body().getJobs().toString());
-                    Bundle bundle = new Bundle();
-                    bundle.putInt(Constants.PARAMETER_APP_ID, appID);
-                    openFragment(R.id.layout_container, ReviewBankInterests.class, true, bundle, TransitionScreen.RIGHT_TO_LEFT);
+                    openFragment(R.id.layout_container, ReviewBankInterests.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
                 } else {
                     APIError error = Utils.parseError(response);
                     LogUtils.e(TAG, "doSaveReview error : " + error.message());
@@ -417,27 +417,25 @@ public class GovementPayment extends BaseFragment implements View.OnClickListene
 
                 if (rbYes.isChecked()) {
                     if (edtIncomeType.getText().toString().trim().isEmpty()) {
-                        showToolTipView(getContext(), edtIncomeType, Gravity.TOP, getString(R.string.valid_income_content), ContextCompat.getColor(getContext(), R.color.red));
+                        showToolTipView(getContext(), edtIncomeType, Gravity.TOP, getString(R.string.vali_all_empty), ContextCompat.getColor(getContext(), R.color.red));
                         return;
                     }
                     if (edtGrossPayment.getText().toString().trim().isEmpty()) {
-                        showToolTipView(getContext(), edtGrossPayment, Gravity.TOP, getString(R.string.valid_income_content), ContextCompat.getColor(getContext(), R.color.red));
+                        showToolTipView(getContext(), edtGrossPayment, Gravity.TOP, getString(R.string.vali_all_empty), ContextCompat.getColor(getContext(), R.color.red));
                         return;
                     }
                     if (edtTax.getText().toString().trim().isEmpty()) {
-                        showToolTipView(getContext(), edtTax, Gravity.TOP, getString(R.string.valid_income_content), ContextCompat.getColor(getContext(), R.color.red));
+                        showToolTipView(getContext(), edtTax, Gravity.TOP, getString(R.string.vali_all_empty), ContextCompat.getColor(getContext(), R.color.red));
                         return;
                     }
                     if (images.size() < 2) {
-                        showToolTipView(getContext(), grImage, Gravity.TOP, getString(R.string.valid_deduction_image), ContextCompat.getColor(getContext(), R.color.red));
+                        showToolTipView(getContext(), grImage, Gravity.TOP, getString(R.string.vali_all_empty), ContextCompat.getColor(getContext(), R.color.red));
                         return;
                     }
                     uploadImage();
 
                 } else {
-                    Bundle bundle = new Bundle();
-                    bundle.putInt(Constants.PARAMETER_APP_ID, appID);
-                    openFragment(R.id.layout_container, ReviewBankInterests.class, true, bundle, TransitionScreen.RIGHT_TO_LEFT);
+                    doSaveReview();
                 }
                 break;
 

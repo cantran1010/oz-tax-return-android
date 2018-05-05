@@ -26,7 +26,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="50dp"
+                android:layout_marginTop="20dp"
                 android:text="@string/income_other_resource"
                 android:textColor="@color/black"
                 android:textSize="@dimen/tv_size_xxxlager"
@@ -51,7 +51,7 @@
             <RadioGroup
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="50dp"
+                android:layout_marginTop="20dp"
                 android:orientation="vertical">
 
                 <au.mccann.oztaxreturn.view.RadioButtonCustom
@@ -69,7 +69,7 @@
                     android:id="@+id/rb_yes"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="25dp"
+                    android:layout_marginTop="20dp"
                     android:button="@drawable/checkbox_selector"
                     android:checked="false"
                     android:gravity="top"
@@ -82,7 +82,7 @@
                 android:id="@+id/layout_expandable"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:el_duration="500"
+                app:el_duration="1000"
                 app:el_expanded="false">
 
                 <LinearLayout
