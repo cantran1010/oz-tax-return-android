@@ -145,7 +145,7 @@
     <string name="phone_number">phone number</string>
     <string name="email_address">email address</string>
     <string name="submit">submit</string>
-    <string name="privacy_policy">* By lick ing on the button below. You agree with privacy policy  and term and conditions.</string>
+    <string name="privacy_policy">* By lick ing on the button below. You agree with Privacy policy and Term and conditions.</string>
     <string name="valid_app_bank_name">Enter bank account name</string>
     <string name="valid_app_bsb">Enter BSB</string>
     <string name="valid_app_account_number">Enter account number</string>
@@ -405,5 +405,41 @@
     <!-- review income Super Lump Sum -->
     <string name="lumsum_ask">Did you receive any superannuation lump sum payment?</string>
     <string name="lum_sums">Super Lump Sum</string>
+
+    <!-- review summary -->
+    <string name="summary_header">Estimate\ntax refund</string>
+    <string name="total_income">Total income</string>
+    <string name="government_payments">Government payments</string>
+    <string name="interest">Interest</string>
+    <string name="dividends">Dividends</string>
+    <string name="early_termination">Early termination</string>
+    <string name="super_income_stream">Super income stream</string>
+    <string name="super_lump_sum">Super lump sum</string>
+    <string name="renta_income">Rental Income</string>
+    <string name="other_income">Other income</string>
+    <string name="total_deduction">Total deduction</string>
+    <string name="vehicles">Vehicles</string>
+    <string name="work_related_clothing">Work related clothing</string>
+    <string name="work_related_education">Work related education</string>
+    <string name="other_work_related_expenses">Other work related expenses</string>
+    <string name="donations">Donations</string>
+    <string name="tax_agent_fees">Tax Agent fees</string>
+    <string name="bank_fees">Bank fees</string>
+    <string name="tax_payable">Tax payable</string>
+    <string name="tax_on">Tax on Taxable income</string>
+    <string name="medicare_levy">Medicare Levy</string>
+    <string name="medicare_levy_surcharge">Medicare Levy Surcharge</string>
+    <string name="repayment">HECS/HELP Repayment</string>
+    <string name="tax_offsets">Tax offsets</string>
+    <string name="tax_credits">Tax Credits</string>
+    <string name="offsets_credits"><![CDATA[Tax offset & Credits]]></string>
+    <string name="tax_widthheld_summary">Tax Widthheld</string>
+    <string name="condition">Conditions</string>
+    <string name="app_privacy_policy">Privacy policy</string>
+    <string name="dolla">$</string>
+    <string name="review_summary_title">review summary</string>
+    <string name="lodged_successfully">The application is lodged successfully</string>
+    <string name="app_term_conditions">Term and conditions</string>
+    <string name="lodge">lodge</string>
 
 </resources>

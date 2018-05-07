@@ -1,0 +1,279 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:minHeight="40dp"
+        android:id="@+id/lo_total_deduction"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal">
+
+        <au.mccann.oztaxreturn.view.TextViewCustom
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/tv_total_deduction"
+            android:layout_toStartOf="@+id/tv_total_deduction"
+            android:text="@string/total_deduction"
+            android:textColor="@color/sumitted"
+            android:textSize="@dimen/size_nomal" />
+
+        <au.mccann.oztaxreturn.view.TextViewCustom
+            android:id="@+id/tv_total_deduction"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/ic_deduction"
+            android:layout_toStartOf="@+id/ic_deduction"
+            android:text="$100.000"
+            android:textColor="@color/summary_deduction"
+            android:textSize="@dimen/size_nomal"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/ic_deduction"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:layout_marginStart="15dp"
+            android:src="@drawable/ic_drop_down" />
+    </RelativeLayout>
+
+    <au.mccann.oztaxreturn.view.ExpandableLayout
+        android:id="@+id/layout_deduction"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:el_duration="1000"
+        app:el_expanded="false">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center_horizontal">
+
+                <au.mccann.oztaxreturn.view.TextViewCustom
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@+id/tv_vehicles"
+                    android:layout_toStartOf="@+id/tv_vehicles"
+                    android:text="@string/vehicles"
+                    android:textColor="@color/tv_gray"
+                    android:textSize="@dimen/size_nomal" />
+
+                <au.mccann.oztaxreturn.view.TextViewCustom
+                    android:id="@+id/tv_vehicles"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginRight="20dp"
+                    android:text="$100.000"
+                    android:textColor="@color/summary_deduction"
+                    android:textSize="@dimen/size_nomal"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center_horizontal">
+
+                <au.mccann.oztaxreturn.view.TextViewCustom
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@+id/tv_work_related_clothing"
+                    android:layout_toStartOf="@+id/tv_work_related_clothing"
+                    android:text="@string/work_related_clothing"
+                    android:textColor="@color/tv_gray"
+                    android:textSize="@dimen/size_nomal" />
+
+                <au.mccann.oztaxreturn.view.TextViewCustom
+                    android:id="@+id/tv_work_related_clothing"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginRight="20dp"
+                    android:text="$100.000"
+                    android:textColor="@color/summary_deduction"
+                    android:textSize="@dimen/size_nomal"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center_horizontal">
+
+                <au.mccann.oztaxreturn.view.TextViewCustom
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@+id/tv_work_related_education"
+                    android:layout_toStartOf="@+id/tv_work_related_education"
+                    android:text="@string/work_related_education"
+                    android:textColor="@color/tv_gray"
+                    android:textSize="@dimen/size_nomal" />
+
+                <au.mccann.oztaxreturn.view.TextViewCustom
+                    android:id="@+id/tv_work_related_education"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginRight="20dp"
+                    android:text="$100.000"
+                    android:textColor="@color/summary_deduction"
+                    android:textSize="@dimen/size_nomal"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center_horizontal">
+
+                <au.mccann.oztaxreturn.view.TextViewCustom
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@+id/tv_other_work_related_expenses"
+                    android:layout_toStartOf="@+id/tv_other_work_related_expenses"
+                    android:text="@string/other_work_related_expenses"
+                    android:textColor="@color/tv_gray"
+                    android:textSize="@dimen/size_nomal" />
+
+                <au.mccann.oztaxreturn.view.TextViewCustom
+                    android:id="@+id/tv_other_work_related_expenses"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginRight="20dp"
+                    android:text="$100.000"
+                    android:textColor="@color/summary_deduction"
+                    android:textSize="@dimen/size_nomal"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center_horizontal">
+
+                <au.mccann.oztaxreturn.view.TextViewCustom
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@+id/tv_donations"
+                    android:layout_toStartOf="@+id/tv_donations"
+                    android:text="@string/donations"
+                    android:textColor="@color/tv_gray"
+                    android:textSize="@dimen/size_nomal" />
+
+                <au.mccann.oztaxreturn.view.TextViewCustom
+                    android:id="@+id/tv_donations"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginRight="20dp"
+                    android:text="$100.000"
+                    android:textColor="@color/summary_deduction"
+                    android:textSize="@dimen/size_nomal"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center_horizontal">
+
+                <au.mccann.oztaxreturn.view.TextViewCustom
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@+id/tv_tax_agent_fees"
+                    android:layout_toStartOf="@+id/tv_tax_agent_fees"
+                    android:text="@string/tax_agent_fees"
+                    android:textColor="@color/tv_gray"
+                    android:textSize="@dimen/size_nomal" />
+
+                <au.mccann.oztaxreturn.view.TextViewCustom
+                    android:id="@+id/tv_tax_agent_fees"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginRight="20dp"
+                    android:text="$100.000"
+                    android:textColor="@color/summary_deduction"
+                    android:textSize="@dimen/size_nomal"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center_horizontal">
+
+                <au.mccann.oztaxreturn.view.TextViewCustom
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@+id/tv_bank_fees"
+                    android:layout_toStartOf="@+id/tv_bank_fees"
+                    android:text="@string/bank_fees"
+                    android:textColor="@color/tv_gray"
+                    android:textSize="@dimen/size_nomal" />
+
+                <au.mccann.oztaxreturn.view.TextViewCustom
+                    android:id="@+id/tv_bank_fees"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginRight="20dp"
+                    android:text="$100.000"
+                    android:textColor="@color/summary_deduction"
+                    android:textSize="@dimen/size_nomal"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+        </LinearLayout>
+    </au.mccann.oztaxreturn.view.ExpandableLayout>
+</LinearLayout>

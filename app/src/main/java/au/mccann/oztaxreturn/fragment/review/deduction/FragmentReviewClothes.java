@@ -108,7 +108,7 @@ public class FragmentReviewClothes extends BaseFragment implements View.OnClickL
         attach = new ArrayList<>();
         appID = getApplicationResponse().getId();
         setTitle(getString(R.string.review_income_title));
-        appBarVisibility(true, true, 0);
+        appBarVisibility(true, true, 1);
         //images
         if (images.size() == 0) {
             final Image image = new Image();
