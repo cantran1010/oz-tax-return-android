@@ -16,11 +16,18 @@
 
 package au.mccann.oztaxreturn.fcm;
 
+import android.content.Context;
+import android.content.Intent;
+import android.os.Build;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
+
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import au.mccann.oztaxreturn.activity.LoginActivity;
 import au.mccann.oztaxreturn.utils.LogUtils;
 
 
@@ -49,6 +56,18 @@ public class MyFireBaseMessagingService extends FirebaseMessagingService {
         LogUtils.d(TAG, "onMessageReceived Message Data --> data : " + remoteMessage.getData().get("data"));
         GsonBuilder builder = new GsonBuilder();
         Gson gson = builder.create();
+
+        Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+        // Vibrate for 500 milliseconds
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            v.vibrate(VibrationEffect.createOneShot(1500,VibrationEffect.DEFAULT_AMPLITUDE));
+        }else{
+            //deprecated in API 26
+            v.vibrate(1500);
+        }
+
+        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+        startActivity(intent);
 
     }
 

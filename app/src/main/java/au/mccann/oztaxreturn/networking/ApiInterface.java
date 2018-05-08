@@ -5,6 +5,7 @@ import java.util.List;
 import au.mccann.oztaxreturn.model.Attachment;
 import au.mccann.oztaxreturn.model.DeductionResponse;
 import au.mccann.oztaxreturn.model.IncomeResponse;
+import au.mccann.oztaxreturn.model.Notification;
 import au.mccann.oztaxreturn.model.ResponseBasicInformation;
 import au.mccann.oztaxreturn.model.Summary;
 import au.mccann.oztaxreturn.model.UserReponse;
@@ -24,6 +25,7 @@ import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Part;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 /**
  * Created by CanTran on 5/23/17.
@@ -98,4 +100,10 @@ public interface ApiInterface {
 
     @PUT("application/{application_id}/review/lodge")
     Call<ApplicationResponse> loggeApplicaction(@Header("Authorization") String token, @Path("application_id") int appId);
+
+    @PUT("user/device")
+    Call<Void> updatePushToken(@Header("Authorization") String token, @Body RequestBody body);
+
+    @GET("notifications")
+    Call<List<Notification>> getNotitifications(@Header("Authorization") String token,@Query("since") String since,@Query("limit") int limit);
 }

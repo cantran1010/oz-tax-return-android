@@ -21,6 +21,18 @@ import android.util.Log;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.FirebaseInstanceIdService;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import au.mccann.oztaxreturn.database.UserManager;
+import au.mccann.oztaxreturn.networking.ApiClient;
+import au.mccann.oztaxreturn.utils.LogUtils;
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 
 public class MyFireBaseInstanceIDService extends FirebaseInstanceIdService {
 
@@ -52,31 +64,31 @@ public class MyFireBaseInstanceIDService extends FirebaseInstanceIdService {
      */
     private void sendRegistrationToServer(String token) {
         // Add custom implementation, as needed.
-//
-//        if (UserManager.checkLogin()) {
-//            final JSONObject jsonRequest = new JSONObject();
-//            try {
-//                jsonRequest.put(Constants.UPDATE_TOKEN_DEVICE_TOKEN, token);
-//                jsonRequest.put(Constants.UPDATE_TOKEN_DEVICE_TYPE, Constants.UPDATE_TOKEN_DEVICE_TYPE_ANDROID);
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//            }
-//
-//            LogUtils.d(TAG, "sendRegistrationToServer , jsonRequest : " + jsonRequest.toString());
-//            RequestBody body = RequestBody.create(MediaType.parse("application/json"), jsonRequest.toString());
-//            ApiClient.getApiService().updateDeviceToken(UserManager.getUserToken(), body).enqueue(new Callback<Void>() {
-//                @Override
-//                public void onResponse(Call<Void> call, Response<Void> response) {
-//                    LogUtils.d(TAG, "sendRegistrationToServer , body : " + response.body());
-//                    LogUtils.d(TAG, "sendRegistrationToServer , code : " + response.code());
-//                }
-//
-//                @Override
-//                public void onFailure(Call<Void> call, Throwable t) {
-//                    LogUtils.e(TAG, "sendRegistrationToServer , onFailure : " + t.getMessage());
-//                }
-//            });
-//        }
+
+        if (UserManager.checkLogin()) {
+            final JSONObject jsonRequest = new JSONObject();
+            try {
+                jsonRequest.put("token", token);
+                jsonRequest.put("type", "android");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            LogUtils.d(TAG, "sendRegistrationToServer , jsonRequest : " + jsonRequest.toString());
+            RequestBody body = RequestBody.create(MediaType.parse("application/json"), jsonRequest.toString());
+            ApiClient.getApiService().updatePushToken(UserManager.getUserToken(), body).enqueue(new Callback<Void>() {
+                @Override
+                public void onResponse(Call<Void> call, Response<Void> response) {
+                    LogUtils.d(TAG, "sendRegistrationToServer , body : " + response.body());
+                    LogUtils.d(TAG, "sendRegistrationToServer , code : " + response.code());
+                }
+
+                @Override
+                public void onFailure(Call<Void> call, Throwable t) {
+                    LogUtils.e(TAG, "sendRegistrationToServer , onFailure : " + t.getMessage());
+                }
+            });
+        }
     }
 
 }

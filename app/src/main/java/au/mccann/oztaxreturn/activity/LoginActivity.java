@@ -5,6 +5,8 @@ import android.text.SpannableString;
 import android.text.style.UnderlineSpan;
 import android.view.View;
 
+import com.google.firebase.iid.FirebaseInstanceId;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -109,6 +111,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                     user.setToken(response.body().getToken());
                     UserManager.insertUser(user);
                     startActivity(new Intent(LoginActivity.this, HomeActivity.class), TransitionScreen.RIGHT_TO_LEFT);
+
+                    sendRegistrationToServer();
                 } else {
                     APIError error = Utils.parseError(response);
                     if (error != null) {
@@ -143,6 +147,41 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             }
         });
 
+    }
+
+    private void sendRegistrationToServer() {
+        if (UserManager.checkLogin()) {
+            final JSONObject jsonRequest = new JSONObject();
+            try {
+                jsonRequest.put("token", FirebaseInstanceId.getInstance().getToken());
+                jsonRequest.put("type", "android");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            LogUtils.d(TAG, "sendRegistrationToServer , FirebaseInstanceId token : " + FirebaseInstanceId.getInstance().getToken());
+            LogUtils.d(TAG, "sendRegistrationToServer , jsonRequest : " + jsonRequest.toString());
+            RequestBody body = RequestBody.create(MediaType.parse("application/json"), jsonRequest.toString());
+            ApiClient.getApiService().updatePushToken(UserManager.getUserToken(), body).enqueue(new Callback<Void>() {
+                @Override
+                public void onResponse(Call<Void> call, Response<Void> response) {
+                    LogUtils.d(TAG, "sendRegistrationToServer , code : " + response.code());
+
+                    if (response.code() == Constants.HTTP_CODE_NO_CONTENT) {
+                        LogUtils.d(TAG, "sendRegistrationToServer , body : " + response.body());
+
+                    } else {
+                        APIError error = Utils.parseError(response);
+                        LogUtils.d(TAG, "sendRegistrationToServer error : " + error.message());
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<Void> call, Throwable t) {
+                    LogUtils.e(TAG, "sendRegistrationToServer , onFailure : " + t.getMessage());
+                }
+            });
+        }
     }
 
     @Override
