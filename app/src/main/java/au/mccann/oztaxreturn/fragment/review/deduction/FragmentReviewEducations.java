@@ -65,6 +65,7 @@ public class FragmentReviewEducations extends BaseFragment implements View.OnCli
     private final String[] permissions = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
     private String imgPath;
     private int countDown = 0;
+    private FloatingActionButton fab;
 
     @Override
     protected int getLayout() {
@@ -73,7 +74,7 @@ public class FragmentReviewEducations extends BaseFragment implements View.OnCli
 
     @Override
     protected void initView() {
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(this);
         ButtonCustom btnnext = (ButtonCustom) findViewById(R.id.btn_next);
         btnnext.setOnClickListener(this);
@@ -85,6 +86,7 @@ public class FragmentReviewEducations extends BaseFragment implements View.OnCli
     @Override
     protected void initData() {
         appID = getApplicationResponse().getId();
+        fab.setEnabled(isEditApp());
         setTitle(getString(R.string.review_income_title));
         appBarVisibility(true, true, 1);
         updateList();
@@ -351,9 +353,7 @@ public class FragmentReviewEducations extends BaseFragment implements View.OnCli
                 if (response.code() == Constants.HTTP_CODE_OK) {
                     LogUtils.d(TAG, "doSaveReview body: " + response.body().getEducations().toString());
                     LogUtils.d(TAG, " dividends image " + educations.toString());
-                    Bundle bundle = new Bundle();
-                    bundle.putInt(Constants.PARAMETER_APP_ID, appID);
-                    openFragment(R.id.layout_container, FragmentReviewOthers.class, true, bundle, TransitionScreen.RIGHT_TO_LEFT);
+                    openFragment(R.id.layout_container, FragmentReviewOthers.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
                 } else {
                     APIError error = Utils.parseError(response);
                     LogUtils.e(TAG, "doSaveReview error : " + error.message());
@@ -416,11 +416,14 @@ public class FragmentReviewEducations extends BaseFragment implements View.OnCli
                 adapter.notifyDataSetChanged();
                 break;
             case R.id.btn_next:
-                if (adapter.isExpend())
-                    uploadImage(educations);
-                else {
-                    doSaveReview();
-                }
+                if (isEditApp()) {
+                    if (adapter.isExpend())
+                        uploadImage(educations);
+                    else {
+                        doSaveReview();
+                    }
+                } else
+                    openFragment(R.id.layout_container, FragmentReviewOthers.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
                 break;
         }
 

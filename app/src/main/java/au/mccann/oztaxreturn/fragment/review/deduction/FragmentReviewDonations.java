@@ -65,6 +65,7 @@ public class FragmentReviewDonations extends BaseFragment implements View.OnClic
     private final String[] permissions = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
     private String imgPath;
     private int countDown = 0;
+    private FloatingActionButton fab;
 
     @Override
     protected int getLayout() {
@@ -73,7 +74,7 @@ public class FragmentReviewDonations extends BaseFragment implements View.OnClic
 
     @Override
     protected void initView() {
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(this);
         ButtonCustom btnnext = (ButtonCustom) findViewById(R.id.btn_next);
         btnnext.setOnClickListener(this);
@@ -85,6 +86,7 @@ public class FragmentReviewDonations extends BaseFragment implements View.OnClic
     @Override
     protected void initData() {
         appID = getApplicationResponse().getId();
+        fab.setEnabled(isEditApp());
         setTitle(getString(R.string.review_income_title));
         appBarVisibility(true, true, 1);
         updateList();
@@ -350,9 +352,7 @@ public class FragmentReviewDonations extends BaseFragment implements View.OnClic
                 if (response.code() == Constants.HTTP_CODE_OK) {
                     LogUtils.d(TAG, "doSaveReview body: " + response.body().getDonations().toString());
                     LogUtils.d(TAG, " dividends image " + donations.toString());
-                    Bundle bundle = new Bundle();
-                    bundle.putInt(Constants.PARAMETER_APP_ID, appID);
-                    openFragment(R.id.layout_container, FragmentReviewTaxAgent.class, true, bundle, TransitionScreen.RIGHT_TO_LEFT);
+                    openFragment(R.id.layout_container, FragmentReviewTaxAgent.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
                 } else {
                     APIError error = Utils.parseError(response);
                     LogUtils.e(TAG, "doSaveReview error : " + error.message());
@@ -415,11 +415,14 @@ public class FragmentReviewDonations extends BaseFragment implements View.OnClic
                 adapter.notifyDataSetChanged();
                 break;
             case R.id.btn_next:
-                if (adapter.isExpend())
-                    uploadImage(donations);
-                else {
-                    doSaveReview();
-                }
+                if (isEditApp()) {
+                    if (adapter.isExpend())
+                        uploadImage(donations);
+                    else {
+                        doSaveReview();
+                    }
+                } else
+                    openFragment(R.id.layout_container, FragmentReviewTaxAgent.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
                 break;
         }
 

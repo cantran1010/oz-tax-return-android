@@ -81,7 +81,8 @@ public class ReviewPersonalInfomationA extends BaseFragment implements View.OnCl
     @Override
     protected void initData() {
         setTitle(getString(R.string.infomation_a));
-        appBarVisibility(true, true,1);
+        appBarVisibility(true, true, 1);
+        imgEdit.setEnabled(isEditApp());
         getReviewInformation();
     }
 
@@ -285,12 +286,13 @@ public class ReviewPersonalInfomationA extends BaseFragment implements View.OnCl
                 openDatePicker();
                 break;
             case R.id.btn_next:
-                donext();
+                if (isEditApp()) donext();
+                else
+                    openFragment(R.id.layout_container, ReviewPersonalInfomationB.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
                 break;
             case R.id.img_edit:
                 doEdit();
                 break;
         }
     }
-
 }

@@ -64,6 +64,7 @@ public class FragmentReviewDividends extends BaseFragment implements View.OnClic
     private ArrayList<Image> images = new ArrayList<>();
     private final String[] permissions = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
     private String imgPath;
+    private FloatingActionButton fab;
 
     @Override
     protected int getLayout() {
@@ -72,7 +73,7 @@ public class FragmentReviewDividends extends BaseFragment implements View.OnClic
 
     @Override
     protected void initView() {
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(this);
         ButtonCustom btnnext = (ButtonCustom) findViewById(R.id.btn_next);
         btnnext.setOnClickListener(this);
@@ -84,6 +85,7 @@ public class FragmentReviewDividends extends BaseFragment implements View.OnClic
     @Override
     protected void initData() {
         appID = getApplicationResponse().getId();
+        fab.setEnabled(isEditApp());
         setTitle(getString(R.string.review_income_title));
         appBarVisibility(true, true, 1);
         updateList();
@@ -420,11 +422,14 @@ public class FragmentReviewDividends extends BaseFragment implements View.OnClic
                 adapter.notifyDataSetChanged();
                 break;
             case R.id.btn_next:
-                if (adapter.isExpend())
-                    uploadImage(dividends);
-                else {
-                    doSaveReview();
-                }
+                if (isEditApp()) {
+                    if (adapter.isExpend())
+                        uploadImage(dividends);
+                    else {
+                        doSaveReview();
+                    }
+                } else
+                    openFragment(R.id.layout_container, EarlyTerminationPayments.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
                 break;
         }
 

@@ -240,6 +240,17 @@ public abstract class BaseFragment extends Fragment implements SwipeRefreshLayou
     }
 
 
+    public boolean isEditApp() {
+        if (getActivity() instanceof HomeActivity)
+            return ((HomeActivity) getActivity()).isEditApp();
+        return false;
+    }
+
+    public void setEditApp(boolean edit) {
+        if (getActivity() instanceof HomeActivity)
+            ((HomeActivity) getActivity()).setEditApp(edit);
+    }
+
     public void updateAppInNavigation(ApplicationResponse applicationResponse) {
         if (getActivity() instanceof HomeActivity)
             ((HomeActivity) getActivity()).updateAppInNavigation(applicationResponse);

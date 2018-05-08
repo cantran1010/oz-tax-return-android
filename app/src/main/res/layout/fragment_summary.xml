@@ -17,7 +17,7 @@
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="20dp"
         android:background="@drawable/btn_selector"
-        android:text="@string/lodge" />
+        />
 
     <ScrollView
         android:layout_width="match_parent"

@@ -65,6 +65,7 @@ public class FragmentReviewOthers extends BaseFragment implements View.OnClickLi
     private final String[] permissions = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
     private String imgPath;
     private int countDown = 0;
+    private FloatingActionButton fab;
 
     @Override
     protected int getLayout() {
@@ -73,7 +74,7 @@ public class FragmentReviewOthers extends BaseFragment implements View.OnClickLi
 
     @Override
     protected void initView() {
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(this);
         ButtonCustom btnnext = (ButtonCustom) findViewById(R.id.btn_next);
         btnnext.setOnClickListener(this);
@@ -85,6 +86,7 @@ public class FragmentReviewOthers extends BaseFragment implements View.OnClickLi
     @Override
     protected void initData() {
         appID = getApplicationResponse().getId();
+        fab.setEnabled(isEditApp());
         setTitle(getString(R.string.review_income_title));
         appBarVisibility(true, true, 1);
         updateList();
@@ -414,11 +416,14 @@ public class FragmentReviewOthers extends BaseFragment implements View.OnClickLi
                 adapter.notifyDataSetChanged();
                 break;
             case R.id.btn_next:
-                if (adapter.isExpend())
-                    uploadImage(otherResponses);
-                else {
-                    doSaveReview();
-                }
+                if (isEditApp()) {
+                    if (adapter.isExpend())
+                        uploadImage(otherResponses);
+                    else {
+                        doSaveReview();
+                    }
+                } else
+                    openFragment(R.id.layout_container, FragmentReviewDonations.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
                 break;
         }
 

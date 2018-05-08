@@ -21,6 +21,7 @@ import au.mccann.oztaxreturn.dialog.AlertDialogOk;
 import au.mccann.oztaxreturn.dialog.AlertDialogOkAndCancel;
 import au.mccann.oztaxreturn.fragment.BaseFragment;
 import au.mccann.oztaxreturn.fragment.HomeFragment;
+import au.mccann.oztaxreturn.fragment.ReviewBeginBFragment;
 import au.mccann.oztaxreturn.model.APIError;
 import au.mccann.oztaxreturn.model.DeductionPart;
 import au.mccann.oztaxreturn.model.IncomePart;
@@ -48,14 +49,14 @@ import static au.mccann.oztaxreturn.utils.Utils.formatMoney;
 public class ReviewSummary extends BaseFragment implements View.OnClickListener {
     private static final String TAG = ReviewSummary.class.getSimpleName();
     private TextViewCustom tvTaxReturn, tvTotalIncome, tvTotalDeduction, tvTaxPayable, tvTaxWidthheld;
-    private TextViewCustom tvIncomeSalary, tvGovernmentPayments, tvInterest, tvDividends, tvEarlyTermination, tvSuperIncomeStream, tvSuperLumpSum, tvRentaIncome, tvOtherIncome;
+    private TextViewCustom tvIncomeSalary, tvGovernmentPayments, tvInterest, tvDividends, tvEarlyTermination, tvSuperIncomeStream, tvSuperLumpSum, tvRentaIncome;
     private TextViewCustom tvVehicles, tvWorkRelatedClothing, tvWorkRelatedEducation, tvOtherWorkRelatedExpenses, tvDonations, tvTaxAgentFees, tvBankFees;
     private TextViewCustom tvTaxOn, tvMedicareLevy, tvMedicareLevySurcharge, tvRepayment, tvTaxOffsets, tvTaxCredits;
     private ExpandableLayout layoutIncome, layoutTax, layoutDeduction;
-    private ButtonCustom btnReview;
     private ImageView icIncome, icDeduction, icTax;
     private int appID;
     private Animation anim_down, anim_up;
+    private ButtonCustom btnNext;
 
     @Override
     protected int getLayout() {
@@ -86,7 +87,6 @@ public class ReviewSummary extends BaseFragment implements View.OnClickListener 
         tvSuperIncomeStream = (TextViewCustom) findViewById(R.id.tv_super_income_stream);
         tvSuperLumpSum = (TextViewCustom) findViewById(R.id.tv_super_lump_sum);
         tvRentaIncome = (TextViewCustom) findViewById(R.id.tv_renta_income);
-        tvOtherIncome = (TextViewCustom) findViewById(R.id.tv_other_income);
 
         tvVehicles = (TextViewCustom) findViewById(R.id.tv_vehicles);
         tvWorkRelatedClothing = (TextViewCustom) findViewById(R.id.tv_work_related_clothing);
@@ -103,7 +103,8 @@ public class ReviewSummary extends BaseFragment implements View.OnClickListener 
         tvTaxOffsets = (TextViewCustom) findViewById(R.id.tv_tax_offsets);
         tvTaxCredits = (TextViewCustom) findViewById(R.id.tv_tax_credits);
 
-        findViewById(R.id.btn_review).setOnClickListener(this);
+        btnNext = (ButtonCustom) findViewById(R.id.btn_review);
+        btnNext.setOnClickListener(this);
         findViewById(R.id.lo_total_income).setOnClickListener(this);
         findViewById(R.id.lo_total_deduction).setOnClickListener(this);
         findViewById(R.id.lo_total_tax).setOnClickListener(this);
@@ -119,6 +120,8 @@ public class ReviewSummary extends BaseFragment implements View.OnClickListener 
     protected void initData() {
         setUnderLinePolicy((TextViewCustom) findViewById(R.id.tv_privacy_policy));
         appID = getApplicationResponse().getId();
+        if (isEditApp()) btnNext.setText(getContext().getString(R.string.lodge));
+        else btnNext.setText(getContext().getString(R.string.review));
         setTitle(getString(R.string.review_summary_title));
         appBarVisibility(false, true, 0);
         getReviewSummary();
@@ -144,7 +147,6 @@ public class ReviewSummary extends BaseFragment implements View.OnClickListener 
         tvSuperIncomeStream.setText(formatMoney(getContext(), Integer.parseInt(part.getSuperIncomeStream())));
         tvSuperLumpSum.setText(formatMoney(getContext(), Integer.parseInt(part.getSuperLumpSum())));
         tvRentaIncome.setText(formatMoney(getContext(), Integer.parseInt(part.getRentals())));
-//        tvOtherIncome.setText(formatMoney(getContext(), Integer.parseInt(part.getO())));
     }
 
     private void updateDeduction(DeductionPart part) {
@@ -175,7 +177,6 @@ public class ReviewSummary extends BaseFragment implements View.OnClickListener 
             img.startAnimation(anim_up);
         }
         expan.toggle();
-
     }
 
     private void closeExpandale(ExpandableLayout expan) {
@@ -355,7 +356,10 @@ public class ReviewSummary extends BaseFragment implements View.OnClickListener 
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_review:
-                lodgeApplication();
+                if (isEditApp())
+                    lodgeApplication();
+                else
+                    openFragment(R.id.layout_container, ReviewBeginBFragment.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
                 break;
             case R.id.lo_total_income:
                 expandableLayout(layoutIncome, icIncome);

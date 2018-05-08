@@ -50,7 +50,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:el_duration="1000"
-        app:el_expanded="true">
+        app:el_expanded="false">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -293,37 +293,6 @@
 
                 <au.mccann.oztaxreturn.view.TextViewCustom
                     android:id="@+id/tv_renta_income"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="20dp"
-                    android:layout_marginRight="20dp"
-                    android:text="$100.000"
-                    android:textColor="@color/sumitted"
-                    android:textSize="@dimen/size_nomal"
-                    android:textStyle="bold" />
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:gravity="center_horizontal">
-
-                <au.mccann.oztaxreturn.view.TextViewCustom
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_toLeftOf="@+id/tv_other_income"
-                    android:layout_toStartOf="@+id/tv_other_income"
-                    android:text="@string/other_income"
-                    android:textColor="@color/tv_gray"
-                    android:textSize="@dimen/size_nomal" />
-
-                <au.mccann.oztaxreturn.view.TextViewCustom
-                    android:id="@+id/tv_other_income"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"

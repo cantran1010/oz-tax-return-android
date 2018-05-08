@@ -66,6 +66,7 @@ public class ReviewPersonalInfomationC extends BaseFragment implements View.OnCl
 
     @Override
     protected void initData() {
+        imgEdit.setEnabled(isEditApp());
         getReviewInformationC();
     }
 
@@ -235,7 +236,9 @@ public class ReviewPersonalInfomationC extends BaseFragment implements View.OnCl
         switch (view.getId()) {
 
             case R.id.btn_next:
-                doNextC();
+                if (isEditApp()) doNextC();
+                else
+                    openFragment(R.id.layout_container, ReviewIncomeWS.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
                 break;
 
             case R.id.img_edit:

@@ -55,6 +55,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
     private RelativeLayout homeNavigation, reviewNavigation;
     private ApplicationResponse applicationResponse;
     private TextViewCustom tvAppName, tvYear;
+    private boolean editApp;
 
     @Override
     protected int getLayout() {
@@ -249,11 +250,9 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
         if (navigationVisibility) imgNavigation.setVisibility(View.VISIBLE);
         else
             imgNavigation.setVisibility(View.INVISIBLE);
-
         if (backVisibility) imgBack.setVisibility(View.VISIBLE);
         else
             imgBack.setVisibility(View.INVISIBLE);
-
         // 0 home navigation
         // 1 review navigation
         if (navigationType == 0) {
@@ -276,6 +275,14 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
 
     public void setTitle(String title) {
         tvTitle.setText(title);
+    }
+
+    public boolean isEditApp() {
+        return editApp;
+    }
+
+    public void setEditApp(boolean editApp) {
+        this.editApp = editApp;
     }
 
     private void doLogout() {

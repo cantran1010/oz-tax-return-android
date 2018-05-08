@@ -44,6 +44,7 @@ public class ReviewIncomeWS extends BaseFragment implements View.OnClickListener
     private ArrayList<Job> jobs = new ArrayList<>();
     private RecyclerView recyclerView;
     private int appID;
+    private FloatingActionButton fab;
 
     @Override
     protected int getLayout() {
@@ -52,7 +53,7 @@ public class ReviewIncomeWS extends BaseFragment implements View.OnClickListener
 
     @Override
     protected void initView() {
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(this);
         ButtonCustom btnnext = (ButtonCustom) findViewById(R.id.btn_next);
         btnnext.setOnClickListener(this);
@@ -64,8 +65,9 @@ public class ReviewIncomeWS extends BaseFragment implements View.OnClickListener
     @Override
     protected void initData() {
         appID = getApplicationResponse().getId();
+        fab.setEnabled(isEditApp());
         setTitle(getString(R.string.review_income_title));
-        appBarVisibility(true, false, 1);
+        appBarVisibility(true, true, 1);
         getReviewIncome();
         updateList();
     }
@@ -214,7 +216,10 @@ public class ReviewIncomeWS extends BaseFragment implements View.OnClickListener
                 jobAdapter.notifyDataSetChanged();
                 break;
             case R.id.btn_next:
-                doSaveReview();
+                if (isEditApp())
+                    doSaveReview();
+                else
+                    openFragment(R.id.layout_container, GovementPayment.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
                 break;
         }
 

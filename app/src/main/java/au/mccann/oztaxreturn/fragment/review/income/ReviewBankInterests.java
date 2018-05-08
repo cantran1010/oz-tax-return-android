@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
 import android.view.Gravity;
 import android.view.View;
@@ -78,6 +79,7 @@ public class ReviewBankInterests extends BaseFragment implements View.OnClickLis
     private Bank bank = new Bank();
     private ArrayList<Attachment> attach;
     private int appID;
+    private FloatingActionButton fab;
 
     @Override
     protected int getLayout() {
@@ -86,7 +88,8 @@ public class ReviewBankInterests extends BaseFragment implements View.OnClickLis
 
     @Override
     protected void initView() {
-        findViewById(R.id.fab).setOnClickListener(this);
+        fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(this);
         findViewById(R.id.btn_next).setOnClickListener(this);
         rbYes = (RadioButtonCustom) findViewById(R.id.rb_yes);
         rbYes.setEnabled(false);
@@ -114,6 +117,7 @@ public class ReviewBankInterests extends BaseFragment implements View.OnClickLis
         images = new ArrayList<>();
         attach = new ArrayList<>();
         appID = getApplicationResponse().getId();
+        fab.setEnabled(isEditApp());
         setTitle(getString(R.string.review_income_title));
         appBarVisibility(true, true, 1);
         //images
@@ -424,35 +428,39 @@ public class ReviewBankInterests extends BaseFragment implements View.OnClickLis
                 grImage.setEnabled(true);
                 break;
             case R.id.btn_next:
-                if (rbYes.isChecked()) {
-                    if (edtBankName.getText().toString().trim().isEmpty()) {
-                        showToolTipView(getContext(), edtBankName, Gravity.TOP, getString(R.string.vali_all_empty), ContextCompat.getColor(getContext(), R.color.red));
-                        return;
+
+                if (isEditApp()) {
+                    if (rbYes.isChecked()) {
+                        if (edtBankName.getText().toString().trim().isEmpty()) {
+                            showToolTipView(getContext(), edtBankName, Gravity.TOP, getString(R.string.vali_all_empty), ContextCompat.getColor(getContext(), R.color.red));
+                            return;
+                        }
+                        if (edtBankNumber.getText().toString().trim().isEmpty()) {
+                            showToolTipView(getContext(), edtBankNumber, Gravity.TOP, getString(R.string.vali_all_empty), ContextCompat.getColor(getContext(), R.color.red));
+                            return;
+                        }
+                        if (edtTotalInteres.getText().toString().trim().isEmpty()) {
+                            showToolTipView(getContext(), edtTotalInteres, Gravity.TOP, getString(R.string.vali_all_empty), ContextCompat.getColor(getContext(), R.color.red));
+                            return;
+                        }
+                        if (edtBankFees.getText().toString().trim().isEmpty()) {
+                            showToolTipView(getContext(), edtBankFees, Gravity.TOP, getString(R.string.vali_all_empty), ContextCompat.getColor(getContext(), R.color.red));
+                            return;
+                        }
+                        if (edtTax.getText().toString().trim().isEmpty()) {
+                            showToolTipView(getContext(), edtTax, Gravity.TOP, getString(R.string.vali_all_empty), ContextCompat.getColor(getContext(), R.color.red));
+                            return;
+                        }
+                        if (images.size() < 2) {
+                            showToolTipView(getContext(), grImage, Gravity.TOP, getString(R.string.valid_deduction_image), ContextCompat.getColor(getContext(), R.color.red));
+                            return;
+                        }
+                        uploadImage();
+                    } else {
+                        doSaveReview();
                     }
-                    if (edtBankNumber.getText().toString().trim().isEmpty()) {
-                        showToolTipView(getContext(), edtBankNumber, Gravity.TOP, getString(R.string.vali_all_empty), ContextCompat.getColor(getContext(), R.color.red));
-                        return;
-                    }
-                    if (edtTotalInteres.getText().toString().trim().isEmpty()) {
-                        showToolTipView(getContext(), edtTotalInteres, Gravity.TOP, getString(R.string.vali_all_empty), ContextCompat.getColor(getContext(), R.color.red));
-                        return;
-                    }
-                    if (edtBankFees.getText().toString().trim().isEmpty()) {
-                        showToolTipView(getContext(), edtBankFees, Gravity.TOP, getString(R.string.vali_all_empty), ContextCompat.getColor(getContext(), R.color.red));
-                        return;
-                    }
-                    if (edtTax.getText().toString().trim().isEmpty()) {
-                        showToolTipView(getContext(), edtTax, Gravity.TOP, getString(R.string.vali_all_empty), ContextCompat.getColor(getContext(), R.color.red));
-                        return;
-                    }
-                    if (images.size() < 2) {
-                        showToolTipView(getContext(), grImage, Gravity.TOP, getString(R.string.valid_deduction_image), ContextCompat.getColor(getContext(), R.color.red));
-                        return;
-                    }
-                    uploadImage();
-                } else {
-                    doSaveReview();
-                }
+                } else
+                    openFragment(R.id.layout_container, FragmentReviewDividends.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
                 break;
 
 

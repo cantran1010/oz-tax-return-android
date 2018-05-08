@@ -72,8 +72,8 @@ public class ReviewFamilyHealthDependantsFragment extends BaseFragment implement
     @Override
     protected void initData() {
         setTitle(getString(R.string.review_fhd_title));
-        appBarVisibility(true, true,1);
-
+        appBarVisibility(true, true, 1);
+        imgEdit.setEnabled(isEditApp());
         cbYes.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
@@ -249,9 +249,10 @@ public class ReviewFamilyHealthDependantsFragment extends BaseFragment implement
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-
             case R.id.btn_next:
-                doNext();
+                if (isEditApp()) doNext();
+                else
+                    openFragment(R.id.layout_container, ReviewFamilyHealthMedicareFragment.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
                 break;
 
             case R.id.img_edit:
