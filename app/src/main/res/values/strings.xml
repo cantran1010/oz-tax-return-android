@@ -460,4 +460,12 @@
     <string name="yesterday">yesterday</string>
     <string name="days_ago">day ago</string>
     <string name="month_ago">month ago</string>
+    <string name="no_data">No Data</string>
+    <string name="notification_reviewed">Application has been reviewed by Accountant</string>
+    <string name="notification_lodged_ato">Application has been lodged to ATO</string>
+    <string name="notification_auditing_ato">Application has been audited by ATO</string>
+    <string name="notification_completed">Application has been completed</string>
+    <string name="notification_active_user">Your account has been activated</string>
+    <string name="notification_deactivate_user">your account has been deactive</string>
+    <string name="notification_block_user">your account has been block</string>
 </resources>
