@@ -24,4 +24,9 @@
     <color name="sumitted">#333333</color>
     <color name="complete">#0e76bc</color>
     <color name="autiting">#e55a1d</color>
+    <color name="summary_bg">#f1f1f1</color>
+    <color name="summary_deduction">#7cc576</color>
+    <color name="summary_tax">#f7941d</color>
+    <color name="summary_offset">#c6107b</color>
+    <color name="summary_tax_widthheld">#577bb5</color>
 </resources>

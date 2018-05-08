@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
 import android.view.Gravity;
 import android.view.View;
@@ -79,6 +80,7 @@ public class FragmentReviewTaxAgent extends BaseFragment implements View.OnClick
     private TaxAgents taxAgents = new TaxAgents();
     private ArrayList<Attachment> attach;
     private int appID;
+    private FloatingActionButton fab;
 
     @Override
     protected int getLayout() {
@@ -87,7 +89,8 @@ public class FragmentReviewTaxAgent extends BaseFragment implements View.OnClick
 
     @Override
     protected void initView() {
-        findViewById(R.id.fab).setOnClickListener(this);
+        fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(this);
         findViewById(R.id.btn_next).setOnClickListener(this);
         rbYes = (RadioButtonCustom) findViewById(R.id.rb_yes);
         rbYes.setEnabled(false);
@@ -108,8 +111,9 @@ public class FragmentReviewTaxAgent extends BaseFragment implements View.OnClick
         images = new ArrayList<>();
         attach = new ArrayList<>();
         appID = getApplicationResponse().getId();
+        fab.setEnabled(isEditApp());
         setTitle(getString(R.string.review_income_title));
-        appBarVisibility(true, true, 0);
+        appBarVisibility(true, true, 1);
         //images
         if (images.size() == 0) {
             final Image image = new Image();
@@ -408,27 +412,29 @@ public class FragmentReviewTaxAgent extends BaseFragment implements View.OnClick
 //               if (rbYes.isChecked())Utils.showSoftKeyboard(getContext(), edtHow);
                 break;
             case R.id.btn_next:
-                final Bundle bundle = new Bundle();
-                if (rbYes.isChecked()) {
-                    if (edtOrgan.getText().toString().trim().isEmpty()) {
-                        edtOrgan.getParent().requestChildFocus(edtOrgan, edtOrgan);
-                        showToolTipView(getContext(), edtOrgan, Gravity.BOTTOM, getString(R.string.vali_all_empty), ContextCompat.getColor(getContext(), R.color.red));
-                        return;
-                    }
-                    if (edtAmount.getText().toString().trim().isEmpty()) {
-                        edtAmount.getParent().requestChildFocus(edtAmount, edtAmount);
-                        showToolTipView(getContext(), edtAmount, Gravity.TOP, getString(R.string.vali_all_empty), ContextCompat.getColor(getContext(), R.color.red));
-                        return;
-                    }
-                    if (images.size() < 2) {
-                        showToolTipView(getContext(), grImage, Gravity.TOP, getString(R.string.vali_all_empty), ContextCompat.getColor(getContext(), R.color.red));
-                        return;
-                    }
-                    uploadImage();
+                if (isEditApp()) {
+                    if (rbYes.isChecked()) {
+                        if (edtOrgan.getText().toString().trim().isEmpty()) {
+                            edtOrgan.getParent().requestChildFocus(edtOrgan, edtOrgan);
+                            showToolTipView(getContext(), edtOrgan, Gravity.BOTTOM, getString(R.string.vali_all_empty), ContextCompat.getColor(getContext(), R.color.red));
+                            return;
+                        }
+                        if (edtAmount.getText().toString().trim().isEmpty()) {
+                            edtAmount.getParent().requestChildFocus(edtAmount, edtAmount);
+                            showToolTipView(getContext(), edtAmount, Gravity.TOP, getString(R.string.vali_all_empty), ContextCompat.getColor(getContext(), R.color.red));
+                            return;
+                        }
+                        if (images.size() < 2) {
+                            showToolTipView(getContext(), grImage, Gravity.TOP, getString(R.string.vali_all_empty), ContextCompat.getColor(getContext(), R.color.red));
+                            return;
+                        }
+                        uploadImage();
 
-                } else {
-                    doSaveReview();
-                }
+                    } else {
+                        doSaveReview();
+                    }
+                } else
+                    openFragment(R.id.layout_container, ReviewFamilyHealthDependantsFragment.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
                 break;
 
 

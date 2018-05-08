@@ -44,6 +44,7 @@ public class ReviewPersonalInfomationB extends BaseFragment implements View.OnCl
     private ImageView imgEdit;
     private PersonalInfomationResponse personalInfomationResponse;
 
+
     @Override
     protected int getLayout() {
         return R.layout.review_personal_infomation_b_fragment;
@@ -68,6 +69,7 @@ public class ReviewPersonalInfomationB extends BaseFragment implements View.OnCl
 
     @Override
     protected void initData() {
+        imgEdit.setEnabled(isEditApp());
         getReviewInformationB();
     }
 
@@ -276,7 +278,10 @@ public class ReviewPersonalInfomationB extends BaseFragment implements View.OnCl
                 break;
 
             case R.id.btn_next:
-                doNextB();
+                if (isEditApp())
+                    doNextB();
+                else
+                    openFragment(R.id.layout_container, ReviewPersonalInfomationC.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
                 break;
         }
     }

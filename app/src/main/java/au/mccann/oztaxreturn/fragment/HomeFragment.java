@@ -18,6 +18,7 @@ import au.mccann.oztaxreturn.database.UserManager;
 import au.mccann.oztaxreturn.dialog.AlertDialogOk;
 import au.mccann.oztaxreturn.dialog.AlertDialogOkAndCancel;
 import au.mccann.oztaxreturn.fragment.basic.IncomeWagesSalaryFragment;
+import au.mccann.oztaxreturn.fragment.review.summary.ReviewSummary;
 import au.mccann.oztaxreturn.model.APIError;
 import au.mccann.oztaxreturn.networking.ApiClient;
 import au.mccann.oztaxreturn.rest.response.ApplicationResponse;
@@ -94,6 +95,7 @@ public class HomeFragment extends BaseFragment {
                 ApplicationResponse applicationResponse = applicationResponses.get(position);
                 switch (applicationResponse.getStatus()) {
                     case "init":
+                        setEditApp(true);
                         setApplicationResponse(applicationResponses.get(position));
                         updateAppInNavigation(applicationResponses.get(position));
                         openFragment(R.id.layout_container, IncomeWagesSalaryFragment.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
@@ -101,20 +103,27 @@ public class HomeFragment extends BaseFragment {
                     case "submitted":
                         setApplicationResponse(applicationResponses.get(position));
                         updateAppInNavigation(applicationResponses.get(position));
+                        setEditApp(true);
                         openFragment(R.id.layout_container, ReviewBeginAFragment.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
                         break;
                     case "reviewed":
+                        setEditApp(false);
                         setApplicationResponse(applicationResponses.get(position));
                         updateAppInNavigation(applicationResponses.get(position));
                         openFragment(R.id.layout_container, ReviewBeginBFragment.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
                         break;
                     case "lodged":
-
+                        setEditApp(false);
+                        setApplicationResponse(applicationResponses.get(position));
+                        updateAppInNavigation(applicationResponses.get(position));
+                        openFragment(R.id.layout_container, ReviewSummary.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
                         break;
                     case "auditing":
 
+
                         break;
                     case "completed":
+
 
                         break;
                 }

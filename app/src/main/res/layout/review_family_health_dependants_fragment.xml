@@ -108,8 +108,6 @@
                 android:textColor="@color/income_conten"
                 android:textColorHint="@color/tv_gray" />
         </LinearLayout>
-
-
     </LinearLayout>
 
     <au.mccann.oztaxreturn.view.ButtonCustom

@@ -480,6 +480,10 @@ public class Utils {
         return myFormatter.format(input);
     }
 
+    public static String formatMoney(Context context, int input) {
+        return context.getString(R.string.dolla) + formatNumber(input);
+    }
+
     // format phone number to nation format
     public static String formatPhoneNumber(String phoneStr) {
 

@@ -6,6 +6,7 @@ import au.mccann.oztaxreturn.model.Attachment;
 import au.mccann.oztaxreturn.model.DeductionResponse;
 import au.mccann.oztaxreturn.model.IncomeResponse;
 import au.mccann.oztaxreturn.model.ResponseBasicInformation;
+import au.mccann.oztaxreturn.model.Summary;
 import au.mccann.oztaxreturn.model.UserReponse;
 import au.mccann.oztaxreturn.rest.response.ApplicationResponse;
 import au.mccann.oztaxreturn.rest.response.FeeResponse;
@@ -91,4 +92,10 @@ public interface ApiInterface {
 
     @PUT("application/{application_id}/review/health")
     Call<ReviewFamilyHealthResponse> updateReviewFamilyHealth(@Header("Authorization") String token, @Path("application_id") int appId, @Body RequestBody body);
+
+    @GET("application/{application_id}/review/summary")
+    Call<Summary> getReviewSummary(@Header("Authorization") String token, @Path("application_id") int appId);
+
+    @PUT("application/{application_id}/review/lodge")
+    Call<ApplicationResponse> loggeApplicaction(@Header("Authorization") String token, @Path("application_id") int appId);
 }

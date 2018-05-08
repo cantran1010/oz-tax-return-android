@@ -72,6 +72,7 @@ public class ReviewIncomeSuperLumpSum extends BaseFragment implements View.OnCli
     private final String[] permissions = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
     private String imgPath;
     private Calendar calendar = GregorianCalendar.getInstance();
+    private FloatingActionButton fab;
 
     @Override
     protected int getLayout() {
@@ -80,20 +81,20 @@ public class ReviewIncomeSuperLumpSum extends BaseFragment implements View.OnCli
 
     @Override
     protected void initView() {
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(this);
         ButtonCustom btnnext = (ButtonCustom) findViewById(R.id.btn_next);
         btnnext.setOnClickListener(this);
         recyclerView = (RecyclerView) findViewById(R.id.rcv_job);
-
     }
 
 
     @Override
     protected void initData() {
         appID = getApplicationResponse().getId();
+        fab.setEnabled(isEditApp());
         setTitle(getString(R.string.review_income_title));
-        appBarVisibility(true, true, 0);
+        appBarVisibility(true, true, 1);
         updateList();
         getReviewIncome();
     }
@@ -451,11 +452,14 @@ public class ReviewIncomeSuperLumpSum extends BaseFragment implements View.OnCli
                 adapter.notifyDataSetChanged();
                 break;
             case R.id.btn_next:
-                if (adapter.isExpend())
-                    uploadImage(lumpSums);
-                else {
-                    doSaveReview();
-                }
+                if (isEditApp()) {
+                    if (adapter.isExpend())
+                        uploadImage(lumpSums);
+                    else {
+                        doSaveReview();
+                    }
+                } else
+                    openFragment(R.id.layout_container, RentalProperties.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
                 break;
         }
 
