@@ -77,7 +77,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> 
                 if (onClickListener != null) onClickListener.onClick(position);
             }
         });
-
+        holder.imgDelete.setVisibility(View.GONE);
         if (applicationResponse.getStatus().equals("init")) {
             holder.tvButton.setText(context.getString(R.string.start));
             holder.tvButton.setTextColor(ContextCompat.getColor(context, R.color.black));
@@ -90,7 +90,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> 
             holder.progressBar.setProgress(applicationResponse.getProgress());
             holder.tvProgress.setText(applicationResponse.getProgress() + "%");
             holder.tvProgress.setText(applicationResponse.getProgress() + "%");
-
+            holder.imgDelete.setVisibility(View.VISIBLE);
         } else if (applicationResponse.getStatus().equals("submitted")) {
             holder.tvButton.setText(context.getString(R.string.review));
             holder.tvButton.setTextColor(ContextCompat.getColor(context, R.color.white));
@@ -104,7 +104,6 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> 
             holder.tvStatus.setTextColor(ContextCompat.getColor(context, R.color.sumitted));
 
         } else if (applicationResponse.getStatus().equals("reviewed")) {
-
             holder.tvButton.setText(context.getString(R.string.review));
             holder.tvButton.setTextColor(ContextCompat.getColor(context, R.color.white));
             Utils.setViewBackground(holder.buttonLayout, ContextCompat.getDrawable(context, R.drawable.btn_blue_selector));
@@ -117,15 +116,37 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> 
             holder.tvStatus.setTextColor(ContextCompat.getColor(context, R.color.sumitted));
 
         } else if (applicationResponse.getStatus().equals("lodged")) {
-
-            holder.tvStatus.setTextColor(ContextCompat.getColor(context, R.color.complete));
+            holder.tvButton.setText(context.getString(R.string.review));
+            holder.tvButton.setTextColor(ContextCompat.getColor(context, R.color.white));
+            Utils.setViewBackground(holder.buttonLayout, ContextCompat.getDrawable(context, R.drawable.btn_blue_selector));
+            holder.tvButton.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.img_right_white, 0);
+            holder.progressBar.setVisibility(View.GONE);
+            holder.tvProgress.setVisibility(View.GONE);
+            holder.tvStatus.setVisibility(View.VISIBLE);
+            holder.tvStatus.setText(context.getString(R.string.lodge));
+            holder.tvStatus.setTextColor(ContextCompat.getColor(context, R.color.lodge));
 
         } else if (applicationResponse.getStatus().equals("auditing")) {
+            holder.tvButton.setText(context.getString(R.string.review));
+            holder.tvButton.setTextColor(ContextCompat.getColor(context, R.color.white));
+            Utils.setViewBackground(holder.buttonLayout, ContextCompat.getDrawable(context, R.drawable.btn_blue_selector));
+            holder.tvButton.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.img_right_white, 0);
+            holder.progressBar.setVisibility(View.GONE);
+            holder.tvProgress.setVisibility(View.GONE);
+            holder.tvStatus.setVisibility(View.VISIBLE);
+            holder.tvStatus.setText(context.getString(R.string.auditing));
             holder.tvStatus.setTextColor(ContextCompat.getColor(context, R.color.autiting));
 
         } else if (applicationResponse.getStatus().equals("completed")) {
+            holder.tvButton.setText(context.getString(R.string.review));
+            holder.tvButton.setTextColor(ContextCompat.getColor(context, R.color.white));
+            Utils.setViewBackground(holder.buttonLayout, ContextCompat.getDrawable(context, R.drawable.btn_blue_selector));
+            holder.tvButton.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.img_right_white, 0);
+            holder.progressBar.setVisibility(View.GONE);
+            holder.tvProgress.setVisibility(View.GONE);
+            holder.tvStatus.setVisibility(View.VISIBLE);
+            holder.tvStatus.setText(context.getString(R.string.completed));
             holder.tvStatus.setTextColor(ContextCompat.getColor(context, R.color.complete));
-
         } else {
             holder.progressBar.setVisibility(View.GONE);
             holder.tvProgress.setVisibility(View.GONE);

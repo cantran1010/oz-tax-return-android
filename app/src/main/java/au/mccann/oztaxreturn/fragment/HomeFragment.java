@@ -18,6 +18,7 @@ import au.mccann.oztaxreturn.database.UserManager;
 import au.mccann.oztaxreturn.dialog.AlertDialogOk;
 import au.mccann.oztaxreturn.dialog.AlertDialogOkAndCancel;
 import au.mccann.oztaxreturn.fragment.basic.IncomeWagesSalaryFragment;
+import au.mccann.oztaxreturn.fragment.review.summary.ReviewAfterBeingAudited;
 import au.mccann.oztaxreturn.fragment.review.summary.ReviewSummary;
 import au.mccann.oztaxreturn.model.APIError;
 import au.mccann.oztaxreturn.networking.ApiClient;
@@ -107,7 +108,7 @@ public class HomeFragment extends BaseFragment {
                         openFragment(R.id.layout_container, ReviewBeginAFragment.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
                         break;
                     case "reviewed":
-                        setEditApp(false);
+                        setEditApp(true);
                         setApplicationResponse(applicationResponses.get(position));
                         updateAppInNavigation(applicationResponses.get(position));
                         openFragment(R.id.layout_container, ReviewBeginBFragment.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
@@ -119,15 +120,18 @@ public class HomeFragment extends BaseFragment {
                         openFragment(R.id.layout_container, ReviewSummary.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
                         break;
                     case "auditing":
-
-
+                        setEditApp(true);
+                        setApplicationResponse(applicationResponses.get(position));
+                        updateAppInNavigation(applicationResponses.get(position));
+                        openFragment(R.id.layout_container, ReviewAfterBeingAudited.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
                         break;
                     case "completed":
-
-
+                        setEditApp(false);
+                        setApplicationResponse(applicationResponses.get(position));
+                        updateAppInNavigation(applicationResponses.get(position));
+                        openFragment(R.id.layout_container, ReviewSummary.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
                         break;
                 }
-
             }
         });
     }

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/summary_bg"
+    android:orientation="vertical"
+    android:paddingEnd="@dimen/left_right_margin_screen"
+    android:paddingLeft="@dimen/left_right_margin_screen"
+    android:paddingRight="@dimen/left_right_margin_screen"
+    android:paddingStart="@dimen/left_right_margin_screen">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/btn_review">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="50dp"
+                android:src="@drawable/img_auditing" />
+
+            <au.mccann.oztaxreturn.view.TextViewCustom
+                android:id="@+id/tv_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp"
+                android:gravity="center"
+                android:text="@string/review_auditing_title"
+                android:textColor="@color/black"
+                android:textSize="@dimen/tv_size_xlager"
+                android:textStyle="bold" />
+
+            <au.mccann.oztaxreturn.view.TextViewCustom
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_content"
+                android:layout_marginTop="20dp"
+                android:gravity="center"
+                android:text="@string/review_audi_content"
+                android:textColor="@color/black"
+                android:textSize="15sp" />
+
+            <View
+                android:layout_width="22dp"
+                android:layout_height="3.5dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:background="@color/app_bg" />
+
+        </LinearLayout>
+    </ScrollView>
+
+    <au.mccann.oztaxreturn.view.ButtonCustom
+        android:id="@+id/btn_review"
+        style="@style/Button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/btn_selector" />
+</RelativeLayout>

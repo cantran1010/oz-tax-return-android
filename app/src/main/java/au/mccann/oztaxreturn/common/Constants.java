@@ -153,6 +153,7 @@ public class Constants {
     public static final String PARAMETER_REVIEW_INCOME_LUMP_TAXED = "taxable_com_taxed";
     public static final String PARAMETER_REVIEW_INCOME_LUMP_UNTAXED ="taxable_com_untaxed" ;
     public static final String PARAMETER_REVIEW_INCOME_LUMP_DATE ="payment_date" ;
+    public static final String STATUS_COMPLETED ="completed" ;
     public static int MAX_IMAGE_ATTACH = 9;
     public static final String INTENT_EXTRA_ALBUM = "album_name";
     public static final int REQUEST_CODE_PICK_IMAGE = 357;

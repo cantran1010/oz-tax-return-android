@@ -325,7 +325,7 @@ public class ReviewFamilyHealthMedicareFragment extends BaseFragment implements 
     }
 
     private void updateUI() {
-        if (reviewFamilyHealthResponse.getMedicareResponse().isHad()) {
+        if (reviewFamilyHealthResponse.getMedicareResponse()!=null&&reviewFamilyHealthResponse.getMedicareResponse().isHad()) {
             cbYes.setChecked(true);
             cbNo.setChecked(false);
 

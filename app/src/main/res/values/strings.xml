@@ -440,6 +440,13 @@
     <string name="review_summary_title">review summary</string>
     <string name="lodged_successfully">The application is lodged successfully</string>
     <string name="app_term_conditions">Term and conditions</string>
-    <string name="lodge">lodge</string>
+    <string name="lodge">Lodge</string>
+    <string name="review_summary_note">Your application has been lodged. You can review it but no changes can be made at this state. You will be notified for any update of your aplication </string>
+    <string name="positive_tax_refund">Your application has been successfully completed. your tax refund has been transferred to your nominated bank account.</string>
+    <string name="negative_tax_refund">Your application has been successfully completed. You are required to pay</string>
+    <string name="negative_tax_refund_end">to ATO. Please download your payment slip here. You can also contact us if you wish to discuss about payment plans.</string>
+    <string name="Review_your_application">Review your application</string>
+    <string name="review_auditing_title">Your application has been audit by ATO.</string>
+    <string name="review_audi_content">Please review your application again and submit additional information and image require by ATO to relogde your application. Your can contact our accountant for free support.</string>
 
 </resources>

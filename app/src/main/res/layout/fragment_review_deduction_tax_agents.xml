@@ -137,7 +137,7 @@
                         android:textSize="@dimen/size_small" />
 
                     <au.mccann.oztaxreturn.view.EdittextCustom
-                        android:id="@+id/edt_km"
+                        android:id="@+id/edt_amount"
                         style="@style/EditText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
