@@ -2,6 +2,7 @@ package au.mccann.oztaxreturn.fragment;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -21,6 +22,7 @@ import au.mccann.oztaxreturn.utils.DialogUtils;
 import au.mccann.oztaxreturn.utils.LogUtils;
 import au.mccann.oztaxreturn.utils.ProgressDialogUtils;
 import au.mccann.oztaxreturn.utils.Utils;
+import au.mccann.oztaxreturn.view.TextViewCustom;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -35,6 +37,7 @@ public class NotificationFragment extends BaseFragment {
     private RecyclerView rcvList;
     private ArrayList<Notification> notifications = new ArrayList<>();
     private NotificationAdapter notificationAdapter;
+    private TextViewCustom tvNoData;
 
     @Override
     protected int getLayout() {
@@ -44,6 +47,7 @@ public class NotificationFragment extends BaseFragment {
     @Override
     protected void initView() {
         rcvList = (RecyclerView) findViewById(R.id.rcv_list);
+        tvNoData = (TextViewCustom) findViewById(R.id.tv_no_data);
     }
 
     @Override
@@ -82,6 +86,15 @@ public class NotificationFragment extends BaseFragment {
                 if (response.code() == Constants.HTTP_CODE_OK) {
                     LogUtils.d(TAG, "getNotification body : " + response.body());
                     notifications = (ArrayList<Notification>) response.body();
+
+                    if(notifications.size() > 0){
+                        rcvList.setVisibility(View.VISIBLE);
+                        tvNoData.setVisibility(View.GONE);
+                    }else {
+                        rcvList.setVisibility(View.GONE);
+                        tvNoData.setVisibility(View.VISIBLE);
+                    }
+
                     updateList();
                 } else {
                     APIError error = Utils.parseError(response);
