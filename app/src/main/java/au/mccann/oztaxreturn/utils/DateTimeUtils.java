@@ -15,6 +15,8 @@ import java.util.Locale;
 import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 
+import au.mccann.oztaxreturn.R;
+
 
 /**
  * Created by LongBui on 4/21/2017.
@@ -176,6 +178,14 @@ public class DateTimeUtils {
                 .format(date);
     }
 
+    public static String fromCalendarToDateNotification(final Calendar calendar) {
+        Date date = calendar.getTime();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+        return sdf
+                .format(date);
+    }
+
     /**
      * Transform Calendar to ISO 8601 string.
      */
@@ -241,7 +251,7 @@ public class DateTimeUtils {
             throws ParseException {
         String timeZone = Calendar.getInstance().getTimeZone().getID();
         Calendar calendar = GregorianCalendar.getInstance();
-        Date date = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.getDefault()).parse(iso8601string);
+        Date date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).parse(iso8601string);
         Date localDate = new Date(date.getTime() + TimeZone.getTimeZone(timeZone).getOffset(date.getTime()));
         calendar.setTime(localDate);
         return calendar;
@@ -348,6 +358,43 @@ public class DateTimeUtils {
         if (end < start) return 0;
         LogUtils.d(TAG, "minutesBetween : " + TimeUnit.MILLISECONDS.toMinutes(Math.abs(end - start)));
         return TimeUnit.MILLISECONDS.toMinutes(Math.abs(end - start));
+    }
+
+    public static String getTimeAgo(String date, Context context) {
+        String result = "";
+        long time;
+        try {
+            time = toCalendar(date).getTimeInMillis();
+            Calendar calendar = Calendar.getInstance();
+            long now = calendar.getTimeInMillis();
+            if (time > now || time <= 0) {
+                return context.getResources().getString(R.string.just_now);
+            }
+            long diff = now - time;
+            if (diff < MINUTE_MILLIS) {
+                result = context.getResources().getString(R.string.just_now);
+            } else if (diff < 2 * MINUTE_MILLIS) {
+                result = context.getResources().getString(R.string.minute_ago);
+            } else if (diff < 50 * MINUTE_MILLIS) {
+                result = diff / MINUTE_MILLIS + " " + context.getResources().getString(R.string.minutes_ago);
+            } else if (diff < 90 * MINUTE_MILLIS) {
+                result = context.getResources().getString(R.string.hour_ago);
+            } else if (diff < 24 * HOUR_MILLIS) {
+                result = diff / HOUR_MILLIS + " " + context.getResources().getString(R.string.hours_ago);
+            } else if (diff < 48 * HOUR_MILLIS) {
+                result = context.getResources().getString(R.string.yesterday);
+            } else if (diff < 30 * DAY_MILLIS) {
+                result = diff / DAY_MILLIS + " " + context.getResources().getString(R.string.days_ago);
+            } else if (diff < 12 * MONTH_MILLIS) {
+                result = diff / MONTH_MILLIS + " " + context.getResources().getString(R.string.month_ago);
+            } else {
+                result = DateTimeUtils.getOnlyDateFromIso(date);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return result;
     }
 
 }
