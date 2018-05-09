@@ -108,10 +108,9 @@ public class ReviewFamilyHealthDependantsFragment extends BaseFragment implement
     }
 
     private void updateUI() {
-        if (reviewFamilyHealthResponse.getDependantsResponse().isHad()) {
+        if (reviewFamilyHealthResponse.getDependantsResponse() != null && reviewFamilyHealthResponse.getDependantsResponse().isHad()) {
             layoutYes.setVisibility(View.VISIBLE);
             edtNumber.setText(reviewFamilyHealthResponse.getDependantsResponse().getNumber() + "");
-
             cbYes.setChecked(true);
             cbNo.setChecked(false);
         } else {

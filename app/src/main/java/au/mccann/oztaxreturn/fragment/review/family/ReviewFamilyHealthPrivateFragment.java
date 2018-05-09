@@ -401,7 +401,7 @@ public class ReviewFamilyHealthPrivateFragment extends BaseFragment implements V
     }
 
     private void updateUI() {
-        if (reviewPrivateResponses.size() == 0) {
+        if (reviewPrivateResponses != null && reviewPrivateResponses.size() == 0) {
             cbYes.setChecked(false);
             cbNo.setChecked(true);
         } else {
@@ -472,7 +472,9 @@ public class ReviewFamilyHealthPrivateFragment extends BaseFragment implements V
         switch (view.getId()) {
 
             case R.id.btn_next:
-              if (isEditApp()) doUploadImage();else openFragment(R.id.layout_container, ReviewFamilyHealthSpouseFragment.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
+                if (isEditApp()) doUploadImage();
+                else
+                    openFragment(R.id.layout_container, ReviewFamilyHealthSpouseFragment.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
                 break;
 
             case R.id.img_edit:

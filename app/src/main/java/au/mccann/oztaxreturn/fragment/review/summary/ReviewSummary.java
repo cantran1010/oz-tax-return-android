@@ -3,6 +3,7 @@ package au.mccann.oztaxreturn.fragment.review.summary;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
@@ -57,6 +58,7 @@ public class ReviewSummary extends BaseFragment implements View.OnClickListener 
     private int appID;
     private Animation anim_down, anim_up;
     private ButtonCustom btnNext;
+    private TextViewCustom tvPolicy;
 
     @Override
     protected int getLayout() {
@@ -70,6 +72,7 @@ public class ReviewSummary extends BaseFragment implements View.OnClickListener 
         tvTotalDeduction = (TextViewCustom) findViewById(R.id.tv_total_deduction);
         tvTaxPayable = (TextViewCustom) findViewById(R.id.tv_tax_payable);
         tvTaxWidthheld = (TextViewCustom) findViewById(R.id.tv_tax_widthheld);
+        tvPolicy = (TextViewCustom) findViewById(R.id.tv_privacy_policy);
 
         icIncome = (ImageView) findViewById(R.id.ic_income);
         icDeduction = (ImageView) findViewById(R.id.ic_deduction);
@@ -118,16 +121,28 @@ public class ReviewSummary extends BaseFragment implements View.OnClickListener 
 
     @Override
     protected void initData() {
-        setUnderLinePolicy((TextViewCustom) findViewById(R.id.tv_privacy_policy));
         appID = getApplicationResponse().getId();
         if (isEditApp()) btnNext.setText(getContext().getString(R.string.lodge));
         else btnNext.setText(getContext().getString(R.string.review));
         setTitle(getString(R.string.review_summary_title));
-        appBarVisibility(false, true, 0);
+        appBarVisibility(true, true, 1);
         getReviewSummary();
     }
 
     private void updateUI(Summary summary) {
+        if (summary.getStatus().equalsIgnoreCase(Constants.STATUS_COMPLETED)) {
+            if (Integer.parseInt(summary.getActualTaxRefund()) > 0) {
+                tvPolicy.setText(getContext().getString(R.string.positive_tax_refund));
+            } else {
+                String negativeTaxRefund = getContext().getString(R.string.negative_tax_refund) + getContext().getString(R.string.dolla) + summary.getActualTaxRefund() + getContext().getString(R.string.negative_tax_refund_end);
+                tvPolicy.setText(negativeTaxRefund);
+            }
+        } else {
+            if (isEditApp()) {
+                tvPolicy.setText(getContext().getString(R.string.privacy_policy));
+                setUnderLinePolicy(tvPolicy);
+            } else tvPolicy.setText(getContext().getString(R.string.review_summary_note));
+        }
         tvTaxReturn.setText(formatMoney(getContext(), Integer.parseInt(summary.getEstimatedTaxRefund())));
         tvTotalIncome.setText(formatMoney(getContext(), Integer.parseInt(summary.getIncome().getTotal())));
         tvTotalDeduction.setText(formatMoney(getContext(), Integer.parseInt(summary.getDeduction().getTotal())));
@@ -197,12 +212,14 @@ public class ReviewSummary extends BaseFragment implements View.OnClickListener 
         LogUtils.d(TAG, "getReviewSummary appID : " + appID);
         ApiClient.getApiService().getReviewSummary(UserManager.getUserToken(), appID).enqueue(new Callback<Summary>() {
             @Override
-            public void onResponse(Call<Summary> call, Response<Summary> response) {
+            public void onResponse(Call<Summary> call, @NonNull Response<Summary> response) {
                 ProgressDialogUtils.dismissProgressDialog();
                 LogUtils.d(TAG, "getReviewSummary code : " + response.code());
                 if (response.code() == Constants.HTTP_CODE_OK) {
 //                    LogUtils.d(TAG, "getReviewSummary body : " + response.body().toString());
-                    if (response.body() != null) updateUI(response.body());
+                    if (response.body() != null) {
+                        updateUI(response.body());
+                    }
                 } else {
                     APIError error = Utils.parseError(response);
                     if (error != null) {
@@ -219,7 +236,7 @@ public class ReviewSummary extends BaseFragment implements View.OnClickListener 
             }
 
             @Override
-            public void onFailure(Call<Summary> call, Throwable t) {
+            public void onFailure(@NonNull Call<Summary> call, @NonNull Throwable t) {
                 LogUtils.e(TAG, "getReviewSummary onFailure : " + t.getMessage());
                 ProgressDialogUtils.dismissProgressDialog();
                 DialogUtils.showRetryDialog(getActivity(), new AlertDialogOkAndCancel.AlertDialogListener() {
@@ -241,7 +258,7 @@ public class ReviewSummary extends BaseFragment implements View.OnClickListener 
         ProgressDialogUtils.showProgressDialog(getContext());
         ApiClient.getApiService().loggeApplicaction(UserManager.getUserToken(), appID).enqueue(new Callback<ApplicationResponse>() {
             @Override
-            public void onResponse(Call<ApplicationResponse> call, Response<ApplicationResponse> response) {
+            public void onResponse(@NonNull Call<ApplicationResponse> call, @NonNull Response<ApplicationResponse> response) {
                 ProgressDialogUtils.dismissProgressDialog();
                 LogUtils.d(TAG, "doSaveReview code: " + response.code());
                 if (response.code() == Constants.HTTP_CODE_OK) {
@@ -250,8 +267,8 @@ public class ReviewSummary extends BaseFragment implements View.OnClickListener 
                     openFragment(R.id.layout_container, HomeFragment.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
                 } else {
                     APIError error = Utils.parseError(response);
-                    LogUtils.e(TAG, "doSaveReview error : " + error.message());
                     if (error != null) {
+                        LogUtils.e(TAG, "doSaveReview error : " + error.message());
                         DialogUtils.showOkDialog(getContext(), getString(R.string.error), error.message(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
                             @Override
                             public void onSubmit() {
@@ -264,7 +281,7 @@ public class ReviewSummary extends BaseFragment implements View.OnClickListener 
             }
 
             @Override
-            public void onFailure(Call<ApplicationResponse> call, Throwable t) {
+            public void onFailure(@NonNull Call<ApplicationResponse> call, @NonNull Throwable t) {
                 LogUtils.e(TAG, "doSaveReview onFailure : " + t.getMessage());
                 ProgressDialogUtils.dismissProgressDialog();
                 DialogUtils.showRetryDialog(getContext(), new AlertDialogOkAndCancel.AlertDialogListener() {
@@ -358,8 +375,9 @@ public class ReviewSummary extends BaseFragment implements View.OnClickListener 
             case R.id.btn_review:
                 if (isEditApp())
                     lodgeApplication();
-                else
+                else {
                     openFragment(R.id.layout_container, ReviewBeginBFragment.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
+                }
                 break;
             case R.id.lo_total_income:
                 expandableLayout(layoutIncome, icIncome);

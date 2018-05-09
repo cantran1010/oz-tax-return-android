@@ -40,6 +40,7 @@ import au.mccann.oztaxreturn.dialog.AlertDialogOk;
 import au.mccann.oztaxreturn.dialog.AlertDialogOkAndCancel;
 import au.mccann.oztaxreturn.dialog.PickImageDialog;
 import au.mccann.oztaxreturn.fragment.BaseFragment;
+import au.mccann.oztaxreturn.fragment.HomeFragment;
 import au.mccann.oztaxreturn.fragment.review.summary.ReviewSummary;
 import au.mccann.oztaxreturn.model.APIError;
 import au.mccann.oztaxreturn.model.Attachment;
@@ -250,7 +251,10 @@ public class ReviewFamilyHealthSpouseFragment extends BaseFragment implements Vi
                 LogUtils.d(TAG, "doUpdate code : " + response.code());
                 if (response.code() == Constants.HTTP_CODE_OK) {
                     LogUtils.d(TAG, "doUpdate body : " + response.body().toString());
-                    openFragment(R.id.layout_container, ReviewSummary.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
+                    if (isEditApp())
+                        openFragment(R.id.layout_container, ReviewSummary.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
+                    else
+                        openFragment(R.id.layout_container, HomeFragment.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
                 } else {
                     APIError error = Utils.parseError(response);
                     LogUtils.d(TAG, "doUpdate error : " + error.message());
@@ -470,8 +474,10 @@ public class ReviewFamilyHealthSpouseFragment extends BaseFragment implements Vi
 
             case R.id.btn_next:
                 if (isEditApp()) doNext();
-                else
+                else if (isEditApp())
                     openFragment(R.id.layout_container, ReviewSummary.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
+                else
+                    openFragment(R.id.layout_container, HomeFragment.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
                 break;
 
             case R.id.img_edit:
