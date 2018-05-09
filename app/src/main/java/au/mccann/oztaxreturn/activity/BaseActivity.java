@@ -230,7 +230,9 @@ public abstract class BaseActivity extends AppCompatActivity implements SwipeRef
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
         View view = getCurrentFocus();
-        if (view != null && (ev.getAction() == MotionEvent.ACTION_UP || ev.getAction() == MotionEvent.ACTION_MOVE) && view instanceof EditText && !view.getClass().getName().startsWith("android.webkit.")) {
+
+        if (view != null && (ev.getAction() == MotionEvent.ACTION_UP || ev.getAction() == MotionEvent.ACTION_MOVE) && view instanceof EditText && !view.getClass().getName().startsWith("android.webkit.")
+                && !getResources().getResourceEntryName(view.getId()).equals("edt_msg")) {
             int scr_coord[] = new int[2];
             view.getLocationOnScreen(scr_coord);
             float x = ev.getRawX() + view.getLeft() - scr_coord[0];

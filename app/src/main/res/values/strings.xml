@@ -449,4 +449,29 @@
     <string name="review_auditing_title">Your application has been audit by ATO.</string>
     <string name="review_audi_content">Please review your application again and submit additional information and image require by ATO to relogde your application. Your can contact our accountant for free support.</string>
 
+    <!-- notification screen -->
+    <string name="notification_title">NOTIFICATION</string>
+    <string name="notification_day_ago">%1$d day ago</string>
+    <string name="just_now">just now</string>
+    <string name="minute_ago">1 minute ago</string>
+    <string name="minutes_ago">minute ago</string>
+    <string name="hour_ago">1 hour ago</string>
+    <string name="hours_ago">hour ago</string>
+    <string name="yesterday">yesterday</string>
+    <string name="days_ago">day ago</string>
+    <string name="month_ago">month ago</string>
+    <string name="no_data">No Data</string>
+    <string name="notification_reviewed">Application has been reviewed by Accountant</string>
+    <string name="notification_lodged_ato">Application has been lodged to ATO</string>
+    <string name="notification_auditing_ato">Application has been audited by ATO</string>
+    <string name="notification_completed">Application has been completed</string>
+    <string name="notification_active_user">Your account has been activated</string>
+    <string name="notification_deactivate_user">your account has been deactive</string>
+    <string name="notification_block_user">your account has been block</string>
+
+    <!-- connect accountant -->
+    <string name="connect_title">CONNECT ACCOUNTANT</string>
+    <string name="connect_language">My prefer language</string>
+    <string name="connect_des">Lets connect to our accountant for\nthe consultation</string>
+
 </resources>
