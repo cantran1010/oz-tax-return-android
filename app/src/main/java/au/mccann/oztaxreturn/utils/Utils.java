@@ -47,6 +47,7 @@ import au.mccann.oztaxreturn.R;
 import au.mccann.oztaxreturn.model.APIError;
 import au.mccann.oztaxreturn.model.Notification;
 import au.mccann.oztaxreturn.rest.response.ApplicationResponse;
+import au.mccann.oztaxreturn.view.EdittextCustom;
 import au.mccann.oztaxreturn.view.TextViewCustom;
 import okhttp3.ResponseBody;
 import retrofit2.Converter;
@@ -507,29 +508,35 @@ public class Utils {
         return result;
     }
 
-    public static String getContentNotification(Context context,Notification notification){
+    public static String getContentNotification(Context context, Notification notification) {
         String result = "";
 
         ApplicationResponse applicationResponse = notification.getApplication();
 
-        if(notification.getEvent().equals("admin_push")){
+        if (notification.getEvent().equals("admin_push")) {
             result = notification.getContent();
-        }else if(notification.getEvent().equals("app_reviewed")){
+        } else if (notification.getEvent().equals("app_reviewed")) {
             result = context.getString(R.string.notification_reviewed);
-        }else if(notification.getEvent().equals("app_lodged_ato")){
+        } else if (notification.getEvent().equals("app_lodged_ato")) {
             result = context.getString(R.string.notification_lodged_ato);
-        }else if(notification.getEvent().equals("app_auditing_ato")){
+        } else if (notification.getEvent().equals("app_auditing_ato")) {
             result = context.getString(R.string.notification_auditing_ato);
-        }else if(notification.getEvent().equals("app_completed")){
+        } else if (notification.getEvent().equals("app_completed")) {
             result = context.getString(R.string.notification_completed);
-        }else if(notification.getEvent().equals("active_user")){
+        } else if (notification.getEvent().equals("active_user")) {
             result = context.getString(R.string.notification_active_user);
-        }else if(notification.getEvent().equals("deactivate_user")){
+        } else if (notification.getEvent().equals("deactivate_user")) {
             result = context.getString(R.string.notification_deactivate_user);
-        }else if(notification.getEvent().equals("block_user")){
+        } else if (notification.getEvent().equals("block_user")) {
             result = context.getString(R.string.notification_block_user);
         }
         return result;
+    }
+
+    public static void showKeyboard(Context context, EdittextCustom edittextCustom) {
+        InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.showSoftInput(edittextCustom,
+                InputMethodManager.SHOW_IMPLICIT);
     }
 
 }

@@ -5,12 +5,14 @@ import java.util.List;
 import au.mccann.oztaxreturn.model.Attachment;
 import au.mccann.oztaxreturn.model.DeductionResponse;
 import au.mccann.oztaxreturn.model.IncomeResponse;
+import au.mccann.oztaxreturn.model.Message;
 import au.mccann.oztaxreturn.model.Notification;
 import au.mccann.oztaxreturn.model.ResponseBasicInformation;
 import au.mccann.oztaxreturn.model.Summary;
 import au.mccann.oztaxreturn.model.UserReponse;
 import au.mccann.oztaxreturn.rest.response.ApplicationResponse;
 import au.mccann.oztaxreturn.rest.response.FeeResponse;
+import au.mccann.oztaxreturn.rest.response.Language;
 import au.mccann.oztaxreturn.rest.response.PersonalInfomationResponse;
 import au.mccann.oztaxreturn.rest.response.ReviewFamilyHealthResponse;
 import okhttp3.MultipartBody;
@@ -105,5 +107,14 @@ public interface ApiInterface {
     Call<Void> updatePushToken(@Header("Authorization") String token, @Body RequestBody body);
 
     @GET("notifications")
-    Call<List<Notification>> getNotitifications(@Header("Authorization") String token,@Query("since") String since,@Query("limit") int limit);
+    Call<List<Notification>> getNotitifications(@Header("Authorization") String token, @Query("since") String since, @Query("limit") int limit);
+
+    @POST("message")
+    Call<Message> sendMsg(@Header("Authorization") String token, @Body RequestBody body);
+
+    @GET("messages")
+    Call<List<Message>> getMsg(@Header("Authorization") String token, @Query("since") String since, @Query("limit") int limit);
+
+    @GET("user/languages")
+    Call<List<Language>> getLanguage(@Header("Authorization") String token);
 }
