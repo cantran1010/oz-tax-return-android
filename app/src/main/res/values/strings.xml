@@ -425,4 +425,10 @@
     <string name="notification_active_user">Your account has been activated</string>
     <string name="notification_deactivate_user">your account has been deactive</string>
     <string name="notification_block_user">your account has been block</string>
+
+    <!-- connect accountant -->
+    <string name="connect_title">CONNECT ACCOUNTANT</string>
+    <string name="connect_language">My prefer language</string>
+    <string name="connect_des">Lets connect to our accountant for\nthe consultation</string>
+
 </resources>
