@@ -209,7 +209,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> 
                 if (response.code() == Constants.HTTP_CODE_NO_CONTENT) {
                     applicationResponses.remove(position);
                     notifyDataSetChanged();
-                } else {
+                }else {
                     DialogUtils.showRetryDialog(context, new AlertDialogOkAndCancel.AlertDialogListener() {
                         @Override
                         public void onSubmit() {

@@ -4,12 +4,14 @@ import java.util.List;
 
 import au.mccann.oztaxreturn.database.UserEntity;
 import au.mccann.oztaxreturn.model.Attachment;
+import au.mccann.oztaxreturn.model.BlockResponse;
 import au.mccann.oztaxreturn.model.DeductionResponse;
 import au.mccann.oztaxreturn.model.IncomeResponse;
 import au.mccann.oztaxreturn.model.Message;
 import au.mccann.oztaxreturn.model.Notification;
 import au.mccann.oztaxreturn.model.ResponseBasicInformation;
 import au.mccann.oztaxreturn.model.Summary;
+import au.mccann.oztaxreturn.model.UpdateResponse;
 import au.mccann.oztaxreturn.model.UserReponse;
 import au.mccann.oztaxreturn.rest.response.ApplicationResponse;
 import au.mccann.oztaxreturn.rest.response.FeeResponse;
@@ -109,6 +111,7 @@ public interface ApiInterface {
 
     @GET("notifications")
     Call<List<Notification>> getNotitifications(@Header("Authorization") String token, @Query("since") String since, @Query("limit") int limit);
+
     @GET("user")
     Call<UserEntity> getUserInformation(@Header("Authorization") String token);
 
@@ -120,6 +123,13 @@ public interface ApiInterface {
 
     @GET("user/languages")
     Call<List<Language>> getLanguage(@Header("Authorization") String token);
+
     @PUT("user")
     Call<UserEntity> updateUserInformation(@Header("Authorization") String token, @Body RequestBody body);
+
+    @GET("system/status")
+    Call<UpdateResponse> checkUpdate(@Header("Authorization") String token, @Query("device") String device, @Query("current_version") String version);
+
+    @GET("user/status")
+    Call<BlockResponse> checkBlockUser(@Header("Authorization") String token);
 }

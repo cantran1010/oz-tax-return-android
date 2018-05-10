@@ -256,7 +256,7 @@ public class DeductionFragment extends BaseFragment implements View.OnClickListe
                     Bundle bundle = new Bundle();
                     bundle.putSerializable(Constants.KEY_BASIC_INFORMATION, basic);
                     openFragment(R.id.layout_container, EstimateTaxRefund.class, true, bundle, TransitionScreen.RIGHT_TO_LEFT);
-                } else {
+                } else{
                     APIError error = Utils.parseError(response);
                     LogUtils.e(TAG, "doSaveBasic error : " + error.message());
                     if (error != null) {

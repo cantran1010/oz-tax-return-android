@@ -69,7 +69,7 @@ public class ManageAccount extends BaseActivity implements View.OnClickListener 
     private EdittextCustom edtUserName, edtOldPassWord, edtNewPassWord, edtNewPassWordAgain;
     private Spinner spGender;
     private final String[] permissions = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
-    private String imgPath;
+    private String imgPath = "";
     private Image image;
     private Calendar calendar = GregorianCalendar.getInstance();
     private List<String> genders = new ArrayList<>();
@@ -134,6 +134,7 @@ public class ManageAccount extends BaseActivity implements View.OnClickListener 
         datePickerDialog.getDatePicker().setMaxDate(new Date().getTime());
         datePickerDialog.show();
     }
+
     private void updateUI(UserEntity body) {
         if (body.getAvatar() != null) {
             Utils.displayImage(ManageAccount.this, imgAvatar, body.getAvatar().getUrl());
@@ -349,28 +350,28 @@ public class ManageAccount extends BaseActivity implements View.OnClickListener 
             return;
         }
         if (edtPostCode.getText().toString().trim().isEmpty()) {
-            showToolTipView(this, edtPostCode, Gravity.BOTTOM, getString(R.string.vali_all_empty),
+            showToolTipView(this, edtPostCode, Gravity.TOP, getString(R.string.vali_all_empty),
                     ContextCompat.getColor(this, R.color.red));
             edtPostCode.requestFocus();
             edtPostCode.getParent().requestChildFocus(edtPostCode, edtPostCode);
             return;
         }
         if (edtState.getText().toString().trim().isEmpty()) {
-            showToolTipView(this, edtState, Gravity.BOTTOM, getString(R.string.vali_all_empty),
+            showToolTipView(this, edtState, Gravity.TOP, getString(R.string.vali_all_empty),
                     ContextCompat.getColor(this, R.color.red));
             edtState.requestFocus();
             edtState.getParent().requestChildFocus(edtState, edtState);
             return;
         }
-        if (edtOldPassWord.getText().toString().trim().isEmpty()) {
-            showToolTipView(this, edtOldPassWord, Gravity.BOTTOM, getString(R.string.vali_all_empty),
-                    ContextCompat.getColor(this, R.color.red));
-            edtOldPassWord.requestFocus();
-            edtOldPassWord.getParent().requestChildFocus(edtOldPassWord, edtOldPassWord);
-            return;
-        }
+//        if (edtOldPassWord.getText().toString().trim().isEmpty()) {
+//            showToolTipView(this, edtOldPassWord, Gravity.TOP, getString(R.string.vali_all_empty),
+//                    ContextCompat.getColor(this, R.color.red));
+//            edtOldPassWord.requestFocus();
+//            edtOldPassWord.getParent().requestChildFocus(edtOldPassWord, edtOldPassWord);
+//            return;
+//        }
         if (0 < edtNewPassWordAgain.getText().toString().length() && edtOldPassWord.getText().toString().trim().length() < 5) {
-            showToolTipView(this, edtNewPassWordAgain, Gravity.BOTTOM, getString(R.string.vali_password_lenth),
+            showToolTipView(this, edtNewPassWordAgain, Gravity.TOP, getString(R.string.vali_password_lenth),
                     ContextCompat.getColor(this, R.color.red));
             edtNewPassWordAgain.requestFocus();
             edtNewPassWordAgain.getParent().requestChildFocus(edtNewPassWordAgain, edtNewPassWordAgain);
@@ -476,7 +477,8 @@ public class ManageAccount extends BaseActivity implements View.OnClickListener 
                 break;
             case R.id.img_back:
                 finish();
-                break;  case R.id.edt_birthday:
+                break;
+            case R.id.edt_birthday:
                 openDatePicker();
                 break;
         }

@@ -194,7 +194,7 @@ public class IncomeWagesSalaryFragment extends BaseFragment implements View.OnCl
                     APIError error = Utils.parseError(response);
                     if (error != null) {
                         LogUtils.d(TAG, "getBasicInformation error : " + error.message());
-                        DialogUtils.showOkDialog(getActivity(), getString(R.string.error), error.message(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                        DialogUtils.showOkDialog(getActivity(), getString(R.string.notification_title), error.message(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
                             @Override
                             public void onSubmit() {
 

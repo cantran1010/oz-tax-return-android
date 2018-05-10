@@ -8,7 +8,7 @@ public class Constants {
     public static final int HTTP_CODE_NO_CONTENT = 204;
     public static final int HTTP_CODE_BAD_REQUEST = 400;
     public static final int HTTP_CODE_UNAUTHORIZED = 401;
-    public static final int HTTP_CODE_FORBIDEN = 403;
+    public static final int HTTP_CODE_BLOCK = 403;
     public static final int HTTP_CODE_NOT_FOUND = 404;
     public static final int HTTP_CODE_UNPROCESSABLE_ENTITY = 422;
     public static final int HTTP_CODE_BLOCK_USER = 423;
@@ -171,6 +171,10 @@ public class Constants {
     public static final String PARAMETER_UPDATE_ACCOUNT_PASSWORD = "password";
     public static final String PARAMETER_UPDATE_ACCOUNT_NEW_PASSWORD = "new_password";
     public static final String PARAMETER_UPDATE_ACCOUNT_RE_NEW_PASSWORD = "re_new_password";
+    public static final String BLOCK_EXTRA ="block_account" ;
+    public static final String STATUS_USER_ACTIVIE ="active";
+    public static final String STATUS_USER_BLOCK = "block";
+    public static final String STATUS_USER_DEACTIVATE = "deactivate";
     public static int MAX_IMAGE_ATTACH = 9;
     public static final String INTENT_EXTRA_ALBUM = "album_name";
     public static final int REQUEST_CODE_PICK_IMAGE = 357;
