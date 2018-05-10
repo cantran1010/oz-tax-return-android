@@ -5,7 +5,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import au.mccann.oztaxreturn.R;
@@ -17,7 +16,6 @@ import au.mccann.oztaxreturn.dialog.AlertDialogOkAndCancel;
 import au.mccann.oztaxreturn.model.APIError;
 import au.mccann.oztaxreturn.model.Notification;
 import au.mccann.oztaxreturn.networking.ApiClient;
-import au.mccann.oztaxreturn.utils.DateTimeUtils;
 import au.mccann.oztaxreturn.utils.DialogUtils;
 import au.mccann.oztaxreturn.utils.LogUtils;
 import au.mccann.oztaxreturn.utils.ProgressDialogUtils;
@@ -56,7 +54,7 @@ public class NotificationFragment extends BaseFragment {
         setTitle(getString(R.string.notification_title));
         appBarVisibility(true, false, 0);
 
-        getNotification(DateTimeUtils.fromCalendarToDateNotification(Calendar.getInstance()),200);
+        getNotification(null,200);
     }
 
     @Override
@@ -75,10 +73,9 @@ public class NotificationFragment extends BaseFragment {
         rcvList.setAdapter(notificationAdapter);
     }
 
-
     private void getNotification(final String since, final int limmit) {
         ProgressDialogUtils.showProgressDialog(getActivity());
-        ApiClient.getApiService().getNotitifications(UserManager.getUserToken(), since,limmit).enqueue(new Callback<List<Notification>>() {
+        ApiClient.getApiService().getNotitifications(UserManager.getUserToken(), null,limmit).enqueue(new Callback<List<Notification>>() {
             @Override
             public void onResponse(Call<List<Notification>> call, Response<List<Notification>> response) {
                 ProgressDialogUtils.dismissProgressDialog();
