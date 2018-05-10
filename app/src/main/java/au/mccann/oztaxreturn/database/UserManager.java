@@ -17,22 +17,9 @@ public class UserManager {
         return userEntity != null && userEntity.getUserName() != null;
     }
 
-    public static UserEntity getMyUser() {
-        LogUtils.d(TAG, "getMyUser start ");
+    public static UserEntity getUserEntity() {
         Realm realm = Realm.getDefaultInstance();
-        // get last update
-        UserEntity userEntity = realm.where(UserEntity.class).findFirst();
-        if (userEntity != null) LogUtils.d(TAG, "getMyUser : " + userEntity.toString());
-        return userEntity;
-    }
-
-    public static UserEntity getUserById(int id) {
-        LogUtils.d(TAG, "getUser start ");
-        Realm realm = Realm.getDefaultInstance();
-        // get last update
-        UserEntity userEntity = realm.where(UserEntity.class).equalTo("id", id).findFirst();
-        if (userEntity != null) LogUtils.d(TAG, "getMyUser : " + userEntity.toString());
-        return userEntity;
+        return realm.where(UserEntity.class).findFirst();
     }
 
     public static String getUserToken() {
@@ -44,7 +31,7 @@ public class UserManager {
         if (realm.where(UserEntity.class) != null) {
             userEntity = realm.where(UserEntity.class).findFirst();
             if (userEntity != null) {
-                result = "Bearer " + userEntity.getToken();
+                result =  userEntity.getToken();
             }
         }
         LogUtils.d(TAG, "getUserToken result : " + result);

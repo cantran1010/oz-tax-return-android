@@ -25,16 +25,22 @@ public class UserEntity extends RealmObject implements Serializable {
     private String middleName;
     @SerializedName("last_name")
     private String lastName;
-    private String avatar;
+    private AvatarEntity avatar;
     private String birthday;
     private String gender;
     private String street;
     private String suburb;
-    private String postcode;
+    @SerializedName("postcode")
+    private String postCode;
     private String state;
-    private String language;
+    @SerializedName("language_id")
+    private String languageId;
     private String status;
     private String token;
+    @SerializedName("created_at")
+    private String createAt;
+    @SerializedName("updated_at")
+    private String updateAt;
 
     public int getId() {
         return id;
@@ -100,11 +106,11 @@ public class UserEntity extends RealmObject implements Serializable {
         this.lastName = lastName;
     }
 
-    public String getAvatar() {
+    public AvatarEntity getAvatar() {
         return avatar;
     }
 
-    public void setAvatar(String avatar) {
+    public void setAvatar(AvatarEntity avatar) {
         this.avatar = avatar;
     }
 
@@ -140,12 +146,12 @@ public class UserEntity extends RealmObject implements Serializable {
         this.suburb = suburb;
     }
 
-    public String getPostcode() {
-        return postcode;
+    public String getPostCode() {
+        return postCode;
     }
 
-    public void setPostcode(String postcode) {
-        this.postcode = postcode;
+    public void setPostCode(String postCode) {
+        this.postCode = postCode;
     }
 
     public String getState() {
@@ -156,12 +162,12 @@ public class UserEntity extends RealmObject implements Serializable {
         this.state = state;
     }
 
-    public String getLanguage() {
-        return language;
+    public String getLanguageId() {
+        return languageId;
     }
 
-    public void setLanguage(String language) {
-        this.language = language;
+    public void setLanguageId(String languageId) {
+        this.languageId = languageId;
     }
 
     public String getStatus() {
@@ -180,6 +186,22 @@ public class UserEntity extends RealmObject implements Serializable {
         this.token = token;
     }
 
+    public String getCreateAt() {
+        return createAt;
+    }
+
+    public void setCreateAt(String createAt) {
+        this.createAt = createAt;
+    }
+
+    public String getUpdateAt() {
+        return updateAt;
+    }
+
+    public void setUpdateAt(String updateAt) {
+        this.updateAt = updateAt;
+    }
+
     @Override
     public String toString() {
         return "UserEntity{" +
@@ -191,16 +213,18 @@ public class UserEntity extends RealmObject implements Serializable {
                 ", firstName='" + firstName + '\'' +
                 ", middleName='" + middleName + '\'' +
                 ", lastName='" + lastName + '\'' +
-                ", avatar='" + avatar + '\'' +
+                ", avatar=" + avatar +
                 ", birthday='" + birthday + '\'' +
                 ", gender='" + gender + '\'' +
                 ", street='" + street + '\'' +
                 ", suburb='" + suburb + '\'' +
-                ", postcode='" + postcode + '\'' +
+                ", postCode='" + postCode + '\'' +
                 ", state='" + state + '\'' +
-                ", language='" + language + '\'' +
+                ", languageId='" + languageId + '\'' +
                 ", status='" + status + '\'' +
                 ", token='" + token + '\'' +
+                ", createAt='" + createAt + '\'' +
+                ", updateAt='" + updateAt + '\'' +
                 '}';
     }
 }

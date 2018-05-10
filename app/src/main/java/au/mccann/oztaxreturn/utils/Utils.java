@@ -379,7 +379,7 @@ public class Utils {
                     bitmap = Bitmap.createScaledBitmap(bitmap, (int) (bitmap.getWidth() / scale), (int) (bitmap.getHeight() / scale), false);
                 }
 
-                fileOut = new File(FileUtils.getInstance().getHozoDirectory(), "image" + System.currentTimeMillis() + ".jpg");
+                fileOut = new File(FileUtils.getInstance().getMaximyzDirectory(), "image" + System.currentTimeMillis() + ".jpg");
                 Utils.compressBitmapToFile(bitmap, fileOut.getPath());
 
 //                //recycle bitmap
@@ -417,7 +417,7 @@ public class Utils {
                         bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), mat, true);
                     }
 
-                    fileOut = new File(FileUtils.getInstance().getHozoDirectory(), "image" + System.currentTimeMillis() + ".jpg");
+                    fileOut = new File(FileUtils.getInstance().getMaximyzDirectory(), "image" + System.currentTimeMillis() + ".jpg");
                     Utils.compressBitmapToFile(bitmap, fileOut.getPath());
 
 //                    bitmap.recycle();

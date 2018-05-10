@@ -217,7 +217,7 @@ public class EarlyTerminationPayments extends BaseFragment implements View.OnCli
     }
 
     private Uri setImageUri() {
-        File file = new File(FileUtils.getInstance().getHozoDirectory(), "image" + System.currentTimeMillis() + ".jpg");
+        File file = new File(FileUtils.getInstance().getMaximyzDirectory(), "image" + System.currentTimeMillis() + ".jpg");
         Uri imgUri = Uri.fromFile(file);
         this.imgPath = file.getAbsolutePath();
         return imgUri;

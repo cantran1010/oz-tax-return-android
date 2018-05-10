@@ -13,6 +13,7 @@ import android.widget.RelativeLayout;
 
 import au.mccann.oztaxreturn.R;
 import au.mccann.oztaxreturn.common.Constants;
+import au.mccann.oztaxreturn.database.UserEntity;
 import au.mccann.oztaxreturn.dialog.AlertDialogOkAndCancel;
 import au.mccann.oztaxreturn.fragment.ContactFragment;
 import au.mccann.oztaxreturn.fragment.HomeFragment;
@@ -44,18 +45,20 @@ import au.mccann.oztaxreturn.utils.TransitionScreen;
 import au.mccann.oztaxreturn.utils.Utils;
 import au.mccann.oztaxreturn.view.ExpandableLayout;
 import au.mccann.oztaxreturn.view.TextViewCustom;
+import de.hdodenhof.circleimageview.CircleImageView;
 import io.realm.Realm;
 
 public class HomeActivity extends BaseActivity implements View.OnClickListener {
     private static final String TAG = HomeActivity.class.getSimpleName();
     private DrawerLayout drawer;
     private ImageView imgHome, imgContact, imgNotification, imgBack, imgNavigation, imgLogout;
-    private TextViewCustom tvHome, tvContact, tvNotification, tvTitle, tvReviewPersonalName, tvReviewPersonalBank, tvReviewPersonalEducation, tvVersion;
+    private TextViewCustom tvHome, tvContact, tvNotification, tvTitle, tvReviewPersonalName, tvReviewPersonalBank, tvReviewPersonalEducation, tvVersion,tvName;
     private ExpandableLayout expPersonalLayout, expIncomesLayout, expDeductionsLayout, expFamilyLayout;
     private RelativeLayout homeNavigation, reviewNavigation;
     private ApplicationResponse applicationResponse;
     private TextViewCustom tvAppName, tvYear;
     private boolean editApp;
+    private CircleImageView imgAvatar;
 
     @Override
     protected int getLayout() {
@@ -69,11 +72,14 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
         imgContact = findViewById(R.id.img_home_menu2);
         imgNotification = findViewById(R.id.img_home_menu3);
 
+
         tvHome = findViewById(R.id.tv_home_menu1);
         tvContact = findViewById(R.id.tv_home_menu2);
         tvNotification = findViewById(R.id.tv_home_menu3);
+        tvName = findViewById(R.id.tv_user_name);
 
         imgNavigation = findViewById(R.id.img_navigation);
+        imgAvatar = findViewById(R.id.img_user_avatar);
 
         imgBack = findViewById(R.id.img_back);
         tvTitle = findViewById(R.id.tv_title);
@@ -120,6 +126,9 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
         findViewById(R.id.tv_deduction_donation).setOnClickListener(this);
         findViewById(R.id.tv_deduction_tax_agents).setOnClickListener(this);
 
+        tvName.setOnClickListener(this);
+        imgAvatar.setOnClickListener(this);
+
 
         homeNavigation = findViewById(R.id.home_navi_layout);
         reviewNavigation = findViewById(R.id.review_navi_layout);
@@ -146,6 +155,10 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
 
     @Override
     protected void resumeData() {
+        UserEntity userEntity = au.mccann.oztaxreturn.database.UserManager.getUserEntity();
+        if (userEntity.getAvatar() != null)
+            Utils.displayImage(HomeActivity.this, imgAvatar, userEntity.getAvatar().getUrl());
+        tvName.setText(userEntity.getUserName());
 
     }
 
@@ -423,6 +436,12 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
 
             // do not remove,must have
             case R.id.home_navi_layout:
+
+                break;
+            // do not remove,must have
+            case R.id.img_user_avatar:
+            case R.id.tv_user_name:
+                startActivity(new Intent(this, ManageAccount.class), TransitionScreen.RIGHT_TO_LEFT);
 
                 break;
 

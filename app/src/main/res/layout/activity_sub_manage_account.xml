@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <au.mccann.oztaxreturn.view.TextViewCustom
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:gravity="center"
+        android:text="@string/update_login_details"
+        android:textAllCaps="true"
+        android:textColor="@color/black"
+        android:textSize="25sp"
+        android:textStyle="bold" />
+
+    <View
+        android:layout_width="71dp"
+        android:layout_height="0.5dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="15dp"
+        android:background="@color/line_color" />
+
+    <au.mccann.oztaxreturn.view.TextViewCustom
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@string/username"
+        android:textAllCaps="true"
+        android:textColor="@color/tv_gray" />
+
+    <au.mccann.oztaxreturn.view.EdittextCustom
+        android:id="@+id/edt_user_name"
+        style="@style/EditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:inputType="text" />
+
+    <au.mccann.oztaxreturn.view.TextViewCustom
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@string/old_password"
+        android:textAllCaps="true"
+        android:textColor="@color/tv_gray" />
+
+    <au.mccann.oztaxreturn.view.EdittextCustom
+        android:id="@+id/edt_old_password"
+        style="@style/EditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:inputType="textPassword" />
+
+    <au.mccann.oztaxreturn.view.TextViewCustom
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@string/new_password"
+        android:textAllCaps="true"
+        android:textColor="@color/tv_gray" />
+
+    <au.mccann.oztaxreturn.view.EdittextCustom
+        android:id="@+id/edt_new_password"
+        style="@style/EditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:inputType="textPassword" />
+
+    <au.mccann.oztaxreturn.view.TextViewCustom
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@string/new_password_again"
+        android:textAllCaps="true"
+        android:textColor="@color/tv_gray" />
+
+    <au.mccann.oztaxreturn.view.EdittextCustom
+        android:id="@+id/edt_new_password_again"
+        style="@style/EditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:inputType="textPassword"
+        android:layout_marginBottom="20dp" />
+
+</LinearLayout>

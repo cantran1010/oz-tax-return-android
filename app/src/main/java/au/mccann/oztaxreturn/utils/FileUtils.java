@@ -10,7 +10,7 @@ import java.io.File;
 
 public class FileUtils {
 
-    public final static String OUTPUT_DIR = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + "hozo";
+    public final static String OUTPUT_DIR = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + "MAXIMYZ";
 
     private static FileUtils fileUtils;
 
@@ -49,7 +49,7 @@ public class FileUtils {
         path.delete();
     }
 
-    public static String getHozoDirectory() {
+    public static String getMaximyzDirectory() {
         return OUTPUT_DIR + File.separator;
     }
 
