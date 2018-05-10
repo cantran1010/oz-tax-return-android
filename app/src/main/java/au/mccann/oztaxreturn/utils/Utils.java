@@ -529,7 +529,11 @@ public class Utils {
             result = context.getString(R.string.notification_deactivate_user);
         } else if (notification.getEvent().equals("block_user")) {
             result = context.getString(R.string.notification_block_user);
-        }
+        } else if (notification.getEvent().equals("message_received")) {
+            result = notification.getContent();
+        } else
+            result = notification.getContent();
+
         return result;
     }
 

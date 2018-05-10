@@ -109,6 +109,7 @@ public interface ApiInterface {
 
     @GET("notifications")
     Call<List<Notification>> getNotitifications(@Header("Authorization") String token, @Query("since") String since, @Query("limit") int limit);
+
     @GET("user")
     Call<UserEntity> getUserInformation(@Header("Authorization") String token);
 
@@ -120,6 +121,7 @@ public interface ApiInterface {
 
     @GET("user/languages")
     Call<List<Language>> getLanguage(@Header("Authorization") String token);
+
     @PUT("user")
     Call<UserEntity> updateUserInformation(@Header("Authorization") String token, @Body RequestBody body);
 }

@@ -7,12 +7,14 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.Spinner;
 
@@ -28,6 +30,7 @@ import au.mccann.oztaxreturn.activity.AlbumActivity;
 import au.mccann.oztaxreturn.adapter.MessageAdapter;
 import au.mccann.oztaxreturn.adapter.OzSpinnerAdapter;
 import au.mccann.oztaxreturn.common.Constants;
+import au.mccann.oztaxreturn.database.UserEntity;
 import au.mccann.oztaxreturn.database.UserManager;
 import au.mccann.oztaxreturn.dialog.AlertDialogOk;
 import au.mccann.oztaxreturn.dialog.AlertDialogOkAndCancel;
@@ -68,6 +71,7 @@ public class ContactFragment extends BaseFragment implements View.OnClickListene
     private String imgPath;
     private File fileAttach;
     private Spinner spLanguage;
+    private ArrayList<Language> languagesArr = new ArrayList<>();
 
     @Override
     protected int getLayout() {
@@ -95,6 +99,7 @@ public class ContactFragment extends BaseFragment implements View.OnClickListene
 
         getMsg(null, LIMIT);
         getLanguage();
+
     }
 
     @Override
@@ -325,12 +330,17 @@ public class ContactFragment extends BaseFragment implements View.OnClickListene
                 LogUtils.d(TAG, "getLanguage code : " + response.code());
                 if (response.code() == Constants.HTTP_CODE_OK) {
                     LogUtils.d(TAG, "getLanguage body : " + response.body().toString());
+
+                    languagesArr = (ArrayList<Language>) response.body();
+
                     List<String> languages = new ArrayList<>();
                     for (Language language : response.body()) {
                         languages.add(language.getName());
                     }
                     OzSpinnerAdapter dataYearCreateAdapter = new OzSpinnerAdapter(getActivity(), languages);
                     spLanguage.setAdapter(dataYearCreateAdapter);
+
+                    getUserInformation();
                 } else {
                     APIError error = Utils.parseError(response);
                     if (error != null) {
@@ -354,6 +364,109 @@ public class ContactFragment extends BaseFragment implements View.OnClickListene
                     @Override
                     public void onSubmit() {
                         getLanguage();
+                    }
+
+                    @Override
+                    public void onCancel() {
+
+                    }
+                });
+            }
+        });
+    }
+
+    private void doUpdateLanguage() {
+        JSONObject salaryJson = new JSONObject();
+        try {
+            salaryJson.put(Constants.PARAMETER_UPDATE_ACCOUNT_LANGUAGE, languagesArr.get(spLanguage.getSelectedItemPosition()).getId());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        LogUtils.d(TAG, "doUpdateLanguage jsonRequest : " + salaryJson.toString());
+        RequestBody body = RequestBody.create(MediaType.parse("application/json"), salaryJson.toString());
+        ApiClient.getApiService().updateUserInformation(UserManager.getUserToken(), body).enqueue(new Callback<UserEntity>() {
+            @Override
+            public void onResponse(Call<UserEntity> call, Response<UserEntity> response) {
+                LogUtils.d(TAG, "doUpdateLanguage code: " + response.code());
+                if (response.code() == Constants.HTTP_CODE_OK) {
+                    LogUtils.d(TAG, "doUpdateLanguage boddy : " + response.body());
+                } else {
+                    APIError error = Utils.parseError(response);
+                    LogUtils.d(TAG, "doUpdateLanguage error : " + error.toString());
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<UserEntity> call, Throwable t) {
+                LogUtils.e(TAG, "updateUserInformation onFailure : " + t.getMessage());
+                ProgressDialogUtils.dismissProgressDialog();
+                DialogUtils.showRetryDialog(getActivity(), new AlertDialogOkAndCancel.AlertDialogListener() {
+                    @Override
+                    public void onSubmit() {
+                        doUpdateLanguage();
+                    }
+
+                    @Override
+                    public void onCancel() {
+
+                    }
+                });
+            }
+        });
+    }
+
+    private void getUserInformation() {
+        LogUtils.d(TAG, "getUserInformation getUserToken : " + UserManager.getUserToken());
+        ApiClient.getApiService().getUserInformation(UserManager.getUserToken()).enqueue(new Callback<UserEntity>() {
+            @Override
+            public void onResponse(Call<UserEntity> call, @NonNull Response<UserEntity> response) {
+                ProgressDialogUtils.dismissProgressDialog();
+                LogUtils.d(TAG, "getUserInformation code : " + response.code());
+                if (response.code() == Constants.HTTP_CODE_OK) {
+                    UserEntity user = response.body();
+
+                    int languageId = user.getLanguageId();
+
+                    for (int i = 0; i < languagesArr.size(); i++) {
+                        if (languageId == languagesArr.get(i).getId()) spLanguage.setSelection(i);
+                    }
+
+                    spLanguage.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                            doUpdateLanguage();
+                        }
+
+                        @Override
+                        public void onNothingSelected(AdapterView<?> parent) {
+
+                        }
+                    });
+
+
+                } else {
+                    APIError error = Utils.parseError(response);
+                    if (error != null) {
+                        LogUtils.d(TAG, "getUserInformation error : " + error.message());
+                        DialogUtils.showOkDialog(getActivity(), getString(R.string.error), error.message(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                            @Override
+                            public void onSubmit() {
+
+                            }
+                        });
+                    }
+                }
+
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<UserEntity> call, @NonNull Throwable t) {
+                LogUtils.e(TAG, "getUserInformation onFailure : " + t.getMessage());
+                DialogUtils.showRetryDialog(getActivity(), new AlertDialogOkAndCancel.AlertDialogListener() {
+                    @Override
+                    public void onSubmit() {
+                        getUserInformation();
                     }
 
                     @Override
