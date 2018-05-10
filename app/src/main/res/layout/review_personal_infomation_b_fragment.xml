@@ -21,32 +21,21 @@
             android:paddingBottom="30dp"
             android:visibility="visible">
 
-            <LinearLayout
-                android:layout_width="match_parent"
+            <au.mccann.oztaxreturn.view.TextViewCustom
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="20dp"
                 android:gravity="center"
-                android:orientation="horizontal">
-
-                <au.mccann.oztaxreturn.view.TextViewCustom
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/infomation_a_name"
-                    android:textColor="@color/black"
-                    android:textSize="25sp" />
-
-                <ImageView
-                    android:id="@+id/img_edit"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:src="@drawable/img_edit" />
-
-            </LinearLayout>
+                android:text="@string/infomation_a_name"
+                android:textColor="@color/black"
+                android:textSize="30sp" />
 
             <View
                 android:layout_width="30dp"
                 android:layout_height="3dp"
                 android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp"
                 android:background="@color/app_bg" />
 
             <au.mccann.oztaxreturn.view.TextViewCustom
@@ -327,8 +316,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="20dp"
         android:background="@drawable/btn_selector"
         android:text="@string/next" />
+
+    <ImageView
+        android:id="@+id/img_edit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="20dp"
+        android:src="@drawable/img_edit" />
 
 </RelativeLayout>
