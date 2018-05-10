@@ -57,7 +57,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 
         final Notification notification = notifications.get(position);
 
-        Utils.displayImageAvatar(context,holder.imgAvata, UserManager.getMyUser().getAvatar());
+        Utils.displayImageAvatar(context,holder.imgAvata, UserManager.getUserEntity().getAvatar().getUrl());
         holder.tvContent.setText(Utils.getContentNotification(context,notification));
         holder.tvTimeAgo.setText(DateTimeUtils.getTimeAgo(notification.getCreatedAt(),context));
 

@@ -82,7 +82,7 @@ public class PersonInforFragment extends BaseFragment implements View.OnClickLis
     @Override
     protected void initData() {
         setTitle(getString(R.string.personal_information_title));
-        appBarVisibility(false, true,0);
+        appBarVisibility(false, true, 0);
         basic = (ResponseBasicInformation) getArguments().getSerializable(Constants.KEY_BASIC_INFORMATION);
         appID = basic.getAppId();
         LogUtils.d(TAG, "initData ResponseBasicInformation" + basic.toString());
@@ -102,8 +102,10 @@ public class PersonInforFragment extends BaseFragment implements View.OnClickLis
         edtBirthDay.setText(pf.getBirthday());
         edtTitle.setText(pf.getTitle());
         for (int i = 0; i < genders.size(); i++) {
-            if (pf.getGender().equalsIgnoreCase(genders.get(i))) spGender.setSelection(i);
-            return;
+            if (pf.getGender().equalsIgnoreCase(genders.get(i))) {
+                spGender.setSelection(i);
+                return;
+            }
         }
         rbYes.setChecked(pf.isLocal());
     }

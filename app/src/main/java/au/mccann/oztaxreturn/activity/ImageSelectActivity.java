@@ -16,7 +16,6 @@ import au.mccann.oztaxreturn.R;
 import au.mccann.oztaxreturn.adapter.ImageSelectAdapter;
 import au.mccann.oztaxreturn.common.Constants;
 import au.mccann.oztaxreturn.model.Image;
-import au.mccann.oztaxreturn.utils.TransitionScreen;
 import au.mccann.oztaxreturn.utils.Utils;
 import au.mccann.oztaxreturn.view.TextViewCustom;
 
@@ -158,16 +157,16 @@ public class ImageSelectActivity extends BaseActivity implements View.OnClickLis
         return selectedImages;
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == Constants.REQUEST_CODE_CROP_IMAGE
-                && resultCode == Constants.RESPONSE_CODE_CROP_IMAGE
-                && data != null) {
-            setResult(Constants.RESPONSE_CODE_PICK_IMAGE, data);
-            finish();
-        }
-    }
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        if (requestCode == Constants.REQUEST_CODE_CROP_IMAGE
+//                && resultCode == Constants.RESPONSE_CODE_CROP_IMAGE
+//                && data != null) {
+//            setResult(Constants.RESPONSE_CODE_PICK_IMAGE, data);
+//            finish();
+//        }
+//    }
 
     @Override
     public void onClick(View v) {
@@ -181,17 +180,7 @@ public class ImageSelectActivity extends BaseActivity implements View.OnClickLis
                 if (getSelectedImage().size() == 0) {
                     Utils.showLongToast(ImageSelectActivity.this, getString(R.string.err_pick_image), false, false);
                 } else {
-
-                    if (isCropProfile) {
-
-//                        Image imageCrop = getSelectedImage().get(0);
-//                        Intent intent = new Intent(ImageSelectActivity.this, CropImageActivity.class);
-//                        intent.putExtra(Constants.EXTRA_IMAGE_PATH, imageCrop.getPath());
-//                        startActivityForResult(intent, Constants.REQUEST_CODE_CROP_IMAGE, TransitionScreen.RIGHT_TO_LEFT);
-                    } else {
-                        sendIntent();
-                    }
-
+                    sendIntent();
                 }
                 break;
 

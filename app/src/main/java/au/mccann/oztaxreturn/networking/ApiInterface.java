@@ -2,6 +2,7 @@ package au.mccann.oztaxreturn.networking;
 
 import java.util.List;
 
+import au.mccann.oztaxreturn.database.UserEntity;
 import au.mccann.oztaxreturn.model.Attachment;
 import au.mccann.oztaxreturn.model.DeductionResponse;
 import au.mccann.oztaxreturn.model.IncomeResponse;
@@ -108,6 +109,8 @@ public interface ApiInterface {
 
     @GET("notifications")
     Call<List<Notification>> getNotitifications(@Header("Authorization") String token, @Query("since") String since, @Query("limit") int limit);
+    @GET("user")
+    Call<UserEntity> getUserInformation(@Header("Authorization") String token);
 
     @POST("message")
     Call<Message> sendMsg(@Header("Authorization") String token, @Body RequestBody body);
@@ -117,4 +120,6 @@ public interface ApiInterface {
 
     @GET("user/languages")
     Call<List<Language>> getLanguage(@Header("Authorization") String token);
+    @PUT("user")
+    Call<UserEntity> updateUserInformation(@Header("Authorization") String token, @Body RequestBody body);
 }

@@ -108,7 +108,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 if (response.code() == Constants.HTTP_CODE_OK) {
                     LogUtils.d(TAG, "doLogin body : " + response.body().toString());
                     UserEntity user = response.body().getUser();
-                    user.setToken(response.body().getToken());
+                    String tken="Bearer "+response.body().getToken();
+                    user.setToken(tken);
                     UserManager.insertUser(user);
                     startActivity(new Intent(LoginActivity.this, HomeActivity.class), TransitionScreen.RIGHT_TO_LEFT);
 

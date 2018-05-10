@@ -473,5 +473,20 @@
     <string name="connect_title">CONNECT ACCOUNTANT</string>
     <string name="connect_language">My prefer language</string>
     <string name="connect_des">Lets connect to our accountant for\nthe consultation</string>
+    <!-- review manage account -->
+    <string name="manage_account">Manage account</string>
+    <string name="update_information">Update personal\ninfomation</string>
+    <string name="manage_title">title</string>
+    <string name="format_date">YYYY-MM-DD</string>
+    <string name="username">username</string>
+    <string name="old_password">old password</string>
+    <string name="new_password">new password</string>
+    <string name="new_password_again">new password again</string>
+    <string name="save">save</string>
+    <string name="vali_password_lenth">enter at least 5 characters</string>
+    <string name="password_incorrect">password.incorrect</string>
+    <string name="password_confirm">password.confirm</string>
+    <string name="update_login_details">Update login details</string>
+    <string name="update_successful">Update successful!</string>
 
 </resources>
