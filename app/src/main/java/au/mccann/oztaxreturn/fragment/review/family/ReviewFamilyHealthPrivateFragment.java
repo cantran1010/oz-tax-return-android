@@ -78,7 +78,6 @@ public class ReviewFamilyHealthPrivateFragment extends BaseFragment implements V
     private RelativeLayout layoutAdd;
     private boolean isEdit = false;
 
-
     @Override
     protected int getLayout() {
         return R.layout.review_family_health_private_fragment;

@@ -1,6 +1,7 @@
 package au.mccann.oztaxreturn.fragment;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 
 import org.json.JSONException;
@@ -102,12 +103,17 @@ public class FirstCheckoutFragment extends BaseFragment implements View.OnClickL
                     APIError error = Utils.parseError(response);
                     LogUtils.d(TAG, "checkPromotionCode error : " + error.message());
                     if (error != null) {
-                        DialogUtils.showOkDialog(getActivity(), getString(R.string.error), error.message(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                        DialogUtils.showOkAndCancelDialog(getActivity(), getString(R.string.app_name), getString(R.string.promotion_error), getString(R.string.Yes), getString(R.string.No), new AlertDialogOkAndCancel.AlertDialogListener() {
                             @Override
                             public void onSubmit() {
                                 Bundle bundle = new Bundle();
                                 bundle.putSerializable(Constants.PARAMETER_FEE_EXTRA, feeResponse);
                                 openFragment(R.id.layout_container, CheckoutFragment.class, true, bundle, TransitionScreen.RIGHT_TO_LEFT);
+                            }
+
+                            @Override
+                            public void onCancel() {
+
                             }
                         });
                     }
@@ -188,7 +194,14 @@ public class FirstCheckoutFragment extends BaseFragment implements View.OnClickL
         switch (view.getId()) {
 
             case R.id.btn_next:
-                doNext();
+
+                if (TextUtils.isEmpty(edtPromotionCode.getText().toString().trim())) {
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable(Constants.PARAMETER_FEE_EXTRA, feeResponse);
+                    openFragment(R.id.layout_container, CheckoutFragment.class, true, bundle, TransitionScreen.RIGHT_TO_LEFT);
+                } else
+                    doNext();
+
                 break;
 
         }
