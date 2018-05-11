@@ -22,7 +22,7 @@ import au.mccann.oztaxreturn.dialog.AlertDialogOk;
 import au.mccann.oztaxreturn.dialog.AlertDialogOkAndCancel;
 import au.mccann.oztaxreturn.fragment.BaseFragment;
 import au.mccann.oztaxreturn.fragment.HomeFragment;
-import au.mccann.oztaxreturn.fragment.ReviewBeginBFragment;
+import au.mccann.oztaxreturn.fragment.review.begin.ReviewBeginBFragment;
 import au.mccann.oztaxreturn.model.APIError;
 import au.mccann.oztaxreturn.model.DeductionPart;
 import au.mccann.oztaxreturn.model.IncomePart;

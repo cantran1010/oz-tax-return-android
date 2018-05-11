@@ -34,7 +34,7 @@ public class UserEntity extends RealmObject implements Serializable {
     private String postCode;
     private String state;
     @SerializedName("language_id")
-    private String languageId;
+    private int languageId;
     private String status;
     private String token;
     @SerializedName("created_at")
@@ -162,11 +162,11 @@ public class UserEntity extends RealmObject implements Serializable {
         this.state = state;
     }
 
-    public String getLanguageId() {
+    public int getLanguageId() {
         return languageId;
     }
 
-    public void setLanguageId(String languageId) {
+    public void setLanguageId(int languageId) {
         this.languageId = languageId;
     }
 

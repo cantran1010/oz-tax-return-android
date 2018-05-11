@@ -114,6 +114,7 @@ public class FragmentReviewVehicle extends BaseFragment implements View.OnClickL
 
     @Override
     protected void initData() {
+        updateProgress(12);
         images = new ArrayList<>();
         attach = new ArrayList<>();
         appID = getApplicationResponse().getId();

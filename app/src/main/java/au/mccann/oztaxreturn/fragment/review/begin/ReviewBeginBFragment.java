@@ -1,9 +1,10 @@
-package au.mccann.oztaxreturn.fragment;
+package au.mccann.oztaxreturn.fragment.review.begin;
 
 import android.os.Bundle;
 import android.view.View;
 
 import au.mccann.oztaxreturn.R;
+import au.mccann.oztaxreturn.fragment.BaseFragment;
 import au.mccann.oztaxreturn.fragment.review.personal.ReviewPersonalInfomationA;
 import au.mccann.oztaxreturn.utils.TransitionScreen;
 
@@ -27,6 +28,7 @@ public class ReviewBeginBFragment extends BaseFragment implements View.OnClickLi
 
     @Override
     protected void initData() {
+        updateProgress(0);
         setTitle(getString(R.string.review_begin_a));
         appBarVisibility(true, true, 1);
     }

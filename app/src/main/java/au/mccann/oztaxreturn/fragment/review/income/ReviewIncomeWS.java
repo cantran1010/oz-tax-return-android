@@ -70,6 +70,7 @@ public class ReviewIncomeWS extends BaseFragment implements View.OnClickListener
         appBarVisibility(true, true, 1);
         getReviewIncome();
         updateList();
+        updateProgress(4);
     }
 
 

@@ -108,6 +108,7 @@ public class FragmentReviewTaxAgent extends BaseFragment implements View.OnClick
 
     @Override
     protected void initData() {
+        updateProgress(17);
         images = new ArrayList<>();
         attach = new ArrayList<>();
         appID = getApplicationResponse().getId();

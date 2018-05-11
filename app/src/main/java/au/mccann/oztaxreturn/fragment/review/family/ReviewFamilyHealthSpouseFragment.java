@@ -23,6 +23,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -119,6 +120,7 @@ public class ReviewFamilyHealthSpouseFragment extends BaseFragment implements Vi
 
     @Override
     protected void initData() {
+        updateProgress(21);
         setTitle(getString(R.string.review_fhd_title));
         appBarVisibility(true, true, 1);
         imgEdit.setEnabled(isEditApp());
@@ -199,7 +201,7 @@ public class ReviewFamilyHealthSpouseFragment extends BaseFragment implements Vi
                                           final int monthOfYear, final int dayOfMonth) {
                         if (view.isShown()) {
                             calendar.set(year, monthOfYear, dayOfMonth);
-                            tvBirth.setText(DateTimeUtils.fromCalendarToBirthday(calendar));
+                            tvBirth.setText(DateFormat.getDateInstance(DateFormat.SHORT).format(calendar.getTime()));
                         }
                     }
                 }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
@@ -231,8 +233,8 @@ public class ReviewFamilyHealthSpouseFragment extends BaseFragment implements Vi
                 jsonBody.put("first_name", edtFirstName.getText().toString().trim());
                 jsonBody.put("middle_name", edtMiddleName.getText().toString().trim());
                 jsonBody.put("last_name", edtLastName.getText().toString().trim());
-                jsonBody.put("birthday", tvBirth.getText().toString());
                 jsonBody.put("taxable_income", edtTaxAble.getText().toString().trim());
+                jsonRequest.put("birthday", DateTimeUtils.fromCalendarToBirthday(calendar));
 
             } else {
                 jsonBody.put("had", false);
@@ -401,8 +403,8 @@ public class ReviewFamilyHealthSpouseFragment extends BaseFragment implements Vi
             edtFirstName.setText(reviewSpouseResponse.getFirstName());
             edtMiddleName.setText(reviewSpouseResponse.getMiddleName());
             edtLastName.setText(reviewSpouseResponse.getLastName());
-            tvBirth.setText(reviewSpouseResponse.getBirthday());
             edtTaxAble.setText(String.valueOf(reviewSpouseResponse.getTaxableIncome()));
+            tvBirth.setText(DateFormat.getDateInstance(DateFormat.SHORT).format(calendar.getTime()));
 
             for (Attachment atachment : reviewSpouseResponse.getAttachments()) {
                 Image image = new Image();

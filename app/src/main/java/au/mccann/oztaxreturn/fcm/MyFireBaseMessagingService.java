@@ -67,10 +67,10 @@ public class MyFireBaseMessagingService extends FirebaseMessagingService {
         Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
         // Vibrate for 500 milliseconds
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            v.vibrate(VibrationEffect.createOneShot(1500,VibrationEffect.DEFAULT_AMPLITUDE));
-        }else{
+            v.vibrate(VibrationEffect.createOneShot(500, VibrationEffect.DEFAULT_AMPLITUDE));
+        } else {
             //deprecated in API 26
-            v.vibrate(1500);
+            v.vibrate(500);
         }
 
         GsonBuilder builder = new GsonBuilder();
@@ -94,7 +94,7 @@ public class MyFireBaseMessagingService extends FirebaseMessagingService {
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(getApplicationContext(), "OZ_TAX")
                 .setContentTitle(getString(R.string.app_name))
-                .setContentText(Utils.getContentNotification(getApplicationContext(),notification))
+                .setContentText(Utils.getContentNotification(getApplicationContext(), notification))
                 .setAutoCancel(true)
                 .setSound(defaultSoundUri)
                 .setSmallIcon(R.mipmap.ic_launcher)

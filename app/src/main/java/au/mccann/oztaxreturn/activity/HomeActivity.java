@@ -9,6 +9,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 
 import au.mccann.oztaxreturn.R;
@@ -34,6 +35,7 @@ import au.mccann.oztaxreturn.fragment.review.income.FragmentReviewDividends;
 import au.mccann.oztaxreturn.fragment.review.income.GovementPayment;
 import au.mccann.oztaxreturn.fragment.review.income.RentalProperties;
 import au.mccann.oztaxreturn.fragment.review.income.ReviewBankInterests;
+import au.mccann.oztaxreturn.fragment.review.income.ReviewIncomeSuperLumpSum;
 import au.mccann.oztaxreturn.fragment.review.income.ReviewIncomeWS;
 import au.mccann.oztaxreturn.fragment.review.personal.ReviewPersonalInfomationA;
 import au.mccann.oztaxreturn.fragment.review.personal.ReviewPersonalInfomationB;
@@ -52,11 +54,12 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
     private static final String TAG = HomeActivity.class.getSimpleName();
     private DrawerLayout drawer;
     private ImageView imgHome, imgContact, imgNotification, imgBack, imgNavigation, imgLogout;
-    private TextViewCustom tvHome, tvContact, tvNotification, tvTitle, tvReviewPersonalName, tvReviewPersonalBank, tvReviewPersonalEducation, tvVersion,tvName;
+    private TextViewCustom tvHome, tvContact, tvNotification, tvTitle, tvReviewPersonalName, tvReviewPersonalBank, tvReviewPersonalEducation, tvVersion, tvName;
     private ExpandableLayout expPersonalLayout, expIncomesLayout, expDeductionsLayout, expFamilyLayout;
     private RelativeLayout homeNavigation, reviewNavigation;
     private ApplicationResponse applicationResponse;
-    private TextViewCustom tvAppName, tvYear;
+    private TextViewCustom tvAppName, tvYear, tvProgress;
+    private ProgressBar progressBar;
     private boolean editApp;
     private CircleImageView imgAvatar;
 
@@ -72,6 +75,8 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
         imgContact = findViewById(R.id.img_home_menu2);
         imgNotification = findViewById(R.id.img_home_menu3);
 
+        tvProgress = findViewById(R.id.tv_progress);
+        progressBar = findViewById(R.id.ProgressBar);
 
         tvHome = findViewById(R.id.tv_home_menu1);
         tvContact = findViewById(R.id.tv_home_menu2);
@@ -117,6 +122,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
         findViewById(R.id.tv_income_dividends).setOnClickListener(this);
         findViewById(R.id.tv_incomes_early).setOnClickListener(this);
         findViewById(R.id.tv_income_annuities_suppers).setOnClickListener(this);
+        findViewById(R.id.tv_income_lump_sum).setOnClickListener(this);
         findViewById(R.id.tv_income_rental).setOnClickListener(this);
 
         findViewById(R.id.tv_deduction_vehicles).setOnClickListener(this);
@@ -347,6 +353,11 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
         startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
     }
 
+    public void updateProgress(int page) {
+        float f = (float) ((float) page / 21 * 100);
+        tvProgress.setText((int) f + "%");
+        progressBar.setProgress((int) f);
+    }
 
     @Override
     public void onClick(View view) {
@@ -525,6 +536,11 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
                 if (drawer.isDrawerOpen(GravityCompat.END))
                     drawer.closeDrawer(GravityCompat.END);
                 openFragment(R.id.layout_container, AnnuitiesAndSupers.class, true, new Bundle(), TransitionScreen.FADE_IN);
+                break;
+            case R.id.tv_income_lump_sum:
+                if (drawer.isDrawerOpen(GravityCompat.END))
+                    drawer.closeDrawer(GravityCompat.END);
+                openFragment(R.id.layout_container, ReviewIncomeSuperLumpSum.class, true, new Bundle(), TransitionScreen.FADE_IN);
                 break;
             case R.id.tv_income_rental:
                 if (drawer.isDrawerOpen(GravityCompat.END))

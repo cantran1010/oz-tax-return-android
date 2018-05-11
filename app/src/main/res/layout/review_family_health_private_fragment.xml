@@ -17,32 +17,19 @@
             android:layout_marginTop="20dp"
             android:orientation="vertical">
 
-            <LinearLayout
-                android:layout_width="match_parent"
+            <au.mccann.oztaxreturn.view.TextViewCustom
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="horizontal">
-
-                <au.mccann.oztaxreturn.view.TextViewCustom
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/review_fhp_title"
-                    android:textColor="@color/black"
-                    android:textSize="20sp" />
-
-                <ImageView
-                    android:id="@+id/img_edit"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:src="@drawable/img_edit" />
-
-            </LinearLayout>
+                android:layout_gravity="center_horizontal"
+                android:text="@string/review_fhp_title"
+                android:textColor="@color/black"
+                android:textSize="30sp" />
 
             <View
                 android:layout_width="30dp"
                 android:layout_height="3dp"
                 android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp"
                 android:background="@color/app_bg" />
 
             <au.mccann.oztaxreturn.view.TextViewCustom
@@ -135,10 +122,17 @@
                     android:textSize="@dimen/size_small" />
             </RelativeLayout>
 
-
         </LinearLayout>
 
     </android.support.v4.widget.NestedScrollView>
+
+    <ImageView
+        android:id="@+id/img_edit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="20dp"
+        android:src="@drawable/img_edit" />
 
     <au.mccann.oztaxreturn.view.ButtonCustom
         android:id="@+id/btn_next"
