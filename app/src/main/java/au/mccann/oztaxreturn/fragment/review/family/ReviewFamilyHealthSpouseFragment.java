@@ -24,7 +24,6 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -215,6 +214,32 @@ public class ReviewFamilyHealthSpouseFragment extends BaseFragment implements Vi
         JSONObject jsonBody = new JSONObject();
         try {
             if (cbYes.isChecked()) {
+
+                if (edtFirstName.getText().toString().trim().isEmpty()) {
+                    Utils.showToolTip(getActivity(), edtFirstName, getString(R.string.vali_all_empty));
+                    return;
+                }
+
+                if (edtMiddleName.getText().toString().trim().isEmpty()) {
+                    Utils.showToolTip(getActivity(), edtMiddleName, getString(R.string.vali_all_empty));
+                    return;
+                }
+
+                if (edtLastName.getText().toString().trim().isEmpty()) {
+                    Utils.showToolTip(getActivity(), edtLastName, getString(R.string.vali_all_empty));
+                    return;
+                }
+
+                if (tvBirth.getText().toString().trim().isEmpty()) {
+                    Utils.showToolTip(getActivity(), tvBirth, getString(R.string.vali_all_empty));
+                    return;
+                }
+
+                if (edtTaxAble.getText().toString().trim().isEmpty()) {
+                    Utils.showToolTip(getActivity(), edtTaxAble, getString(R.string.vali_all_empty));
+                    return;
+                }
+
                 for (Image image : images) {
                     if (image.getId() > 0) {
                         Attachment attachment = new Attachment();
@@ -302,23 +327,29 @@ public class ReviewFamilyHealthSpouseFragment extends BaseFragment implements Vi
     }
 
     private void doNext() {
-        final ArrayList<Image> listUp = new ArrayList<>();
-        for (Image image : images) {
-            if (image.getId() == 0 && !image.isAdd()) listUp.add(image);
-        }
 
-        if (listUp.size() > 0) {
-            LogUtils.d(TAG, "doNext : " + listUp.toString());
-            ImageUtils.doUploadImage(getContext(), listUp, new ImageUtils.UpImagesListener() {
-                @Override
-                public void onSuccess(List<Attachment> responses) {
-                    attach.addAll(responses);
-                    doUpdate();
-                }
-            });
+        if (cbYes.isChecked()) {
+            final ArrayList<Image> listUp = new ArrayList<>();
+            for (Image image : images) {
+                if (image.getId() == 0 && !image.isAdd()) listUp.add(image);
+            }
+
+            if (listUp.size() > 0) {
+                LogUtils.d(TAG, "doNext : " + listUp.toString());
+                ImageUtils.doUploadImage(getContext(), listUp, new ImageUtils.UpImagesListener() {
+                    @Override
+                    public void onSuccess(List<Attachment> responses) {
+                        attach.addAll(responses);
+                        doUpdate();
+                    }
+                });
+            } else {
+                doUpdate();
+            }
         } else {
             doUpdate();
         }
+
     }
 
     private void checkPermissionImageAttach() {
@@ -396,7 +427,7 @@ public class ReviewFamilyHealthSpouseFragment extends BaseFragment implements Vi
 
             try {
                 calendar = DateTimeUtils.toCalendarBirthday(reviewSpouseResponse.getBirthday());
-            } catch (ParseException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
 
@@ -476,10 +507,8 @@ public class ReviewFamilyHealthSpouseFragment extends BaseFragment implements Vi
 
             case R.id.btn_next:
                 if (isEditApp()) doNext();
-                else if (isEditApp())
-                    openFragment(R.id.layout_container, ReviewSummary.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
                 else
-                    openFragment(R.id.layout_container, HomeFragment.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
+                    openFragment(R.id.layout_container, ReviewSummary.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
                 break;
 
             case R.id.img_edit:

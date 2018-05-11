@@ -83,6 +83,32 @@ public class CheckoutFragment extends BaseFragment implements View.OnClickListen
     }
 
     private void doNext() {
+
+        if (edtName.getText().toString().trim().isEmpty()) {
+            Utils.showToolTip(getActivity(), edtName, getString(R.string.vali_all_empty));
+            return;
+        }
+
+        if (edtNumber.getText().toString().trim().isEmpty()) {
+            Utils.showToolTip(getActivity(), edtNumber, getString(R.string.vali_all_empty));
+            return;
+        }
+
+        if (edtMonth.getText().toString().trim().isEmpty()) {
+            Utils.showToolTip(getActivity(), edtMonth, getString(R.string.vali_all_empty));
+            return;
+        }
+
+        if (edtYear.getText().toString().trim().isEmpty()) {
+            Utils.showToolTip(getActivity(), edtYear, getString(R.string.vali_all_empty));
+            return;
+        }
+
+        if (edtCvm.getText().toString().trim().isEmpty()) {
+            Utils.showToolTip(getActivity(), edtCvm, getString(R.string.vali_all_empty));
+            return;
+        }
+
         ProgressDialogUtils.showProgressDialog(getActivity());
 //        final Card cardToSave = new Card("4242424242424242", 12, 2019, "369");
         final Card cardToSave = new Card(edtNumber.getText().toString(), Integer.valueOf(edtMonth.getText().toString()), Integer.valueOf(edtYear.getText().toString()), edtCvm.getText().toString(),

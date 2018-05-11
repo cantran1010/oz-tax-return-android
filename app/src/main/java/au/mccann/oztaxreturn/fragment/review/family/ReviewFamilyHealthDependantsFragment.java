@@ -1,8 +1,6 @@
 package au.mccann.oztaxreturn.fragment.review.family;
 
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
@@ -26,7 +24,6 @@ import au.mccann.oztaxreturn.rest.response.ReviewFamilyHealthResponse;
 import au.mccann.oztaxreturn.utils.DialogUtils;
 import au.mccann.oztaxreturn.utils.LogUtils;
 import au.mccann.oztaxreturn.utils.ProgressDialogUtils;
-import au.mccann.oztaxreturn.utils.TooltipUtils;
 import au.mccann.oztaxreturn.utils.TransitionScreen;
 import au.mccann.oztaxreturn.utils.Utils;
 import au.mccann.oztaxreturn.view.CheckBoxCustom;
@@ -173,8 +170,7 @@ public class ReviewFamilyHealthDependantsFragment extends BaseFragment implement
 
         if (cbYes.isChecked()) {
             if (edtNumber.getText().toString().trim().isEmpty()) {
-                TooltipUtils.showToolTipView(getContext(), edtNumber, Gravity.TOP, getString(R.string.valid_number),
-                        ContextCompat.getColor(getContext(), R.color.red));
+                Utils.showToolTip(getActivity(), edtNumber, getString(R.string.valid_number));
                 return;
             }
         }

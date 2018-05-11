@@ -183,6 +183,11 @@ public class SplashActivity extends BaseActivity {
                         });
                     } else {
                         Intent intent = new Intent(SplashActivity.this, HomeActivity.class);
+
+                        if (getIntent().hasExtra(Constants.NOTIFICATION_EXTRA)) {
+                            intent.putExtra(Constants.NOTIFICATION_EXTRA, getIntent().getSerializableExtra(Constants.NOTIFICATION_EXTRA));
+                        }
+
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(intent, TransitionScreen.FADE_IN);
                         finish();

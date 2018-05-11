@@ -303,6 +303,7 @@
     <string name="rental_income">rental income</string>
     <string name="rental_expenses">rental expenses</string>
     <string name="vali_all_empty">This field is required!</string>
+    <string name="image_attach_empty">Image attach is required!</string>
 
     <!-- review annuities   -->
     <string name="annuities_and_super">Annuities and Super</string>
