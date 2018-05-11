@@ -30,4 +30,5 @@
     <color name="summary_offset">#c6107b</color>
     <color name="summary_tax_widthheld">#577bb5</color>
     <color name="lodge">#7cc576</color>
+    <color name="tool_tip">#fc3876</color>
 </resources>

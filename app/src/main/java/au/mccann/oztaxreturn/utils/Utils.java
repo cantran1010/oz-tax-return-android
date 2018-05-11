@@ -15,6 +15,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
+import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.Base64;
 import android.view.Gravity;
@@ -28,6 +29,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import com.github.florent37.viewtooltip.ViewTooltip;
 import com.google.i18n.phonenumbers.NumberParseException;
 import com.google.i18n.phonenumbers.PhoneNumberUtil;
 import com.google.i18n.phonenumbers.Phonenumber;
@@ -541,6 +543,18 @@ public class Utils {
         InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.showSoftInput(edittextCustom,
                 InputMethodManager.SHOW_IMPLICIT);
+    }
+
+    public static void showToolTip(Context context, View view, String content) {
+        ViewTooltip
+                .on(view)
+                .autoHide(true, 2000)
+                .corner(30)
+                .position(ViewTooltip.Position.TOP)
+                .color(ContextCompat.getColor(context,R.color.tool_tip))
+                .align(ViewTooltip.ALIGN.CENTER)
+                .text(content)
+                .show();
     }
 
 }
