@@ -84,6 +84,7 @@ public class ReviewPersonalInfomationA extends BaseFragment implements View.OnCl
         appBarVisibility(true, true, 1);
         imgEdit.setEnabled(isEditApp());
         getReviewInformation();
+        updateProgress(1);
     }
 
     @Override

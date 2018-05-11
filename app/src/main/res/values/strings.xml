@@ -208,7 +208,8 @@
     <string name="menu_incomes_interests">Interests</string>
     <string name="menu_incomes_dividends">Dividends</string>
     <string name="menu_incomes_early">Early Termination Payments</string>
-    <string name="menu_incomes_annuities">Annuities &amp; Supers</string>
+    <string name="menu_incomes_annuities">Annuities &amp; Supers</string>ReviewIncomeSuperLumpSum
+    <string name="menu_incomes_lumpsum">Super Lump Sum</string>
     <string name="menu_incomes_rental">Rental Properties</string>
     <string name="menu_deductions">Deductions</string>
     <string name="menu_deductions_vehicles">Vehicles</string>

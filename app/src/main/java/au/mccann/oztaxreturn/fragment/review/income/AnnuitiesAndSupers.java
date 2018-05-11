@@ -84,6 +84,7 @@ public class AnnuitiesAndSupers extends BaseFragment implements View.OnClickList
 
     @Override
     protected void initData() {
+        updateProgress(9);
         appID = getApplicationResponse().getId();
         fab.setEnabled(isEditApp());
         setTitle(getString(R.string.review_income_title));

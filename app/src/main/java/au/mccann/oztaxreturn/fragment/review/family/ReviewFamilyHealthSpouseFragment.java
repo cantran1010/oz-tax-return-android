@@ -120,6 +120,7 @@ public class ReviewFamilyHealthSpouseFragment extends BaseFragment implements Vi
 
     @Override
     protected void initData() {
+        updateProgress(21);
         setTitle(getString(R.string.review_fhd_title));
         appBarVisibility(true, true, 1);
         imgEdit.setEnabled(isEditApp());

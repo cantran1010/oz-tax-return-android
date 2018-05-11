@@ -85,6 +85,7 @@ public class FragmentReviewEducations extends BaseFragment implements View.OnCli
 
     @Override
     protected void initData() {
+        updateProgress(14);
         appID = getApplicationResponse().getId();
         fab.setEnabled(isEditApp());
         setTitle(getString(R.string.review_income_title));

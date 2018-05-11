@@ -1,6 +1,7 @@
-package au.mccann.oztaxreturn.fragment;
+package au.mccann.oztaxreturn.fragment.review.begin;
 
 import au.mccann.oztaxreturn.R;
+import au.mccann.oztaxreturn.fragment.BaseFragment;
 
 /**
  * Created by LongBui on 4/23/18.
