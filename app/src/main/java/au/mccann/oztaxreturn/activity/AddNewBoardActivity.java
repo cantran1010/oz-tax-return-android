@@ -155,7 +155,7 @@ public class AddNewBoardActivity extends BaseActivity implements View.OnClickLis
                     LogUtils.d(TAG, "doCreateApplication body : " + response.body().toString());
                     setResult(Constants.CREATE_APP_RESULT_CODE);
                     finish();
-                } else {
+                } else if (response.code() == Constants.HTTP_CODE_OK){
                     APIError error = Utils.parseError(response);
                     LogUtils.d(TAG, "doCreateApplication error : " + error.message());
                     if (error != null) {

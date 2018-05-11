@@ -138,6 +138,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="18dp"
+                android:padding="5dp"
                 android:text="@string/policy"
                 android:textColor="@color/cb_color"
                 android:textSize="15sp" />

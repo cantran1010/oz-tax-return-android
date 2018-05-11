@@ -12,8 +12,6 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="hint_User_name">Username</string>
     <string name="hint_pass_word">Password</string>
-    <string name="forgot_password">Forgot password?</string>
-    <string name="btn_login">login</string>
     <string name="title_create_account">Create account</string>
     <string name="label_mail">email</string>
     <string name="label_mobile">mobile phone</string>
@@ -35,7 +33,14 @@
     <string name="or">or</string>
     <string name="error_empty">Please Enter content.</string>
 
+    <!-- login -->
+    <string name="btn_login">login</string>
+    <string name="forgot_password">Forgot password?</string>
+    <string name="valid_password">Password of at least 5 characters.</string>
+    <string name="send_successfully">send request successfully.</string>
+
     <!-- common -->
+
     <string name="preview_image_title">Preview</string>
     <string name="error_must_one">You must select at least one option!</string>
     <string name="logout">Are you sure you want to logout?</string>
@@ -473,7 +478,8 @@
     <string name="connect_title">CONNECT ACCOUNTANT</string>
     <string name="connect_language">My prefer language</string>
     <string name="connect_des">Lets connect to our accountant for\nthe consultation</string>
-    <!-- review manage account -->
+
+    <!--  manage account -->
     <string name="manage_account">Manage account</string>
     <string name="update_information">Update personal\ninfomation</string>
     <string name="manage_title">title</string>
@@ -488,5 +494,19 @@
     <string name="password_confirm">password.confirm</string>
     <string name="update_login_details">Update login details</string>
     <string name="update_successful">Update successful!</string>
+
+    <!--  screen splash -->
+    <string name="update_title">Update Version</string>
+    <string name="content_update">You must update a new version to continue account</string>
+    <string name="device_type">android</string>
+    <string name="update_content">do you want to update a new version?</string>
+    <string name="oke">Oke</string>
+    <!--  screen block -->
+    <string name="block_user">your account has been locked and will not reopen</string>
+    <string name="temporally_locked">your account is temporally locked.</string>
+    <string name="block_title">notification</string>
+    <string name="block_logout">Logout</string>
+    <string name="app_sologan">Lets optimize your tax return with our online accountants</string>
+
 
 </resources>

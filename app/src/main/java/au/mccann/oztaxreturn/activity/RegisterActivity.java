@@ -80,19 +80,19 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     private void validateInput() {
         if (edtUsername.getText().toString().trim().isEmpty()) {
             edtUsername.requestFocus();
-            edtUsername.setError("");
+            edtUsername.setError(getString(R.string.vali_all_empty));
         } else if (!Utils.isValidEmail(edtEmail.getText().toString().trim())) {
             edtEmail.requestFocus();
-            edtEmail.setError("");
+            edtEmail.setError(getString(R.string.vali_all_empty));
         } else if (!Utils.isValidPhone(edtPhone.getText().toString().trim())) {
             edtPhone.requestFocus();
-            edtPhone.setError("");
-        } else if (edtPassword.getText().toString().trim().length() < 6) {
+            edtPhone.setError(getString(R.string.valid_app_email_2));
+        } else if (edtPassword.getText().toString().trim().length() < 5) {
             edtPassword.requestFocus();
-            edtPassword.setError("");
-        } else if (edtRePassword.getText().toString().trim().length() < 6) {
+            edtPassword.setError(getString(R.string.vali_password_lenth));
+        } else if (edtRePassword.getText().toString().trim().length() < 5) {
             edtRePassword.requestFocus();
-            edtRePassword.setError("");
+            edtRePassword.setError(getString(R.string.vali_password_lenth));
         } else if (!edtRePassword.getText().toString().equals(edtPassword.getText().toString())) {
             edtRePassword.requestFocus();
             edtRePassword.setError("");
@@ -171,7 +171,6 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                             } else if (error.status().startsWith("email")) {
                                 edtEmail.requestFocus();
                                 edtEmail.setError(error.message());
-
                             } else if (error.status().startsWith("phone")) {
                                 edtPhone.requestFocus();
                                 edtPhone.setError(error.message());

@@ -96,6 +96,10 @@
         <activity
             android:name=".activity.ManageAccount"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.BlockActivity"
+            android:screenOrientation="portrait" />
+
 
     </application>
 

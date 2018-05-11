@@ -43,5 +43,14 @@ public class DialogUtils {
         new AlertDialogOk(context, title, content, submit, alertDialogListener);
     }
 
+    public static void showReCommendUpdateDialog(Context context, AlertDialogOkAndCancel.AlertDialogListener alertDialogListener) {
+        if (context == null) return;
+        if (context instanceof Activity) {
+            if (((Activity) context).isFinishing()) {
+                return;
+            }
+        }
+        new AlertDialogOkAndCancel(context, context.getString(R.string.update_title), context.getString(R.string.update_content), context.getString(R.string.oke), context.getString(R.string.report_cancel), alertDialogListener);
+    }
 
 }
