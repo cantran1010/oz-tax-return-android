@@ -85,6 +85,7 @@ public class FragmentReviewDonations extends BaseFragment implements View.OnClic
 
     @Override
     protected void initData() {
+        updateProgress(16);
         appID = getApplicationResponse().getId();
         fab.setEnabled(isEditApp());
         setTitle(getString(R.string.review_income_title));

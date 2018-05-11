@@ -114,6 +114,7 @@ public class ReviewBankInterests extends BaseFragment implements View.OnClickLis
 
     @Override
     protected void initData() {
+        updateProgress(6);
         images = new ArrayList<>();
         attach = new ArrayList<>();
         appID = getApplicationResponse().getId();

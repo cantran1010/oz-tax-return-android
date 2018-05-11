@@ -58,11 +58,12 @@
                 android:orientation="horizontal">
 
                 <au.mccann.oztaxreturn.view.TextViewCustom
+                    android:id="@+id/tv_progress"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:text="70%"
+                    android:text="%"
                     android:textColor="@color/white"
                     android:textSize="15sp" />
 
@@ -72,7 +73,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="8dp"
                     android:layout_marginLeft="20dp"
-                    android:progress="70"
                     android:progressDrawable="@drawable/menu_progress" />
             </LinearLayout>
 
@@ -258,6 +258,15 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:text="@string/menu_incomes_annuities"
+                        android:textColor="@color/white"
+                        android:textSize="16sp" />
+
+                    <au.mccann.oztaxreturn.view.TextViewCustom
+                        android:id="@+id/tv_income_lump_sum"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="@string/menu_incomes_lumpsum"
                         android:textColor="@color/white"
                         android:textSize="16sp" />
 

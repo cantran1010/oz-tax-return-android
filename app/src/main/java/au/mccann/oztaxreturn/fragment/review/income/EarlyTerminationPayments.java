@@ -126,6 +126,7 @@ public class EarlyTerminationPayments extends BaseFragment implements View.OnCli
 
     @Override
     protected void initData() {
+        updateProgress(8);
         images = new ArrayList<>();
         attach = new ArrayList<>();
         appID = getApplicationResponse().getId();

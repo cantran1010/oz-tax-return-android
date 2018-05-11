@@ -71,6 +71,7 @@ public class ReviewFamilyHealthDependantsFragment extends BaseFragment implement
 
     @Override
     protected void initData() {
+        updateProgress(18);
         setTitle(getString(R.string.review_fhd_title));
         appBarVisibility(true, true, 1);
         imgEdit.setEnabled(isEditApp());

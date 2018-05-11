@@ -18,6 +18,8 @@ import au.mccann.oztaxreturn.database.UserManager;
 import au.mccann.oztaxreturn.dialog.AlertDialogOk;
 import au.mccann.oztaxreturn.dialog.AlertDialogOkAndCancel;
 import au.mccann.oztaxreturn.fragment.basic.IncomeWagesSalaryFragment;
+import au.mccann.oztaxreturn.fragment.review.begin.ReviewBeginAFragment;
+import au.mccann.oztaxreturn.fragment.review.begin.ReviewBeginBFragment;
 import au.mccann.oztaxreturn.fragment.review.summary.ReviewAfterBeingAudited;
 import au.mccann.oztaxreturn.fragment.review.summary.ReviewSummary;
 import au.mccann.oztaxreturn.model.APIError;
