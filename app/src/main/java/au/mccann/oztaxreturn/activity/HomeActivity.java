@@ -159,7 +159,6 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
         if (userEntity.getAvatar() != null)
             Utils.displayImage(HomeActivity.this, imgAvatar, userEntity.getAvatar().getUrl());
         tvName.setText(userEntity.getUserName());
-
     }
 
     boolean doubleBackToExitPressedOnce = false;

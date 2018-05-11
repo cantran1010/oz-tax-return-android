@@ -163,13 +163,21 @@ public class SplashActivity extends BaseActivity {
                         DialogUtils.showOkDialog(SplashActivity.this, getString(R.string.block_title), getString(R.string.temporally_locked), getString(R.string.block_logout), new AlertDialogOk.AlertDialogListener() {
                             @Override
                             public void onSubmit() {
+                                Realm realm = Realm.getDefaultInstance();
+                                realm.beginTransaction();
+                                realm.deleteAll();
+                                realm.commitTransaction();
                                 finish();
                             }
                         });
-                    } else if (blockResponse.getStatus().equalsIgnoreCase(Constants.STATUS_USER_BLOCK)){
+                    } else if (blockResponse.getStatus().equalsIgnoreCase(Constants.STATUS_USER_BLOCK)) {
                         DialogUtils.showOkDialog(SplashActivity.this, getString(R.string.block_title), getString(R.string.block_user), getString(R.string.block_logout), new AlertDialogOk.AlertDialogListener() {
                             @Override
                             public void onSubmit() {
+                                Realm realm = Realm.getDefaultInstance();
+                                realm.beginTransaction();
+                                realm.deleteAll();
+                                realm.commitTransaction();
                                 finish();
                             }
                         });

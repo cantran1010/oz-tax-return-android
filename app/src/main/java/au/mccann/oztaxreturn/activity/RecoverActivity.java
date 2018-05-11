@@ -1,6 +1,6 @@
 package au.mccann.oztaxreturn.activity;
 
-import android.content.Intent;
+import android.os.Handler;
 import android.view.View;
 
 import org.json.JSONException;
@@ -15,7 +15,6 @@ import au.mccann.oztaxreturn.networking.ApiClient;
 import au.mccann.oztaxreturn.utils.DialogUtils;
 import au.mccann.oztaxreturn.utils.LogUtils;
 import au.mccann.oztaxreturn.utils.ProgressDialogUtils;
-import au.mccann.oztaxreturn.utils.TransitionScreen;
 import au.mccann.oztaxreturn.utils.Utils;
 import au.mccann.oztaxreturn.view.ButtonCustom;
 import au.mccann.oztaxreturn.view.EdittextCustom;
@@ -83,8 +82,14 @@ public class RecoverActivity extends BaseActivity implements View.OnClickListene
                 ProgressDialogUtils.dismissProgressDialog();
                 LogUtils.d(TAG, "doRecover code" + response.code());
                 if (response.code() == Constants.HTTP_CODE_NO_CONTENT) {
-                    LogUtils.d(TAG, "doRecover body" + response.body().toString());
-                    startActivity(new Intent(RecoverActivity.this, HomeActivity.class), TransitionScreen.RIGHT_TO_LEFT);
+                    Utils.showLongToast(RecoverActivity.this, getString(R.string.send_successfully), false, true);
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            finish();
+                        }
+                    }, 1000);
+
                 } else {
                     APIError error = Utils.parseError(response);
                     LogUtils.d(TAG, "doRecover error : " + error.message());

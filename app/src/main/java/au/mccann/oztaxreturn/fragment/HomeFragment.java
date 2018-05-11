@@ -12,6 +12,7 @@ import java.util.List;
 
 import au.mccann.oztaxreturn.R;
 import au.mccann.oztaxreturn.activity.AddNewBoardActivity;
+import au.mccann.oztaxreturn.activity.SplashActivity;
 import au.mccann.oztaxreturn.adapter.HomeAdapter;
 import au.mccann.oztaxreturn.common.Constants;
 import au.mccann.oztaxreturn.database.UserManager;
@@ -147,6 +148,10 @@ public class HomeFragment extends BaseFragment {
                     LogUtils.d(TAG, "getAllApplication body : " + response.body().toString());
                     applicationResponses = (ArrayList<ApplicationResponse>) response.body();
                     updateList();
+                } else if (response.code() == Constants.HTTP_CODE_BLOCK) {
+                    Intent intent = new Intent(getContext(), SplashActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
                 } else {
                     APIError error = Utils.parseError(response);
                     LogUtils.d(TAG, "getAllApplication error : " + error.message());

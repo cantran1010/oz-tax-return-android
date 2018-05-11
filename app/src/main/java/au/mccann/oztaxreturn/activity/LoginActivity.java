@@ -36,10 +36,9 @@ import retrofit2.Response;
  * Created by CanTran on 5/23/17.
  */
 public class LoginActivity extends BaseActivity implements View.OnClickListener {
-    private static final String TAG = RegisterActivity.class.getSimpleName();
+    private static final String TAG = LoginActivity.class.getSimpleName();
     private EdittextCustom edtUsername, edtPassword;
     private TextViewCustom tvForgotPassword;
-
 
     @Override
     protected int getLayout() {
@@ -77,17 +76,17 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     private void doLogin() {
         if (edtUsername.getText().toString().trim().isEmpty()) {
             edtUsername.requestFocus();
-            edtUsername.setError("");
+            edtUsername.setError(getString(R.string.vali_all_empty));
             return;
         }
         if (edtPassword.getText().toString().trim().isEmpty()) {
             edtPassword.requestFocus();
-            edtPassword.setError("");
+            edtPassword.setError(getString(R.string.vali_all_empty));
             return;
         }
-        if (edtPassword.getText().toString().trim().length() < 6) {
+        if (edtPassword.getText().toString().trim().length() < 5) {
             edtPassword.requestFocus();
-            edtPassword.setError("");
+            edtPassword.setError(getString(R.string.valid_password));
             return;
         }
         ProgressDialogUtils.showProgressDialog(LoginActivity.this);
@@ -108,11 +107,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 if (response.code() == Constants.HTTP_CODE_OK) {
                     LogUtils.d(TAG, "doLogin body : " + response.body().toString());
                     UserEntity user = response.body().getUser();
-                    String tken="Bearer "+response.body().getToken();
+                    String tken = "Bearer " + response.body().getToken();
                     user.setToken(tken);
                     UserManager.insertUser(user);
                     startActivity(new Intent(LoginActivity.this, HomeActivity.class), TransitionScreen.RIGHT_TO_LEFT);
-
                     sendRegistrationToServer();
                 } else {
                     APIError error = Utils.parseError(response);
