@@ -175,6 +175,7 @@ public class Constants {
     public static final String STATUS_USER_ACTIVIE ="active";
     public static final String STATUS_USER_BLOCK = "block";
     public static final String STATUS_USER_DEACTIVATE = "deactivate";
+    public static final String NOTIFICATION_EXTRA = "notification_extra";
     public static int MAX_IMAGE_ATTACH = 9;
     public static final String INTENT_EXTRA_ALBUM = "album_name";
     public static final int REQUEST_CODE_PICK_IMAGE = 357;

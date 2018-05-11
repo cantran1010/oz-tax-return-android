@@ -2,12 +2,14 @@ package au.mccann.oztaxreturn.model;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 import au.mccann.oztaxreturn.rest.response.ApplicationResponse;
 
 /**
  * Created by LongBui on 5/8/18.
  */
-public class Notification {
+public class Notification implements Serializable{
     private int id;
     private String content;
     private String event;

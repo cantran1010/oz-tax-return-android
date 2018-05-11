@@ -240,12 +240,18 @@ public class ReviewFamilyHealthMedicareFragment extends BaseFragment implements 
     }
 
     private void doNext() {
-        final ArrayList<Image> listUp = new ArrayList<>();
-        for (Image image : images) {
-            if (image.getId() == 0 && !image.isAdd()) listUp.add(image);
-        }
 
-        if (listUp.size() > 0) {
+        if (cbYes.isChecked()) {
+            final ArrayList<Image> listUp = new ArrayList<>();
+            for (Image image : images) {
+                if (image.getId() == 0 && !image.isAdd()) listUp.add(image);
+            }
+
+            if (listUp.size() == 0) {
+                Utils.showLongToast(getActivity(), getString(R.string.image_attach_empty), true, false);
+                return;
+            }
+
             LogUtils.d(TAG, "doNext : " + listUp.toString());
             ImageUtils.doUploadImage(getContext(), listUp, new ImageUtils.UpImagesListener() {
                 @Override
@@ -254,9 +260,12 @@ public class ReviewFamilyHealthMedicareFragment extends BaseFragment implements 
                     doUpdate();
                 }
             });
+
         } else {
             doUpdate();
         }
+
+
     }
 
     private void checkPermissionImageAttach() {
@@ -326,7 +335,7 @@ public class ReviewFamilyHealthMedicareFragment extends BaseFragment implements 
     }
 
     private void updateUI() {
-        if (reviewFamilyHealthResponse.getMedicareResponse()!=null&&reviewFamilyHealthResponse.getMedicareResponse().isHad()) {
+        if (reviewFamilyHealthResponse.getMedicareResponse() != null && reviewFamilyHealthResponse.getMedicareResponse().isHad()) {
             cbYes.setChecked(true);
             cbNo.setChecked(false);
 

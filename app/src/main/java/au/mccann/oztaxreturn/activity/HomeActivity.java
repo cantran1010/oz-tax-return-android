@@ -40,6 +40,7 @@ import au.mccann.oztaxreturn.fragment.review.income.ReviewIncomeWS;
 import au.mccann.oztaxreturn.fragment.review.personal.ReviewPersonalInfomationA;
 import au.mccann.oztaxreturn.fragment.review.personal.ReviewPersonalInfomationB;
 import au.mccann.oztaxreturn.fragment.review.personal.ReviewPersonalInfomationC;
+import au.mccann.oztaxreturn.model.Notification;
 import au.mccann.oztaxreturn.rest.response.ApplicationResponse;
 import au.mccann.oztaxreturn.utils.DialogUtils;
 import au.mccann.oztaxreturn.utils.LogUtils;
@@ -62,6 +63,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
     private ProgressBar progressBar;
     private boolean editApp;
     private CircleImageView imgAvatar;
+    boolean doubleBackToExitPressedOnce = false;
 
     @Override
     protected int getLayout() {
@@ -150,8 +152,23 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
 
     @Override
     protected void initData() {
+
+        if (getIntent().hasExtra(Constants.NOTIFICATION_EXTRA)) {
+            Notification notification = (Notification) getIntent().getSerializableExtra(Constants.NOTIFICATION_EXTRA);
+
+            if (notification.getEvent().equals("message_received")) {
+                updateMenu(2);
+                openFragment(R.id.layout_container, ContactFragment.class, false, new Bundle(), TransitionScreen.NON);
+            } else {
+                updateMenu(3);
+                openFragment(R.id.layout_container, NotificationFragment.class, false, new Bundle(), TransitionScreen.NON);
+            }
+
+        } else {
+            openFragment(R.id.layout_container, HomeFragment.class, false, new Bundle(), TransitionScreen.NON);
+        }
+
         tvVersion.setText(getString(R.string.home_version, Utils.getCurrentVersion(this)));
-        openFragment(R.id.layout_container, HomeFragment.class, false, new Bundle(), TransitionScreen.NON);
         findViewById(R.id.img_navigation).setOnClickListener(this);
         findViewById(R.id.layout_home).setOnClickListener(this);
         findViewById(R.id.layout_contact).setOnClickListener(this);
@@ -167,7 +184,21 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
         tvName.setText(userEntity.getUserName());
     }
 
-    boolean doubleBackToExitPressedOnce = false;
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        if (intent.hasExtra(Constants.NOTIFICATION_EXTRA)) {
+            Notification notification = (Notification) intent.getSerializableExtra(Constants.NOTIFICATION_EXTRA);
+
+            if (notification.getEvent().equals("message_received")) {
+                updateMenu(2);
+                openFragment(R.id.layout_container, ContactFragment.class, false, new Bundle(), TransitionScreen.NON);
+            } else {
+                updateMenu(3);
+                openFragment(R.id.layout_container, NotificationFragment.class, false, new Bundle(), TransitionScreen.NON);
+            }
+        }
+    }
 
     @Override
     public void onBackPressed() {

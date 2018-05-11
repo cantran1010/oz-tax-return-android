@@ -12,7 +12,6 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CompoundButton;
@@ -24,6 +23,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -65,7 +65,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static au.mccann.oztaxreturn.utils.ImageUtils.showImage;
-import static au.mccann.oztaxreturn.utils.TooltipUtils.showToolTipView;
 
 /**
  * Created by LongBui on 4/17/18.
@@ -286,7 +285,7 @@ public class IncomeWagesSalaryFragment extends BaseFragment implements View.OnCl
                 salaryJson.put(Constants.PARAMETER_INCOME_FIRST_NAME, edtFirstName.getText().toString().trim());
                 salaryJson.put(Constants.PARAMETER_INCOME_MID_NAME, edtMidName.getText().toString().trim());
                 salaryJson.put(Constants.PARAMETER_INCOME_LAST_NAME, edtLastName.getText().toString().trim());
-                salaryJson.put(Constants.PARAMETER_INCOME_BIRTH_DAY, edtBirthday.getText().toString().trim());
+                salaryJson.put(Constants.PARAMETER_INCOME_BIRTH_DAY, DateTimeUtils.fromCalendarToBirthday(calendar));
 
             }
             jsonRequest.put("income_wages_salary", salaryJson);
@@ -439,7 +438,8 @@ public class IncomeWagesSalaryFragment extends BaseFragment implements View.OnCl
                                           final int monthOfYear, final int dayOfMonth) {
                         if (view.isShown()) {
                             calendar.set(year, monthOfYear, dayOfMonth);
-                            edtBirthday.setText(DateTimeUtils.fromCalendarToBirthday(calendar));
+                            edtBirthday.setText(DateFormat.getDateInstance(DateFormat.SHORT).format(calendar.getTime()));
+
                         }
                     }
                 }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
@@ -455,39 +455,33 @@ public class IncomeWagesSalaryFragment extends BaseFragment implements View.OnCl
                 LogUtils.d(TAG, "doSaveBasic" + cbYes.isChecked() + images.size());
                 if (cbYes.isChecked()) {
                     if (images.size() < 2) {
-                        showToolTipView(getContext(), grImage, Gravity.TOP, getString(R.string.vali_all_empty), ContextCompat.getColor(getContext(), R.color.red));
+                        Utils.showLongToast(getActivity(), getString(R.string.image_attach_empty), true, false);
                         return;
                     } else uploadImage();
                 } else if (cbNo.isChecked()) {
                     if (edtTfn.getText().toString().trim().isEmpty()) {
-                        showToolTipView(getContext(), edtTfn, Gravity.BOTTOM, getString(R.string.vali_all_empty),
-                                ContextCompat.getColor(getContext(), R.color.red));
+                        Utils.showToolTip(getActivity(), edtTfn, getString(R.string.vali_all_empty));
                         return;
                     }
                     if (edtFirstName.getText().toString().trim().isEmpty()) {
-                        showToolTipView(getContext(), edtFirstName, Gravity.BOTTOM, getString(R.string.vali_all_empty),
-                                ContextCompat.getColor(getContext(), R.color.red));
+                        Utils.showToolTip(getActivity(), edtFirstName, getString(R.string.vali_all_empty));
                         return;
                     }
                     if (edtMidName.getText().toString().trim().isEmpty()) {
-                        showToolTipView(getContext(), edtMidName, Gravity.TOP, getString(R.string.vali_all_empty),
-                                ContextCompat.getColor(getContext(), R.color.red));
+                        Utils.showToolTip(getActivity(), edtMidName, getString(R.string.vali_all_empty));
                         return;
                     }
                     if (edtLastName.getText().toString().trim().isEmpty()) {
-                        showToolTipView(getContext(), edtLastName, Gravity.TOP, getString(R.string.vali_all_empty),
-                                ContextCompat.getColor(getContext(), R.color.red));
+                        Utils.showToolTip(getActivity(), edtLastName, getString(R.string.vali_all_empty));
                         return;
                     }
                     if (edtBirthday.getText().toString().trim().isEmpty()) {
-                        showToolTipView(getContext(), edtBirthday, Gravity.TOP, getString(R.string.vali_all_empty),
-                                ContextCompat.getColor(getContext(), R.color.red));
+                        Utils.showToolTip(getActivity(), edtBirthday, getString(R.string.vali_all_empty));
                         return;
                     }
                     doSaveBasic();
                 } else {
-                    showToolTipView(getContext(), btnNext, Gravity.TOP, getString(R.string.error_must_one),
-                            ContextCompat.getColor(getContext(), R.color.red));
+                    Utils.showLongToast(getActivity(), getString(R.string.error_must_one), true, false);
                 }
                 break;
 

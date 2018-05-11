@@ -258,40 +258,43 @@ public class ReviewFamilyHealthPrivateFragment extends BaseFragment implements V
     private void doUploadImage() {
         countDown = reviewPrivateResponses.size();
 
-        for (int i = 0; i < reviewPrivateResponses.size(); i++) {
+        if (reviewPrivateResponses.size() ==0) {
+            doNext();
+        } else {
+            for (int i = 0; i < reviewPrivateResponses.size(); i++) {
+                ArrayList<Attachment> attachments = (ArrayList<Attachment>) reviewPrivateResponses.get(i).getAttachments();
+                ArrayList<Image> imagesUp = new ArrayList<>();
+                LogUtils.d(TAG, "doUploadImage , attachments size : " + attachments.size());
+                LogUtils.d(TAG, "doUploadImage , attachments : " + attachments.toString());
 
-            ArrayList<Attachment> attachments = (ArrayList<Attachment>) reviewPrivateResponses.get(i).getAttachments();
-            ArrayList<Image> imagesUp = new ArrayList<>();
-            LogUtils.d(TAG, "doUploadImage , attachments size : " + attachments.size());
-            LogUtils.d(TAG, "doUploadImage , attachments : " + attachments.toString());
+                for (Attachment attachment : attachments) {
+                    if (attachment.getId() == 0) {
+                        Image image = new Image();
+                        image.setId(0);
+                        image.setPath(attachment.getUrl());
+                        image.setName(new File(attachment.getUrl()).getName());
+                        imagesUp.add(image);
+                    }
+                }
+                LogUtils.d(TAG, "doUploadImage , imagesUp size : " + imagesUp.size());
 
-            for (Attachment attachment : attachments) {
-                if (attachment.getId() == 0) {
-                    Image image = new Image();
-                    image.setId(0);
-                    image.setPath(attachment.getUrl());
-                    image.setName(new File(attachment.getUrl()).getName());
-                    imagesUp.add(image);
+                if (imagesUp.size() > 0) {
+                    final int finalI = i;
+                    ImageUtils.doUploadImage(getActivity(), imagesUp, new ImageUtils.UpImagesListener() {
+                        @Override
+                        public void onSuccess(List<Attachment> responses) {
+                            countDown--;
+                            ((ArrayList<Attachment>) reviewPrivateResponses.get(finalI).getAttachments()).addAll(responses);
+                            LogUtils.d(TAG, "doUploadImage , count : " + countDown);
+                            if (countDown == 0) doNext();
+                        }
+                    });
+                } else {
+                    doNext();
                 }
             }
-            LogUtils.d(TAG, "doUploadImage , imagesUp size : " + imagesUp.size());
-
-            if (imagesUp.size() > 0) {
-                final int finalI = i;
-                ImageUtils.doUploadImage(getActivity(), imagesUp, new ImageUtils.UpImagesListener() {
-                    @Override
-                    public void onSuccess(List<Attachment> responses) {
-                        countDown--;
-                        ((ArrayList<Attachment>) reviewPrivateResponses.get(finalI).getAttachments()).addAll(responses);
-                        LogUtils.d(TAG, "doUploadImage , count : " + countDown);
-                        if (countDown == 0) doNext();
-                    }
-                });
-            } else {
-                doNext();
-            }
-
         }
+
     }
 
     private void doNext() {
@@ -356,7 +359,6 @@ public class ReviewFamilyHealthPrivateFragment extends BaseFragment implements V
                 if (response.code() == Constants.HTTP_CODE_OK) {
                     LogUtils.d(TAG, "doNext body : " + response.body().toString());
                     openFragment(R.id.layout_container, ReviewFamilyHealthSpouseFragment.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
-                    Utils.showLongToast(getActivity(), "DONE NEXT !!!", false, false);
                 } else {
                     APIError error = Utils.parseError(response);
                     LogUtils.d(TAG, "doNext error : " + error.message());

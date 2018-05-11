@@ -79,14 +79,15 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="2px"
+                android:layout_marginTop="10dp"
                 android:background="@color/line_color" />
 
             <LinearLayout
                 android:id="@+id/layout_personal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginBottom="15dp"
+                android:layout_marginTop="15dp"
                 android:gravity="center_vertical">
 
                 <ImageView
@@ -102,7 +103,7 @@
                     android:gravity="center_vertical"
                     android:text="@string/menu_personal"
                     android:textColor="@color/white"
-                    android:textSize="18sp"
+                    android:textSize="@dimen/review_big_menu"
                     android:textStyle="bold" />
 
             </LinearLayout>
@@ -129,7 +130,7 @@
                         android:id="@+id/tv_review_personal_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="15dp"
                         android:text="@string/menu_personal_name"
                         android:textColor="@color/white"
                         android:textSize="16sp" />
@@ -138,7 +139,7 @@
                         android:id="@+id/tv_review_personal_bank"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="15dp"
                         android:text="@string/menu_personal_bank"
                         android:textColor="@color/white"
                         android:textSize="16sp" />
@@ -147,8 +148,8 @@
                         android:id="@+id/tv_review_personal_education"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="10dp"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="15dp"
+                        android:layout_marginTop="15dp"
                         android:text="@string/menu_personal_education"
                         android:textColor="@color/white"
                         android:textSize="16sp" />
@@ -166,8 +167,8 @@
                 android:id="@+id/layout_incomes"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginBottom="15dp"
+                android:layout_marginTop="15dp"
                 android:gravity="center_vertical">
 
                 <ImageView
@@ -183,7 +184,7 @@
                     android:gravity="center_vertical"
                     android:text="@string/menu_incomes"
                     android:textColor="@color/white"
-                    android:textSize="18sp"
+                    android:textSize="@dimen/review_big_menu"
                     android:textStyle="bold" />
 
             </LinearLayout>
@@ -210,7 +211,7 @@
                         android:id="@+id/tv_wages_salary"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="15dp"
                         android:text="@string/menu_incomes_wages"
                         android:textColor="@color/white"
                         android:textSize="16sp" />
@@ -219,7 +220,7 @@
                         android:id="@+id/tv_income_government_payment"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="15dp"
                         android:text="@string/menu_incomes_government"
                         android:textColor="@color/white"
                         android:textSize="16sp" />
@@ -229,7 +230,7 @@
                         android:id="@+id/tv_income_interests"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="15dp"
                         android:text="@string/menu_incomes_interests"
                         android:textColor="@color/white"
                         android:textSize="16sp" />
@@ -238,7 +239,7 @@
                         android:id="@+id/tv_income_dividends"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="15dp"
                         android:text="@string/menu_incomes_dividends"
                         android:textColor="@color/white"
                         android:textSize="16sp" />
@@ -247,7 +248,7 @@
                         android:id="@+id/tv_incomes_early"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="15dp"
                         android:text="@string/menu_incomes_early"
                         android:textColor="@color/white"
                         android:textSize="16sp" />
@@ -256,7 +257,7 @@
                         android:id="@+id/tv_income_annuities_suppers"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="15dp"
                         android:text="@string/menu_incomes_annuities"
                         android:textColor="@color/white"
                         android:textSize="16sp" />
@@ -265,7 +266,7 @@
                         android:id="@+id/tv_income_lump_sum"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="15dp"
                         android:text="@string/menu_incomes_lumpsum"
                         android:textColor="@color/white"
                         android:textSize="16sp" />
@@ -274,8 +275,8 @@
                         android:id="@+id/tv_income_rental"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="10dp"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="15dp"
+                        android:layout_marginTop="15dp"
                         android:text="@string/menu_incomes_rental"
                         android:textColor="@color/white"
                         android:textSize="16sp" />
@@ -293,8 +294,8 @@
                 android:id="@+id/layout_deductions"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginBottom="15dp"
+                android:layout_marginTop="15dp"
                 android:gravity="center_vertical">
 
                 <ImageView
@@ -310,7 +311,7 @@
                     android:gravity="center_vertical"
                     android:text="@string/menu_deductions"
                     android:textColor="@color/white"
-                    android:textSize="18sp"
+                    android:textSize="@dimen/review_big_menu"
                     android:textStyle="bold" />
 
             </LinearLayout>
@@ -337,7 +338,7 @@
                         android:id="@+id/tv_deduction_vehicles"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="15dp"
                         android:text="@string/menu_deductions_vehicles"
                         android:textColor="@color/white"
                         android:textSize="16sp" />
@@ -346,7 +347,7 @@
                         android:id="@+id/tv_deduction_clothing"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="15dp"
                         android:text="@string/menu_deductions_clothing"
                         android:textColor="@color/white"
                         android:textSize="16sp" />
@@ -355,7 +356,7 @@
                         android:id="@+id/tv_deduction_education"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="15dp"
                         android:text="@string/menu_deductions_education"
                         android:textColor="@color/white"
                         android:textSize="16sp" />
@@ -364,7 +365,7 @@
                         android:id="@+id/tv_deduction_other"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="15dp"
                         android:text="@string/menu_deductions_otherworks"
                         android:textColor="@color/white"
                         android:textSize="16sp" />
@@ -373,7 +374,7 @@
                         android:id="@+id/tv_deduction_donation"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="15dp"
                         android:text="@string/menu_deductions_donations"
                         android:textColor="@color/white"
                         android:textSize="16sp" />
@@ -382,8 +383,8 @@
                         android:id="@+id/tv_deduction_tax_agents"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="10dp"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="15dp"
+                        android:layout_marginTop="15dp"
                         android:text="@string/menu_deductions_tax_agents"
                         android:textColor="@color/white"
                         android:textSize="16sp" />
@@ -402,8 +403,8 @@
                 android:id="@+id/layout_family"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginBottom="15dp"
+                android:layout_marginTop="15dp"
                 android:gravity="center_vertical">
 
                 <ImageView
@@ -419,7 +420,7 @@
                     android:gravity="center_vertical"
                     android:text="@string/menu_family_health"
                     android:textColor="@color/white"
-                    android:textSize="18sp"
+                    android:textSize="@dimen/review_big_menu"
                     android:textStyle="bold" />
 
             </LinearLayout>
@@ -446,7 +447,7 @@
                         android:id="@+id/tv_review_family_health_dependants"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="15dp"
                         android:text="@string/menu_family_health_dependants"
                         android:textColor="@color/white"
                         android:textSize="16sp" />
@@ -455,7 +456,7 @@
                         android:id="@+id/tv_review_family_health_medicare"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="15dp"
                         android:text="@string/menu_family_health_medicare"
                         android:textColor="@color/white"
                         android:textSize="16sp" />
@@ -464,7 +465,7 @@
                         android:id="@+id/tv_review_family_health_private"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="15dp"
                         android:text="@string/menu_family_health_private"
                         android:textColor="@color/white"
                         android:textSize="16sp" />
@@ -473,8 +474,8 @@
                         android:id="@+id/tv_review_family_health_spouse"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="10dp"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="15dp"
+                        android:layout_marginTop="15dp"
                         android:text="@string/menu_family_health_spouse"
                         android:textColor="@color/white"
                         android:textSize="16sp" />

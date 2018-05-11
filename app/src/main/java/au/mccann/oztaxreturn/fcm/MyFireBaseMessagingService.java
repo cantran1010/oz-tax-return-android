@@ -34,6 +34,7 @@ import com.google.gson.GsonBuilder;
 
 import au.mccann.oztaxreturn.R;
 import au.mccann.oztaxreturn.activity.SplashActivity;
+import au.mccann.oztaxreturn.common.Constants;
 import au.mccann.oztaxreturn.database.UserManager;
 import au.mccann.oztaxreturn.model.Notification;
 import au.mccann.oztaxreturn.utils.LogUtils;
@@ -87,6 +88,7 @@ public class MyFireBaseMessagingService extends FirebaseMessagingService {
         if (!UserManager.checkLogin()) return;
         if (notification == null || notification.getEvent() == null) return;
         Intent intent = new Intent(getApplicationContext(), SplashActivity.class);
+        intent.putExtra(Constants.NOTIFICATION_EXTRA,notification);
 
         PendingIntent pendingIntent = PendingIntent.getActivity(this, notification.getId() /* Request code */, intent,
                 PendingIntent.FLAG_UPDATE_CURRENT);
