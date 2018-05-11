@@ -3,8 +3,6 @@ package au.mccann.oztaxreturn.fragment.review.personal;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.ImageView;
@@ -33,7 +31,6 @@ import au.mccann.oztaxreturn.utils.DateTimeUtils;
 import au.mccann.oztaxreturn.utils.DialogUtils;
 import au.mccann.oztaxreturn.utils.LogUtils;
 import au.mccann.oztaxreturn.utils.ProgressDialogUtils;
-import au.mccann.oztaxreturn.utils.TooltipUtils;
 import au.mccann.oztaxreturn.utils.TransitionScreen;
 import au.mccann.oztaxreturn.utils.Utils;
 import au.mccann.oztaxreturn.view.EdittextCustom;
@@ -166,32 +163,27 @@ public class ReviewPersonalInfomationA extends BaseFragment implements View.OnCl
     private void donext() {
 
         if (edtTitle.getText().toString().trim().isEmpty()) {
-            TooltipUtils.showToolTipView(getContext(), edtTitle, Gravity.TOP, getString(R.string.valid_title),
-                    ContextCompat.getColor(getContext(), R.color.red));
+            Utils.showToolTip(getActivity(), edtTitle, getString(R.string.vali_all_empty));
             return;
         }
 
         if (edtFirstName.getText().toString().trim().isEmpty()) {
-            TooltipUtils.showToolTipView(getContext(), edtFirstName, Gravity.TOP, getString(R.string.valid_first_name),
-                    ContextCompat.getColor(getContext(), R.color.red));
+            Utils.showToolTip(getActivity(), edtFirstName, getString(R.string.vali_all_empty));
             return;
         }
 
         if (edtMidName.getText().toString().trim().isEmpty()) {
-            TooltipUtils.showToolTipView(getContext(), edtMidName, Gravity.TOP, getString(R.string.valid_mid_name),
-                    ContextCompat.getColor(getContext(), R.color.red));
+            Utils.showToolTip(getActivity(), edtMidName, getString(R.string.vali_all_empty));
             return;
         }
 
         if (edtLastName.getText().toString().trim().isEmpty()) {
-            TooltipUtils.showToolTipView(getContext(), edtLastName, Gravity.TOP, getString(R.string.valid_last_name),
-                    ContextCompat.getColor(getContext(), R.color.red));
+            Utils.showToolTip(getActivity(), edtLastName, getString(R.string.vali_all_empty));
             return;
         }
 
         if (edtBirthDay.getText().toString().trim().isEmpty()) {
-            TooltipUtils.showToolTipView(getContext(), edtBirthDay, Gravity.TOP, getString(R.string.valid_birth_day),
-                    ContextCompat.getColor(getContext(), R.color.red));
+            Utils.showToolTip(getActivity(), edtBirthDay, getString(R.string.vali_all_empty));
             return;
         }
 
