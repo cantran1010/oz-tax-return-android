@@ -111,7 +111,7 @@ public class GovementPayment extends BaseFragment implements View.OnClickListene
 
     @Override
     protected void initData() {
-        updateProgress(5);
+        getReviewProgress(getApplicationResponse());
         images = new ArrayList<>();
         attach = new ArrayList<>();
         appID = getApplicationResponse().getId();

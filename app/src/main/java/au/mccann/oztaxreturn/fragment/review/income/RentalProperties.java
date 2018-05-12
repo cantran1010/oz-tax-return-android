@@ -129,7 +129,7 @@ public class RentalProperties extends BaseFragment implements View.OnClickListen
 
     @Override
     protected void initData() {
-        updateProgress(11);
+        getReviewProgress(getApplicationResponse());
         images = new ArrayList<>();
         attach = new ArrayList<>();
         appID = getApplicationResponse().getId();

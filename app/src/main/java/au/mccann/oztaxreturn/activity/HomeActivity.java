@@ -3,6 +3,7 @@ package au.mccann.oztaxreturn.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
@@ -15,6 +16,8 @@ import android.widget.RelativeLayout;
 import au.mccann.oztaxreturn.R;
 import au.mccann.oztaxreturn.common.Constants;
 import au.mccann.oztaxreturn.database.UserEntity;
+import au.mccann.oztaxreturn.database.UserManager;
+import au.mccann.oztaxreturn.dialog.AlertDialogOk;
 import au.mccann.oztaxreturn.dialog.AlertDialogOkAndCancel;
 import au.mccann.oztaxreturn.fragment.ContactFragment;
 import au.mccann.oztaxreturn.fragment.HomeFragment;
@@ -40,8 +43,11 @@ import au.mccann.oztaxreturn.fragment.review.income.ReviewIncomeWS;
 import au.mccann.oztaxreturn.fragment.review.personal.ReviewPersonalInfomationA;
 import au.mccann.oztaxreturn.fragment.review.personal.ReviewPersonalInfomationB;
 import au.mccann.oztaxreturn.fragment.review.personal.ReviewPersonalInfomationC;
+import au.mccann.oztaxreturn.model.APIError;
 import au.mccann.oztaxreturn.model.Notification;
+import au.mccann.oztaxreturn.networking.ApiClient;
 import au.mccann.oztaxreturn.rest.response.ApplicationResponse;
+import au.mccann.oztaxreturn.rest.response.ReviewProgressResponse;
 import au.mccann.oztaxreturn.utils.DialogUtils;
 import au.mccann.oztaxreturn.utils.LogUtils;
 import au.mccann.oztaxreturn.utils.TransitionScreen;
@@ -50,12 +56,15 @@ import au.mccann.oztaxreturn.view.ExpandableLayout;
 import au.mccann.oztaxreturn.view.TextViewCustom;
 import de.hdodenhof.circleimageview.CircleImageView;
 import io.realm.Realm;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class HomeActivity extends BaseActivity implements View.OnClickListener {
     private static final String TAG = HomeActivity.class.getSimpleName();
     private DrawerLayout drawer;
     private ImageView imgHome, imgContact, imgNotification, imgBack, imgNavigation, imgLogout;
-    private TextViewCustom tvHome, tvContact, tvNotification, tvTitle, tvReviewPersonalName, tvReviewPersonalBank, tvReviewPersonalEducation, tvVersion, tvName;
+    private TextViewCustom tvHome, tvContact, tvNotification, tvTitle, tvVersion, tvName;
     private ExpandableLayout expPersonalLayout, expIncomesLayout, expDeductionsLayout, expFamilyLayout;
     private RelativeLayout homeNavigation, reviewNavigation;
     private ApplicationResponse applicationResponse;
@@ -64,6 +73,11 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
     private boolean editApp;
     private CircleImageView imgAvatar;
     boolean doubleBackToExitPressedOnce = false;
+
+    private TextViewCustom tvReviewPersonalName, tvReviewPersonalBank, tvReviewPersonalEducation;
+    private TextViewCustom tvIncomeWS, tvIncomeGovernment, tvIncomeInterests, tvIncomeDevidents, tvIncomeEarly, tvIncomeAnnuities, tvIncomeLumpSum, tvIncomeRental;
+    private TextViewCustom tvDeductionVehicles, tvDeductionClothing, tvDeductionEducation, tvDeductionOther, tvDeductionDonation, tvDeductionTaxAgents;
+    private TextViewCustom tvHealthDependants, tvHealthMedicare, tvHealthPrivate, tvHealthSpouse;
 
     @Override
     protected int getLayout() {
@@ -106,17 +120,23 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
         findViewById(R.id.tv_review_family_health_private).setOnClickListener(this);
         findViewById(R.id.tv_review_family_health_spouse).setOnClickListener(this);
 
+        tvHealthDependants = findViewById(R.id.tv_review_family_health_dependants);
+        tvHealthMedicare = findViewById(R.id.tv_review_family_health_medicare);
+        tvHealthPrivate = findViewById(R.id.tv_review_family_health_private);
+        tvHealthSpouse = findViewById(R.id.tv_review_family_health_spouse);
+
         findViewById(R.id.tv_review_personal_name).setOnClickListener(this);
         findViewById(R.id.tv_review_personal_bank).setOnClickListener(this);
         findViewById(R.id.tv_review_personal_education).setOnClickListener(this);
-        findViewById(R.id.img_logout).setOnClickListener(this);
+        tvReviewPersonalName = findViewById(R.id.tv_review_personal_name);
+        tvReviewPersonalBank = findViewById(R.id.tv_review_personal_bank);
+        tvReviewPersonalEducation = findViewById(R.id.tv_review_personal_education);
 
         findViewById(R.id.tv_about_us).setOnClickListener(this);
         findViewById(R.id.tv_privacy).setOnClickListener(this);
         findViewById(R.id.tv_terms).setOnClickListener(this);
         findViewById(R.id.tv_share).setOnClickListener(this);
         findViewById(R.id.layout_rate).setOnClickListener(this);
-
 
         findViewById(R.id.tv_wages_salary).setOnClickListener(this);
         findViewById(R.id.tv_income_government_payment).setOnClickListener(this);
@@ -127,6 +147,15 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
         findViewById(R.id.tv_income_lump_sum).setOnClickListener(this);
         findViewById(R.id.tv_income_rental).setOnClickListener(this);
 
+        tvIncomeWS = findViewById(R.id.tv_wages_salary);
+        tvIncomeGovernment = findViewById(R.id.tv_income_government_payment);
+        tvIncomeInterests = findViewById(R.id.tv_income_interests);
+        tvIncomeDevidents = findViewById(R.id.tv_income_dividends);
+        tvIncomeEarly = findViewById(R.id.tv_incomes_early);
+        tvIncomeAnnuities = findViewById(R.id.tv_income_annuities_suppers);
+        tvIncomeLumpSum = findViewById(R.id.tv_income_lump_sum);
+        tvIncomeRental = findViewById(R.id.tv_income_rental);
+
         findViewById(R.id.tv_deduction_vehicles).setOnClickListener(this);
         findViewById(R.id.tv_deduction_clothing).setOnClickListener(this);
         findViewById(R.id.tv_deduction_education).setOnClickListener(this);
@@ -134,9 +163,17 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
         findViewById(R.id.tv_deduction_donation).setOnClickListener(this);
         findViewById(R.id.tv_deduction_tax_agents).setOnClickListener(this);
 
+        tvDeductionVehicles = findViewById(R.id.tv_deduction_vehicles);
+        tvDeductionClothing = findViewById(R.id.tv_deduction_clothing);
+        tvDeductionEducation = findViewById(R.id.tv_deduction_education);
+        tvDeductionOther = findViewById(R.id.tv_deduction_other);
+        tvDeductionDonation = findViewById(R.id.tv_deduction_donation);
+        tvDeductionTaxAgents = findViewById(R.id.tv_deduction_tax_agents);
+
+        findViewById(R.id.img_logout).setOnClickListener(this);
+
         tvName.setOnClickListener(this);
         imgAvatar.setOnClickListener(this);
-
 
         homeNavigation = findViewById(R.id.home_navi_layout);
         reviewNavigation = findViewById(R.id.review_navi_layout);
@@ -384,10 +421,161 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
         startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
     }
 
-    public void updateProgress(int page) {
-        float f = (float) ((float) page / 21 * 100);
-        tvProgress.setText((int) f + "%");
-        progressBar.setProgress((int) f);
+    public void getReviewProgress(final ApplicationResponse applicationResponse) {
+        LogUtils.d(TAG, "getReviewProgress applicationResponse : " + applicationResponse.toString());
+        ApiClient.getApiService().getReviewProgress(UserManager.getUserToken(), applicationResponse.getId()).enqueue(new Callback<ReviewProgressResponse>() {
+            @Override
+            public void onResponse(Call<ReviewProgressResponse> call, @NonNull Response<ReviewProgressResponse> response) {
+                LogUtils.d(TAG, "getReviewProgress code : " + response.code());
+                if (response.code() == Constants.HTTP_CODE_OK) {
+                    LogUtils.d(TAG, "getReviewProgress body : " + response.body().toString());
+                    if (response.body() != null) {
+                        ReviewProgressResponse reviewProgressResponse = response.body();
+
+                        // personal infomation
+                        if (reviewProgressResponse.isInfoNameResidency())
+                            tvReviewPersonalName.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.img_check_review, 0);
+                        else
+                            tvReviewPersonalName.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+
+                        if (reviewProgressResponse.isInfoBankAddress())
+                            tvReviewPersonalBank.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.img_check_review, 0);
+                        else
+                            tvReviewPersonalBank.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+
+                        if (reviewProgressResponse.isInfoEducationDebt())
+                            tvReviewPersonalEducation.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.img_check_review, 0);
+                        else
+                            tvReviewPersonalEducation.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+
+                        //income
+                        if (reviewProgressResponse.isIncomeWagesSalary())
+                            tvIncomeWS.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.img_check_review, 0);
+                        else
+                            tvIncomeWS.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+
+                        if (reviewProgressResponse.isIncomeGovPayments())
+                            tvIncomeGovernment.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.img_check_review, 0);
+                        else
+                            tvIncomeGovernment.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+
+                        if (reviewProgressResponse.isIncomeBankInterests())
+                            tvIncomeInterests.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.img_check_review, 0);
+                        else
+                            tvIncomeInterests.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+
+                        if (reviewProgressResponse.isIncomeDividends())
+                            tvIncomeDevidents.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.img_check_review, 0);
+                        else
+                            tvIncomeDevidents.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+
+                        if (reviewProgressResponse.isIncomeEtps())
+                            tvIncomeEarly.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.img_check_review, 0);
+                        else
+                            tvIncomeEarly.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+
+                        if (reviewProgressResponse.isIncomeAnnuities())
+                            tvIncomeAnnuities.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.img_check_review, 0);
+                        else
+                            tvIncomeAnnuities.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+
+                        if (reviewProgressResponse.isIncomeLumpSums())
+                            tvIncomeLumpSum.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.img_check_review, 0);
+                        else
+                            tvIncomeLumpSum.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+
+                        if (reviewProgressResponse.isIncomeRentals())
+                            tvIncomeRental.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.img_check_review, 0);
+                        else
+                            tvIncomeRental.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+
+                        // deduction
+                        if (reviewProgressResponse.isDeductionVehicles())
+                            tvDeductionVehicles.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.img_check_review, 0);
+                        else
+                            tvDeductionVehicles.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+
+                        if (reviewProgressResponse.isDeductionClothes())
+                            tvDeductionClothing.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.img_check_review, 0);
+                        else
+                            tvDeductionClothing.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+
+                        if (reviewProgressResponse.isDeductionEducations())
+                            tvDeductionEducation.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.img_check_review, 0);
+                        else
+                            tvDeductionEducation.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+
+                        if (reviewProgressResponse.isDeductionOthers())
+                            tvDeductionOther.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.img_check_review, 0);
+                        else
+                            tvDeductionOther.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+
+                        if (reviewProgressResponse.isDeductionDonations())
+                            tvDeductionDonation.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.img_check_review, 0);
+                        else
+                            tvDeductionDonation.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+
+                        if (reviewProgressResponse.isDeductionTaxAgents())
+                            tvDeductionTaxAgents.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.img_check_review, 0);
+                        else
+                            tvDeductionTaxAgents.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+
+                        // tvHealthDependants,tvHealthMedicare,tvHealthPrivate,tvHealthSpouse;
+                        // Family and Health
+                        if (reviewProgressResponse.isHealthDependants())
+                            tvHealthDependants.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.img_check_review, 0);
+                        else
+                            tvHealthDependants.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+
+                        if (reviewProgressResponse.isHealthMedicares())
+                            tvHealthMedicare.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.img_check_review, 0);
+                        else
+                            tvHealthMedicare.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+
+                        if (reviewProgressResponse.isHealthPrivates())
+                            tvHealthPrivate.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.img_check_review, 0);
+                        else
+                            tvHealthPrivate.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+
+                        if (reviewProgressResponse.isHealthSpouses())
+                            tvHealthSpouse.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.img_check_review, 0);
+                        else
+                            tvHealthSpouse.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+
+                        tvProgress.setText(reviewProgressResponse.getPercent() + "%");
+                        progressBar.setProgress(reviewProgressResponse.getPercent());
+                    }
+                } else {
+                    APIError error = Utils.parseError(response);
+                    if (error != null) {
+                        LogUtils.d(TAG, "getReviewProgress error : " + error.message());
+                        DialogUtils.showOkDialog(HomeActivity.this, getString(R.string.error), error.message(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                            @Override
+                            public void onSubmit() {
+
+                            }
+                        });
+                    }
+                }
+
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<ReviewProgressResponse> call, @NonNull Throwable t) {
+                LogUtils.e(TAG, "getReviewProgress onFailure : " + t.getMessage());
+                DialogUtils.showRetryDialog(HomeActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
+                    @Override
+                    public void onSubmit() {
+                        getReviewProgress(applicationResponse);
+                    }
+
+                    @Override
+                    public void onCancel() {
+
+                    }
+                });
+            }
+        });
     }
 
     @Override

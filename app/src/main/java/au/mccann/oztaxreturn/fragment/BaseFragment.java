@@ -256,9 +256,9 @@ public abstract class BaseFragment extends Fragment implements SwipeRefreshLayou
             ((HomeActivity) getActivity()).updateAppInNavigation(applicationResponse);
     }
 
-    public void updateProgress(int page) {
+    public void getReviewProgress(ApplicationResponse applicationResponse) {
         if (getActivity() instanceof HomeActivity)
-            ((HomeActivity) getActivity()).updateProgress(page);
+            ((HomeActivity) getActivity()).getReviewProgress(applicationResponse);
     }
 
 }

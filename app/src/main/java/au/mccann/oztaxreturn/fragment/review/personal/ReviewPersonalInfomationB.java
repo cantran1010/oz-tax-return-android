@@ -71,7 +71,7 @@ public class ReviewPersonalInfomationB extends BaseFragment implements View.OnCl
     protected void initData() {
         imgEdit.setEnabled(isEditApp());
         getReviewInformationB();
-        updateProgress(2);
+        getReviewProgress(getApplicationResponse());
     }
 
     @Override
