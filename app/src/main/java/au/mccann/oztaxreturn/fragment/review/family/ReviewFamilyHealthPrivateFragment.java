@@ -104,7 +104,7 @@ public class ReviewFamilyHealthPrivateFragment extends BaseFragment implements V
 
     @Override
     protected void initData() {
-        updateProgress(20);
+        getReviewProgress(getApplicationResponse());
         setTitle(getString(R.string.review_fhd_title));
         appBarVisibility(true, true, 1);
         imgEdit.setEnabled(isEditApp());

@@ -255,7 +255,7 @@ public class ContactFragment extends BaseFragment implements View.OnClickListene
                 .checkSelfPermission(getActivity(),
                         Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(getActivity(), permissions, Constants.PERMISSION_REQUEST_CODE);
+            requestPermissions(permissions, Constants.PERMISSION_REQUEST_CODE);
         } else {
             permissionGrantedImageAttach();
         }

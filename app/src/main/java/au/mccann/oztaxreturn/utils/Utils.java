@@ -62,10 +62,7 @@ import static au.mccann.oztaxreturn.networking.ApiClient.retrofit;
  */
 public class Utils {
     private static final String TAG = Utils.class.getSimpleName();
-    private static final int MAXSIZE = 1000;
-    public static final int MAXSIZE_AVATA = 300;
-    private static final int MAX_BUGDET = 1000000;
-    private static final int MIN_BUGDET = 10000;
+    private static final int MAXSIZE = 2000;
 
     public static void displayImage(Context context, ImageView img, String url) {
         LogUtils.d(TAG, "onBindViewHolder , url : " + url);

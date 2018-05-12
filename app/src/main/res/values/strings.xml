@@ -294,6 +294,7 @@
     <string name="valid_table_component">Enter table component</string>
     <string name="valid_code">Please select ETPs code</string>
     <string name="early_termination_payment_code">Seclect ETPs code</string>
+    <string name="etps_code">ETPs code</string>
 
     <!-- review rental   -->
     <string name="rental_properties">Rental properties</string>

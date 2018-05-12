@@ -91,7 +91,7 @@ public class ReviewFamilyHealthMedicareFragment extends BaseFragment implements 
 
     @Override
     protected void initData() {
-        updateProgress(19);
+        getReviewProgress(getApplicationResponse());
         setTitle(getString(R.string.review_fhd_title));
         appBarVisibility(true, true, 1);
         imgEdit.setEnabled(isEditApp());

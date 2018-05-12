@@ -28,7 +28,7 @@ public class ReviewBeginBFragment extends BaseFragment implements View.OnClickLi
 
     @Override
     protected void initData() {
-        updateProgress(0);
+        getReviewProgress(getApplicationResponse());
         setTitle(getString(R.string.review_begin_a));
         appBarVisibility(true, true, 1);
     }

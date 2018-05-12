@@ -126,12 +126,14 @@ public class ImageUtils {
         LogUtils.d(TAG, "doUploadImage onResponse images: " + images.size());
         List<MultipartBody.Part> parts = new ArrayList<>();
         // last image is "plus attach" , so realy size = size -1
-        for (int i = 0; i < images.size(); i++)
-            parts.add(MultipartBody.Part.createFormData("images[]", images.get(i).getName(), RequestBody.create(MediaType.parse("image/*"), new File(images.get(i).getPath()))));
+        for (int i = 0; i < images.size(); i++) {
+            File up = Utils.compressFile(new File(images.get(i).getPath()));
+            parts.add(MultipartBody.Part.createFormData("images[]", up.getName(), RequestBody.create(MediaType.parse("image/*"), up)));
+        }
+
         ApiClient.getApiService().uploadImage(UserManager.getUserToken(), parts).enqueue(new Callback<List<Attachment>>() {
             @Override
             public void onResponse(Call<List<Attachment>> call, Response<List<Attachment>> response) {
-                ProgressDialogUtils.dismissProgressDialog();
                 LogUtils.d(TAG, "doUploadImage onResponse : " + response.body());
                 LogUtils.d(TAG, "doUploadImage code : " + response.code());
                 if (response.code() == Constants.HTTP_CODE_OK) {
@@ -149,12 +151,11 @@ public class ImageUtils {
                     }
                 }
                 FileUtils.deleteDirectory(new File(FileUtils.OUTPUT_DIR));
-
+                ProgressDialogUtils.dismissProgressDialog();
             }
 
             @Override
             public void onFailure(Call<List<Attachment>> call, Throwable t) {
-                ProgressDialogUtils.dismissProgressDialog();
                 LogUtils.e(TAG, "doUploadImage onFailure : " + t.getMessage());
                 DialogUtils.showRetryDialog(context, new AlertDialogOkAndCancel.AlertDialogListener() {
                     @Override
@@ -168,13 +169,13 @@ public class ImageUtils {
                     }
                 });
                 ProgressDialogUtils.dismissProgressDialog();
-                FileUtils.deleteDirectory(new File(FileUtils.OUTPUT_DIR));
+//                FileUtils.deleteDirectory(new File(FileUtils.OUTPUT_DIR));
             }
         });
     }
 
     public static void showImage(List<Attachment> attachments, List<Image> images, ImageAdapter imageAdapter) {
-        if (attachments!=null&&attachments.size() > 0) {
+        if (attachments != null && attachments.size() > 0) {
             for (Attachment attachment : attachments
                     ) {
                 Image image = new Image();

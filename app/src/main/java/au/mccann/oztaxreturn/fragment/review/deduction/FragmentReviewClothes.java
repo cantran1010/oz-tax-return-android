@@ -107,7 +107,7 @@ public class FragmentReviewClothes extends BaseFragment implements View.OnClickL
 
     @Override
     protected void initData() {
-        updateProgress(13);
+        getReviewProgress(getApplicationResponse());
         images = new ArrayList<>();
         attach = new ArrayList<>();
         appID = getApplicationResponse().getId();

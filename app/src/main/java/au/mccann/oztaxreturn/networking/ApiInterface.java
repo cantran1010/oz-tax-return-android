@@ -18,6 +18,7 @@ import au.mccann.oztaxreturn.rest.response.FeeResponse;
 import au.mccann.oztaxreturn.rest.response.Language;
 import au.mccann.oztaxreturn.rest.response.PersonalInfomationResponse;
 import au.mccann.oztaxreturn.rest.response.ReviewFamilyHealthResponse;
+import au.mccann.oztaxreturn.rest.response.ReviewProgressResponse;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
@@ -132,4 +133,7 @@ public interface ApiInterface {
 
     @GET("user/status")
     Call<BlockResponse> checkBlockUser(@Header("Authorization") String token);
+
+    @GET("application/{application_id}/review/progress")
+    Call<ReviewProgressResponse> getReviewProgress(@Header("Authorization") String token, @Path("application_id") int appId);
 }
