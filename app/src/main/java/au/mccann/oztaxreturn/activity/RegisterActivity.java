@@ -2,8 +2,13 @@ package au.mccann.oztaxreturn.activity;
 
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
+import android.text.style.ForegroundColorSpan;
 import android.view.View;
-import android.widget.CheckBox;
 import android.widget.CompoundButton;
 
 import org.json.JSONException;
@@ -24,12 +29,19 @@ import au.mccann.oztaxreturn.utils.ProgressDialogUtils;
 import au.mccann.oztaxreturn.utils.TransitionScreen;
 import au.mccann.oztaxreturn.utils.Utils;
 import au.mccann.oztaxreturn.view.ButtonCustom;
+import au.mccann.oztaxreturn.view.CheckBoxCustom;
 import au.mccann.oztaxreturn.view.EdittextCustom;
+import au.mccann.oztaxreturn.view.TextViewCustom;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static au.mccann.oztaxreturn.utils.Utils.formatPhoneNumber;
+import static au.mccann.oztaxreturn.utils.Utils.getCountryCode;
+import static au.mccann.oztaxreturn.utils.Utils.openGeneralInfoActivity;
+import static au.mccann.oztaxreturn.utils.Utils.showToolTip;
 
 /**
  * Created by CanTran on 5/23/17.
@@ -38,7 +50,6 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     private static final String TAG = RegisterActivity.class.getSimpleName();
     private EdittextCustom edtUsername, edtPassword, edtEmail, edtPhone, edtRePassword;
     private ButtonCustom btnRegister;
-    private CheckBox checkBox;
 
     @Override
     protected int getLayout() {
@@ -56,7 +67,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         edtPassword = findViewById(R.id.edt_password);
         btnRegister = findViewById(R.id.btn_register);
         btnRegister.setOnClickListener(this);
-        checkBox = findViewById(R.id.cb_policy);
+        CheckBoxCustom checkBox = findViewById(R.id.cb_policy);
         checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
@@ -70,6 +81,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
 
     @Override
     protected void initData() {
+        setUnderLinePolicy((TextViewCustom) findViewById(R.id.tv_policy));
     }
 
     @Override
@@ -80,22 +92,25 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     private void validateInput() {
         if (edtUsername.getText().toString().trim().isEmpty()) {
             edtUsername.requestFocus();
-            edtUsername.setError(getString(R.string.vali_all_empty));
+            showToolTip(this, edtUsername, getString(R.string.vali_all_empty));
+        } else if (edtEmail.getText().toString().trim().isEmpty()) {
+            edtEmail.requestFocus();
+            showToolTip(this, edtEmail, getString(R.string.vali_all_empty));
         } else if (!Utils.isValidEmail(edtEmail.getText().toString().trim())) {
             edtEmail.requestFocus();
-            edtEmail.setError(getString(R.string.vali_all_empty));
+            showToolTip(this, edtEmail, getString(R.string.valid_app_email_2));
         } else if (!Utils.isValidPhone(edtPhone.getText().toString().trim())) {
             edtPhone.requestFocus();
-            edtPhone.setError(getString(R.string.valid_app_email_2));
+            showToolTip(this, edtPhone, getString(R.string.valid_app_phone_2));
+        } else if (edtPassword.getText().toString().trim().isEmpty()) {
+            edtPassword.requestFocus();
+            showToolTip(this, edtPassword, getString(R.string.vali_all_empty));
         } else if (edtPassword.getText().toString().trim().length() < 5) {
             edtPassword.requestFocus();
-            edtPassword.setError(getString(R.string.vali_password_lenth));
-        } else if (edtRePassword.getText().toString().trim().length() < 5) {
-            edtRePassword.requestFocus();
-            edtRePassword.setError(getString(R.string.vali_password_lenth));
+            showToolTip(this, edtPassword, getString(R.string.vali_password_lenth));
         } else if (!edtRePassword.getText().toString().equals(edtPassword.getText().toString())) {
             edtRePassword.requestFocus();
-            edtRePassword.setError("");
+            showToolTip(this, edtRePassword, getString(R.string.vali_re_password));
         } else {
             doRegister();
         }
@@ -107,7 +122,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         try {
             jsonRequest.put(Constants.PARAMETER_USERNAME, edtUsername.getText().toString().trim());
             jsonRequest.put(Constants.PARAMETER_EMAIL, edtEmail.getText().toString().trim());
-            jsonRequest.put(Constants.PARAMETER_MOBILE, edtPhone.getText().toString().trim());
+            jsonRequest.put(Constants.PARAMETER_MOBILE, formatPhoneNumber(edtPhone.getText().toString().trim()));
             jsonRequest.put(Constants.PARAMETER_PASSWORD, edtPassword.getText().toString().trim());
             jsonRequest.put(Constants.PARAMETER_RE_PASSWORD, edtRePassword.getText().toString().trim());
         } catch (JSONException e) {
@@ -129,30 +144,30 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                 } else {
                     APIError error = Utils.parseError(response);
                     LogUtils.e(TAG, "doRegister onFailure : " + error.message());
-                    if (error != null) switch (error.status()) {
+                    switch (error.status()) {
                         case Constants.USERNAME_REQUIRE:
                         case Constants.USERNAME_UNIQUE:
                         case Constants.USERNAME_MAX:
                             edtUsername.requestFocus();
-                            edtUsername.setError(error.message());
+                            showToolTip(RegisterActivity.this, edtUsername,error.message());
                             break;
                         case Constants.PASSWORD_REQUIRE:
                         case Constants.PASSWORD_CONFIRM:
                             edtPassword.requestFocus();
-                            edtPassword.setError(error.message());
+                            showToolTip(RegisterActivity.this, edtPassword,error.message());
                             break;
                         case Constants.RE_PASSWORD_REQUIRE:
                             edtRePassword.requestFocus();
-                            edtRePassword.setError(error.message());
+                            showToolTip(RegisterActivity.this, edtRePassword,error.message());
                         case Constants.EMAIL_REQUIRE:
                         case Constants.EMAIL_EMAIL:
                             edtEmail.requestFocus();
-                            edtEmail.setError(error.message());
+                            showToolTip(RegisterActivity.this, edtEmail,error.message());
                             break;
                         case Constants.PHONE_REQUIRED:
                         case Constants.PHONE_UNIQUE:
                             edtPhone.requestFocus();
-                            edtPhone.setError(error.message());
+                            showToolTip(RegisterActivity.this, edtPhone,error.message());
                             break;
                         case Constants.SYSTEM_ERROR:
                             DialogUtils.showOkDialog(RegisterActivity.this, getString(R.string.error), error.message(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
@@ -164,26 +179,21 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                         default:
                             if (error.status().startsWith("username")) {
                                 edtUsername.requestFocus();
-                                edtUsername.setError(error.message());
+                                showToolTip(RegisterActivity.this, edtUsername, error.message());
                             } else if (error.status().startsWith("password")) {
                                 edtPassword.requestFocus();
-                                edtPassword.setError(error.message());
+                                showToolTip(RegisterActivity.this, edtPassword, error.message());
+                            } else if (error.status().startsWith("confirm_password")) {
+                                edtRePassword.requestFocus();
+                                showToolTip(RegisterActivity.this, edtRePassword, error.message());
                             } else if (error.status().startsWith("email")) {
                                 edtEmail.requestFocus();
-                                edtEmail.setError(error.message());
+                                showToolTip(RegisterActivity.this, edtEmail, error.message());
                             } else if (error.status().startsWith("phone")) {
                                 edtPhone.requestFocus();
-                                edtPhone.setError(error.message());
+                                showToolTip(RegisterActivity.this, edtPhone, error.message());
                             }
                             break;
-                    }
-                    else {
-                        DialogUtils.showOkDialog(RegisterActivity.this, getString(R.string.error), error.message(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
-                            @Override
-                            public void onSubmit() {
-
-                            }
-                        });
                     }
                 }
 
@@ -209,6 +219,51 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
 
     }
 
+    private void setUnderLinePolicy(TextViewCustom textViewCustom) {
+        String text = getString(R.string.policy);
+        SpannableStringBuilder ssBuilder = new SpannableStringBuilder(text);
+        ClickableSpan conditionClickableSpan = new ClickableSpan() {
+            @Override
+            public void onClick(View view) {
+                openGeneralInfoActivity(RegisterActivity.this, getString(R.string.term), " http://oztax.tonishdev.com/terms-and-conditions");
+            }
+        };
+        ClickableSpan nadClickableSpan = new ClickableSpan() {
+            @Override
+            public void onClick(View view) {
+                openGeneralInfoActivity(RegisterActivity.this, getString(R.string.register_privacy_policy), "http://oztax.tonishdev.com/privacy-policy");
+            }
+        };
+        ssBuilder.setSpan(
+                new ForegroundColorSpan(Color.parseColor("#577bb5")), // Span to add
+                text.indexOf(getString(R.string.register_privacy_policy)), // Start of the span (inclusive)
+                text.indexOf(getString(R.string.register_privacy_policy)) + String.valueOf(getString(R.string.register_privacy_policy)).length(), // End of the span (exclusive)
+                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+        );
+        ssBuilder.setSpan(
+                nadClickableSpan,
+                text.indexOf(getString(R.string.register_privacy_policy)),
+                text.indexOf(getString(R.string.register_privacy_policy)) + String.valueOf(getString(R.string.register_privacy_policy)).length(),
+                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+        );
+        ssBuilder.setSpan(
+                new ForegroundColorSpan(Color.parseColor("#577bb5")), // Span to add
+                text.indexOf(getString(R.string.term)), // Start of the span (inclusive)
+                text.indexOf(getString(R.string.term)) + String.valueOf(getString(R.string.term)).length(), // End of the span (exclusive)
+                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+        );
+        ssBuilder.setSpan(
+                conditionClickableSpan, // Span to add
+                text.indexOf(getString(R.string.term)), // Start of the span (inclusive)
+                text.indexOf(getString(R.string.term)) + String.valueOf(getString(R.string.term)).length(), // End of the span (exclusive)
+                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+        );
+
+
+        textViewCustom.setText(ssBuilder);
+        textViewCustom.setMovementMethod(LinkMovementMethod.getInstance());
+        textViewCustom.setHighlightColor(Color.TRANSPARENT);
+    }
 
     @Override
     public void onClick(View view) {
@@ -217,6 +272,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                 finish();
                 break;
             case R.id.btn_register:
+                LogUtils.d(TAG, "locale" + getCountryCode(this));
                 validateInput();
                 break;
         }

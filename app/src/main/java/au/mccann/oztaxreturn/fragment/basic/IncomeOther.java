@@ -1,23 +1,17 @@
 package au.mccann.oztaxreturn.fragment.basic;
 
 import android.Manifest;
-import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
-import android.text.SpannableString;
-import android.text.style.StyleSpan;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CompoundButton;
-import android.widget.ScrollView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -62,7 +56,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static au.mccann.oztaxreturn.utils.ImageUtils.showImage;
-import static au.mccann.oztaxreturn.utils.TooltipUtils.showToolTipView;
+import static au.mccann.oztaxreturn.utils.Utils.showToolTip;
+
 
 /**
  * Created by LongBui on 4/17/18.
@@ -75,9 +70,9 @@ public class IncomeOther extends BaseFragment implements View.OnClickListener {
     private ArrayList<Image> images;
     private final String[] permissions = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
     private String imgPath;
-    private RadioButtonCustom rbYes, rbNo;
+    private RadioButtonCustom rbYes;
+    private RadioButtonCustom rbNo;
     private ExpandableLayout layout;
-    private ScrollView scrollView;
     private EdittextCustom edtResource;
     private ArrayList<Attachment> attach;
     private ResponseBasicInformation basic;
@@ -93,19 +88,16 @@ public class IncomeOther extends BaseFragment implements View.OnClickListener {
         grImage = (MyGridView) findViewById(R.id.gr_image);
         rbYes = (RadioButtonCustom) findViewById(R.id.rb_yes);
         rbNo = (RadioButtonCustom) findViewById(R.id.rb_no);
-        scrollView = (ScrollView) findViewById(R.id.scrollView);
         edtResource = (EdittextCustom) findViewById(R.id.edt_resource);
         layout = (ExpandableLayout) findViewById(R.id.layout_expandable);
         findViewById(R.id.btn_next).setOnClickListener(this);
-        underLineText(getString(R.string.income_radio_text_yes), 3, rbYes);
-        underLineText(getString(R.string.income_radio_text_no), 2, rbNo);
     }
 
     @Override
     protected void initData() {
         basic = (ResponseBasicInformation) getArguments().getSerializable(Constants.KEY_BASIC_INFORMATION);
         appID = basic.getAppId();
-        LogUtils.d(TAG, "initData ResponseBasicInformation" + basic.toString());
+        LogUtils.d(TAG, "initData ResponseBasicInformation" + basic.getOther().toString());
         images = new ArrayList<>();
         attach = new ArrayList<>();
         setTitle(getString(R.string.income_ws_title));
@@ -135,21 +127,18 @@ public class IncomeOther extends BaseFragment implements View.OnClickListener {
                 }
             }
         });
+        updateUI(basic);
         rbYes.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 LogUtils.d(TAG, "setOnCheckedChangeListener : " + b);
                 if (b) {
                     layout.setExpanded(true);
-                    scollLayout();
-
-
                 } else {
                     layout.setExpanded(false);
                 }
             }
         });
-        updateUI(basic);
     }
 
     @Override
@@ -164,11 +153,14 @@ public class IncomeOther extends BaseFragment implements View.OnClickListener {
 
     private void updateUI(ResponseBasicInformation basic) {
         Other other = basic.getOther();
-        if (other.getContent() != null || (other.getAttachments() != null && other.getAttachments().size() > 0)) {
-            rbYes.setChecked(true);
+        boolean check = other.getContent() != null || (other.getAttachments() != null && other.getAttachments().size() > 0);
+        LogUtils.d(TAG, "update" + check);
+        if (check) {
+            layout.setExpanded(true);
             edtResource.setText(other.getContent());
             showImage(other.getAttachments(), images, imageAdapter);
-        } else rbNo.setChecked(true);
+        }
+        rbYes.setChecked(check);
     }
 
 
@@ -251,19 +243,6 @@ public class IncomeOther extends BaseFragment implements View.OnClickListener {
         return imgPath;
     }
 
-    private void scollLayout() {
-        int[] coords = {0, 0};
-        scrollView.getLocationOnScreen(coords);
-        int absoluteBottom = coords[1] + scrollView.getHeight();
-        ObjectAnimator objectAnimator = ObjectAnimator.ofInt(scrollView, "scrollY", absoluteBottom).setDuration(1500);
-        objectAnimator.start();
-    }
-
-    private void underLineText(String mystring, int n, RadioButtonCustom radioButtonCustom) {
-        SpannableString content = new SpannableString(mystring);
-        content.setSpan(new StyleSpan(Typeface.BOLD), 0, n, 0);
-        radioButtonCustom.setText(content);
-    }
 
     private void doSaveBasic() {
         ProgressDialogUtils.showProgressDialog(getContext());
@@ -366,11 +345,11 @@ public class IncomeOther extends BaseFragment implements View.OnClickListener {
             case R.id.btn_next:
                 if (rbYes.isChecked()) {
                     if (edtResource.getText().toString().trim().isEmpty()) {
-                        showToolTipView(getContext(), edtResource, Gravity.TOP, getString(R.string.vali_all_empty), ContextCompat.getColor(getContext(), R.color.red));
+                        showToolTip(getContext(), edtResource, getString(R.string.vali_all_empty));
                         return;
                     }
                     if (images.size() < 2) {
-                        showToolTipView(getContext(), grImage, Gravity.TOP, getString(R.string.vali_all_empty), ContextCompat.getColor(getContext(), R.color.red));
+                        showToolTip(getContext(), grImage, getString(R.string.vali_all_empty));
                         return;
                     }
                     uploadImage();

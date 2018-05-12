@@ -1,8 +1,6 @@
 package au.mccann.oztaxreturn.fragment.review.personal;
 
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -21,7 +19,6 @@ import au.mccann.oztaxreturn.rest.response.PersonalInfomationResponse;
 import au.mccann.oztaxreturn.utils.DialogUtils;
 import au.mccann.oztaxreturn.utils.LogUtils;
 import au.mccann.oztaxreturn.utils.ProgressDialogUtils;
-import au.mccann.oztaxreturn.utils.TooltipUtils;
 import au.mccann.oztaxreturn.utils.TransitionScreen;
 import au.mccann.oztaxreturn.utils.Utils;
 import au.mccann.oztaxreturn.view.ButtonCustom;
@@ -31,6 +28,8 @@ import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static au.mccann.oztaxreturn.utils.Utils.showToolTip;
 
 /**
  * Created by LongBui on 4/23/18.
@@ -111,48 +110,40 @@ public class ReviewPersonalInfomationB extends BaseFragment implements View.OnCl
     private void doNextB() {
 
         if (edtBankName.getText().toString().trim().isEmpty()) {
-            TooltipUtils.showToolTipView(getContext(), edtBankName, Gravity.BOTTOM, getString(R.string.valid_app_bank_name),
-                    ContextCompat.getColor(getContext(), R.color.red));
+            showToolTip(getContext(), edtBankName, getString(R.string.valid_app_bank_name));
             return;
         }
         if (edtBSB.getText().toString().trim().isEmpty()) {
-            TooltipUtils.showToolTipView(getContext(), edtBSB, Gravity.BOTTOM, getString(R.string.valid_app_bsb),
-                    ContextCompat.getColor(getContext(), R.color.red));
+            showToolTip(getContext(), edtBSB, getString(R.string.valid_app_bsb));
             return;
         }
         if (edtAccountNumber.getText().toString().trim().isEmpty()) {
-            TooltipUtils.showToolTipView(getContext(), edtAccountNumber, Gravity.TOP, getString(R.string.valid_app_account_number),
-                    ContextCompat.getColor(getContext(), R.color.red));
+            showToolTip(getContext(), edtAccountNumber, getString(R.string.valid_app_account_number)
+            );
             return;
         }
         if (edtStreetName.getText().toString().trim().isEmpty()) {
-            TooltipUtils.showToolTipView(getContext(), edtStreetName, Gravity.TOP, getString(R.string.valid_app_street_name),
-                    ContextCompat.getColor(getContext(), R.color.red));
+            showToolTip(getContext(), edtStreetName, getString(R.string.valid_app_street_name));
             return;
         }
         if (edtSuburb.getText().toString().trim().isEmpty()) {
-            TooltipUtils.showToolTipView(getContext(), edtSuburb, Gravity.TOP, getString(R.string.valid_app_suburb),
-                    ContextCompat.getColor(getContext(), R.color.red));
+            showToolTip(getContext(), edtSuburb, getString(R.string.valid_app_suburb));
             return;
         }
         if (edtState.getText().toString().trim().isEmpty()) {
-            TooltipUtils.showToolTipView(getContext(), edtState, Gravity.TOP, getString(R.string.valid_app_state),
-                    ContextCompat.getColor(getContext(), R.color.red));
+            showToolTip(getContext(), edtState, getString(R.string.valid_app_state));
             return;
         }
         if (edtPostCode.getText().toString().trim().isEmpty()) {
-            TooltipUtils.showToolTipView(getContext(), edtPostCode, Gravity.TOP, getString(R.string.valid_app_post_code),
-                    ContextCompat.getColor(getContext(), R.color.red));
+            showToolTip(getContext(), edtPostCode, getString(R.string.valid_app_post_code));
             return;
         }
         if (edtPhone.getText().toString().trim().isEmpty()) {
-            TooltipUtils.showToolTipView(getContext(), edtPhone, Gravity.TOP, getString(R.string.valid_app_phone),
-                    ContextCompat.getColor(getContext(), R.color.red));
+            showToolTip(getContext(), edtPhone, getString(R.string.valid_app_phone));
             return;
         }
         if (edtEmail.getText().toString().trim().isEmpty()) {
-            TooltipUtils.showToolTipView(getContext(), edtEmail, Gravity.TOP, getString(R.string.valid_app_email),
-                    ContextCompat.getColor(getContext(), R.color.red));
+            showToolTip(getContext(), edtEmail, getString(R.string.valid_app_email));
             return;
         }
 

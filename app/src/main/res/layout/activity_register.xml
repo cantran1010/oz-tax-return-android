@@ -17,7 +17,7 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_centerInParent="true"
-            android:background="?selectableItemBackgroundBorderless"
+            android:background="@drawable/btn_selector"
             android:contentDescription="@string/app_name"
             android:focusable="true"
             android:scaleType="centerInside"
@@ -40,16 +40,17 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_above="@+id/btn_register"
         android:layout_below="@+id/layout_header">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingEnd="37.5dp"
-            android:paddingLeft="37.5dp"
-            android:paddingRight="37.5dp"
-            android:paddingStart="37.5dp">
+            android:paddingEnd="@dimen/left_right_margin_screen"
+            android:paddingLeft="@dimen/left_right_margin_screen"
+            android:paddingRight="@dimen/left_right_margin_screen"
+            android:paddingStart="@dimen/left_right_margin_screen">
 
             <au.mccann.oztaxreturn.view.TextViewCustom
                 style="@style/TextViewRegister"
@@ -132,28 +133,48 @@
                 android:layout_marginTop="5dp"
                 android:inputType="textPassword" />
 
-
-            <CheckBox
-                android:id="@+id/cb_policy"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="18dp"
-                android:padding="5dp"
-                android:text="@string/policy"
-                android:textColor="@color/cb_color"
-                android:textSize="15sp" />
-
-            <au.mccann.oztaxreturn.view.ButtonCustom
-                android:id="@+id/btn_register"
-                style="@style/ButtonLogin"
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
-                android:layout_marginTop="20dp"
-                android:enabled="false"
-                android:text="@string/btn_register" />
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="18dp">
+
+                <au.mccann.oztaxreturn.view.CheckBoxCustom
+                    android:id="@+id/cb_policy"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    />
+
+                <au.mccann.oztaxreturn.view.TextViewCustom
+                    android:id="@+id/tv_policy"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_toEndOf="@+id/cb_policy"
+                    android:layout_toRightOf="@+id/cb_policy"
+                    android:paddingBottom="5dp"
+                    android:textSize="@dimen/size_nomal"
+                    android:textColor="@color/cb_color"
+                    android:paddingTop="5dp"
+                    android:text="@string/policy" />
+            </RelativeLayout>
 
         </LinearLayout>
+
     </ScrollView>
 
+    <au.mccann.oztaxreturn.view.ButtonCustom
+        android:id="@+id/btn_register"
+        style="@style/ButtonLogin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20dp"
+        android:layout_marginEnd="@dimen/left_right_margin_screen"
+        android:layout_marginLeft="@dimen/left_right_margin_screen"
+        android:layout_marginRight="@dimen/left_right_margin_screen"
+        android:layout_marginStart="@dimen/left_right_margin_screen"
+        android:enabled="false"
+        android:text="@string/btn_register" />
 </RelativeLayout>

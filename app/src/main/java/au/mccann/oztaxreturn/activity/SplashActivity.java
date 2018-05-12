@@ -55,6 +55,7 @@ public class SplashActivity extends BaseActivity {
     }
 
     private void checkUpdate() {
+        LogUtils.d(TAG, "checkUpdate data Token : " + UserManager.getUserToken());
         ApiClient.getApiService().checkUpdate(UserManager.getUserToken(), getString(R.string.device_type), Utils.getCurrentVersion(this)).enqueue(new Callback<UpdateResponse>() {
             @Override
             public void onResponse(Call<UpdateResponse> call, Response<UpdateResponse> response) {
@@ -92,7 +93,7 @@ public class SplashActivity extends BaseActivity {
                 } else {
                     APIError error = Utils.parseError(response);
                     if (error != null) {
-                        LogUtils.d(TAG, "getReviewIncome error : " + error.message());
+                        LogUtils.d(TAG, "checkUpdate error : " + error.message());
                         DialogUtils.showOkDialog(SplashActivity.this, getString(R.string.error), error.message(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
                             @Override
                             public void onSubmit() {
@@ -152,6 +153,7 @@ public class SplashActivity extends BaseActivity {
     }
 
     private void checkBlockUser() {
+        LogUtils.d(TAG, "checkBlockUser , Token : " + UserManager.getUserToken());
         ApiClient.getApiService().checkBlockUser(UserManager.getUserToken()).enqueue(new Callback<BlockResponse>() {
             @Override
             public void onResponse(Call<BlockResponse> call, Response<BlockResponse> response) {
@@ -195,7 +197,7 @@ public class SplashActivity extends BaseActivity {
                 } else {
                     APIError error = Utils.parseError(response);
                     if (error != null) {
-                        LogUtils.d(TAG, "getReviewIncome error : " + error.message());
+                        LogUtils.d(TAG, "checkBlockUser error : " + error.message());
                         DialogUtils.showOkDialog(SplashActivity.this, getString(R.string.error), error.message(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
                             @Override
                             public void onSubmit() {

@@ -46,6 +46,9 @@ import java.util.List;
 import java.util.Locale;
 
 import au.mccann.oztaxreturn.R;
+import au.mccann.oztaxreturn.activity.BaseActivity;
+import au.mccann.oztaxreturn.activity.GeneralInfoActivity;
+import au.mccann.oztaxreturn.common.Constants;
 import au.mccann.oztaxreturn.model.APIError;
 import au.mccann.oztaxreturn.model.Notification;
 import au.mccann.oztaxreturn.rest.response.ApplicationResponse;
@@ -224,39 +227,6 @@ public class Utils {
     }
 
 
-//    public static void showLongToast(Context context, String content, boolean isError, boolean isShort) {
-//        if (context == null) return;
-//
-//        if (context instanceof Activity)
-//            if (((Activity) context).isFinishing()) {
-//                return;
-//            }
-//
-//        showToastCustom(context, content, isError, isShort);
-//    }
-
-    //    private static void showToastCustom(Context context, String content,
-//                                        boolean isError, boolean isShort) {
-//        Toast toastCustom = new Toast(context);
-//        ViewGroup viewGroup = (ViewGroup) toastCustom.getView();
-//        View viewToastCustom;
-//        if (isError) {
-//            viewToastCustom = LayoutInflater.from(context).inflate(
-//                    R.layout.toast_custom_warning, viewGroup);
-//        } else {
-//            viewToastCustom = LayoutInflater.from(context).inflate(
-//                    R.layout.toast_custom_info, viewGroup);
-//        }
-//        toastCustom.setDuration(isShort ? Toast.LENGTH_SHORT
-//                : Toast.LENGTH_LONG);
-//        toastCustom.setGravity(Gravity.BOTTOM, 0,
-//                (int) PxUtils.pxFromDp(context, context.getResources().getDimension(R.dimen.toast_offset)));
-//        toastCustom.setMargin(0, 0);
-//        toastCustom.setView(viewToastCustom);
-//        ((TextViewHozo) viewToastCustom.findViewById(R.id.toastDescription))
-//                .setText(content);
-//        toastCustom.show();
-//    }
     public static boolean isValidEmail(CharSequence target) {
         if (TextUtils.isEmpty(target)) {
             return false;
@@ -548,10 +518,29 @@ public class Utils {
                 .autoHide(true, 2000)
                 .corner(30)
                 .position(ViewTooltip.Position.TOP)
-                .color(ContextCompat.getColor(context,R.color.tool_tip))
-                .align(ViewTooltip.ALIGN.CENTER)
+                .color(ContextCompat.getColor(context, R.color.tool_tip))
+                .align(ViewTooltip.ALIGN.END)
                 .text(content)
                 .show();
     }
 
+    public static String getCountryCode(Context context) {
+        String locale;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            locale = context.getResources().getConfiguration().getLocales().get(0).getCountry();
+        } else {
+            locale = context.getResources().getConfiguration().locale.getCountry();
+        }
+        return locale;
+    }
+
+    public static void openGeneralInfoActivity(Activity activity, String title, String url) {
+        Intent intent = new Intent(activity, GeneralInfoActivity.class);
+        intent.putExtra(Constants.URL_EXTRA, url);
+        intent.putExtra(Constants.TITLE_INFO_EXTRA, title);
+        if (activity instanceof BaseActivity) {
+            BaseActivity baseActivity = (BaseActivity) activity;
+            baseActivity.startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
+        }
+    }
 }

@@ -3,8 +3,6 @@ package au.mccann.oztaxreturn.fragment.basic;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.Spinner;
@@ -45,7 +43,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static au.mccann.oztaxreturn.utils.TooltipUtils.showToolTipView;
+import static au.mccann.oztaxreturn.utils.DateTimeUtils.getDateBirthDayFromIso;
+import static au.mccann.oztaxreturn.utils.Utils.showToolTip;
+
 
 /**
  * Created by CanTran on 4/19/18.
@@ -99,7 +99,7 @@ public class PersonInforFragment extends BaseFragment implements View.OnClickLis
         edtFirstName.setText(pf.getFirstName());
         edtMidName.setText(pf.getMiddleName());
         edtLastName.setText(pf.getLastName());
-        edtBirthDay.setText(pf.getBirthday());
+        if (pf.getBirthday() != null) edtBirthDay.setText(getDateBirthDayFromIso(pf.getBirthday()));
         edtTitle.setText(pf.getTitle());
         for (int i = 0; i < genders.size(); i++) {
             if (pf.getGender().equalsIgnoreCase(genders.get(i))) {
@@ -129,7 +129,7 @@ public class PersonInforFragment extends BaseFragment implements View.OnClickLis
             salaryJson.put(Constants.PARAMETER_BASIC_INFO_FIRST_NAME, edtFirstName.getText().toString().trim());
             salaryJson.put(Constants.PARAMETER_BASIC_INFO_MIDDLE_NAME, edtMidName.getText().toString().trim());
             salaryJson.put(Constants.PARAMETER_BASIC_INFO_LAST_NAME, edtLastName.getText().toString().trim());
-            salaryJson.put(Constants.PARAMETER_BASIC_INFO_BIRTHDAY, edtBirthDay.getText().toString().trim());
+            salaryJson.put(Constants.PARAMETER_BASIC_INFO_BIRTHDAY, DateTimeUtils.fromCalendarToBirthday(calendar));
             salaryJson.put(Constants.PARAMETER_BASIC_INFO_GENDER, spGender.getSelectedItem().toString().toLowerCase());
             salaryJson.put(Constants.PARAMETER_BASIC_INFO_LOCAL, rbYes.isChecked());
             jsonRequest.put(Constants.PARAMETER_BASIC_INFO, salaryJson);
@@ -192,7 +192,7 @@ public class PersonInforFragment extends BaseFragment implements View.OnClickLis
                                           final int monthOfYear, final int dayOfMonth) {
                         if (view.isShown()) {
                             calendar.set(year, monthOfYear, dayOfMonth);
-                            edtBirthDay.setText(DateTimeUtils.fromCalendarToBirthday(calendar));
+                            edtBirthDay.setText(DateFormat.getDateInstance(DateFormat.SHORT).format(calendar.getTime()));
                         }
                     }
                 }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
@@ -202,28 +202,27 @@ public class PersonInforFragment extends BaseFragment implements View.OnClickLis
 
     private void donext() {
         if (edtTitle.getText().toString().trim().isEmpty()) {
-            showToolTipView(getContext(), edtTitle, Gravity.BOTTOM, getString(R.string.valid_personal_title),
-                    ContextCompat.getColor(getContext(), R.color.red));
+            edtTitle.requestFocus();
+            showToolTip(getContext(), edtTitle, getString(R.string.vali_all_empty));
             return;
         }
         if (edtFirstName.getText().toString().trim().isEmpty()) {
-            showToolTipView(getContext(), edtFirstName, Gravity.BOTTOM, getString(R.string.valid_first_name),
-                    ContextCompat.getColor(getContext(), R.color.red));
+            edtFirstName.requestFocus();
+            showToolTip(getContext(), edtFirstName, getString(R.string.vali_all_empty));
             return;
         }
         if (edtMidName.getText().toString().trim().isEmpty()) {
-            showToolTipView(getContext(), edtMidName, Gravity.TOP, getString(R.string.valid_mid_name),
-                    ContextCompat.getColor(getContext(), R.color.red));
+            edtMidName.requestFocus();
+            showToolTip(getContext(), edtMidName, getString(R.string.vali_all_empty));
             return;
         }
         if (edtLastName.getText().toString().trim().isEmpty()) {
-            showToolTipView(getContext(), edtLastName, Gravity.TOP, getString(R.string.valid_last_name),
-                    ContextCompat.getColor(getContext(), R.color.red));
+            edtLastName.requestFocus();
+            showToolTip(getContext(), edtLastName, getString(R.string.vali_all_empty));
             return;
         }
         if (edtBirthDay.getText().toString().trim().isEmpty()) {
-            showToolTipView(getContext(), edtBirthDay, Gravity.TOP, getString(R.string.valid_birth_day),
-                    ContextCompat.getColor(getContext(), R.color.red));
+            showToolTip(getContext(), edtBirthDay, getString(R.string.vali_all_empty));
             return;
         }
         doSaveBasic();

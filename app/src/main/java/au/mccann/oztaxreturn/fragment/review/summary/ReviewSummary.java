@@ -1,6 +1,5 @@
 package au.mccann.oztaxreturn.fragment.review.summary;
 
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -15,7 +14,6 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
 import au.mccann.oztaxreturn.R;
-import au.mccann.oztaxreturn.activity.GeneralInfoActivity;
 import au.mccann.oztaxreturn.common.Constants;
 import au.mccann.oztaxreturn.database.UserManager;
 import au.mccann.oztaxreturn.dialog.AlertDialogOk;
@@ -43,6 +41,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static au.mccann.oztaxreturn.utils.Utils.formatMoney;
+import static au.mccann.oztaxreturn.utils.Utils.openGeneralInfoActivity;
 
 /**
  * Created by CanTran on 4/23/18.
@@ -316,13 +315,13 @@ public class ReviewSummary extends BaseFragment implements View.OnClickListener 
         ClickableSpan conditionClickableSpan = new ClickableSpan() {
             @Override
             public void onClick(View view) {
-                openGeneralInfoActivity(getString(R.string.app_term_conditions), "http://hozo.vn/dieu-khoan-su-dung/?ref=app");
+                openGeneralInfoActivity(getActivity(), getString(R.string.app_term_conditions), "http://hozo.vn/dieu-khoan-su-dung/?ref=app");
             }
         };
         ClickableSpan nadClickableSpan = new ClickableSpan() {
             @Override
             public void onClick(View view) {
-                openGeneralInfoActivity(getString(R.string.app_privacy_policy), "http://hozo.vn/chinh-sach-bao-mat/?ref=app");
+                openGeneralInfoActivity(getActivity(), getString(R.string.app_privacy_policy), "http://hozo.vn/chinh-sach-bao-mat/?ref=app");
             }
         };
         ssBuilder.setSpan(
@@ -362,12 +361,6 @@ public class ReviewSummary extends BaseFragment implements View.OnClickListener 
         textViewCustom.setHighlightColor(Color.TRANSPARENT);
     }
 
-    private void openGeneralInfoActivity(String title, String url) {
-        Intent intent = new Intent(getContext(), GeneralInfoActivity.class);
-        intent.putExtra(Constants.URL_EXTRA, url);
-        intent.putExtra(Constants.TITLE_INFO_EXTRA, title);
-        startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
-    }
 
     @Override
     public void onClick(View view) {

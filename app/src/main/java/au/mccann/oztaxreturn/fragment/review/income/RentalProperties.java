@@ -13,7 +13,6 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CompoundButton;
@@ -68,7 +67,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static au.mccann.oztaxreturn.utils.ImageUtils.showImage;
-import static au.mccann.oztaxreturn.utils.TooltipUtils.showToolTipView;
+import static au.mccann.oztaxreturn.utils.Utils.showToolTip;
+
 
 /**
  * Created by CanTran on 4/24/18.
@@ -475,39 +475,39 @@ public class RentalProperties extends BaseFragment implements View.OnClickListen
                 if (isEditApp()) {
                     if (rbYes.isChecked()) {
                         if (edtOwnerShip.getText().toString().trim().isEmpty()) {
-                            showToolTipView(getContext(), edtOwnerShip, Gravity.TOP, getString(R.string.vali_all_empty), ContextCompat.getColor(getContext(), R.color.red));
+                            showToolTip(getContext(), edtOwnerShip,  getString(R.string.vali_all_empty));
                             return;
                         }
                         if (edtStreet.getText().toString().trim().isEmpty()) {
-                            showToolTipView(getContext(), edtStreet, Gravity.TOP, getString(R.string.vali_all_empty), ContextCompat.getColor(getContext(), R.color.red));
+                            showToolTip(getContext(), edtStreet, getString(R.string.vali_all_empty));
                             return;
                         }
                         if (edtSuburb.getText().toString().trim().isEmpty()) {
-                            showToolTipView(getContext(), edtSuburb, Gravity.TOP, getString(R.string.vali_all_empty), ContextCompat.getColor(getContext(), R.color.red));
+                            showToolTip(getContext(), edtSuburb, getString(R.string.vali_all_empty));
                             return;
                         }
                         if (edtState.getText().toString().trim().isEmpty()) {
-                            showToolTipView(getContext(), edtState, Gravity.TOP, getString(R.string.vali_all_empty), ContextCompat.getColor(getContext(), R.color.red));
+                            showToolTip(getContext(), edtState,getString(R.string.vali_all_empty));
                             return;
                         }
                         if (edtPostCode.getText().toString().trim().isEmpty()) {
-                            showToolTipView(getContext(), edtPostCode, Gravity.TOP, getString(R.string.vali_all_empty), ContextCompat.getColor(getContext(), R.color.red));
+                            showToolTip(getContext(), edtPostCode, getString(R.string.vali_all_empty));
                             return;
                         }
                         if (edtFirstDate.getText().toString().trim().isEmpty()) {
-                            showToolTipView(getContext(), edtFirstDate, Gravity.TOP, getString(R.string.vali_all_empty), ContextCompat.getColor(getContext(), R.color.red));
+                            showToolTip(getContext(), edtFirstDate,  getString(R.string.vali_all_empty));
                             return;
                         }
                         if (edtRentalIncome.getText().toString().trim().isEmpty()) {
-                            showToolTipView(getContext(), edtRentalIncome, Gravity.TOP, getString(R.string.vali_all_empty), ContextCompat.getColor(getContext(), R.color.red));
+                            showToolTip(getContext(), edtRentalIncome,  getString(R.string.vali_all_empty));
                             return;
                         }
                         if (edtRentalExpenses.getText().toString().trim().isEmpty()) {
-                            showToolTipView(getContext(), edtRentalExpenses, Gravity.TOP, getString(R.string.vali_all_empty), ContextCompat.getColor(getContext(), R.color.red));
+                            showToolTip(getContext(), edtRentalExpenses, getString(R.string.vali_all_empty));
                             return;
                         }
                         if (images.size() < 2) {
-                            showToolTipView(getContext(), grImage, Gravity.TOP, getString(R.string.valid_deduction_image), ContextCompat.getColor(getContext(), R.color.red));
+                            showToolTip(getContext(), grImage,getString(R.string.valid_deduction_image));
                             return;
                         }
                         uploadImage();

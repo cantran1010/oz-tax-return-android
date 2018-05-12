@@ -13,7 +13,6 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CompoundButton;
@@ -68,7 +67,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static au.mccann.oztaxreturn.utils.ImageUtils.showImage;
-import static au.mccann.oztaxreturn.utils.TooltipUtils.showToolTipView;
+import static au.mccann.oztaxreturn.utils.Utils.showToolTip;
+
 
 /**
  * Created by CanTran on 4/24/18.
@@ -130,7 +130,7 @@ public class EarlyTerminationPayments extends BaseFragment implements View.OnCli
         images = new ArrayList<>();
         attach = new ArrayList<>();
         appID = getApplicationResponse().getId();
-       fab.setEnabled(isEditApp());
+        fab.setEnabled(isEditApp());
         setTitle(getString(R.string.review_income_title));
         appBarVisibility(true, true, 1);
         //images
@@ -479,27 +479,27 @@ public class EarlyTerminationPayments extends BaseFragment implements View.OnCli
                 if (isEditApp()) {
                     if (rbYes.isChecked()) {
                         if (edtPaymentDate.getText().toString().trim().isEmpty()) {
-                            showToolTipView(getContext(), edtPaymentDate, Gravity.TOP, getString(R.string.vali_all_empty), ContextCompat.getColor(getContext(), R.color.red));
+                            showToolTip(getContext(), edtPaymentDate, getString(R.string.vali_all_empty));
                             return;
                         }
                         if (edtPayerAbn.getText().toString().trim().isEmpty()) {
-                            showToolTipView(getContext(), edtPayerAbn, Gravity.TOP, getString(R.string.vali_all_empty), ContextCompat.getColor(getContext(), R.color.red));
+                            showToolTip(getContext(), edtPayerAbn, getString(R.string.vali_all_empty));
                             return;
                         }
                         if (edtTaxWidthheld.getText().toString().trim().isEmpty()) {
-                            showToolTipView(getContext(), edtTaxWidthheld, Gravity.TOP, getString(R.string.vali_all_empty), ContextCompat.getColor(getContext(), R.color.red));
+                            showToolTip(getContext(), edtTaxWidthheld, getString(R.string.vali_all_empty));
                             return;
                         }
                         if (edtTaxtableComponent.getText().toString().trim().isEmpty()) {
-                            showToolTipView(getContext(), edtTaxtableComponent, Gravity.TOP, getString(R.string.vali_all_empty), ContextCompat.getColor(getContext(), R.color.red));
+                            showToolTip(getContext(), edtTaxtableComponent, getString(R.string.vali_all_empty));
                             return;
                         }
                         if (edtCode.getText().toString().trim().isEmpty()) {
-                            showToolTipView(getContext(), edtCode, Gravity.TOP, getString(R.string.vali_all_empty), ContextCompat.getColor(getContext(), R.color.red));
+                            showToolTip(getContext(), edtCode, getString(R.string.vali_all_empty));
                             return;
                         }
                         if (images.size() < 2) {
-                            showToolTipView(getContext(), grImage, Gravity.TOP, getString(R.string.valid_deduction_image), ContextCompat.getColor(getContext(), R.color.red));
+                            showToolTip(getContext(), grImage, getString(R.string.valid_deduction_image));
                             return;
                         }
                         uploadImage();
