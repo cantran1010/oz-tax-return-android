@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
 
@@ -53,7 +52,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static au.mccann.oztaxreturn.utils.ImageUtils.showImage;
-import static au.mccann.oztaxreturn.utils.TooltipUtils.showToolTipView;
+import static au.mccann.oztaxreturn.utils.Utils.showToolTip;
+
 
 /**
  * Created by LongBui on 4/17/18.
@@ -256,7 +256,7 @@ public class DeductionFragment extends BaseFragment implements View.OnClickListe
                     Bundle bundle = new Bundle();
                     bundle.putSerializable(Constants.KEY_BASIC_INFORMATION, basic);
                     openFragment(R.id.layout_container, EstimateTaxRefund.class, true, bundle, TransitionScreen.RIGHT_TO_LEFT);
-                } else{
+                } else {
                     APIError error = Utils.parseError(response);
                     LogUtils.e(TAG, "doSaveBasic error : " + error.message());
                     if (error != null) {
@@ -317,11 +317,11 @@ public class DeductionFragment extends BaseFragment implements View.OnClickListe
         switch (view.getId()) {
             case R.id.btn_next:
                 if (edtDeduction.getText().toString().trim().isEmpty()) {
-                    showToolTipView(getContext(), edtDeduction, Gravity.TOP, getString(R.string.valid_deduction_content), ContextCompat.getColor(getContext(), R.color.red));
+                    showToolTip(getContext(), edtDeduction, getString(R.string.vali_all_empty));
                     return;
                 }
                 if (images.size() < 2) {
-                    showToolTipView(getContext(), grImage, Gravity.TOP, getString(R.string.valid_deduction_image), ContextCompat.getColor(getContext(), R.color.red));
+                    showToolTip(getContext(), grImage, getString(R.string.valid_deduction_image));
                     return;
                 }
                 uploadImage();

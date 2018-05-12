@@ -11,7 +11,6 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CompoundButton;
@@ -61,7 +60,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static au.mccann.oztaxreturn.utils.ImageUtils.showImage;
-import static au.mccann.oztaxreturn.utils.TooltipUtils.showToolTipView;
+import static au.mccann.oztaxreturn.utils.Utils.showToolTip;
+
 
 /**
  * Created by CanTran on 4/24/18.
@@ -417,16 +417,16 @@ public class FragmentReviewTaxAgent extends BaseFragment implements View.OnClick
                     if (rbYes.isChecked()) {
                         if (edtOrgan.getText().toString().trim().isEmpty()) {
                             edtOrgan.getParent().requestChildFocus(edtOrgan, edtOrgan);
-                            showToolTipView(getContext(), edtOrgan, Gravity.BOTTOM, getString(R.string.vali_all_empty), ContextCompat.getColor(getContext(), R.color.red));
+                            showToolTip(getContext(), edtOrgan, getString(R.string.vali_all_empty));
                             return;
                         }
                         if (edtAmount.getText().toString().trim().isEmpty()) {
                             edtAmount.getParent().requestChildFocus(edtAmount, edtAmount);
-                            showToolTipView(getContext(), edtAmount, Gravity.TOP, getString(R.string.vali_all_empty), ContextCompat.getColor(getContext(), R.color.red));
+                            showToolTip(getContext(), edtAmount, getString(R.string.vali_all_empty));
                             return;
                         }
                         if (images.size() < 2) {
-                            showToolTipView(getContext(), grImage, Gravity.TOP, getString(R.string.vali_all_empty), ContextCompat.getColor(getContext(), R.color.red));
+                            showToolTip(getContext(), grImage,  getString(R.string.vali_all_empty));
                             return;
                         }
                         uploadImage();

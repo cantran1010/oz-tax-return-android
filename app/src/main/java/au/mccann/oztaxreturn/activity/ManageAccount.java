@@ -10,7 +10,6 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.Spinner;
@@ -57,7 +56,8 @@ import retrofit2.Response;
 
 import static au.mccann.oztaxreturn.common.Constants.REQUEST_CODE_PICK_IMAGE;
 import static au.mccann.oztaxreturn.common.Constants.RESPONSE_CODE_PICK_IMAGE;
-import static au.mccann.oztaxreturn.utils.TooltipUtils.showToolTipView;
+import static au.mccann.oztaxreturn.utils.Utils.showToolTip;
+
 
 /**
  * Created by CanTran on 5/9/18.
@@ -301,78 +301,68 @@ public class ManageAccount extends BaseActivity implements View.OnClickListener 
 
     private void save() {
         if (edtTitle.getText().toString().trim().isEmpty()) {
-            showToolTipView(this, edtTitle, Gravity.BOTTOM, getString(R.string.vali_all_empty),
-                    ContextCompat.getColor(this, R.color.red));
+            showToolTip(this, edtTitle, getString(R.string.vali_all_empty));
             edtTitle.requestFocus();
             edtTitle.getParent().requestChildFocus(edtTitle, edtTitle);
             return;
         }
         if (edtFirstname.getText().toString().trim().isEmpty()) {
-            showToolTipView(this, edtFirstname, Gravity.BOTTOM, getString(R.string.vali_all_empty),
-                    ContextCompat.getColor(this, R.color.red));
+            showToolTip(this, edtFirstname, getString(R.string.vali_all_empty));
             edtFirstname.requestFocus();
             edtFirstname.getParent().requestChildFocus(edtFirstname, edtFirstname);
             return;
         }
         if (edtMidname.getText().toString().trim().isEmpty()) {
-            showToolTipView(this, edtMidname, Gravity.BOTTOM, getString(R.string.vali_all_empty),
-                    ContextCompat.getColor(this, R.color.red));
+            showToolTip(this, edtMidname,getString(R.string.vali_all_empty));
             edtMidname.requestFocus();
             edtMidname.getParent().requestChildFocus(edtMidname, edtMidname);
             return;
         }
         if (edtLastName.getText().toString().trim().isEmpty()) {
-            showToolTipView(this, edtLastName, Gravity.BOTTOM, getString(R.string.vali_all_empty),
-                    ContextCompat.getColor(this, R.color.red));
+            showToolTip(this, edtLastName, getString(R.string.vali_all_empty));
             edtLastName.requestFocus();
             edtLastName.getParent().requestChildFocus(edtLastName, edtLastName);
             return;
         }
         if (edtBirthDay.getText().toString().trim().isEmpty()) {
-            showToolTipView(this, edtBirthDay, Gravity.BOTTOM, getString(R.string.vali_all_empty),
-                    ContextCompat.getColor(this, R.color.red));
+            showToolTip(this, edtBirthDay, getString(R.string.vali_all_empty));
             edtBirthDay.requestFocus();
             edtBirthDay.getParent().requestChildFocus(edtBirthDay, edtBirthDay);
             return;
         }
         if (edtStreetNumber.getText().toString().trim().isEmpty()) {
-            showToolTipView(this, edtStreetNumber, Gravity.BOTTOM, getString(R.string.vali_all_empty),
-                    ContextCompat.getColor(this, R.color.red));
+            showToolTip(this, edtStreetNumber,  getString(R.string.vali_all_empty));
             edtStreetNumber.requestFocus();
             edtStreetNumber.getParent().requestChildFocus(edtStreetNumber, edtStreetNumber);
             return;
         }
         if (edtSuburb.getText().toString().trim().isEmpty()) {
-            showToolTipView(this, edtSuburb, Gravity.BOTTOM, getString(R.string.vali_all_empty),
-                    ContextCompat.getColor(this, R.color.red));
+            showToolTip(this, edtSuburb, getString(R.string.vali_all_empty));
             edtSuburb.requestFocus();
             edtSuburb.getParent().requestChildFocus(edtSuburb, edtSuburb);
             return;
         }
         if (edtPostCode.getText().toString().trim().isEmpty()) {
-            showToolTipView(this, edtPostCode, Gravity.TOP, getString(R.string.vali_all_empty),
-                    ContextCompat.getColor(this, R.color.red));
+            showToolTip(this, edtPostCode,  getString(R.string.vali_all_empty));
             edtPostCode.requestFocus();
             edtPostCode.getParent().requestChildFocus(edtPostCode, edtPostCode);
             return;
         }
         if (edtState.getText().toString().trim().isEmpty()) {
-            showToolTipView(this, edtState, Gravity.TOP, getString(R.string.vali_all_empty),
-                    ContextCompat.getColor(this, R.color.red));
+            showToolTip(this, edtState, getString(R.string.vali_all_empty));
             edtState.requestFocus();
             edtState.getParent().requestChildFocus(edtState, edtState);
             return;
         }
 //        if (edtOldPassWord.getText().toString().trim().isEmpty()) {
-//            showToolTipView(this, edtOldPassWord, Gravity.TOP, getString(R.string.vali_all_empty),
+//            showToolTip(this, edtOldPassWord, Gravity.TOP, getString(R.string.vali_all_empty),
 //                    ContextCompat.getColor(this, R.color.red));
 //            edtOldPassWord.requestFocus();
 //            edtOldPassWord.getParent().requestChildFocus(edtOldPassWord, edtOldPassWord);
 //            return;
 //        }
         if (0 < edtNewPassWordAgain.getText().toString().length() && edtOldPassWord.getText().toString().trim().length() < 5) {
-            showToolTipView(this, edtNewPassWordAgain, Gravity.TOP, getString(R.string.vali_password_lenth),
-                    ContextCompat.getColor(this, R.color.red));
+            showToolTip(this, edtNewPassWordAgain,  getString(R.string.vali_password_lenth));
             edtNewPassWordAgain.requestFocus();
             edtNewPassWordAgain.getParent().requestChildFocus(edtNewPassWordAgain, edtNewPassWordAgain);
             return;
@@ -423,15 +413,13 @@ public class ManageAccount extends BaseActivity implements View.OnClickListener 
                     if (error != null) {
                         if (error.status().equalsIgnoreCase(getString(R.string.password_incorrect))) {
                             if (edtOldPassWord.getText().toString().trim().isEmpty()) {
-                                showToolTipView(ManageAccount.this, edtOldPassWord, Gravity.BOTTOM, error.message(),
-                                        ContextCompat.getColor(ManageAccount.this, R.color.red));
+                                showToolTip(ManageAccount.this, edtOldPassWord, error.message());
                                 edtOldPassWord.requestFocus();
                                 edtOldPassWord.getParent().requestChildFocus(edtOldPassWord, edtOldPassWord);
                             }
                         } else if (error.status().equalsIgnoreCase(getString(R.string.password_confirm))) {
                             if (edtNewPassWord.getText().toString().trim().isEmpty()) {
-                                showToolTipView(ManageAccount.this, edtNewPassWord, Gravity.BOTTOM, error.message(),
-                                        ContextCompat.getColor(ManageAccount.this, R.color.red));
+                                showToolTip(ManageAccount.this, edtNewPassWord,  error.message());
                                 edtNewPassWord.requestFocus();
                                 edtNewPassWord.getParent().requestChildFocus(edtNewPassWord, edtNewPassWord);
                             }

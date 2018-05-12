@@ -24,7 +24,7 @@
             <au.mccann.oztaxreturn.view.TextViewCustom
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
                 android:text="@string/submit_bank_account"
                 android:textColor="@color/income_conten"
                 android:textSize="@dimen/size_nomal" />
@@ -77,6 +77,7 @@
                         android:layout_marginEnd="5dp"
                         android:layout_marginRight="5dp"
                         android:layout_marginTop="10dp"
+                        android:imeOptions="actionNext"
                         android:inputType="number"
                         android:textColor="@color/income_conten"
                         android:textColorHint="@color/tv_gray" />
@@ -200,6 +201,7 @@
                         android:layout_marginEnd="5dp"
                         android:layout_marginRight="5dp"
                         android:layout_marginTop="10dp"
+                        android:imeOptions="actionNext"
                         android:inputType="text"
                         android:textColor="@color/income_conten"
                         android:textColorHint="@color/tv_gray" />
@@ -230,6 +232,7 @@
                         android:layout_marginLeft="5dp"
                         android:layout_marginStart="5dp"
                         android:layout_marginTop="10dp"
+                        android:imeOptions="actionNext"
                         android:inputType="number"
                         android:textColor="@color/income_conten"
                         android:textColorHint="@color/tv_gray" />
@@ -301,6 +304,7 @@
             </LinearLayout>
 
             <au.mccann.oztaxreturn.view.TextViewCustom
+                android:id="@+id/tv_note"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"

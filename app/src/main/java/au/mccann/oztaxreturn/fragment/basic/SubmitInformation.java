@@ -1,8 +1,12 @@
 package au.mccann.oztaxreturn.fragment.basic;
 
+import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
-import android.view.Gravity;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
+import android.text.style.ForegroundColorSpan;
 import android.view.View;
 
 import org.json.JSONException;
@@ -26,13 +30,17 @@ import au.mccann.oztaxreturn.utils.TransitionScreen;
 import au.mccann.oztaxreturn.utils.Utils;
 import au.mccann.oztaxreturn.view.ButtonCustom;
 import au.mccann.oztaxreturn.view.EdittextCustom;
+import au.mccann.oztaxreturn.view.TextViewCustom;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static au.mccann.oztaxreturn.utils.TooltipUtils.showToolTipView;
+import static au.mccann.oztaxreturn.utils.Utils.formatPhoneNumber;
+import static au.mccann.oztaxreturn.utils.Utils.openGeneralInfoActivity;
+import static au.mccann.oztaxreturn.utils.Utils.showToolTip;
+
 
 /**
  * Created by CanTran on 4/19/18.
@@ -67,9 +75,10 @@ public class SubmitInformation extends BaseFragment implements View.OnClickListe
     @Override
     protected void initData() {
         setTitle(getString(R.string.personal_information_title));
-        appBarVisibility(false, true,0);
+        appBarVisibility(false, true, 0);
         basic = (ResponseBasicInformation) getArguments().getSerializable(Constants.KEY_BASIC_INFORMATION);
         LogUtils.d(TAG, "initData ResponseBasicInformation" + basic.toString());
+        setUnderLinePolicy((TextViewCustom) findViewById(R.id.tv_note));
         updateUI(basic);
 
     }
@@ -109,6 +118,8 @@ public class SubmitInformation extends BaseFragment implements View.OnClickListe
             salaryJson.put(Constants.PARAMETER_BASIC_INFO_SUBURB, edtSuburb.getText().toString().trim());
             salaryJson.put(Constants.PARAMETER_BASIC_INFO_STATE, edtState.getText().toString().trim());
             salaryJson.put(Constants.PARAMETER_BASIC_INFO_EMAIL, edtEmail.getText().toString().trim());
+            salaryJson.put(Constants.PARAMETER_BASIC_INFO_PHONE, formatPhoneNumber(edtPhone.getText().toString().trim()));
+            salaryJson.put(Constants.PARAMETER_BASIC_INFO_POST_CODE, edtPostCode.getText().toString().trim());
             jsonRequest.put(Constants.PARAMETER_BASIC_INFO, salaryJson);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -158,58 +169,114 @@ public class SubmitInformation extends BaseFragment implements View.OnClickListe
 
     private void doSubmit() {
         if (edtBankName.getText().toString().trim().isEmpty()) {
-            showToolTipView(getContext(), edtBankName, Gravity.BOTTOM, getString(R.string.vali_all_empty),
-                    ContextCompat.getColor(getContext(), R.color.red));
+            edtBankName.requestFocus();
+            showToolTip(getContext(), edtBankName, getString(R.string.vali_all_empty));
             return;
         }
         if (edtBSB.getText().toString().trim().isEmpty()) {
-            showToolTipView(getContext(), edtBSB, Gravity.BOTTOM, getString(R.string.vali_all_empty),
-                    ContextCompat.getColor(getContext(), R.color.red));
+            edtBSB.requestFocus();
+            showToolTip(getContext(), edtBSB, getString(R.string.vali_all_empty));
             return;
         }
         if (edtAccountNumber.getText().toString().trim().isEmpty()) {
-            showToolTipView(getContext(), edtAccountNumber, Gravity.TOP, getString(R.string.vali_all_empty),
-                    ContextCompat.getColor(getContext(), R.color.red));
+            edtAccountNumber.requestFocus();
+            showToolTip(getContext(), edtAccountNumber, getString(R.string.vali_all_empty));
             return;
         }
         if (edtStreetName.getText().toString().trim().isEmpty()) {
-            showToolTipView(getContext(), edtStreetName, Gravity.TOP, getString(R.string.vali_all_empty),
-                    ContextCompat.getColor(getContext(), R.color.red));
+            edtStreetName.requestFocus();
+            showToolTip(getContext(), edtStreetName, getString(R.string.vali_all_empty));
             return;
         }
         if (edtSuburb.getText().toString().trim().isEmpty()) {
-            showToolTipView(getContext(), edtSuburb, Gravity.TOP, getString(R.string.vali_all_empty),
-                    ContextCompat.getColor(getContext(), R.color.red));
+            edtSuburb.requestFocus();
+            showToolTip(getContext(), edtSuburb, getString(R.string.vali_all_empty));
             return;
         }
         if (edtState.getText().toString().trim().isEmpty()) {
-            showToolTipView(getContext(), edtState, Gravity.TOP, getString(R.string.vali_all_empty),
-                    ContextCompat.getColor(getContext(), R.color.red));
+            edtState.requestFocus();
+            showToolTip(getContext(), edtState, getString(R.string.vali_all_empty));
             return;
         }
         if (edtPostCode.getText().toString().trim().isEmpty()) {
-            showToolTipView(getContext(), edtPostCode, Gravity.TOP, getString(R.string.vali_all_empty),
-                    ContextCompat.getColor(getContext(), R.color.red));
+            edtPostCode.requestFocus();
+            showToolTip(getContext(), edtPostCode, getString(R.string.vali_all_empty));
             return;
         }
         if (edtPhone.getText().toString().trim().isEmpty()) {
-            showToolTipView(getContext(), edtPhone, Gravity.TOP, getString(R.string.vali_all_empty),
-                    ContextCompat.getColor(getContext(), R.color.red));
+            edtPhone.requestFocus();
+            showToolTip(getContext(), edtPhone, getString(R.string.vali_all_empty));
+            return;
+        }
+        if (!Utils.isValidPhone(edtPhone.getText().toString().trim())) {
+            edtPhone.requestFocus();
+            showToolTip(getContext(), edtPhone, getString(R.string.valid_app_phone_2));
             return;
         }
         if (edtEmail.getText().toString().trim().isEmpty()) {
-            showToolTipView(getContext(), edtEmail, Gravity.TOP, getString(R.string.vali_all_empty),
-                    ContextCompat.getColor(getContext(), R.color.red));
+            edtEmail.requestFocus();
+            showToolTip(getContext(), edtEmail, getString(R.string.vali_all_empty));
             return;
         }
         if (!Utils.isValidEmail(edtEmail.getText().toString().trim())) {
-            showToolTipView(getContext(), edtEmail, Gravity.TOP, getString(R.string.vali_all_empty),
-                    ContextCompat.getColor(getContext(), R.color.red));
+            edtEmail.requestFocus();
+            showToolTip(getContext(), edtEmail, getString(R.string.valid_app_email_2));
             return;
         }
         doSaveBasic();
     }
 
+    private void setUnderLinePolicy(TextViewCustom textViewCustom) {
+        String text = getString(R.string.privacy_policy);
+        SpannableStringBuilder ssBuilder = new SpannableStringBuilder(text);
+        ClickableSpan conditionClickableSpan = new ClickableSpan() {
+            @Override
+            public void onClick(View view) {
+                openGeneralInfoActivity(getActivity(), getString(R.string.app_term_conditions), "http://oztax.tonishdev.com/terms-and-conditions");
+            }
+        };
+        ClickableSpan nadClickableSpan = new ClickableSpan() {
+            @Override
+            public void onClick(View view) {
+                openGeneralInfoActivity(getActivity(), getString(R.string.app_privacy_policy), "http://oztax.tonishdev.com/privacy-policy");
+            }
+        };
+        ssBuilder.setSpan(
+                new ForegroundColorSpan(Color.parseColor("#e55a1d")), // Span to add
+                0, // Start of the span (inclusive)
+                1, // End of the span (exclusive)
+                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+        );
+        ssBuilder.setSpan(
+                new ForegroundColorSpan(Color.parseColor("#577bb5")), // Span to add
+                text.indexOf(getString(R.string.app_privacy_policy)), // Start of the span (inclusive)
+                text.indexOf(getString(R.string.app_privacy_policy)) + String.valueOf(getString(R.string.app_privacy_policy)).length(), // End of the span (exclusive)
+                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+        );
+        ssBuilder.setSpan(
+                nadClickableSpan,
+                text.indexOf(getString(R.string.app_privacy_policy)),
+                text.indexOf(getString(R.string.app_privacy_policy)) + String.valueOf(getString(R.string.app_privacy_policy)).length(),
+                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+        );
+        ssBuilder.setSpan(
+                new ForegroundColorSpan(Color.parseColor("#577bb5")), // Span to add
+                text.indexOf(getString(R.string.app_term_conditions)), // Start of the span (inclusive)
+                text.indexOf(getString(R.string.app_term_conditions)) + String.valueOf(getString(R.string.app_term_conditions)).length(), // End of the span (exclusive)
+                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+        );
+        ssBuilder.setSpan(
+                conditionClickableSpan, // Span to add
+                text.indexOf(getString(R.string.app_term_conditions)), // Start of the span (inclusive)
+                text.indexOf(getString(R.string.app_term_conditions)) + String.valueOf(getString(R.string.app_term_conditions)).length(), // End of the span (exclusive)
+                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+        );
+
+
+        textViewCustom.setText(ssBuilder);
+        textViewCustom.setMovementMethod(LinkMovementMethod.getInstance());
+        textViewCustom.setHighlightColor(Color.TRANSPARENT);
+    }
 
     @Override
     public void onClick(View view) {

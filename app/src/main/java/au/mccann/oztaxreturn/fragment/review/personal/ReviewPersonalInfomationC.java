@@ -1,8 +1,6 @@
 package au.mccann.oztaxreturn.fragment.review.personal;
 
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
@@ -24,7 +22,6 @@ import au.mccann.oztaxreturn.rest.response.PersonalInfomationResponse;
 import au.mccann.oztaxreturn.utils.DialogUtils;
 import au.mccann.oztaxreturn.utils.LogUtils;
 import au.mccann.oztaxreturn.utils.ProgressDialogUtils;
-import au.mccann.oztaxreturn.utils.TooltipUtils;
 import au.mccann.oztaxreturn.utils.TransitionScreen;
 import au.mccann.oztaxreturn.utils.Utils;
 import au.mccann.oztaxreturn.view.EdittextCustom;
@@ -34,6 +31,8 @@ import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static au.mccann.oztaxreturn.utils.Utils.showToolTip;
 
 /**
  * Created by LongBui on 4/24/18.
@@ -115,8 +114,7 @@ public class ReviewPersonalInfomationC extends BaseFragment implements View.OnCl
     private void doNextC() {
 
         if (rbYes.isChecked() && edtLoan.getText().toString().trim().isEmpty()) {
-            TooltipUtils.showToolTipView(getContext(), edtLoan, Gravity.BOTTOM, getString(R.string.valid_app_bank_name),
-                    ContextCompat.getColor(getContext(), R.color.red));
+            showToolTip(getContext(), edtLoan,  getString(R.string.valid_app_bank_name));
             return;
         }
 

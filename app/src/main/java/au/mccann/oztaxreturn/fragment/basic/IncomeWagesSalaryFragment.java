@@ -63,7 +63,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static au.mccann.oztaxreturn.utils.DateTimeUtils.getDateBirthDayFromIso;
 import static au.mccann.oztaxreturn.utils.ImageUtils.showImage;
+import static au.mccann.oztaxreturn.utils.Utils.showToolTip;
 
 /**
  * Created by LongBui on 4/17/18.
@@ -107,7 +109,6 @@ public class IncomeWagesSalaryFragment extends BaseFragment implements View.OnCl
         edtMidName = (EdittextCustom) findViewById(R.id.edt_middle_name);
         edtLastName = (EdittextCustom) findViewById(R.id.edt_last_name);
         edtBirthday.setOnClickListener(this);
-
     }
 
     @Override
@@ -232,7 +233,7 @@ public class IncomeWagesSalaryFragment extends BaseFragment implements View.OnCl
             edtFirstName.setText(salary.getFirstName());
             edtMidName.setText(salary.getLastName());
             edtLastName.setText(salary.getLastName());
-            edtBirthday.setText(salary.getBirthday());
+            edtBirthday.setText(getDateBirthDayFromIso(salary.getBirthday()));
         }
 
     }
@@ -454,33 +455,33 @@ public class IncomeWagesSalaryFragment extends BaseFragment implements View.OnCl
                 LogUtils.d(TAG, "doSaveBasic" + cbYes.isChecked() + images.size());
                 if (cbYes.isChecked()) {
                     if (images.size() < 2) {
-                        Utils.showLongToast(getActivity(), getString(R.string.image_attach_empty), true, false);
+                        showToolTip(getContext(), grImage, getString(R.string.image_attach_empty));
                         return;
                     } else uploadImage();
                 } else if (cbNo.isChecked()) {
                     if (edtTfn.getText().toString().trim().isEmpty()) {
-                        Utils.showToolTip(getActivity(), edtTfn, getString(R.string.vali_all_empty));
+                        showToolTip(getActivity(), edtTfn, getString(R.string.vali_all_empty));
                         return;
                     }
                     if (edtFirstName.getText().toString().trim().isEmpty()) {
-                        Utils.showToolTip(getActivity(), edtFirstName, getString(R.string.vali_all_empty));
+                        showToolTip(getActivity(), edtFirstName, getString(R.string.vali_all_empty));
                         return;
                     }
                     if (edtMidName.getText().toString().trim().isEmpty()) {
-                        Utils.showToolTip(getActivity(), edtMidName, getString(R.string.vali_all_empty));
+                        showToolTip(getActivity(), edtMidName, getString(R.string.vali_all_empty));
                         return;
                     }
                     if (edtLastName.getText().toString().trim().isEmpty()) {
-                        Utils.showToolTip(getActivity(), edtLastName, getString(R.string.vali_all_empty));
+                        showToolTip(getActivity(), edtLastName, getString(R.string.vali_all_empty));
                         return;
                     }
                     if (edtBirthday.getText().toString().trim().isEmpty()) {
-                        Utils.showToolTip(getActivity(), edtBirthday, getString(R.string.vali_all_empty));
+                        showToolTip(getActivity(), edtBirthday, getString(R.string.vali_all_empty));
                         return;
                     }
                     doSaveBasic();
                 } else {
-                    Utils.showLongToast(getActivity(), getString(R.string.error_must_one), true, false);
+                    showToolTip(getActivity(), btnNext, getString(R.string.error_must_one));
                 }
                 break;
 

@@ -12,12 +12,16 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="hint_User_name">Username</string>
     <string name="hint_pass_word">Password</string>
+
+    <!-- register  -->
     <string name="title_create_account">Create account</string>
     <string name="label_mail">email</string>
     <string name="label_mobile">mobile phone</string>
     <string name="label_password">password</string>
     <string name="label_re_password">re-password</string>
     <string name="policy">I agree with Term and Privacy policy</string>
+    <string name="term">Term</string>
+    <string name="register_privacy_policy">Privacy policy</string>
     <string name="btn_register">register</string>
     <string name="ok">Ok</string>
     <string name="error">Error!</string>
@@ -38,6 +42,7 @@
     <string name="forgot_password">Forgot password?</string>
     <string name="valid_password">Password of at least 5 characters.</string>
     <string name="send_successfully">send request successfully.</string>
+    <string name="vali_re_password">password is not matching.</string>
 
     <!-- common -->
 
@@ -105,16 +110,17 @@
     <!-- income other -->
     <string name="income_other_title">Income</string>
     <string name="income_other_resource">Other resource</string>
-    <string name="income_other_content">It will help us your return faster if your could provide some extra inforrmation about your income</string>
-    <string name="income_radio_text_no">No, I don’t have any other source of income</string>
-    <string name="income_radio_text_yes">Yes, and i want the acountant take a look at my case and get back to me for addtional information</string>
-    <string name="income_other_hint">Your extra sources of income. Example: Retail properties, investment</string>
+    <string name="income_other_content">These sources of income may include government suport, investment, business, dividends, rental properties and foreign income. Please select Yes if you are not sure, our account will process your case from our end to make sure everything is right for your application</string>
+    <string name="income_other_hint">Example: Retail properties, investment</string>
     <string name="income_other_img">payg image</string>
     <string name="valid_income_content">Enter income content</string>
+    <string name="income_other_ask">Do you have other sources of income?</string>
+    <string name="lable_income">Please provide some information about your other sources of income</string>
 
     <!-- diduction -->
-    <string name="income_deduction_hint">Example: Retail properties, investment</string>
-    <string name="deduction_title">deduction</string>
+    <string name="income_deduction_hint">Example: Labourer, Restaurant worl</string>
+    <string name="deduction_title">deductions</string>
+    <string name="deduction_content">Please let our accountants know what you do at work so that wr can help in putting your deduction claims.</string>
     <string name="valid_deduction_content">Enter deduction content</string>
     <string name="valid_deduction_image">please choose at least a photo</string>
 
@@ -160,7 +166,8 @@
     <string name="valid_app_post_code">Enter post code</string>
     <string name="valid_app_phone">Enter Phone number</string>
     <string name="valid_app_email">Enter email address</string>
-    <string name="valid_app_email_2">Email address is not available</string>
+    <string name="valid_app_email_2">Please enter a valid email address</string>
+    <string name="valid_app_phone_2">Please enter a valid phone number</string>
 
     <!-- first checkout -->
     <string name="first_checkout_title">CHECK OUT</string>
@@ -493,7 +500,7 @@
     <string name="new_password">new password</string>
     <string name="new_password_again">new password again</string>
     <string name="save">save</string>
-    <string name="vali_password_lenth">enter at least 5 characters</string>
+    <string name="vali_password_lenth">Please enter at least 5 characters</string>
     <string name="password_incorrect">password.incorrect</string>
     <string name="password_confirm">password.confirm</string>
     <string name="update_login_details">Update login details</string>

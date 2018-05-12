@@ -32,6 +32,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static au.mccann.oztaxreturn.utils.Utils.showToolTip;
+
 /**
  * Created by CanTran on 5/23/17.
  */
@@ -75,18 +77,18 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
     private void doLogin() {
         if (edtUsername.getText().toString().trim().isEmpty()) {
+            showToolTip(this, edtUsername, getString(R.string.vali_all_empty));
             edtUsername.requestFocus();
-            edtUsername.setError(getString(R.string.vali_all_empty));
             return;
         }
         if (edtPassword.getText().toString().trim().isEmpty()) {
+            showToolTip(this, edtPassword, getString(R.string.vali_all_empty));
             edtPassword.requestFocus();
-            edtPassword.setError(getString(R.string.vali_all_empty));
             return;
         }
         if (edtPassword.getText().toString().trim().length() < 5) {
             edtPassword.requestFocus();
-            edtPassword.setError(getString(R.string.valid_password));
+            showToolTip(this, edtPassword, getString(R.string.valid_password));
             return;
         }
         ProgressDialogUtils.showProgressDialog(LoginActivity.this);
@@ -110,6 +112,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                     String tken = "Bearer " + response.body().getToken();
                     user.setToken(tken);
                     UserManager.insertUser(user);
+                    LogUtils.d(TAG, "doLogin code : " + UserManager.getUserEntity().getToken());
                     startActivity(new Intent(LoginActivity.this, HomeActivity.class), TransitionScreen.RIGHT_TO_LEFT);
                     sendRegistrationToServer();
                 } else {
@@ -195,4 +198,5 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
         }
     }
+
 }

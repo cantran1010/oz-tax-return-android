@@ -23,8 +23,9 @@
             <au.mccann.oztaxreturn.view.TextViewCustom
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="35dp"
-                android:text="@string/income_other_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:text="@string/deduction_content"
                 android:textColor="@color/title_color"
                 android:textSize="@dimen/size_nomal" />
 
