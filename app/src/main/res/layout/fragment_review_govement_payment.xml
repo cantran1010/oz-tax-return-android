@@ -183,8 +183,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_marginTop="@dimen/left_right_margin_screen"
-        android:padding="25dp"
+       android:layout_margin="25dp"
         android:src="@drawable/ic_write" />
 
     <au.mccann.oztaxreturn.view.ButtonCustom

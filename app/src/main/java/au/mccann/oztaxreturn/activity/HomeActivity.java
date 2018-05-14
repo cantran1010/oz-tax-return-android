@@ -376,13 +376,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
         DialogUtils.showOkAndCancelDialog(this, getString(R.string.app_name), getString(R.string.logout), getString(R.string.Yes), getString(R.string.No), new AlertDialogOkAndCancel.AlertDialogListener() {
             @Override
             public void onSubmit() {
-                Realm realm = Realm.getDefaultInstance();
-                realm.beginTransaction();
-                realm.deleteAll();
-                realm.commitTransaction();
-                Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
+                logOut();
             }
 
             @Override
@@ -392,6 +386,51 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
         });
 
 
+    }
+
+    private void logOut() {
+        LogUtils.d(TAG, "logOut , Token : " + UserManager.getUserToken());
+        ApiClient.getApiService().logOut(UserManager.getUserToken()).enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                LogUtils.d(TAG, "logOut , code : " + response.code());
+                if (response.code() == Constants.HTTP_CODE_NO_CONTENT) {
+                    Realm realm = Realm.getDefaultInstance();
+                    realm.beginTransaction();
+                    realm.deleteAll();
+                    realm.commitTransaction();
+                    Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                } else {
+                    APIError error = Utils.parseError(response);
+                    if (error != null) {
+                        LogUtils.d(TAG, "logOut error : " + error.message());
+                        DialogUtils.showOkDialog(HomeActivity.this, getString(R.string.error), error.message(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                            @Override
+                            public void onSubmit() {
+                            }
+                        });
+                    }
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                DialogUtils.showRetryDialog(HomeActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
+                    @Override
+                    public void onSubmit() {
+                        logOut();
+                    }
+
+                    @Override
+                    public void onCancel() {
+
+                    }
+                });
+            }
+        });
     }
 
     private void doShareApp() {

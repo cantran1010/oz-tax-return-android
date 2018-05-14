@@ -38,7 +38,6 @@ import au.mccann.oztaxreturn.model.APIError;
 import au.mccann.oztaxreturn.model.Attachment;
 import au.mccann.oztaxreturn.model.Image;
 import au.mccann.oztaxreturn.networking.ApiClient;
-import au.mccann.oztaxreturn.utils.DateTimeUtils;
 import au.mccann.oztaxreturn.utils.DialogUtils;
 import au.mccann.oztaxreturn.utils.FileUtils;
 import au.mccann.oztaxreturn.utils.ImageUtils;
@@ -56,6 +55,7 @@ import retrofit2.Response;
 
 import static au.mccann.oztaxreturn.common.Constants.REQUEST_CODE_PICK_IMAGE;
 import static au.mccann.oztaxreturn.common.Constants.RESPONSE_CODE_PICK_IMAGE;
+import static au.mccann.oztaxreturn.utils.DateTimeUtils.getDateBirthDayFromIso;
 import static au.mccann.oztaxreturn.utils.Utils.showToolTip;
 
 
@@ -127,7 +127,7 @@ public class ManageAccount extends BaseActivity implements View.OnClickListener 
                                           final int monthOfYear, final int dayOfMonth) {
                         if (view.isShown()) {
                             calendar.set(year, monthOfYear, dayOfMonth);
-                            edtBirthDay.setText(DateTimeUtils.fromCalendarToBirthday(calendar));
+                            edtBirthDay.setText(DateFormat.getDateInstance(DateFormat.SHORT).format(calendar.getTime()));
                         }
                     }
                 }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
@@ -150,7 +150,8 @@ public class ManageAccount extends BaseActivity implements View.OnClickListener 
         edtFirstname.setText(body.getFirstName());
         edtMidname.setText(body.getMiddleName());
         edtLastName.setText(body.getLastName());
-        edtBirthDay.setText(body.getBirthday());
+        if (body.getBirthday() != null && !body.getBirthday().isEmpty())
+            edtBirthDay.setText(getDateBirthDayFromIso(body.getBirthday()));
         edtStreetNumber.setText(body.getStreet());
         edtSuburb.setText(body.getSuburb());
         edtState.setText(body.getState());
@@ -313,7 +314,7 @@ public class ManageAccount extends BaseActivity implements View.OnClickListener 
             return;
         }
         if (edtMidname.getText().toString().trim().isEmpty()) {
-            showToolTip(this, edtMidname,getString(R.string.vali_all_empty));
+            showToolTip(this, edtMidname, getString(R.string.vali_all_empty));
             edtMidname.requestFocus();
             edtMidname.getParent().requestChildFocus(edtMidname, edtMidname);
             return;
@@ -331,7 +332,7 @@ public class ManageAccount extends BaseActivity implements View.OnClickListener 
             return;
         }
         if (edtStreetNumber.getText().toString().trim().isEmpty()) {
-            showToolTip(this, edtStreetNumber,  getString(R.string.vali_all_empty));
+            showToolTip(this, edtStreetNumber, getString(R.string.vali_all_empty));
             edtStreetNumber.requestFocus();
             edtStreetNumber.getParent().requestChildFocus(edtStreetNumber, edtStreetNumber);
             return;
@@ -343,7 +344,7 @@ public class ManageAccount extends BaseActivity implements View.OnClickListener 
             return;
         }
         if (edtPostCode.getText().toString().trim().isEmpty()) {
-            showToolTip(this, edtPostCode,  getString(R.string.vali_all_empty));
+            showToolTip(this, edtPostCode, getString(R.string.vali_all_empty));
             edtPostCode.requestFocus();
             edtPostCode.getParent().requestChildFocus(edtPostCode, edtPostCode);
             return;
@@ -362,7 +363,7 @@ public class ManageAccount extends BaseActivity implements View.OnClickListener 
 //            return;
 //        }
         if (0 < edtNewPassWordAgain.getText().toString().length() && edtOldPassWord.getText().toString().trim().length() < 5) {
-            showToolTip(this, edtNewPassWordAgain,  getString(R.string.vali_password_lenth));
+            showToolTip(this, edtNewPassWordAgain, getString(R.string.vali_password_lenth));
             edtNewPassWordAgain.requestFocus();
             edtNewPassWordAgain.getParent().requestChildFocus(edtNewPassWordAgain, edtNewPassWordAgain);
             return;
@@ -419,7 +420,7 @@ public class ManageAccount extends BaseActivity implements View.OnClickListener 
                             }
                         } else if (error.status().equalsIgnoreCase(getString(R.string.password_confirm))) {
                             if (edtNewPassWord.getText().toString().trim().isEmpty()) {
-                                showToolTip(ManageAccount.this, edtNewPassWord,  error.message());
+                                showToolTip(ManageAccount.this, edtNewPassWord, error.message());
                                 edtNewPassWord.requestFocus();
                                 edtNewPassWord.getParent().requestChildFocus(edtNewPassWord, edtNewPassWord);
                             }

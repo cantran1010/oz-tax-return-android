@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,7 +15,6 @@ import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.CompoundButton;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
@@ -63,7 +63,7 @@ import retrofit2.Response;
 public class ReviewFamilyHealthPrivateFragment extends BaseFragment implements View.OnClickListener {
 
     private static final String TAG = ReviewFamilyHealthPrivateFragment.class.getSimpleName();
-    private ImageView imgEdit, imgAdd;
+    private FloatingActionButton fab, fbAdd;
     private CheckBoxCustom cbYes, cbNo;
     private LinearLayout layoutYes;
     private EdittextCustom edtNumber;
@@ -85,18 +85,18 @@ public class ReviewFamilyHealthPrivateFragment extends BaseFragment implements V
 
     @Override
     protected void initView() {
-        imgEdit = (ImageView) findViewById(R.id.img_edit);
-        imgEdit.setOnClickListener(this);
+        fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(this);
 
         cbYes = (CheckBoxCustom) findViewById(R.id.cb_yes);
         cbNo = (CheckBoxCustom) findViewById(R.id.cb_no);
 
         layoutYes = (LinearLayout) findViewById(R.id.layout_yes);
 
-        imgAdd = (ImageView) findViewById(R.id.img_add);
+        fbAdd = (FloatingActionButton) findViewById(R.id.add);
 
         findViewById(R.id.btn_next).setOnClickListener(this);
-        findViewById(R.id.img_add).setOnClickListener(this);
+        fbAdd.setOnClickListener(this);
         rcvList = (RecyclerView) findViewById(R.id.rcv);
 
         layoutAdd = (RelativeLayout) findViewById(R.id.layout_add);
@@ -107,7 +107,7 @@ public class ReviewFamilyHealthPrivateFragment extends BaseFragment implements V
         getReviewProgress(getApplicationResponse());
         setTitle(getString(R.string.review_fhd_title));
         appBarVisibility(true, true, 1);
-        imgEdit.setEnabled(isEditApp());
+        fab.setEnabled(isEditApp());
         cbYes.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
@@ -258,7 +258,7 @@ public class ReviewFamilyHealthPrivateFragment extends BaseFragment implements V
     private void doUploadImage() {
         countDown = reviewPrivateResponses.size();
 
-        if (reviewPrivateResponses.size() ==0) {
+        if (reviewPrivateResponses.size() == 0) {
             doNext();
         } else {
             for (int i = 0; i < reviewPrivateResponses.size(); i++) {
@@ -398,7 +398,7 @@ public class ReviewFamilyHealthPrivateFragment extends BaseFragment implements V
         cbNo.setEnabled(true);
         reviewFHPAdapter.setEdit(true);
         reviewFHPAdapter.notifyDataSetChanged();
-        imgAdd.setEnabled(true);
+        fbAdd.setEnabled(true);
         isEdit = true;
     }
 
@@ -479,11 +479,11 @@ public class ReviewFamilyHealthPrivateFragment extends BaseFragment implements V
                     openFragment(R.id.layout_container, ReviewFamilyHealthSpouseFragment.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
                 break;
 
-            case R.id.img_edit:
+            case R.id.fab:
                 doEdit();
                 break;
 
-            case R.id.img_add:
+            case R.id.add:
                 doAdd();
                 break;
 
