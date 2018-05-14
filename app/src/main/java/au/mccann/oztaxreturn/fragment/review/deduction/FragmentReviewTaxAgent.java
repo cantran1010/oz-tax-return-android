@@ -147,7 +147,7 @@ public class FragmentReviewTaxAgent extends BaseFragment implements View.OnClick
                 LogUtils.d(TAG, "setOnCheckedChangeListener : " + b);
                 if (b) {
                     layout.setExpanded(true);
-                    scollLayout();
+//                    scollLayout();
                 } else {
                     layout.setExpanded(false);
                 }
@@ -426,7 +426,7 @@ public class FragmentReviewTaxAgent extends BaseFragment implements View.OnClick
                             return;
                         }
                         if (images.size() < 2) {
-                            showToolTip(getContext(), grImage,  getString(R.string.vali_all_empty));
+                            showToolTip(getContext(), grImage, getString(R.string.vali_all_empty));
                             return;
                         }
                         uploadImage();

@@ -140,5 +140,6 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_margin="25dp"
-        android:src="@drawable/ic_write" />
+        android:src="@drawable/ic_write"
+        app:fabSize="mini" />
 </RelativeLayout>

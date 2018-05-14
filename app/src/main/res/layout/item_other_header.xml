@@ -2,10 +2,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginEnd="@dimen/left_right_margin_screen"
-    android:layout_marginLeft="@dimen/left_right_margin_screen"
-    android:layout_marginRight="@dimen/left_right_margin_screen"
-    android:layout_marginStart="@dimen/left_right_margin_screen"
     android:orientation="vertical">
 
     <au.mccann.oztaxreturn.view.TextViewCustom
@@ -48,9 +44,9 @@
             android:layout_height="wrap_content"
             android:button="@drawable/checkbox_selector"
             android:checked="false"
+            android:enabled="false"
             android:padding="10dp"
             android:text="@string/Yes"
-            android:enabled="false"
             android:textColor="@color/income_conten"
             android:textSize="@dimen/tv_size_xlager" />
 
@@ -62,8 +58,8 @@
             android:layout_marginStart="50dp"
             android:button="@drawable/checkbox_selector"
             android:checked="true"
-            android:padding="10dp"
             android:enabled="false"
+            android:padding="10dp"
             android:text="@string/No"
             android:textColor="@color/income_conten"
             android:textSize="@dimen/tv_size_xlager" />

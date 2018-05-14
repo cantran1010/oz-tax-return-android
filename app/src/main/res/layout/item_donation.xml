@@ -4,11 +4,7 @@
     android:id="@+id/expand_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginEnd="@dimen/left_right_margin_screen"
-    android:layout_marginLeft="@dimen/left_right_margin_screen"
-    android:layout_marginRight="@dimen/left_right_margin_screen"
-    android:layout_marginStart="@dimen/left_right_margin_screen"
-    app:el_duration="1000"
+    app:el_duration="@integer/expand"
     app:el_expanded="true">
 
     <LinearLayout

@@ -354,9 +354,17 @@
     <string name="unfranks_dividends">unfranks dividends</string>
     <string name="unfranks_dividends_hint">$ 100</string>
     <string name="deduction_type_hint">Deduction type</string>
+    <string-array name="string_array_deduction_type">
+        <item>Laundary</item>
+        <item>Dry Cleaning</item>
+        <item>Protective Clothing</item>
+        <item>Compulsory Work Uniform</item>
+        <item>Occupation Specific Clothing</item>
+        <item>Other</item>
+    </string-array>
 
     <!-- review deduction education -->
-    <string name="review_education">Work relate education</string>
+    <string name="review_education">Work relate\neducation</string>
     <string name="review_education_ask">This could relate to any spending on fees, books, travel and epuipment that heva a direct connection to your current work.\n\nDo you want to claim for this type?</string>
     <string name="education_type_hint">Example: tultion fees</string>
     <string name="course_and_institution">course and instutition</string>

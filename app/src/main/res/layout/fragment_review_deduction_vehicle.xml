@@ -89,7 +89,7 @@
                 android:id="@+id/layout_expandable"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:el_duration="1000"
+                app:el_duration="@integer/expand"
                 app:el_expanded="false">
 
                 <LinearLayout
@@ -226,7 +226,8 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_margin="25dp"
-        android:src="@drawable/ic_write" />
+        android:src="@drawable/ic_write"
+        app:fabSize="mini" />
 
 
     <au.mccann.oztaxreturn.view.ButtonCustom
