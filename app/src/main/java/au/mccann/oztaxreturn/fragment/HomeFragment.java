@@ -31,6 +31,7 @@ import au.mccann.oztaxreturn.utils.LogUtils;
 import au.mccann.oztaxreturn.utils.ProgressDialogUtils;
 import au.mccann.oztaxreturn.utils.TransitionScreen;
 import au.mccann.oztaxreturn.utils.Utils;
+import au.mccann.oztaxreturn.view.TextViewCustom;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -44,6 +45,7 @@ public class HomeFragment extends BaseFragment {
     private RecyclerView recyclerView;
     private HomeAdapter homeAdapter;
     private ArrayList<ApplicationResponse> applicationResponses;
+    private TextViewCustom tvNoApp;
 
     @Override
     protected int getLayout() {
@@ -53,6 +55,7 @@ public class HomeFragment extends BaseFragment {
     @Override
     protected void initView() {
         recyclerView = (RecyclerView) findViewById(R.id.rv_app);
+        tvNoApp = (TextViewCustom) findViewById(R.id.tv_no_app);
     }
 
     @Override
@@ -137,6 +140,15 @@ public class HomeFragment extends BaseFragment {
                 }
             }
         });
+
+        if (applicationResponses.size() == 0) {
+            recyclerView.setVisibility(View.GONE);
+            tvNoApp.setVisibility(View.VISIBLE);
+        } else {
+            recyclerView.setVisibility(View.VISIBLE);
+            tvNoApp.setVisibility(View.GONE);
+        }
+
     }
 
     private void getAllApplication() {

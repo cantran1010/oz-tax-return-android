@@ -7,14 +7,15 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rcv_list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent" />
 
     <au.mccann.oztaxreturn.view.TextViewCustom
         android:id="@+id/tv_no_data"
-        android:visibility="gone"
-        android:text="@string/no_data"
         android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:layout_height="wrap_content" />
+        android:text="@string/no_data"
+        android:textSize="20sp"
+        android:visibility="gone" />
 
 </RelativeLayout>
