@@ -513,12 +513,38 @@ public class Utils {
     }
 
     public static void showToolTip(Context context, View view, String content) {
+
+        if (context instanceof Activity) {
+            ViewTooltip
+                    .on((Activity) context, view)
+                    .autoHide(true, 2000)
+                    .corner(30)
+                    .position(ViewTooltip.Position.TOP)
+                    .color(ContextCompat.getColor(view.getContext(), R.color.tool_tip))
+                    .align(ViewTooltip.ALIGN.CENTER)
+                    .text(content)
+                    .show();
+        } else {
+            ViewTooltip
+                    .on(view)
+                    .autoHide(true, 2000)
+                    .corner(30)
+                    .position(ViewTooltip.Position.TOP)
+                    .color(ContextCompat.getColor(view.getContext(), R.color.tool_tip))
+                    .align(ViewTooltip.ALIGN.CENTER)
+                    .text(content)
+                    .show();
+        }
+
+    }
+
+    public static void showToolTip(View view, String content) {
         ViewTooltip
                 .on(view)
                 .autoHide(true, 2000)
                 .corner(30)
                 .position(ViewTooltip.Position.TOP)
-                .color(ContextCompat.getColor(context, R.color.tool_tip))
+                .color(ContextCompat.getColor(view.getContext(), R.color.tool_tip))
                 .align(ViewTooltip.ALIGN.END)
                 .text(content)
                 .show();

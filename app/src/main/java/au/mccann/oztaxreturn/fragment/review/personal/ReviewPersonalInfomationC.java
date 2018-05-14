@@ -114,7 +114,7 @@ public class ReviewPersonalInfomationC extends BaseFragment implements View.OnCl
     private void doNextC() {
 
         if (rbYes.isChecked() && edtLoan.getText().toString().trim().isEmpty()) {
-            showToolTip(getContext(), edtLoan,  getString(R.string.valid_app_bank_name));
+            showToolTip(getActivity(), edtLoan,  getString(R.string.valid_app_bank_name));
             return;
         }
 
