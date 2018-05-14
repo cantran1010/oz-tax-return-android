@@ -21,6 +21,7 @@ import au.mccann.oztaxreturn.rest.response.ReviewFamilyHealthResponse;
 import au.mccann.oztaxreturn.rest.response.ReviewProgressResponse;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
@@ -32,6 +33,8 @@ import retrofit2.http.PUT;
 import retrofit2.http.Part;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
+import retrofit2.http.Streaming;
+import retrofit2.http.Url;
 
 /**
  * Created by CanTran on 5/23/17.
@@ -139,4 +142,8 @@ public interface ApiInterface {
 
     @POST("auth/logout")
     Call<Void> logOut(@Header("Authorization") String token);
+
+    @Streaming
+    @GET
+    Call<ResponseBody> downloadFileUrlAsync(@Url String fileUrl);
 }

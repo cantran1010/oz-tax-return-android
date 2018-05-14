@@ -1,19 +1,39 @@
 package au.mccann.oztaxreturn.fragment.review.summary;
 
+import android.Manifest;
+import android.content.ActivityNotFoundException;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.webkit.MimeTypeMap;
 import android.widget.ImageView;
+import android.widget.Toast;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 import au.mccann.oztaxreturn.R;
+import au.mccann.oztaxreturn.activity.GeneralInfoActivity;
 import au.mccann.oztaxreturn.common.Constants;
 import au.mccann.oztaxreturn.database.UserManager;
 import au.mccann.oztaxreturn.dialog.AlertDialogOk;
@@ -36,17 +56,19 @@ import au.mccann.oztaxreturn.utils.Utils;
 import au.mccann.oztaxreturn.view.ButtonCustom;
 import au.mccann.oztaxreturn.view.ExpandableLayout;
 import au.mccann.oztaxreturn.view.TextViewCustom;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 import static au.mccann.oztaxreturn.utils.Utils.formatMoney;
-import static au.mccann.oztaxreturn.utils.Utils.openGeneralInfoActivity;
 
 /**
  * Created by CanTran on 4/23/18.
  */
 public class ReviewSummary extends BaseFragment implements View.OnClickListener {
+    public static final String MESSAGE_PROGRESS = "message_progress";
+    private static final int PERMISSION_REQUEST_CODE = 1;
     private static final String TAG = ReviewSummary.class.getSimpleName();
     private TextViewCustom tvTaxReturn, tvTotalIncome, tvTotalDeduction, tvTaxPayable, tvTaxWidthheld;
     private TextViewCustom tvIncomeSalary, tvGovernmentPayments, tvInterest, tvDividends, tvEarlyTermination, tvSuperIncomeStream, tvSuperLumpSum, tvRentaIncome;
@@ -58,6 +80,7 @@ public class ReviewSummary extends BaseFragment implements View.OnClickListener 
     private Animation anim_down, anim_up;
     private ButtonCustom btnNext;
     private TextViewCustom tvPolicy;
+    File futureStudioIconFile;
 
     @Override
     protected int getLayout() {
@@ -125,6 +148,8 @@ public class ReviewSummary extends BaseFragment implements View.OnClickListener 
         else btnNext.setText(getContext().getString(R.string.review));
         setTitle(getString(R.string.review_summary_title));
         appBarVisibility(true, true, 1);
+        tvPolicy.setText(getContext().getString(R.string.positive_tax_refund));
+        setClickDownload(tvPolicy);
         getReviewSummary();
     }
 
@@ -136,6 +161,7 @@ public class ReviewSummary extends BaseFragment implements View.OnClickListener 
                 String negativeTaxRefund = getContext().getString(R.string.negative_tax_refund) + getContext().getString(R.string.dolla) + summary.getActualTaxRefund() + getContext().getString(R.string.negative_tax_refund_end);
                 tvPolicy.setText(negativeTaxRefund);
             }
+//            setClickDownload(tvPolicy, summary);
         } else {
             if (isEditApp()) {
                 tvPolicy.setText(getContext().getString(R.string.privacy_policy));
@@ -299,6 +325,123 @@ public class ReviewSummary extends BaseFragment implements View.OnClickListener 
     }
 
 
+    private void downloadFile(final String url) {
+        ProgressDialogUtils.showProgressDialog(getContext());
+        ApiClient.getApiService().downloadFileUrlAsync(url).enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(@NonNull Call<ResponseBody> call, @NonNull final Response<ResponseBody> response) {
+                ProgressDialogUtils.dismissProgressDialog();
+                if (response.isSuccessful()) {
+                    Log.d(TAG, "server contacted and has file");
+                    new AsyncTask<Void, Void, Void>() {
+                        @Override
+                        protected Void doInBackground(Void... voids) {
+                            final boolean writtenToDisk = writeResponseBodyToDisk(response.body());
+
+                            getActivity().runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    if (writtenToDisk)
+                                        DialogUtils.showOkDialog(getContext(), "successful", "download was successful", getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                                            @Override
+                                            public void onSubmit() {
+                                                openFile();
+                                            }
+                                        });
+//                                    Utils.showLongToast(getContext(), "download was successful", false, true);
+                                }
+                            });
+                            return null;
+                        }
+                    }.execute();
+
+                } else {
+                    Log.d(TAG, "server contact failed");
+                }
+
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
+                LogUtils.e(TAG, "doSaveReview onFailure : " + t.getMessage());
+                ProgressDialogUtils.dismissProgressDialog();
+                DialogUtils.showRetryDialog(getContext(), new AlertDialogOkAndCancel.AlertDialogListener() {
+                    @Override
+                    public void onSubmit() {
+                        downloadFile(url);
+                    }
+
+                    @Override
+                    public void onCancel() {
+
+                    }
+                });
+            }
+        });
+    }
+    private void openFile(){
+        MimeTypeMap myMime = MimeTypeMap.getSingleton();
+        Intent newIntent = new Intent(Intent.ACTION_VIEW);
+        String mimeType = myMime.getMimeTypeFromExtension(fileExt(futureStudioIconFile.getAbsolutePath()).substring(1));
+        newIntent.setDataAndType(Uri.fromFile(futureStudioIconFile),mimeType);
+        newIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        newIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        try {
+            getActivity().startActivity(newIntent);
+        } catch (ActivityNotFoundException e) {
+            Toast.makeText(getActivity(), "No handler for this type of file.", Toast.LENGTH_LONG).show();
+        }
+    }
+    private String fileExt(String url) {
+        if (url.indexOf("?") > -1) {
+            url = url.substring(0, url.indexOf("?"));
+        }
+        if (url.lastIndexOf(".") == -1) {
+            return null;
+        } else {
+            String ext = url.substring(url.lastIndexOf(".") + 1);
+            if (ext.indexOf("%") > -1) {
+                ext = ext.substring(0, ext.indexOf("%"));
+            }
+            if (ext.indexOf("/") > -1) {
+                ext = ext.substring(0, ext.indexOf("/"));
+            }
+            return ext.toLowerCase();
+
+        }
+    }
+
+    private boolean checkPermission() {
+        int result = ContextCompat.checkSelfPermission(getContext(),
+                Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        if (result == PackageManager.PERMISSION_GRANTED) {
+
+            return true;
+
+        } else {
+
+            return false;
+        }
+    }
+
+    private void requestPermission() {
+        ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, PERMISSION_REQUEST_CODE);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case PERMISSION_REQUEST_CODE:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    downloadFile("https://oztax-dev-static.s3-ap-southeast-1.amazonaws.com/N0SlKBZKaJ-1524469668.png");
+                } else {
+                    Snackbar.make(findViewById(R.id.relativeLayout), "Permission Denied, Please allow to proceed !", Snackbar.LENGTH_LONG).show();
+
+                }
+                break;
+        }
+    }
+
     @Override
     protected void resumeData() {
 
@@ -309,19 +452,56 @@ public class ReviewSummary extends BaseFragment implements View.OnClickListener 
 
     }
 
+
+    private void setClickDownload(TextViewCustom textViewCustom) {
+        String text = textViewCustom.getText().toString().trim();
+        SpannableStringBuilder ssBuilder = new SpannableStringBuilder(text);
+        ClickableSpan conditionClickableSpan = new ClickableSpan() {
+            @Override
+            public void onClick(View view) {
+                if (checkPermission()) {
+                    downloadFile("https://oztax-dev-static.s3-ap-southeast-1.amazonaws.com/N0SlKBZKaJ-1524469668.png");
+                } else {
+                    requestPermission();
+                }
+//                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://oztax-dev-static.s3-ap-southeast-1.amazonaws.com/N0SlKBZKaJ-1524469668.png"));
+//                startActivity(browserIntent);
+//                downloadFile("https://oztax-dev-static.s3-ap-southeast-1.amazonaws.com/N0SlKBZKaJ-1524469668.png");
+            }
+        };
+
+        ssBuilder.setSpan(
+                new ForegroundColorSpan(Color.parseColor("#577bb5")), // Span to add
+                text.indexOf(getString(R.string.tax_return_report)), // Start of the span (inclusive)
+                text.indexOf(getString(R.string.tax_return_report)) + String.valueOf(getString(R.string.tax_return_report)).length(), // End of the span (exclusive)
+                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+        );
+        ssBuilder.setSpan(
+                conditionClickableSpan, // Span to add
+                text.indexOf(getString(R.string.tax_return_report)), // Start of the span (inclusive)
+                text.indexOf(getString(R.string.tax_return_report)) + String.valueOf(getString(R.string.tax_return_report)).length(), // End of the span (exclusive)
+                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+        );
+
+
+        textViewCustom.setText(ssBuilder);
+        textViewCustom.setMovementMethod(LinkMovementMethod.getInstance());
+        textViewCustom.setHighlightColor(Color.TRANSPARENT);
+    }
+
     private void setUnderLinePolicy(TextViewCustom textViewCustom) {
         String text = getString(R.string.privacy_policy);
         SpannableStringBuilder ssBuilder = new SpannableStringBuilder(text);
         ClickableSpan conditionClickableSpan = new ClickableSpan() {
             @Override
             public void onClick(View view) {
-                openGeneralInfoActivity(getActivity(), getString(R.string.app_term_conditions), "http://hozo.vn/dieu-khoan-su-dung/?ref=app");
+                openGeneralInfoActivity(getString(R.string.app_term_conditions), "http://oztax.tonishdev.com/terms-and-conditions");
             }
         };
         ClickableSpan nadClickableSpan = new ClickableSpan() {
             @Override
             public void onClick(View view) {
-                openGeneralInfoActivity(getActivity(), getString(R.string.app_privacy_policy), "http://hozo.vn/chinh-sach-bao-mat/?ref=app");
+                openGeneralInfoActivity(getString(R.string.app_privacy_policy), "http://oztax.tonishdev.com/privacy-policy");
             }
         };
         ssBuilder.setSpan(
@@ -361,6 +541,63 @@ public class ReviewSummary extends BaseFragment implements View.OnClickListener 
         textViewCustom.setHighlightColor(Color.TRANSPARENT);
     }
 
+    private void openGeneralInfoActivity(String title, String url) {
+        Intent intent = new Intent(getContext(), GeneralInfoActivity.class);
+        intent.putExtra(Constants.URL_EXTRA, url);
+        intent.putExtra(Constants.TITLE_INFO_EXTRA, title);
+        startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
+    }
+
+
+    private boolean writeResponseBodyToDisk(ResponseBody body) {
+        try {
+            // todo change the file location/name according to your needs
+            futureStudioIconFile = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + System.currentTimeMillis() + "Future Studio Icon.png");
+
+            InputStream inputStream = null;
+            OutputStream outputStream = null;
+
+            try {
+                byte[] fileReader = new byte[4096];
+
+                long fileSize = body.contentLength();
+                long fileSizeDownloaded = 0;
+
+                inputStream = body.byteStream();
+                outputStream = new FileOutputStream(futureStudioIconFile);
+
+                while (true) {
+                    int read = inputStream.read(fileReader);
+
+                    if (read == -1) {
+                        break;
+                    }
+
+                    outputStream.write(fileReader, 0, read);
+
+                    fileSizeDownloaded += read;
+
+                    Log.d(TAG, "file download: " + fileSizeDownloaded + " of " + fileSize);
+                }
+
+                outputStream.flush();
+
+                return true;
+            } catch (IOException e) {
+                return false;
+            } finally {
+                if (inputStream != null) {
+                    inputStream.close();
+                }
+
+                if (outputStream != null) {
+                    outputStream.close();
+                }
+            }
+        } catch (IOException e) {
+            return false;
+        }
+    }
 
     @Override
     public void onClick(View view) {
