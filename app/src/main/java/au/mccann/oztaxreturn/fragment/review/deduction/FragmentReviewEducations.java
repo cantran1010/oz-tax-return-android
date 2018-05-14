@@ -145,6 +145,12 @@ public class FragmentReviewEducations extends BaseFragment implements View.OnCli
                 }
             }
         });
+        adapter.setOnSelectedListener(new EducationAdapter.OnSelectedListener() {
+            @Override
+            public void selected(int position, int n) {
+
+            }
+        });
 
     }
 

@@ -371,6 +371,13 @@
     <string name="course_hint">Example: food safety certificate from ABC TAPE</string>
     <string name="ed_amount">amount</string>
     <string name="amount_hint">$ 1000</string>
+    <string-array name="string_array_education_type">
+        <item>Fees</item>
+        <item>Books, Stationary, Consumables</item>
+        <item>Travel</item>
+        <item>Computer</item>
+        <item>Other</item>
+    </string-array>
 
     <!-- review deduction Other Work Related Expenses -->
     <string name="review_other_work">Other Work\nRelated Expenses</string>

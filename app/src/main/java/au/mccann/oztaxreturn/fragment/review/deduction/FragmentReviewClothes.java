@@ -148,7 +148,6 @@ public class FragmentReviewClothes extends BaseFragment implements View.OnClickL
         types = Arrays.asList(getResources().getStringArray(R.array.string_array_deduction_type));
         OzSpinnerAdapter dataNameAdapter = new OzSpinnerAdapter(getActivity(), types);
         spType.setAdapter(dataNameAdapter);
-
         rbYes.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {

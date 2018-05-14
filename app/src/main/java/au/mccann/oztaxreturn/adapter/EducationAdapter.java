@@ -13,8 +13,11 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.CompoundButton;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import au.mccann.oztaxreturn.R;
 import au.mccann.oztaxreturn.model.Attachment;
@@ -38,15 +41,25 @@ public class EducationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private boolean isEdit;
     private boolean isExpend;
     private boolean onBind;
+    private List<String> types = new ArrayList<>();
 
     public interface OnClickImageListener {
         void onClick(int position, int n);
     }
 
+    public interface OnSelectedListener {
+        void selected(int position, int n);
+    }
+
     private OnClickImageListener onClickImageListener;
+    private OnSelectedListener onSelectedListener;
 
     public void setOnClickImageListener(OnClickImageListener onClickImageListener) {
         this.onClickImageListener = onClickImageListener;
+    }
+
+    public void setOnSelectedListener(OnSelectedListener onSelectedListener) {
+        this.onSelectedListener = onSelectedListener;
     }
 
     public void setEdit(boolean edit) {
@@ -61,6 +74,7 @@ public class EducationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         this.context = context;
         this.educations = educations;
         if (educations != null && educations.size() > 0) isExpend = true;
+        types = Arrays.asList(context.getResources().getStringArray(R.array.string_array_education_type));
     }
 
     @NonNull
@@ -107,17 +121,22 @@ public class EducationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 itemViewHolder.expandableLayout.setExpanded(true);
             } else itemViewHolder.expandableLayout.setExpanded(false);
             if (isEdit) {
-                itemViewHolder.edtType.setEnabled(true);
+                itemViewHolder.spType.setEnabled(true);
                 itemViewHolder.edtCourse.setEnabled(true);
                 itemViewHolder.edtAmount.setEnabled(true);
                 itemViewHolder.grImage.setEnabled(true);
             } else {
-                itemViewHolder.edtType.setEnabled(false);
+                itemViewHolder.spType.setEnabled(false);
                 itemViewHolder.edtCourse.setEnabled(false);
                 itemViewHolder.edtAmount.setEnabled(false);
                 itemViewHolder.grImage.setEnabled(false);
             }
-            itemViewHolder.edtType.setText(education.getType());
+            for (int i = 0; i < types.size(); i++) {
+                if (education.getType().equalsIgnoreCase(types.get(i))) {
+                    itemViewHolder.spType.setSelection(i);
+                    return;
+                }
+            }
             itemViewHolder.edtCourse.setText(education.getCourse());
             itemViewHolder.edtAmount.setText(education.getAmount());
             if (education.getImages() == null || education.getImages().size() == 0) {
@@ -135,22 +154,21 @@ public class EducationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 }
             });
 
-            ((ItemViewHolder) holder).edtType.addTextChangedListener(new TextWatcher() {
+            OzSpinnerAdapter dataNameAdapter = new OzSpinnerAdapter(context, types);
+            itemViewHolder.spType.setAdapter(dataNameAdapter);
+            itemViewHolder.spType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
-                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
+                public void onItemSelected(AdapterView<?> adapterView, View view, int n, long l) {
+                    educations.get(position - 1).setType(adapterView.getItemAtPosition(position).toString());
+                    notifyDataSetChanged();
                 }
 
                 @Override
-                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                public void onNothingSelected(AdapterView<?> adapterView) {
 
-                }
-
-                @Override
-                public void afterTextChanged(Editable editable) {
-                    educations.get(position - 1).setType(editable.toString().trim());
                 }
             });
+
             ((ItemViewHolder) holder).edtCourse.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -256,7 +274,7 @@ public class EducationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     private class ItemViewHolder extends RecyclerView.ViewHolder {
         final ExpandableLayout expandableLayout;
-        final EdittextCustom edtType;
+        final Spinner spType;
         final EdittextCustom edtCourse;
         final EdittextCustom edtAmount;
         final MyGridView grImage;
@@ -264,7 +282,7 @@ public class EducationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         ItemViewHolder(View itemView) {
             super(itemView);
             expandableLayout = itemView.findViewById(R.id.expand_layout);
-            edtType = itemView.findViewById(R.id.edt_deduction_type);
+            spType = itemView.findViewById(R.id.sp_type);
             edtCourse = itemView.findViewById(R.id.edt_course);
             edtAmount = itemView.findViewById(R.id.edt_education_amount);
             grImage = itemView.findViewById(R.id.gr_image);
