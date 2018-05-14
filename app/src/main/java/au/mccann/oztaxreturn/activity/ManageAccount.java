@@ -150,7 +150,8 @@ public class ManageAccount extends BaseActivity implements View.OnClickListener 
         edtFirstname.setText(body.getFirstName());
         edtMidname.setText(body.getMiddleName());
         edtLastName.setText(body.getLastName());
-        edtBirthDay.setText(getDateBirthDayFromIso(body.getBirthday()));
+        if (body.getBirthday() != null && !body.getBirthday().isEmpty())
+            edtBirthDay.setText(getDateBirthDayFromIso(body.getBirthday()));
         edtStreetNumber.setText(body.getStreet());
         edtSuburb.setText(body.getSuburb());
         edtState.setText(body.getState());

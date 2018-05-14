@@ -105,6 +105,7 @@
                         android:layout_marginEnd="5dp"
                         android:layout_marginRight="5dp"
                         android:layout_marginTop="10dp"
+                        android:imeOptions="actionNext"
                         android:inputType="text"
                         android:textColor="@color/income_conten"
                         android:textColorHint="@color/tv_gray" />
@@ -145,6 +146,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:text="@string/your_name"
+                android:textSize="@dimen/size_small"
                 android:textColor="@color/tv_gray" />
 
             <au.mccann.oztaxreturn.view.EdittextCustom
@@ -170,6 +172,7 @@
                     android:layout_marginRight="5dp"
                     android:layout_marginTop="5dp"
                     android:layout_weight="1"
+                    android:imeOptions="actionNext"
                     android:hint="@string/middle_name_hint"
                     android:inputType="textPersonName" />
 
@@ -182,6 +185,7 @@
                     android:layout_marginStart="5dp"
                     android:layout_marginTop="5dp"
                     android:layout_weight="1"
+                    android:imeOptions="actionNext"
                     android:hint="@string/last_name_hint"
                     android:inputType="textPersonName" />
 
@@ -191,6 +195,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
+                android:textSize="@dimen/size_small"
                 android:text="@string/birthday"
                 android:textColor="@color/tv_gray" />
 
@@ -276,6 +281,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="5dp"
                         android:layout_marginRight="5dp"
+                        android:imeOptions="actionNext"
                         android:layout_marginTop="10dp"
                         android:inputType="text"
                         android:textColor="@color/income_conten"
@@ -306,6 +312,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
                         android:layout_marginStart="5dp"
+                        android:imeOptions="actionNext"
                         android:layout_marginTop="10dp"
                         android:inputType="number"
                         android:textColor="@color/income_conten"
