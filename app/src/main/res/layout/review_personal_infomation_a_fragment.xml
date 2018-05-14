@@ -16,7 +16,6 @@
             android:id="@+id/layout_no"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
             android:orientation="vertical"
             android:paddingBottom="30dp"
             android:visibility="visible">
@@ -93,10 +92,10 @@
                     android:layout_marginEnd="5dp"
                     android:layout_marginRight="5dp"
                     android:layout_marginTop="5dp"
-                    android:imeOptions="actionNext"
                     android:layout_weight="1"
                     android:enabled="false"
                     android:hint="@string/middle_name_hint"
+                    android:imeOptions="actionNext"
                     android:inputType="textPersonName"
                     android:textColor="@color/income_conten"
                     android:textColorHint="@color/tv_gray" />
@@ -111,8 +110,8 @@
                     android:layout_marginTop="5dp"
                     android:layout_weight="1"
                     android:enabled="false"
-                    android:imeOptions="actionNext"
                     android:hint="@string/last_name_hint"
+                    android:imeOptions="actionNext"
                     android:inputType="textPersonName"
                     android:textColor="@color/income_conten"
                     android:textColorHint="@color/tv_gray" />
@@ -190,13 +189,14 @@
         </LinearLayout>
     </ScrollView>
 
-    <ImageView
-        android:id="@+id/img_edit"
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_marginTop="@dimen/left_right_margin_screen"
-        android:src="@drawable/img_edit" />
+        android:layout_margin="25dp"
+        android:src="@drawable/ic_write" />
 
     <au.mccann.oztaxreturn.view.ButtonCustom
         android:id="@+id/btn_next"

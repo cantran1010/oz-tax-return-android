@@ -165,22 +165,14 @@ public class SplashActivity extends BaseActivity {
                         DialogUtils.showOkDialog(SplashActivity.this, getString(R.string.block_title), getString(R.string.temporally_locked), getString(R.string.block_logout), new AlertDialogOk.AlertDialogListener() {
                             @Override
                             public void onSubmit() {
-                                Realm realm = Realm.getDefaultInstance();
-                                realm.beginTransaction();
-                                realm.deleteAll();
-                                realm.commitTransaction();
-                                finish();
+                                logOut();
                             }
                         });
                     } else if (blockResponse.getStatus().equalsIgnoreCase(Constants.STATUS_USER_BLOCK)) {
                         DialogUtils.showOkDialog(SplashActivity.this, getString(R.string.block_title), getString(R.string.block_user), getString(R.string.block_logout), new AlertDialogOk.AlertDialogListener() {
                             @Override
                             public void onSubmit() {
-                                Realm realm = Realm.getDefaultInstance();
-                                realm.beginTransaction();
-                                realm.deleteAll();
-                                realm.commitTransaction();
-                                finish();
+                                logOut();
                             }
                         });
                     } else {
@@ -225,5 +217,49 @@ public class SplashActivity extends BaseActivity {
         });
     }
 
+    private void logOut() {
+        LogUtils.d(TAG, "logOut , Token : " + UserManager.getUserToken());
+        ApiClient.getApiService().logOut(UserManager.getUserToken()).enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                LogUtils.d(TAG, "logOut , code : " + response.code());
+                if (response.code() == Constants.HTTP_CODE_OK) {
+                    Realm realm = Realm.getDefaultInstance();
+                    realm.beginTransaction();
+                    realm.deleteAll();
+                    realm.commitTransaction();
+                    Intent intent = new Intent(SplashActivity.this, MainActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                } else {
+                    APIError error = Utils.parseError(response);
+                    if (error != null) {
+                        LogUtils.d(TAG, "logOut error : " + error.message());
+                        DialogUtils.showOkDialog(SplashActivity.this, getString(R.string.error), error.message(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                            @Override
+                            public void onSubmit() {
+                            }
+                        });
+                    }
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                DialogUtils.showRetryDialog(SplashActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
+                    @Override
+                    public void onSubmit() {
+                        logOut();
+                    }
+
+                    @Override
+                    public void onCancel() {
+
+                    }
+                });
+            }
+        });
+    }
 
 }

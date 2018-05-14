@@ -7,12 +7,12 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CompoundButton;
-import android.widget.ImageView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -59,7 +59,7 @@ import retrofit2.Response;
 public class ReviewFamilyHealthMedicareFragment extends BaseFragment implements View.OnClickListener {
 
     private static final String TAG = ReviewFamilyHealthMedicareFragment.class.getSimpleName();
-    private ImageView imgEdit;
+    private FloatingActionButton fab;
     private CheckBoxCustom cbYes, cbNo;
     private ReviewFamilyHealthResponse reviewFamilyHealthResponse;
 
@@ -80,8 +80,8 @@ public class ReviewFamilyHealthMedicareFragment extends BaseFragment implements 
 
         grImage = (MyGridView) findViewById(R.id.gr_image);
 
-        imgEdit = (ImageView) findViewById(R.id.img_edit);
-        imgEdit.setOnClickListener(this);
+        fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(this);
 
         cbYes = (CheckBoxCustom) findViewById(R.id.cb_yes);
         cbNo = (CheckBoxCustom) findViewById(R.id.cb_no);
@@ -94,7 +94,7 @@ public class ReviewFamilyHealthMedicareFragment extends BaseFragment implements 
         getReviewProgress(getApplicationResponse());
         setTitle(getString(R.string.review_fhd_title));
         appBarVisibility(true, true, 1);
-        imgEdit.setEnabled(isEditApp());
+        fab.setEnabled(isEditApp());
         getReviewFamilyAndHealth();
         images = new ArrayList<>();
         attach = new ArrayList<>();
@@ -413,7 +413,7 @@ public class ReviewFamilyHealthMedicareFragment extends BaseFragment implements 
                     openFragment(R.id.layout_container, ReviewFamilyHealthPrivateFragment.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
                 break;
 
-            case R.id.img_edit:
+            case R.id.fab:
                 doEdit();
                 break;
 

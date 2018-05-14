@@ -136,4 +136,7 @@ public interface ApiInterface {
 
     @GET("application/{application_id}/review/progress")
     Call<ReviewProgressResponse> getReviewProgress(@Header("Authorization") String token, @Path("application_id") int appId);
+
+    @POST("auth/logout")
+    Call<Void> logOut(@Header("Authorization") String token);
 }

@@ -10,10 +10,10 @@
 
     <au.mccann.oztaxreturn.view.TextViewCustom
         android:id="@+id/tv_title"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
         android:text="@string/annuities_and_super"
         android:textColor="@color/title_color"
         android:textSize="@dimen/tv_size_xxxlager" />
@@ -46,6 +46,7 @@
             android:layout_height="wrap_content"
             android:button="@drawable/checkbox_selector"
             android:checked="false"
+            android:enabled="false"
             android:padding="10dp"
             android:text="@string/Yes"
             android:textColor="@color/income_conten"
@@ -59,6 +60,7 @@
             android:layout_marginStart="50dp"
             android:button="@drawable/checkbox_selector"
             android:checked="true"
+            android:enabled="false"
             android:padding="10dp"
             android:text="@string/No"
             android:textColor="@color/income_conten"

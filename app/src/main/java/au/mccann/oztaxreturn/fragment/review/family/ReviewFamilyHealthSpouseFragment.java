@@ -9,13 +9,13 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import org.json.JSONArray;
@@ -73,7 +73,7 @@ import retrofit2.Response;
 public class ReviewFamilyHealthSpouseFragment extends BaseFragment implements View.OnClickListener {
 
     private static final String TAG = ReviewFamilyHealthSpouseFragment.class.getSimpleName();
-    private ImageView imgEdit;
+    private FloatingActionButton fab;
     private CheckBoxCustom cbYes, cbNo;
     private LinearLayout layoutYes;
     private ReviewFamilyHealthResponse reviewFamilyHealthResponse;
@@ -98,8 +98,8 @@ public class ReviewFamilyHealthSpouseFragment extends BaseFragment implements Vi
 
         grImage = (MyGridView) findViewById(R.id.gr_image);
 
-        imgEdit = (ImageView) findViewById(R.id.img_edit);
-        imgEdit.setOnClickListener(this);
+        fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(this);
 
         cbYes = (CheckBoxCustom) findViewById(R.id.cb_yes);
         cbNo = (CheckBoxCustom) findViewById(R.id.cb_no);
@@ -122,7 +122,7 @@ public class ReviewFamilyHealthSpouseFragment extends BaseFragment implements Vi
         getReviewProgress(getApplicationResponse());
         setTitle(getString(R.string.review_fhd_title));
         appBarVisibility(true, true, 1);
-        imgEdit.setEnabled(isEditApp());
+        fab.setEnabled(isEditApp());
         getReviewFamilyAndHealth();
 
         images = new ArrayList<>();
@@ -508,10 +508,10 @@ public class ReviewFamilyHealthSpouseFragment extends BaseFragment implements Vi
             case R.id.btn_next:
                 if (isEditApp()) doNext();
                 else
-                    openFragment(R.id.layout_container, ReviewSummary.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
+                    openFragment(R.id.layout_container, HomeFragment.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
                 break;
 
-            case R.id.img_edit:
+            case R.id.fab:
                 doEdit();
                 break;
 

@@ -36,7 +36,7 @@ public class DonationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private final ArrayList<Donation> donations;
     private final Context context;
     private boolean isEdit;
-    private boolean isExpend = true;
+    private boolean isExpend;
     private boolean onBind;
 
     public interface OnClickImageListener {

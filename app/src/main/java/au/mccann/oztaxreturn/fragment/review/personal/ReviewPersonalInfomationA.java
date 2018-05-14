@@ -3,9 +3,9 @@ package au.mccann.oztaxreturn.fragment.review.personal;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.view.View;
 import android.widget.DatePicker;
-import android.widget.ImageView;
 import android.widget.Spinner;
 
 import org.json.JSONException;
@@ -53,7 +53,7 @@ public class ReviewPersonalInfomationA extends BaseFragment implements View.OnCl
     private RadioButtonCustom rbYes, rbNo;
     private Calendar calendar = GregorianCalendar.getInstance();
     private List<String> genders = new ArrayList<>();
-    private ImageView imgEdit;
+    private FloatingActionButton fab;
 
     @Override
     protected int getLayout() {
@@ -70,8 +70,8 @@ public class ReviewPersonalInfomationA extends BaseFragment implements View.OnCl
         rbYes = (RadioButtonCustom) findViewById(R.id.rb_yes);
         rbNo = (RadioButtonCustom) findViewById(R.id.rb_no);
         edtBirthDay.setOnClickListener(this);
-        imgEdit = (ImageView) findViewById(R.id.img_edit);
-        imgEdit.setOnClickListener(this);
+        fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(this);
         findViewById(R.id.btn_next).setOnClickListener(this);
     }
 
@@ -79,7 +79,7 @@ public class ReviewPersonalInfomationA extends BaseFragment implements View.OnCl
     protected void initData() {
         setTitle(getString(R.string.infomation_a));
         appBarVisibility(true, true, 1);
-        imgEdit.setEnabled(isEditApp());
+        fab.setEnabled(isEditApp());
         getReviewInformation();
         getReviewProgress(getApplicationResponse());
     }
@@ -283,7 +283,7 @@ public class ReviewPersonalInfomationA extends BaseFragment implements View.OnCl
                 else
                     openFragment(R.id.layout_container, ReviewPersonalInfomationB.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
                 break;
-            case R.id.img_edit:
+            case R.id.fab:
                 doEdit();
                 break;
         }
