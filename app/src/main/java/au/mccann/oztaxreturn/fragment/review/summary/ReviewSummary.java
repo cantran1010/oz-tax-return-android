@@ -67,7 +67,6 @@ import static au.mccann.oztaxreturn.utils.Utils.formatMoney;
  * Created by CanTran on 4/23/18.
  */
 public class ReviewSummary extends BaseFragment implements View.OnClickListener {
-    public static final String MESSAGE_PROGRESS = "message_progress";
     private static final int PERMISSION_REQUEST_CODE = 1;
     private static final String TAG = ReviewSummary.class.getSimpleName();
     private TextViewCustom tvTaxReturn, tvTotalIncome, tvTotalDeduction, tvTaxPayable, tvTaxWidthheld;
@@ -149,7 +148,6 @@ public class ReviewSummary extends BaseFragment implements View.OnClickListener 
         setTitle(getString(R.string.review_summary_title));
         appBarVisibility(true, true, 1);
         tvPolicy.setText(getContext().getString(R.string.positive_tax_refund));
-        setClickDownload(tvPolicy);
         getReviewSummary();
     }
 
@@ -161,52 +159,51 @@ public class ReviewSummary extends BaseFragment implements View.OnClickListener 
                 String negativeTaxRefund = getContext().getString(R.string.negative_tax_refund) + getContext().getString(R.string.dolla) + summary.getActualTaxRefund() + getContext().getString(R.string.negative_tax_refund_end);
                 tvPolicy.setText(negativeTaxRefund);
             }
-//            setClickDownload(tvPolicy, summary);
+            setClickDownload(tvPolicy, summary);
         } else {
             if (isEditApp()) {
                 tvPolicy.setText(getContext().getString(R.string.privacy_policy));
                 setUnderLinePolicy(tvPolicy);
             } else tvPolicy.setText(getContext().getString(R.string.review_summary_note));
         }
-        tvTaxReturn.setText(formatMoney(getContext(), Integer.parseInt(summary.getEstimatedTaxRefund())));
-        tvTotalIncome.setText(formatMoney(getContext(), Integer.parseInt(summary.getIncome().getTotal())));
-        tvTotalDeduction.setText(formatMoney(getContext(), Integer.parseInt(summary.getDeduction().getTotal())));
-        tvTaxPayable.setText(formatMoney(getContext(), Integer.parseInt(summary.getTaxLiability().getTotal())));
-        tvTaxWidthheld.setText(formatMoney(getContext(), Integer.parseInt(summary.getTaxWithheld())));
+        tvTaxReturn.setText(formatMoney(getContext(), Double.parseDouble(summary.getEstimatedTaxRefund())));
+        tvTotalIncome.setText(formatMoney(getContext(), Double.parseDouble(summary.getIncome().getTotal())));
+        tvTotalDeduction.setText(formatMoney(getContext(), Double.parseDouble(summary.getDeduction().getTotal())));
+        tvTaxPayable.setText(formatMoney(getContext(), Double.parseDouble(summary.getTaxLiability().getTotal())));
+        tvTaxWidthheld.setText(formatMoney(getContext(), Double.parseDouble(summary.getTaxWithheld())));
         updateIncome(summary.getIncome().getParts());
         updateDeduction(summary.getDeduction().getParts());
         updateTax(summary.getTaxLiability().getParts());
     }
 
     private void updateIncome(IncomePart part) {
-        tvIncomeSalary.setText(formatMoney(getContext(), Integer.parseInt(part.getSalary())));
-        tvGovernmentPayments.setText(formatMoney(getContext(), Integer.parseInt(part.getGovPayments())));
-        tvInterest.setText(formatMoney(getContext(), Integer.parseInt(part.getBankInterests())));
-        tvDividends.setText(formatMoney(getContext(), Integer.parseInt(part.getDividends())));
-        tvEarlyTermination.setText(formatMoney(getContext(), Integer.parseInt(part.getEtps())));
-        tvSuperIncomeStream.setText(formatMoney(getContext(), Integer.parseInt(part.getSuperIncomeStream())));
-        tvSuperLumpSum.setText(formatMoney(getContext(), Integer.parseInt(part.getSuperLumpSum())));
-        tvRentaIncome.setText(formatMoney(getContext(), Integer.parseInt(part.getRentals())));
+        tvIncomeSalary.setText(formatMoney(getContext(), Double.parseDouble(part.getSalary())));
+        tvGovernmentPayments.setText(formatMoney(getContext(), Double.parseDouble(part.getGovPayments())));
+        tvInterest.setText(formatMoney(getContext(), Double.parseDouble(part.getBankInterests())));
+        tvDividends.setText(formatMoney(getContext(), Double.parseDouble(part.getDividends())));
+        tvEarlyTermination.setText(formatMoney(getContext(), Double.parseDouble(part.getEtps())));
+        tvSuperIncomeStream.setText(formatMoney(getContext(), Double.parseDouble(part.getSuperIncomeStream())));
+        tvSuperLumpSum.setText(formatMoney(getContext(), Double.parseDouble(part.getSuperLumpSum())));
+        tvRentaIncome.setText(formatMoney(getContext(), Double.parseDouble(part.getRentals())));
     }
 
     private void updateDeduction(DeductionPart part) {
-        tvVehicles.setText(formatMoney(getContext(), Integer.parseInt(part.getVehicles())));
-        tvWorkRelatedClothing.setText(formatMoney(getContext(), Integer.parseInt(part.getClothes())));
-        tvWorkRelatedEducation.setText(formatMoney(getContext(), Integer.parseInt(part.getEducations())));
-        tvOtherWorkRelatedExpenses.setText(formatMoney(getContext(), Integer.parseInt(part.getOthers())));
-        tvDonations.setText(formatMoney(getContext(), Integer.parseInt(part.getDonations())));
-        tvTaxAgentFees.setText(formatMoney(getContext(), Integer.parseInt(part.getTaxAgents())));
-        tvBankFees.setText(formatMoney(getContext(), Integer.parseInt(part.getBankFees())));
-
+        tvVehicles.setText(formatMoney(getContext(), Double.parseDouble(part.getVehicles())));
+        tvWorkRelatedClothing.setText(formatMoney(getContext(), Double.parseDouble(part.getClothes())));
+        tvWorkRelatedEducation.setText(formatMoney(getContext(), Double.parseDouble(part.getEducations())));
+        tvOtherWorkRelatedExpenses.setText(formatMoney(getContext(), Double.parseDouble(part.getOthers())));
+        tvDonations.setText(formatMoney(getContext(), Double.parseDouble(part.getDonations())));
+        tvTaxAgentFees.setText(formatMoney(getContext(), Double.parseDouble(part.getTaxAgents())));
+        tvBankFees.setText(formatMoney(getContext(), Double.parseDouble(part.getBankFees())));
     }
 
     private void updateTax(TaxPart part) {
-        tvTaxOn.setText(formatMoney(getContext(), Integer.parseInt(part.getOnTaxableIncome())));
-        tvMedicareLevy.setText(formatMoney(getContext(), Integer.parseInt(part.getMedicareLevy())));
-        tvMedicareLevySurcharge.setText(formatMoney(getContext(), Integer.parseInt(part.getMedicareLevySurcharge())));
-        tvRepayment.setText(formatMoney(getContext(), Integer.parseInt(part.getHecsHelpRepayment())));
-        tvTaxOffsets.setText(formatMoney(getContext(), Integer.parseInt(part.getTaxOffsets())));
-        tvTaxCredits.setText(formatMoney(getContext(), Integer.parseInt(part.getTaxCredits())));
+        tvTaxOn.setText(formatMoney(getContext(), Double.parseDouble(part.getOnTaxableIncome())));
+        tvMedicareLevy.setText(formatMoney(getContext(), Double.parseDouble(part.getMedicareLevy())));
+        tvMedicareLevySurcharge.setText(formatMoney(getContext(), Double.parseDouble(part.getMedicareLevySurcharge())));
+        tvRepayment.setText(formatMoney(getContext(), Double.parseDouble(part.getHecsHelpRepayment())));
+        tvTaxOffsets.setText(formatMoney(getContext(), Double.parseDouble(part.getTaxOffsets())));
+        tvTaxCredits.setText(formatMoney(getContext(), Double.parseDouble(part.getTaxCredits())));
     }
 
     private void expandableLayout(ExpandableLayout expan, ImageView img) {
@@ -336,19 +333,17 @@ public class ReviewSummary extends BaseFragment implements View.OnClickListener 
                     new AsyncTask<Void, Void, Void>() {
                         @Override
                         protected Void doInBackground(Void... voids) {
-                            final boolean writtenToDisk = writeResponseBodyToDisk(response.body());
-
+                            final boolean writtenToDisk = writeResponseBodyToDisk(response.body(), url);
                             getActivity().runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
+                                    String path = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + System.currentTimeMillis() + String.valueOf(getString(R.string.tax_return_report));
                                     if (writtenToDisk)
-                                        DialogUtils.showOkDialog(getContext(), "successful", "download was successful", getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                                        DialogUtils.showOkDialog(getContext(), "download was successful", path, getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
                                             @Override
                                             public void onSubmit() {
-                                                openFile();
                                             }
                                         });
-//                                    Utils.showLongToast(getContext(), "download was successful", false, true);
                                 }
                             });
                             return null;
@@ -379,11 +374,12 @@ public class ReviewSummary extends BaseFragment implements View.OnClickListener 
             }
         });
     }
-    private void openFile(){
+
+    private void openFile() {
         MimeTypeMap myMime = MimeTypeMap.getSingleton();
         Intent newIntent = new Intent(Intent.ACTION_VIEW);
         String mimeType = myMime.getMimeTypeFromExtension(fileExt(futureStudioIconFile.getAbsolutePath()).substring(1));
-        newIntent.setDataAndType(Uri.fromFile(futureStudioIconFile),mimeType);
+        newIntent.setDataAndType(Uri.fromFile(futureStudioIconFile), mimeType);
         newIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         newIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         try {
@@ -392,6 +388,7 @@ public class ReviewSummary extends BaseFragment implements View.OnClickListener 
             Toast.makeText(getActivity(), "No handler for this type of file.", Toast.LENGTH_LONG).show();
         }
     }
+
     private String fileExt(String url) {
         if (url.indexOf("?") > -1) {
             url = url.substring(0, url.indexOf("?"));
@@ -453,20 +450,17 @@ public class ReviewSummary extends BaseFragment implements View.OnClickListener 
     }
 
 
-    private void setClickDownload(TextViewCustom textViewCustom) {
+    private void setClickDownload(TextViewCustom textViewCustom, final Summary summary) {
         String text = textViewCustom.getText().toString().trim();
         SpannableStringBuilder ssBuilder = new SpannableStringBuilder(text);
         ClickableSpan conditionClickableSpan = new ClickableSpan() {
             @Override
             public void onClick(View view) {
                 if (checkPermission()) {
-                    downloadFile("https://oztax-dev-static.s3-ap-southeast-1.amazonaws.com/N0SlKBZKaJ-1524469668.png");
+                    downloadFile(summary.getAttachmentUrl());
                 } else {
                     requestPermission();
                 }
-//                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://oztax-dev-static.s3-ap-southeast-1.amazonaws.com/N0SlKBZKaJ-1524469668.png"));
-//                startActivity(browserIntent);
-//                downloadFile("https://oztax-dev-static.s3-ap-southeast-1.amazonaws.com/N0SlKBZKaJ-1524469668.png");
             }
         };
 
@@ -549,11 +543,11 @@ public class ReviewSummary extends BaseFragment implements View.OnClickListener 
     }
 
 
-    private boolean writeResponseBodyToDisk(ResponseBody body) {
+    private boolean writeResponseBodyToDisk(ResponseBody body, String url) {
+        String[] pdf = url.split(".");
         try {
             // todo change the file location/name according to your needs
-            futureStudioIconFile = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + System.currentTimeMillis() + "Future Studio Icon.png");
-
+            futureStudioIconFile = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + System.currentTimeMillis() + String.valueOf(getString(R.string.tax_return_report) + pdf[pdf.length - 1]));
             InputStream inputStream = null;
             OutputStream outputStream = null;
 

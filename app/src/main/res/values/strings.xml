@@ -463,6 +463,7 @@
     <string name="negative_tax_refund_end">to ATO. Please download your payment slip here. You can also contact us if you wish to discuss about payment plans.</string>
     <string name="Review_your_application">Review your application</string>
     <string name="review_auditing_title">Your application has been audit by ATO.</string>
+    <string name="tax_return_report">tax return report</string>
     <string name="review_audi_content">Please review your application again and submit additional information and image require by ATO to relogde your application. Your can contact our accountant for free support.</string>
 
     <!-- notification screen -->

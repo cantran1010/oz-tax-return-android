@@ -394,7 +394,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 LogUtils.d(TAG, "logOut , code : " + response.code());
-                if (response.code() == Constants.HTTP_CODE_OK) {
+                if (response.code() == Constants.HTTP_CODE_NO_CONTENT) {
                     Realm realm = Realm.getDefaultInstance();
                     realm.beginTransaction();
                     realm.deleteAll();

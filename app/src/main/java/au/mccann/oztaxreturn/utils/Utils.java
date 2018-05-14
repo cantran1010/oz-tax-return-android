@@ -442,7 +442,7 @@ public class Utils {
             return bmInput;
     }
 
-    public static String formatNumber(int input) {
+    public static String formatNumber(double input) {
         DecimalFormat myFormatter = new DecimalFormat("###,###.###");
         return myFormatter.format(input);
     }
@@ -452,7 +452,7 @@ public class Utils {
         return myFormatter.format(input);
     }
 
-    public static String formatMoney(Context context, int input) {
+    public static String formatMoney(Context context, double input) {
         return context.getString(R.string.dolla) + formatNumber(input);
     }
 
