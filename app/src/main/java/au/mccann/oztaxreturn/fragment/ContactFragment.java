@@ -72,6 +72,7 @@ public class ContactFragment extends BaseFragment implements View.OnClickListene
     private File fileAttach;
     private Spinner spLanguage;
     private ArrayList<Language> languagesArr = new ArrayList<>();
+    private boolean isLoadingMoreFromServer = true;
 
     @Override
     protected int getLayout() {
@@ -124,7 +125,7 @@ public class ContactFragment extends BaseFragment implements View.OnClickListene
         scrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
             @Override
             public void onLoadMore(int page) {
-                getMsg(since, LIMIT);
+                if (isLoadingMoreFromServer) getMsg(since, LIMIT);
             }
         };
         rcvMsg.addOnScrollListener(scrollListener);
@@ -142,12 +143,13 @@ public class ContactFragment extends BaseFragment implements View.OnClickListene
                     messages.addAll(response.body());
                     messageAdapter.notifyDataSetChanged();
 
-                    if (response.body().size() > 1) {
+                    if (response.body().size() >= 1) {
                         since = response.body().get(response.body().size() - 1).getCreatedAt();
-                    }
-//                    else {
-//                        scrollListener.onLoadMore();
-//                    }
+
+                        if (response.body().size() < LIMIT) isLoadingMoreFromServer = false;
+                    } else
+                        isLoadingMoreFromServer = false;
+
                 } else {
                     APIError error = Utils.parseError(response);
                     if (error != null) {

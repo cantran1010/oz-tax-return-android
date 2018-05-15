@@ -313,6 +313,7 @@ public class ReviewFamilyHealthPrivateFragment extends BaseFragment implements V
                             || reviewPrivateResponse.getGovRebateReceived() == 0
                             || reviewPrivateResponse.getDaysCovered() == 0
                             ) {
+
                         DialogUtils.showOkDialog(getActivity(), getString(R.string.error), getString(R.string.required_all), getString(R.string.Yes), new AlertDialogOk.AlertDialogListener() {
                             @Override
                             public void onSubmit() {
@@ -462,11 +463,17 @@ public class ReviewFamilyHealthPrivateFragment extends BaseFragment implements V
     }
 
     private void doAdd() {
-        ReviewPrivateResponse reviewPrivateResponse = new ReviewPrivateResponse();
-        reviewPrivateResponses.add(reviewPrivateResponse);
-        reviewFHPAdapter.notifyDataSetChanged();
-        LogUtils.d(TAG, "doAdd , reviewPrivateResponses size : " + reviewPrivateResponses.size());
-        setUpList();
+
+        if (reviewPrivateResponses.size() >= 3) {
+            Utils.showLongToast(getActivity(), getString(R.string.max_3_add), true, false);
+        } else {
+            ReviewPrivateResponse reviewPrivateResponse = new ReviewPrivateResponse();
+            reviewPrivateResponses.add(reviewPrivateResponse);
+            reviewFHPAdapter.notifyDataSetChanged();
+            LogUtils.d(TAG, "doAdd , reviewPrivateResponses size : " + reviewPrivateResponses.size());
+            setUpList();
+        }
+
     }
 
     @Override

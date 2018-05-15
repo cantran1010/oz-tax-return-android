@@ -110,36 +110,35 @@ public class ReviewPersonalInfomationB extends BaseFragment implements View.OnCl
     private void doNextB() {
 
         if (edtBankName.getText().toString().trim().isEmpty()) {
-            showToolTip(getContext(), edtBankName, getString(R.string.valid_app_bank_name));
+            showToolTip(getActivity(), edtBankName, getString(R.string.valid_app_bank_name));
             return;
         }
         if (edtBSB.getText().toString().trim().isEmpty()) {
-            showToolTip(getContext(), edtBSB, getString(R.string.valid_app_bsb));
+            showToolTip(getActivity(), edtBSB, getString(R.string.valid_app_bsb));
             return;
         }
         if (edtAccountNumber.getText().toString().trim().isEmpty()) {
-            showToolTip(getContext(), edtAccountNumber, getString(R.string.valid_app_account_number)
-            );
+            showToolTip(getActivity(), edtAccountNumber, getString(R.string.valid_app_account_number));
             return;
         }
         if (edtStreetName.getText().toString().trim().isEmpty()) {
-            showToolTip(getContext(), edtStreetName, getString(R.string.valid_app_street_name));
+            showToolTip(getActivity(), edtStreetName, getString(R.string.valid_app_street_name));
             return;
         }
         if (edtSuburb.getText().toString().trim().isEmpty()) {
-            showToolTip(getContext(), edtSuburb, getString(R.string.valid_app_suburb));
+            showToolTip(getActivity(), edtSuburb, getString(R.string.valid_app_suburb));
             return;
         }
         if (edtState.getText().toString().trim().isEmpty()) {
-            showToolTip(getContext(), edtState, getString(R.string.valid_app_state));
+            showToolTip(getActivity(), edtState, getString(R.string.valid_app_state));
             return;
         }
         if (edtPostCode.getText().toString().trim().isEmpty()) {
-            showToolTip(getContext(), edtPostCode, getString(R.string.valid_app_post_code));
+            showToolTip(getActivity(), edtPostCode, getString(R.string.valid_app_post_code));
             return;
         }
         if (edtPhone.getText().toString().trim().isEmpty()) {
-            showToolTip(getContext(), edtPhone, getString(R.string.valid_app_phone));
+            showToolTip(getActivity(), edtPhone, getString(R.string.valid_app_phone));
             return;
         }
         if (edtEmail.getText().toString().trim().isEmpty()) {
