@@ -354,15 +354,30 @@
     <string name="unfranks_dividends">unfranks dividends</string>
     <string name="unfranks_dividends_hint">$ 100</string>
     <string name="deduction_type_hint">Deduction type</string>
+    <string-array name="string_array_deduction_type">
+        <item>Laundary</item>
+        <item>Dry Cleaning</item>
+        <item>Protective Clothing</item>
+        <item>Compulsory Work Uniform</item>
+        <item>Occupation Specific Clothing</item>
+        <item>Other</item>
+    </string-array>
 
     <!-- review deduction education -->
-    <string name="review_education">Work relate education</string>
+    <string name="review_education">Work relate\neducation</string>
     <string name="review_education_ask">This could relate to any spending on fees, books, travel and epuipment that heva a direct connection to your current work.\n\nDo you want to claim for this type?</string>
     <string name="education_type_hint">Example: tultion fees</string>
     <string name="course_and_institution">course and instutition</string>
     <string name="course_hint">Example: food safety certificate from ABC TAPE</string>
     <string name="ed_amount">amount</string>
     <string name="amount_hint">$ 1000</string>
+    <string-array name="string_array_education_type">
+        <item>Fees</item>
+        <item>Books, Stationary, Consumables</item>
+        <item>Travel</item>
+        <item>Computer</item>
+        <item>Other</item>
+    </string-array>
 
     <!-- review deduction Other Work Related Expenses -->
     <string name="review_other_work">Other Work\nRelated Expenses</string>
@@ -370,6 +385,21 @@
     <string name="description">description</string>
     <string name="other_work_type_hint">Example: telephone</string>
     <string name="description_hint">Example: Phone call to Customers</string>
+    <string-array name="string_array_other_type">
+        <item>Union fees</item>
+        <item>Seminars</item>
+        <item>Books and journals</item>
+        <item>Home office running expenses</item>
+        <item>Home office occupancy expenses</item>
+        <item>Home telephone</item>
+        <item>Computer</item>
+        <item>Tools and equipment</item>
+        <item>Mobile phone</item>
+        <item>Internet access</item>
+        <item>Subscriptions</item>
+        <item>Printing and Stationary</item>
+        <item>Other</item>
+    </string-array>
 
     <!-- review deduction Donations -->
     <string name="review_donation">Donations</string>
@@ -458,9 +488,9 @@
     <string name="app_term_conditions">Term and conditions</string>
     <string name="lodge">Lodge</string>
     <string name="review_summary_note">Your application has been lodged. You can review it but no changes can be made at this state. You will be notified for any update of your aplication </string>
-    <string name="positive_tax_refund">Your application has been successfully completed. your tax refund has been transferred to your nominated bank account.</string>
+    <string name="positive_tax_refund">Your application has been successfully completed. your tax refund has been transferred to your nominated bank account. You can download your tax return report here.</string>
     <string name="negative_tax_refund">Your application has been successfully completed. You are required to pay</string>
-    <string name="negative_tax_refund_end">to ATO. Please download your payment slip here. You can also contact us if you wish to discuss about payment plans.</string>
+    <string name="negative_tax_refund_end">to ATO. Please download your tax return report. You can also contact us if you wish to discuss about payment plans.</string>
     <string name="Review_your_application">Review your application</string>
     <string name="review_auditing_title">Your application has been audit by ATO.</string>
     <string name="tax_return_report">tax return report</string>

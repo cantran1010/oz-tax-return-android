@@ -90,7 +90,6 @@ public class FragmentReviewEducations extends BaseFragment implements View.OnCli
         fab.setEnabled(isEditApp());
         setTitle(getString(R.string.review_income_title));
         appBarVisibility(true, true, 1);
-        updateList();
         getReviewDeduction();
     }
 
@@ -102,8 +101,7 @@ public class FragmentReviewEducations extends BaseFragment implements View.OnCli
             AddIconAdd(education);
             showImage(education.getAttachments(), education.getImages());
         }
-        adapter.notifyDataSetChanged();
-
+        updateList();
     }
 
     public static void showImage(ArrayList<Attachment> attachments, ArrayList<Image> images) {
@@ -145,7 +143,13 @@ public class FragmentReviewEducations extends BaseFragment implements View.OnCli
                 }
             }
         });
-
+        adapter.setOnSelectedListener(new EducationAdapter.OnSelectedListener() {
+            @Override
+            public void selected(int position, String type) {
+                educations.get(position).setType(type);
+                adapter.notifyItemChanged(position);
+            }
+        });
     }
 
     private void checkPermissionImageAttach() {

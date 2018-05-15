@@ -90,7 +90,6 @@ public class FragmentReviewOthers extends BaseFragment implements View.OnClickLi
         fab.setEnabled(isEditApp());
         setTitle(getString(R.string.review_income_title));
         appBarVisibility(true, true, 1);
-        updateList();
         getReviewDeduction();
     }
 
@@ -102,7 +101,7 @@ public class FragmentReviewOthers extends BaseFragment implements View.OnClickLi
             AddIconAdd(education);
             showImage(education.getAttachments(), education.getImages());
         }
-        adapter.notifyDataSetChanged();
+        updateList();
 
     }
 
@@ -143,6 +142,13 @@ public class FragmentReviewOthers extends BaseFragment implements View.OnClickLi
                     intent.putExtra(Constants.EXTRA_IMAGE_PATH, images.get(position).getPath());
                     startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
                 }
+            }
+        });
+        adapter.setOnSelectedListener(new OthersAdapter.OnSelectedListener() {
+            @Override
+            public void selected(int position, String type) {
+                otherResponses.get(position).setType(type);
+                adapter.notifyItemChanged(position);
             }
         });
 

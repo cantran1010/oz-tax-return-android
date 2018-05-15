@@ -1,11 +1,9 @@
 package au.mccann.oztaxreturn.fragment.review.summary;
 
 import android.Manifest;
-import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
@@ -22,9 +20,8 @@ import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.webkit.MimeTypeMap;
 import android.widget.ImageView;
-import android.widget.Toast;
+import android.widget.LinearLayout;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -62,6 +59,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static au.mccann.oztaxreturn.utils.Utils.formatMoney;
+import static au.mccann.oztaxreturn.utils.Utils.showNote;
 
 /**
  * Created by CanTran on 4/23/18.
@@ -69,7 +67,7 @@ import static au.mccann.oztaxreturn.utils.Utils.formatMoney;
 public class ReviewSummary extends BaseFragment implements View.OnClickListener {
     private static final int PERMISSION_REQUEST_CODE = 1;
     private static final String TAG = ReviewSummary.class.getSimpleName();
-    private TextViewCustom tvTaxReturn, tvTotalIncome, tvTotalDeduction, tvTaxPayable, tvTaxWidthheld;
+    private TextViewCustom tvTaxReturn, tvActual, tvTotalIncome, tvTotalDeduction, tvTaxPayable, tvTaxWidthheld;
     private TextViewCustom tvIncomeSalary, tvGovernmentPayments, tvInterest, tvDividends, tvEarlyTermination, tvSuperIncomeStream, tvSuperLumpSum, tvRentaIncome;
     private TextViewCustom tvVehicles, tvWorkRelatedClothing, tvWorkRelatedEducation, tvOtherWorkRelatedExpenses, tvDonations, tvTaxAgentFees, tvBankFees;
     private TextViewCustom tvTaxOn, tvMedicareLevy, tvMedicareLevySurcharge, tvRepayment, tvTaxOffsets, tvTaxCredits;
@@ -80,6 +78,9 @@ public class ReviewSummary extends BaseFragment implements View.OnClickListener 
     private ButtonCustom btnNext;
     private TextViewCustom tvPolicy;
     File futureStudioIconFile;
+    private LinearLayout layoutActual;
+    private ImageView imgNoteEstimated, imgTacRefund;
+
 
     @Override
     protected int getLayout() {
@@ -89,6 +90,7 @@ public class ReviewSummary extends BaseFragment implements View.OnClickListener 
     @Override
     protected void initView() {
         tvTaxReturn = (TextViewCustom) findViewById(R.id.tv_tax_return);
+        tvActual = (TextViewCustom) findViewById(R.id.tv_tax_actual);
         tvTotalIncome = (TextViewCustom) findViewById(R.id.tv_total_income);
         tvTotalDeduction = (TextViewCustom) findViewById(R.id.tv_total_deduction);
         tvTaxPayable = (TextViewCustom) findViewById(R.id.tv_tax_payable);
@@ -97,11 +99,14 @@ public class ReviewSummary extends BaseFragment implements View.OnClickListener 
 
         icIncome = (ImageView) findViewById(R.id.ic_income);
         icDeduction = (ImageView) findViewById(R.id.ic_deduction);
+        imgNoteEstimated = (ImageView) findViewById(R.id.img_estimated);
+        imgTacRefund = (ImageView) findViewById(R.id.img_actual);
         icTax = (ImageView) findViewById(R.id.ic_tax);
 
         layoutIncome = (ExpandableLayout) findViewById(R.id.layout_income);
         layoutTax = (ExpandableLayout) findViewById(R.id.layout_tax);
         layoutDeduction = (ExpandableLayout) findViewById(R.id.layout_deduction);
+        layoutActual = (LinearLayout) findViewById(R.id.layout_actual);
 
         tvIncomeSalary = (TextViewCustom) findViewById(R.id.tv_total_income_salary);
         tvGovernmentPayments = (TextViewCustom) findViewById(R.id.tv_government_payments);
@@ -127,11 +132,14 @@ public class ReviewSummary extends BaseFragment implements View.OnClickListener 
         tvTaxOffsets = (TextViewCustom) findViewById(R.id.tv_tax_offsets);
         tvTaxCredits = (TextViewCustom) findViewById(R.id.tv_tax_credits);
 
+
         btnNext = (ButtonCustom) findViewById(R.id.btn_review);
         btnNext.setOnClickListener(this);
         findViewById(R.id.lo_total_income).setOnClickListener(this);
         findViewById(R.id.lo_total_deduction).setOnClickListener(this);
         findViewById(R.id.lo_total_tax).setOnClickListener(this);
+        imgNoteEstimated.setOnClickListener(this);
+        imgTacRefund.setOnClickListener(this);
         anim_down = AnimationUtils.loadAnimation(getActivity(),
                 R.anim.rotate_down);
         anim_up = AnimationUtils.loadAnimation(getActivity(),
@@ -147,26 +155,28 @@ public class ReviewSummary extends BaseFragment implements View.OnClickListener 
         else btnNext.setText(getContext().getString(R.string.review));
         setTitle(getString(R.string.review_summary_title));
         appBarVisibility(true, true, 1);
-        tvPolicy.setText(getContext().getString(R.string.positive_tax_refund));
         getReviewSummary();
     }
 
     private void updateUI(Summary summary) {
         if (summary.getStatus().equalsIgnoreCase(Constants.STATUS_COMPLETED)) {
+            layoutActual.setVisibility(View.VISIBLE);
             if (Integer.parseInt(summary.getActualTaxRefund()) > 0) {
                 tvPolicy.setText(getContext().getString(R.string.positive_tax_refund));
             } else {
-                String negativeTaxRefund = getContext().getString(R.string.negative_tax_refund) + getContext().getString(R.string.dolla) + summary.getActualTaxRefund() + getContext().getString(R.string.negative_tax_refund_end);
+                String negativeTaxRefund = getContext().getString(R.string.negative_tax_refund) + " " + getContext().getString(R.string.dolla) + " " + summary.getActualTaxRefund() + getContext().getString(R.string.negative_tax_refund_end);
                 tvPolicy.setText(negativeTaxRefund);
             }
             setClickDownload(tvPolicy, summary);
         } else {
+            layoutActual.setVisibility(View.GONE);
             if (isEditApp()) {
                 tvPolicy.setText(getContext().getString(R.string.privacy_policy));
                 setUnderLinePolicy(tvPolicy);
             } else tvPolicy.setText(getContext().getString(R.string.review_summary_note));
         }
         tvTaxReturn.setText(formatMoney(getContext(), Double.parseDouble(summary.getEstimatedTaxRefund())));
+        tvActual.setText(formatMoney(getContext(), Double.parseDouble(summary.getActualTaxRefund())));
         tvTotalIncome.setText(formatMoney(getContext(), Double.parseDouble(summary.getIncome().getTotal())));
         tvTotalDeduction.setText(formatMoney(getContext(), Double.parseDouble(summary.getDeduction().getTotal())));
         tvTaxPayable.setText(formatMoney(getContext(), Double.parseDouble(summary.getTaxLiability().getTotal())));
@@ -238,7 +248,7 @@ public class ReviewSummary extends BaseFragment implements View.OnClickListener 
                 ProgressDialogUtils.dismissProgressDialog();
                 LogUtils.d(TAG, "getReviewSummary code : " + response.code());
                 if (response.code() == Constants.HTTP_CODE_OK) {
-//                    LogUtils.d(TAG, "getReviewSummary body : " + response.body().toString());
+                    LogUtils.d(TAG, "getReviewSummary body : " + response.body().toString());
                     if (response.body() != null) {
                         updateUI(response.body());
                     }
@@ -329,7 +339,7 @@ public class ReviewSummary extends BaseFragment implements View.OnClickListener 
             public void onResponse(@NonNull Call<ResponseBody> call, @NonNull final Response<ResponseBody> response) {
                 ProgressDialogUtils.dismissProgressDialog();
                 if (response.isSuccessful()) {
-                    Log.d(TAG, "server contacted and has file");
+                    Log.d(TAG, "server contacted and has file" + response.code());
                     new AsyncTask<Void, Void, Void>() {
                         @Override
                         protected Void doInBackground(Void... voids) {
@@ -375,38 +385,38 @@ public class ReviewSummary extends BaseFragment implements View.OnClickListener 
         });
     }
 
-    private void openFile() {
-        MimeTypeMap myMime = MimeTypeMap.getSingleton();
-        Intent newIntent = new Intent(Intent.ACTION_VIEW);
-        String mimeType = myMime.getMimeTypeFromExtension(fileExt(futureStudioIconFile.getAbsolutePath()).substring(1));
-        newIntent.setDataAndType(Uri.fromFile(futureStudioIconFile), mimeType);
-        newIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        newIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        try {
-            getActivity().startActivity(newIntent);
-        } catch (ActivityNotFoundException e) {
-            Toast.makeText(getActivity(), "No handler for this type of file.", Toast.LENGTH_LONG).show();
-        }
-    }
+//    private void openFile() {
+//        MimeTypeMap myMime = MimeTypeMap.getSingleton();
+//        Intent newIntent = new Intent(Intent.ACTION_VIEW);
+//        String mimeType = myMime.getMimeTypeFromExtension(fileExt(futureStudioIconFile.getAbsolutePath()).substring(1));
+//        newIntent.setDataAndType(Uri.fromFile(futureStudioIconFile), mimeType);
+//        newIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//        newIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//        try {
+//            getActivity().startActivity(newIntent);
+//        } catch (ActivityNotFoundException e) {
+//            Toast.makeText(getActivity(), "No handler for this type of file.", Toast.LENGTH_LONG).show();
+//        }
+//    }
 
-    private String fileExt(String url) {
-        if (url.indexOf("?") > -1) {
-            url = url.substring(0, url.indexOf("?"));
-        }
-        if (url.lastIndexOf(".") == -1) {
-            return null;
-        } else {
-            String ext = url.substring(url.lastIndexOf(".") + 1);
-            if (ext.indexOf("%") > -1) {
-                ext = ext.substring(0, ext.indexOf("%"));
-            }
-            if (ext.indexOf("/") > -1) {
-                ext = ext.substring(0, ext.indexOf("/"));
-            }
-            return ext.toLowerCase();
-
-        }
-    }
+//    private String fileExt(String url) {
+//        if (url.indexOf("?") > -1) {
+//            url = url.substring(0, url.indexOf("?"));
+//        }
+//        if (url.lastIndexOf(".") == -1) {
+//            return null;
+//        } else {
+//            String ext = url.substring(url.lastIndexOf(".") + 1);
+//            if (ext.indexOf("%") > -1) {
+//                ext = ext.substring(0, ext.indexOf("%"));
+//            }
+//            if (ext.indexOf("/") > -1) {
+//                ext = ext.substring(0, ext.indexOf("/"));
+//            }
+//            return ext.toLowerCase();
+//
+//        }
+//    }
 
     private boolean checkPermission() {
         int result = ContextCompat.checkSelfPermission(getContext(),
@@ -611,6 +621,12 @@ public class ReviewSummary extends BaseFragment implements View.OnClickListener 
                 break;
             case R.id.lo_total_tax:
                 expandableLayout(layoutTax, icTax);
+                break;
+            case R.id.img_estimated:
+                showNote(getActivity(), imgNoteEstimated, getString(R.string.review_summary_note));
+                break;
+            case R.id.img_actual:
+                showNote(getActivity(), imgTacRefund, getString(R.string.review_summary_note));
                 break;
         }
 

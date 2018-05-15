@@ -7,7 +7,7 @@ import java.util.ArrayList;
  */
 public class OtherResponse {
     private int id;
-    private String type;
+    private String type="";
     private String description;
     private String amount;
     private ArrayList<Attachment> attachments;

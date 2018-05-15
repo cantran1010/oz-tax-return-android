@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CompoundButton;
 import android.widget.ScrollView;
+import android.widget.Spinner;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -22,12 +23,14 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import au.mccann.oztaxreturn.R;
 import au.mccann.oztaxreturn.activity.AlbumActivity;
 import au.mccann.oztaxreturn.activity.PreviewImageActivity;
 import au.mccann.oztaxreturn.adapter.ImageAdapter;
+import au.mccann.oztaxreturn.adapter.OzSpinnerAdapter;
 import au.mccann.oztaxreturn.common.Constants;
 import au.mccann.oztaxreturn.database.UserManager;
 import au.mccann.oztaxreturn.dialog.AlertDialogOk;
@@ -67,7 +70,8 @@ import static au.mccann.oztaxreturn.utils.Utils.showToolTip;
  */
 public class FragmentReviewClothes extends BaseFragment implements View.OnClickListener {
     private RadioButtonCustom rbYes, rbNo;
-    private EdittextCustom edtType, edtAmount;
+    private EdittextCustom edtAmount;
+    private Spinner spType;
     private static final String TAG = IncomeOther.class.getSimpleName();
     private MyGridView grImage;
     private ImageAdapter imageAdapter;
@@ -80,6 +84,7 @@ public class FragmentReviewClothes extends BaseFragment implements View.OnClickL
     private ArrayList<Attachment> attach;
     private int appID;
     private FloatingActionButton fab;
+    private List<String> types = new ArrayList<>();
 
     @Override
     protected int getLayout() {
@@ -95,14 +100,14 @@ public class FragmentReviewClothes extends BaseFragment implements View.OnClickL
         rbYes.setEnabled(false);
         rbNo = (RadioButtonCustom) findViewById(R.id.rb_no);
         rbNo.setEnabled(false);
-        edtType = (EdittextCustom) findViewById(R.id.edt_deduction_type);
-        edtType.setEnabled(false);
         edtAmount = (EdittextCustom) findViewById(R.id.edt_amount);
         edtAmount.setEnabled(false);
         grImage = (MyGridView) findViewById(R.id.gr_image);
         grImage.setEnabled(false);
         scrollView = (ScrollView) findViewById(R.id.scrollView);
         layout = (ExpandableLayout) findViewById(R.id.layout_expandable);
+        spType = (Spinner) findViewById(R.id.sp_type);
+        spType.setEnabled(false);
     }
 
     @Override
@@ -140,6 +145,9 @@ public class FragmentReviewClothes extends BaseFragment implements View.OnClickL
                 }
             }
         });
+        types = Arrays.asList(getResources().getStringArray(R.array.string_array_deduction_type));
+        OzSpinnerAdapter dataNameAdapter = new OzSpinnerAdapter(getActivity(), types);
+        spType.setAdapter(dataNameAdapter);
         rbYes.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
@@ -158,7 +166,12 @@ public class FragmentReviewClothes extends BaseFragment implements View.OnClickL
 
     private void updateUI(Clothes b) {
         rbYes.setChecked(b.isHad());
-        edtType.setText(b.getType());
+        for (int i = 0; i < types.size(); i++) {
+            if (b.getType().equalsIgnoreCase(types.get(i))) {
+                spType.setSelection(i);
+                return;
+            }
+        }
         edtAmount.setText(b.getAmount());
         showImage(b.getAttachments(), images, imageAdapter);
     }
@@ -333,7 +346,7 @@ public class FragmentReviewClothes extends BaseFragment implements View.OnClickL
             JSONObject govJson = new JSONObject();
             govJson.put(Constants.PARAMETER_REVIEW_HAD, rbYes.isChecked());
             if (rbYes.isChecked()) {
-                govJson.put(Constants.PARAMETER_REVIEW_TYPE, edtType.getText().toString().trim());
+                govJson.put(Constants.PARAMETER_REVIEW_TYPE, spType.getSelectedItem().toString());
                 govJson.put(Constants.PARAMETER_REVIEW_AMOUNT, edtAmount.getText().toString().trim());
                 if (images.size() > 1) {
                     for (Image image : images
@@ -404,20 +417,19 @@ public class FragmentReviewClothes extends BaseFragment implements View.OnClickL
             case R.id.fab:
                 rbYes.setEnabled(true);
                 rbNo.setEnabled(true);
-                edtType.setEnabled(true);
-                edtType.requestFocus();
-                edtType.setSelection(edtType.length());
-                edtType.setEnabled(true);
+                spType.setEnabled(true);
                 edtAmount.setEnabled(true);
+                edtAmount.requestFocus();
+                edtAmount.setSelection(edtAmount.length());
                 grImage.setEnabled(true);
 //               if (rbYes.isChecked())Utils.showSoftKeyboard(getContext(), edtHow);
                 break;
             case R.id.btn_next:
                 if (isEditApp()) {
                     if (rbYes.isChecked()) {
-                        if (edtType.getText().toString().trim().isEmpty()) {
-                            edtType.getParent().requestChildFocus(edtType, edtType);
-                            showToolTip(getContext(), edtType,  getString(R.string.vali_all_empty));
+                        if (spType.getSelectedItem().toString().trim().isEmpty()) {
+                            spType.getParent().requestChildFocus(spType, spType);
+                            showToolTip(getContext(), spType, getString(R.string.vali_all_empty));
                             return;
                         }
                         if (edtAmount.getText().toString().trim().isEmpty()) {
@@ -426,7 +438,7 @@ public class FragmentReviewClothes extends BaseFragment implements View.OnClickL
                             return;
                         }
                         if (images.size() < 2) {
-                            showToolTip(getContext(), grImage,  getString(R.string.vali_all_empty));
+                            showToolTip(getContext(), grImage, getString(R.string.vali_all_empty));
                             return;
                         }
                         uploadImage();

@@ -89,7 +89,7 @@
                 android:id="@+id/layout_expandable"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:el_duration="1000"
+                app:el_duration="@integer/expand"
                 app:el_expanded="false">
 
                 <LinearLayout
@@ -106,16 +106,29 @@
                         android:textColor="@color/tv_gray"
                         android:textSize="@dimen/size_small" />
 
-                    <au.mccann.oztaxreturn.view.EdittextCustom
-                        android:id="@+id/edt_deduction_type"
-                        style="@style/EditText"
+                    <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:hint="@string/deduction_type_hint"
-                        android:inputType="text"
-                        android:textColor="@color/income_conten"
-                        android:textColorHint="@color/tv_gray" />
+                        android:layout_marginTop="10dp">
+
+                        <Spinner
+                            android:id="@+id/sp_type"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/bg_edittext"
+                            android:minHeight="45dp"
+                            android:textColor="@color/income_conten"
+                            android:textColorHint="@color/tv_gray" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginRight="10dp"
+                            android:src="@drawable/ic_down" />
+                    </RelativeLayout>
 
                     <au.mccann.oztaxreturn.view.TextViewCustom
                         android:layout_width="wrap_content"
@@ -164,6 +177,7 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_margin="25dp"
+        app:fabSize="mini"
         android:src="@drawable/ic_write" />
 
     <au.mccann.oztaxreturn.view.ButtonCustom
