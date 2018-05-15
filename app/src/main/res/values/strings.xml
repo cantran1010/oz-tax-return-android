@@ -241,7 +241,7 @@
 
     <!-- review income ws -->
     <string name="review_income_title">Review income</string>
-    <string name="review_income_ws_title">Wages/Salary</string>
+    <string name="review_income_ws_title">Wages\nSalary</string>
     <string name="job_1">job 1:</string>
     <string name="total_gross">Total gross income</string>
     <string name="total_tax_width_held">Total tax widthheld</string>
@@ -254,7 +254,7 @@
     <string name="job">Job</string>
 
     <!-- review govement payment -->
-    <string name="review_govement_payment">Govement payment</string>
+    <string name="review_govement_payment">Govement\npayment</string>
     <string name="review_govement_payment_ask">Do you receive government such as Newstart, Youth Allowance or Parenting payment</string>
     <string name="income_type">income type</string>
     <string name="gross_payment">gross payment</string>
@@ -304,7 +304,7 @@
     <string name="etps_code">ETPs code</string>
 
     <!-- review rental   -->
-    <string name="rental_properties">Rental properties</string>
+    <string name="rental_properties">Rental\nproperties</string>
     <string name="rental_ask">Did you receive any income from rental properties?</string>
     <string name="ownership_percentage">ownership percentage</string>
     <string name="first_earned_date">first earned date</string>
@@ -314,7 +314,7 @@
     <string name="image_attach_empty">Image attach is required!</string>
 
     <!-- review annuities   -->
-    <string name="annuities_and_super">Annuities and Super</string>
+    <string name="annuities_and_super">Annuities\nand Super</string>
     <string name="annuities_ask">Did you receive any annuity or super income?</string>
     <string name="annuity_taxed">taxable component (taxed)</string>
     <string name="annuity_untaxed">taxable component (untaxed)</string>
@@ -348,7 +348,7 @@
     <string name="hint_calculated">Example: $100</string>
 
     <!-- review deduction clothing -->
-    <string name="review_clothing">Work relate clothing</string>
+    <string name="review_clothing">Work relate\nclothing</string>
     <string name="review_clothing_ask">Our accountant has review your information and suggest that you can claim for upto $1000 for work relate clothing and laundary deduction.\n\nDo you want to claim for this type?</string>
     <string name="deduction_type">Deduction type</string>
     <string name="unfranks_dividends">unfranks dividends</string>
@@ -365,7 +365,7 @@
     <string name="amount_hint">$ 1000</string>
 
     <!-- review deduction Other Work Related Expenses -->
-    <string name="review_other_work">Other Work Related Expenses</string>
+    <string name="review_other_work">Other Work\nRelated Expenses</string>
     <string name="review_ohter_work_ask">This could relate to union fees, home office expenses and other expenses.\n\nDo you want to claim for this type?</string>
     <string name="description">description</string>
     <string name="other_work_type_hint">Example: telephone</string>
@@ -420,7 +420,7 @@
     <string name="review_fhs_taxable">$ SPOUSE IS TAXABLE INCOME</string>
     <!-- review income Super Lump Sum -->
     <string name="lumsum_ask">Did you receive any superannuation lump sum payment?</string>
-    <string name="lum_sums">Super Lump Sum</string>
+    <string name="lum_sums">Super\nLump Sum</string>
 
     <!-- review summary -->
     <string name="summary_header">Estimate\ntax refund</string>
@@ -463,6 +463,7 @@
     <string name="negative_tax_refund_end">to ATO. Please download your payment slip here. You can also contact us if you wish to discuss about payment plans.</string>
     <string name="Review_your_application">Review your application</string>
     <string name="review_auditing_title">Your application has been audit by ATO.</string>
+    <string name="tax_return_report">tax return report</string>
     <string name="review_audi_content">Please review your application again and submit additional information and image require by ATO to relogde your application. Your can contact our accountant for free support.</string>
 
     <!-- notification screen -->

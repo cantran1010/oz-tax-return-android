@@ -89,34 +89,31 @@
             <RelativeLayout
                 android:id="@+id/layout_add"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingBottom="10dp">
+                android:layout_height="wrap_content">
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="1dp"
+                    android:layout_height="0.5dp"
                     android:layout_centerInParent="true"
-                    android:background="@color/line_color" />
+                    android:background="@color/border_gray" />
 
-                <ImageView
-                    android:id="@+id/img_add"
+                <android.support.design.widget.FloatingActionButton
+                    android:id="@+id/add"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
                     android:layout_centerInParent="true"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginBottom="10dp"
-                    android:enabled="false"
-                    android:src="@drawable/img_float" />
+                    android:layout_marginTop="20dp"
+                    android:padding="25dp"
+                    android:src="@drawable/img_plus" />
 
                 <au.mccann.oztaxreturn.view.TextViewCustom
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/img_add"
+                    android:layout_below="@+id/add"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginBottom="20dp"
-                    android:layout_marginTop="30dp"
-                    android:text="@string/review_fhp_add_new"
+                    android:layout_marginTop="15dp"
+                    android:text="@string/label_add"
                     android:textAllCaps="true"
                     android:textColor="@color/tv_gray"
                     android:textSize="@dimen/size_small" />
@@ -125,14 +122,6 @@
         </LinearLayout>
 
     </android.support.v4.widget.NestedScrollView>
-
-    <ImageView
-        android:id="@+id/img_edit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_marginTop="20dp"
-        android:src="@drawable/img_edit" />
 
     <au.mccann.oztaxreturn.view.ButtonCustom
         android:id="@+id/btn_next"
@@ -143,4 +132,13 @@
         android:layout_marginBottom="20dp"
         android:background="@drawable/btn_selector"
         android:text="@string/next" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_margin="25dp"
+        android:src="@drawable/ic_write" />
 </RelativeLayout>

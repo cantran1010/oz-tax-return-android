@@ -77,7 +77,6 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> 
                 if (onClickListener != null) onClickListener.onClick(position);
             }
         });
-        holder.imgDelete.setVisibility(View.GONE);
         if (applicationResponse.getStatus().equals("init")) {
             holder.tvButton.setText(context.getString(R.string.start));
             holder.tvButton.setTextColor(ContextCompat.getColor(context, R.color.black));
@@ -90,7 +89,6 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> 
             holder.progressBar.setProgress(applicationResponse.getProgress());
             holder.tvProgress.setText(applicationResponse.getProgress() + "%");
             holder.tvProgress.setText(applicationResponse.getProgress() + "%");
-            holder.imgDelete.setVisibility(View.VISIBLE);
         } else if (applicationResponse.getStatus().equals("submitted")) {
             holder.tvButton.setText(context.getString(R.string.review));
             holder.tvButton.setTextColor(ContextCompat.getColor(context, R.color.white));
@@ -209,7 +207,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> 
                 if (response.code() == Constants.HTTP_CODE_NO_CONTENT) {
                     applicationResponses.remove(position);
                     notifyDataSetChanged();
-                }else {
+                } else {
                     DialogUtils.showRetryDialog(context, new AlertDialogOkAndCancel.AlertDialogListener() {
                         @Override
                         public void onSubmit() {

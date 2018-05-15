@@ -28,7 +28,8 @@
         android:layout_marginTop="20dp"
         android:text="@string/username"
         android:textAllCaps="true"
-        android:textColor="@color/tv_gray" />
+        android:textColor="@color/tv_gray"
+        android:textSize="@dimen/size_small" />
 
     <au.mccann.oztaxreturn.view.EdittextCustom
         android:id="@+id/edt_user_name"
@@ -44,7 +45,8 @@
         android:layout_marginTop="20dp"
         android:text="@string/old_password"
         android:textAllCaps="true"
-        android:textColor="@color/tv_gray" />
+        android:textColor="@color/tv_gray"
+        android:textSize="@dimen/size_small" />
 
     <au.mccann.oztaxreturn.view.EdittextCustom
         android:id="@+id/edt_old_password"
@@ -60,7 +62,8 @@
         android:layout_marginTop="20dp"
         android:text="@string/new_password"
         android:textAllCaps="true"
-        android:textColor="@color/tv_gray" />
+        android:textColor="@color/tv_gray"
+        android:textSize="@dimen/size_small" />
 
     <au.mccann.oztaxreturn.view.EdittextCustom
         android:id="@+id/edt_new_password"
@@ -68,7 +71,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:inputType="textPassword" />
+        android:inputType="textPassword"
+        android:textSize="@dimen/size_small" />
 
     <au.mccann.oztaxreturn.view.TextViewCustom
         android:layout_width="wrap_content"
@@ -76,15 +80,16 @@
         android:layout_marginTop="20dp"
         android:text="@string/new_password_again"
         android:textAllCaps="true"
-        android:textColor="@color/tv_gray" />
+        android:textColor="@color/tv_gray"
+        android:textSize="@dimen/size_small" />
 
     <au.mccann.oztaxreturn.view.EdittextCustom
         android:id="@+id/edt_new_password_again"
         style="@style/EditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
         android:layout_marginTop="10dp"
-        android:inputType="textPassword"
-        android:layout_marginBottom="20dp" />
+        android:inputType="textPassword" />
 
 </LinearLayout>

@@ -1,8 +1,8 @@
 package au.mccann.oztaxreturn.fragment.review.personal;
 
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.view.View;
-import android.widget.ImageView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -40,7 +40,7 @@ public class ReviewPersonalInfomationB extends BaseFragment implements View.OnCl
     private static final String TAG = ReviewPersonalInfomationB.class.getSimpleName();
     private EdittextCustom edtBankName, edtBSB, edtAccountNumber, edtStreetName, edtSuburb, edtState, edtPostCode, edtPhone, edtEmail;
     private ButtonCustom btnNext;
-    private ImageView imgEdit;
+    private FloatingActionButton fab;
     private PersonalInfomationResponse personalInfomationResponse;
 
 
@@ -62,13 +62,13 @@ public class ReviewPersonalInfomationB extends BaseFragment implements View.OnCl
         edtEmail = (EdittextCustom) findViewById(R.id.edt_email);
         btnNext = (ButtonCustom) findViewById(R.id.btn_next);
         btnNext.setOnClickListener(this);
-        imgEdit = (ImageView) findViewById(R.id.img_edit);
-        imgEdit.setOnClickListener(this);
+        fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(this);
     }
 
     @Override
     protected void initData() {
-        imgEdit.setEnabled(isEditApp());
+        fab.setEnabled(isEditApp());
         getReviewInformationB();
         getReviewProgress(getApplicationResponse());
     }
@@ -264,7 +264,7 @@ public class ReviewPersonalInfomationB extends BaseFragment implements View.OnCl
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.img_edit:
+            case R.id.fab:
                 doEdit();
                 break;
 

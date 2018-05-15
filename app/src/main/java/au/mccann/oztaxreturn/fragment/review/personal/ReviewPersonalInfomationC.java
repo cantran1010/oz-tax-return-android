@@ -1,9 +1,9 @@
 package au.mccann.oztaxreturn.fragment.review.personal;
 
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.view.View;
 import android.widget.CompoundButton;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import org.json.JSONException;
@@ -45,7 +45,7 @@ public class ReviewPersonalInfomationC extends BaseFragment implements View.OnCl
     private LinearLayout layoutRemain;
     private PersonalInfomationResponse personalInfomationResponse;
     private EdittextCustom edtLoan;
-    private ImageView imgEdit;
+    private FloatingActionButton fab;
 
     @Override
     protected int getLayout() {
@@ -59,13 +59,13 @@ public class ReviewPersonalInfomationC extends BaseFragment implements View.OnCl
         findViewById(R.id.btn_next).setOnClickListener(this);
         layoutRemain = (LinearLayout) findViewById(R.id.remain_layout);
         edtLoan = (EdittextCustom) findViewById(R.id.edt_loan);
-        imgEdit = (ImageView) findViewById(R.id.img_edit);
-        imgEdit.setOnClickListener(this);
+        fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(this);
     }
 
     @Override
     protected void initData() {
-        imgEdit.setEnabled(isEditApp());
+        fab.setEnabled(isEditApp());
         getReviewInformationC();
         getReviewProgress(getApplicationResponse());
     }
@@ -240,7 +240,7 @@ public class ReviewPersonalInfomationC extends BaseFragment implements View.OnCl
                     openFragment(R.id.layout_container, ReviewIncomeWS.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
                 break;
 
-            case R.id.img_edit:
+            case R.id.fab:
                 doEdit();
                 break;
 

@@ -1,9 +1,9 @@
 package au.mccann.oztaxreturn.fragment.review.family;
 
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.view.View;
 import android.widget.CompoundButton;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.google.gson.Gson;
@@ -41,7 +41,7 @@ import retrofit2.Response;
 public class ReviewFamilyHealthDependantsFragment extends BaseFragment implements View.OnClickListener {
 
     private static final String TAG = ReviewFamilyHealthDependantsFragment.class.getSimpleName();
-    private ImageView imgEdit;
+    private FloatingActionButton fab;
     private CheckBoxCustom cbYes, cbNo;
     private LinearLayout layoutYes;
     private EdittextCustom edtNumber;
@@ -54,8 +54,8 @@ public class ReviewFamilyHealthDependantsFragment extends BaseFragment implement
 
     @Override
     protected void initView() {
-        imgEdit = (ImageView) findViewById(R.id.img_edit);
-        imgEdit.setOnClickListener(this);
+        fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(this);
 
         cbYes = (CheckBoxCustom) findViewById(R.id.cb_yes);
         cbNo = (CheckBoxCustom) findViewById(R.id.cb_no);
@@ -71,7 +71,7 @@ public class ReviewFamilyHealthDependantsFragment extends BaseFragment implement
         getReviewProgress(getApplicationResponse());
         setTitle(getString(R.string.review_fhd_title));
         appBarVisibility(true, true, 1);
-        imgEdit.setEnabled(isEditApp());
+        fab.setEnabled(isEditApp());
         cbYes.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
@@ -251,7 +251,7 @@ public class ReviewFamilyHealthDependantsFragment extends BaseFragment implement
                     openFragment(R.id.layout_container, ReviewFamilyHealthMedicareFragment.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
                 break;
 
-            case R.id.img_edit:
+            case R.id.fab:
                 doEdit();
                 break;
 
