@@ -1,5 +1,6 @@
 package au.mccann.oztaxreturn.activity;
 
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.EditText;
@@ -140,6 +141,12 @@ public class AddNewBoardActivity extends BaseActivity implements View.OnClickLis
     }
 
     private void doCreateApplication() {
+
+        if (TextUtils.isEmpty(edtTaxPayer.getText().toString().trim())) {
+            Utils.showToolTip(this, edtTaxPayer, getString(R.string.vali_all_empty));
+            return;
+        }
+
         ProgressDialogUtils.showProgressDialog(this);
         JSONObject jsonRequest = new JSONObject();
         try {
