@@ -329,6 +329,7 @@
     <string name="checkout_month">Month</string>
     <string name="checkout_year">Year</string>
     <string name="checkout_cvm">CVM</string>
+    <string name="checkout_cvm_hint">369</string>
     <string name="checkout_btn">CHECK OUT</string>
     <string name="checkout_success">Checkout Success!</string>
     <string name="reviewed">Reviewed</string>
