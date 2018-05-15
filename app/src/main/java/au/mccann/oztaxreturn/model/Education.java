@@ -7,7 +7,7 @@ import java.util.ArrayList;
  */
 public class Education {
     private int id;
-    private String type;
+    private String type="";
     private String course;
     private String amount;
     private ArrayList<Attachment> attachments;
