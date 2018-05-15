@@ -77,6 +77,12 @@ public class AddNewBoardActivity extends BaseActivity implements View.OnClickLis
     protected void initData() {
         applicationResponses = getIntent().getParcelableArrayListExtra(Constants.APP_LIST_EXTRA);
 
+        if (applicationResponses.size() > 0) {
+            cbDuplicate.setVisibility(View.VISIBLE);
+        } else {
+            cbDuplicate.setVisibility(View.GONE);
+        }
+
         List<String> listName = new ArrayList<>();
         for (ApplicationResponse applicationResponse : applicationResponses) {
 //            if (!listName.contains(applicationResponse.getPayerName()))
@@ -155,7 +161,7 @@ public class AddNewBoardActivity extends BaseActivity implements View.OnClickLis
                     LogUtils.d(TAG, "doCreateApplication body : " + response.body().toString());
                     setResult(Constants.CREATE_APP_RESULT_CODE);
                     finish();
-                } else if (response.code() == Constants.HTTP_CODE_OK){
+                } else {
                     APIError error = Utils.parseError(response);
                     LogUtils.d(TAG, "doCreateApplication error : " + error.message());
                     if (error != null) {
