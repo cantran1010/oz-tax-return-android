@@ -519,6 +519,7 @@
     <string name="block_logout">Logout</string>
     <string name="app_sologan">Lets optimize your tax return with our online accountants</string>
     <string name="no_app">Have No Application</string>
+    <string name="max_3_add">Maximum 3 private healths are allowed!</string>
 
 
 </resources>
