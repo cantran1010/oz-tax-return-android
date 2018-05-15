@@ -99,6 +99,11 @@ public class FirstCheckoutFragment extends BaseFragment implements View.OnClickL
 
                     tvServiceFee.setText(getString(R.string.USD2, Utils.formatNumber(feeResponse.getAmount())));
                     tvTotalFee.setText(getString(R.string.USD2, Utils.formatNumber(feeResponse.getAmountAfter())));
+
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable(Constants.PARAMETER_FEE_EXTRA, feeResponse);
+                    openFragment(R.id.layout_container, CheckoutFragment.class, true, bundle, TransitionScreen.RIGHT_TO_LEFT);
+
                 } else {
                     APIError error = Utils.parseError(response);
                     LogUtils.d(TAG, "checkPromotionCode error : " + error.message());
