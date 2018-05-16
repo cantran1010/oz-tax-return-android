@@ -59,7 +59,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static au.mccann.oztaxreturn.utils.Utils.formatMoney;
-import static au.mccann.oztaxreturn.utils.Utils.showNote;
 
 /**
  * Created by CanTran on 4/23/18.
@@ -623,10 +622,10 @@ public class ReviewSummary extends BaseFragment implements View.OnClickListener 
                 expandableLayout(layoutTax, icTax);
                 break;
             case R.id.img_estimated:
-                showNote(getActivity(), imgNoteEstimated, getString(R.string.review_summary_note));
+                Utils.showToolTip(getActivity(), imgNoteEstimated, getString(R.string.review_summary_note));
                 break;
             case R.id.img_actual:
-                showNote(getActivity(), imgTacRefund, getString(R.string.review_summary_note));
+                Utils.showToolTip(getActivity(), imgTacRefund, getString(R.string.review_summary_note));
                 break;
         }
 

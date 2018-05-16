@@ -545,30 +545,6 @@ public class Utils {
 
     }
 
-    public static void showToolTip(View view, String content) {
-        ViewTooltip
-                .on(view)
-                .autoHide(true, 2000)
-                .corner(30)
-                .position(ViewTooltip.Position.TOP)
-                .color(ContextCompat.getColor(view.getContext(), R.color.tool_tip))
-                .align(ViewTooltip.ALIGN.END)
-                .text(content)
-                .show();
-    }
-
-    public static void showNote(Context context, View view, String content) {
-        ViewTooltip
-                .on(view)
-                .autoHide(true, 2000)
-                .corner(30)
-                .position(ViewTooltip.Position.BOTTOM)
-                .color(ContextCompat.getColor(context, R.color.app_bg))
-                .align(ViewTooltip.ALIGN.CENTER)
-                .text(content)
-                .show();
-    }
-
     public static String getCountryCode(Context context) {
         String locale;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
