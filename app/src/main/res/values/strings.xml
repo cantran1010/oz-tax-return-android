@@ -132,9 +132,9 @@
     <!-- personal information -->
     <string name="personal_title">title</string>
     <string name="your_title">Your title</string>
-    <string name="personal_your_name">yourname</string>
+    <string name="personal_your_name">your name</string>
     <string name="gender">gender</string>
-    <string name="permanant_residence">Are you Autralian or Permanant Residence ?</string>
+    <string name="permanant_residence">Are you Australian or Permanent Residence?</string>
     <string name="personal_information_title">personal information</string>
     <string-array name="string_array_gender">
         <item>Male</item>
@@ -194,7 +194,7 @@
 
     <!-- review personal infomation a -->
     <string name="infomation_a">REVIEW</string>
-    <string name="infomation_a_name">Personal\nInfomation</string>
+    <string name="infomation_a_name">Personal\nInformation</string>
     <string name="infomation_a_title">Title</string>
     <string name="infomation_a_title_hint">Mr</string>
 
@@ -205,7 +205,7 @@
     <string name="USD2">$ %1$s</string>
 
     <!-- navigation menu review -->
-    <string name="menu_personal">Personal information</string>
+    <string name="menu_personal">Personal Information</string>
     <string name="menu_personal_name">Name &amp; Residency</string>
     <string name="menu_personal_bank">Bank &amp; Address</string>
     <string name="menu_personal_education">Education Debt</string>
