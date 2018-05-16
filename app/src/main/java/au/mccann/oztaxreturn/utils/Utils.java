@@ -442,13 +442,20 @@ public class Utils {
             return bmInput;
     }
 
+    public static String formatNumber2Digit(float input) {
+        DecimalFormat myFormatter = new DecimalFormat("###,###.##");
+        String result = myFormatter.format(input);
+        if (result.endsWith(".0")) result = result.substring(0, result.length() - 3);
+        return result;
+    }
+
     public static String formatNumber(double input) {
-        DecimalFormat myFormatter = new DecimalFormat("###,###.###");
+        DecimalFormat myFormatter = new DecimalFormat("###,###.##");
         return myFormatter.format(input);
     }
 
     public static String formatNumber(long input) {
-        DecimalFormat myFormatter = new DecimalFormat("###,###.###");
+        DecimalFormat myFormatter = new DecimalFormat("###,###.##");
         return myFormatter.format(input);
     }
 
