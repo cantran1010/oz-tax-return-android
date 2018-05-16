@@ -63,9 +63,9 @@ import static au.mccann.oztaxreturn.utils.Utils.formatMoney;
 /**
  * Created by CanTran on 4/23/18.
  */
-public class ReviewSummary extends BaseFragment implements View.OnClickListener {
+public class ReviewSummaryFragment extends BaseFragment implements View.OnClickListener {
     private static final int PERMISSION_REQUEST_CODE = 1;
-    private static final String TAG = ReviewSummary.class.getSimpleName();
+    private static final String TAG = ReviewSummaryFragment.class.getSimpleName();
     private TextViewCustom tvTaxReturn, tvActual, tvTotalIncome, tvTotalDeduction, tvTaxPayable, tvTaxWidthheld;
     private TextViewCustom tvIncomeSalary, tvGovernmentPayments, tvInterest, tvDividends, tvEarlyTermination, tvSuperIncomeStream, tvSuperLumpSum, tvRentaIncome;
     private TextViewCustom tvVehicles, tvWorkRelatedClothing, tvWorkRelatedEducation, tvOtherWorkRelatedExpenses, tvDonations, tvTaxAgentFees, tvBankFees;

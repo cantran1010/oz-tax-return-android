@@ -12,9 +12,9 @@ import au.mccann.oztaxreturn.utils.TransitionScreen;
  * Created by LongBui on 4/23/18.
  */
 
-public class ReviewAfterBeingAudited extends BaseFragment implements View.OnClickListener {
+public class ReviewAuditedFragment extends BaseFragment implements View.OnClickListener {
 
-    private static final String TAG = ReviewAfterBeingAudited.class.getSimpleName();
+    private static final String TAG = ReviewAuditedFragment.class.getSimpleName();
 
     @Override
     protected int getLayout() {

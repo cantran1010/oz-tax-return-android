@@ -1,4 +1,4 @@
-package au.mccann.oztaxreturn.fragment.review.income;
+package au.mccann.oztaxreturn.fragment.review.deduction;
 
 import android.Manifest;
 import android.app.Activity;
@@ -25,7 +25,7 @@ import java.util.List;
 import au.mccann.oztaxreturn.R;
 import au.mccann.oztaxreturn.activity.AlbumActivity;
 import au.mccann.oztaxreturn.activity.PreviewImageActivity;
-import au.mccann.oztaxreturn.adapter.DividendAdapter;
+import au.mccann.oztaxreturn.adapter.DonationAdapter;
 import au.mccann.oztaxreturn.common.Constants;
 import au.mccann.oztaxreturn.database.UserManager;
 import au.mccann.oztaxreturn.dialog.AlertDialogOk;
@@ -34,9 +34,9 @@ import au.mccann.oztaxreturn.dialog.PickImageDialog;
 import au.mccann.oztaxreturn.fragment.BaseFragment;
 import au.mccann.oztaxreturn.model.APIError;
 import au.mccann.oztaxreturn.model.Attachment;
-import au.mccann.oztaxreturn.model.Dividend;
+import au.mccann.oztaxreturn.model.DeductionResponse;
+import au.mccann.oztaxreturn.model.Donation;
 import au.mccann.oztaxreturn.model.Image;
-import au.mccann.oztaxreturn.model.IncomeResponse;
 import au.mccann.oztaxreturn.networking.ApiClient;
 import au.mccann.oztaxreturn.utils.DialogUtils;
 import au.mccann.oztaxreturn.utils.FileUtils;
@@ -55,20 +55,21 @@ import retrofit2.Response;
 /**
  * Created by CanTran on 4/23/18.
  */
-public class FragmentReviewDividends extends BaseFragment implements View.OnClickListener {
-    private static final String TAG = FragmentReviewDividends.class.getSimpleName();
-    private DividendAdapter adapter;
-    private ArrayList<Dividend> dividends = new ArrayList<>();
+public class ReviewDonationsFragment extends BaseFragment implements View.OnClickListener {
+    private static final String TAG = ReviewDonationsFragment.class.getSimpleName();
+    private DonationAdapter adapter;
+    private ArrayList<Donation> donations = new ArrayList<>();
     private RecyclerView recyclerView;
     private int appID;
     private ArrayList<Image> images = new ArrayList<>();
     private final String[] permissions = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
     private String imgPath;
+    private int countDown = 0;
     private FloatingActionButton fab;
 
     @Override
     protected int getLayout() {
-        return R.layout.fragment_review_income_dividend;
+        return R.layout.fragment_review_deduction_educations;
     }
 
     @Override
@@ -77,7 +78,7 @@ public class FragmentReviewDividends extends BaseFragment implements View.OnClic
         fab.setOnClickListener(this);
         ButtonCustom btnnext = (ButtonCustom) findViewById(R.id.btn_next);
         btnnext.setOnClickListener(this);
-        recyclerView = (RecyclerView) findViewById(R.id.rcv_job);
+        recyclerView = (RecyclerView) findViewById(R.id.rcv_education);
 
     }
 
@@ -90,16 +91,16 @@ public class FragmentReviewDividends extends BaseFragment implements View.OnClic
         setTitle(getString(R.string.review_income_title));
         appBarVisibility(true, true, 1);
         updateList();
-        getReviewIncome();
+        getReviewDeduction();
     }
 
-    private void updateUI(ArrayList<Dividend> ds) {
-        dividends.clear();
-        dividends.addAll(ds);
-        for (Dividend dividend : dividends
+    private void updateUI(ArrayList<Donation> ds) {
+        donations.clear();
+        donations.addAll(ds);
+        for (Donation education : donations
                 ) {
-            AddIconAdd(dividend);
-            showImage(dividend.getAttachments(), dividend.getImages());
+            AddIconAdd(education);
+            showImage(education.getAttachments(), education.getImages());
         }
         adapter.notifyDataSetChanged();
 
@@ -122,13 +123,13 @@ public class FragmentReviewDividends extends BaseFragment implements View.OnClic
     private void updateList() {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(linearLayoutManager);
-        adapter = new DividendAdapter(getContext(), dividends);
+        adapter = new DonationAdapter(getContext(), donations);
         recyclerView.setAdapter(adapter);
-        adapter.setOnClickImageListener(new DividendAdapter.OnClickImageListener() {
+        adapter.setOnClickImageListener(new DonationAdapter.OnClickImageListener() {
             @Override
             public void onClick(int position, int n) {
-                LogUtils.d(TAG, "setOnClickImageListener" + n + " position " + position + dividends.get(position).getImages().toString());
-                images = dividends.get(position).getImages();
+                LogUtils.d(TAG, "setOnClickImageListener" + n + " position " + position + donations.get(position).getImages().toString());
+                images = donations.get(position).getImages();
                 if (images.get(n).isAdd) {
                     LogUtils.d(TAG, "setOnClickImageListener 3");
                     if (images.size() >= 10) {
@@ -224,21 +225,21 @@ public class FragmentReviewDividends extends BaseFragment implements View.OnClic
         return imgPath;
     }
 
-    private void getReviewIncome() {
+    private void getReviewDeduction() {
         ProgressDialogUtils.showProgressDialog(getActivity());
-        LogUtils.d(TAG, "getReviewIncome id : " + appID);
-        ApiClient.getApiService().getReviewIncome(UserManager.getUserToken(), appID).enqueue(new Callback<IncomeResponse>() {
+        LogUtils.d(TAG, "getReviewDeduction id : " + appID);
+        ApiClient.getApiService().getReviewDeduction(UserManager.getUserToken(), appID).enqueue(new Callback<DeductionResponse>() {
             @Override
-            public void onResponse(Call<IncomeResponse> call, Response<IncomeResponse> response) {
+            public void onResponse(Call<DeductionResponse> call, Response<DeductionResponse> response) {
                 ProgressDialogUtils.dismissProgressDialog();
-                LogUtils.d(TAG, "getReviewIncome code : " + response.code());
+                LogUtils.d(TAG, "getReviewDeduction code : " + response.code());
                 if (response.code() == Constants.HTTP_CODE_OK) {
-                    LogUtils.d(TAG, "getReviewIncome body : " + response.body().getDividends().toString());
-                    updateUI(response.body().getDividends());
+                    LogUtils.d(TAG, "getReviewDeduction body : " + response.body().getDonations().toString());
+                    updateUI(response.body().getDonations());
                 } else {
                     APIError error = Utils.parseError(response);
                     if (error != null) {
-                        LogUtils.d(TAG, "getReviewIncome error : " + error.message());
+                        LogUtils.d(TAG, "getReviewDeduction error : " + error.message());
                         DialogUtils.showOkDialog(getActivity(), getString(R.string.error), error.message(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
                             @Override
                             public void onSubmit() {
@@ -251,13 +252,13 @@ public class FragmentReviewDividends extends BaseFragment implements View.OnClic
             }
 
             @Override
-            public void onFailure(Call<IncomeResponse> call, Throwable t) {
-                LogUtils.e(TAG, "getReviewIncome onFailure : " + t.getMessage());
+            public void onFailure(Call<DeductionResponse> call, Throwable t) {
+                LogUtils.e(TAG, "getReviewDeduction onFailure : " + t.getMessage());
                 ProgressDialogUtils.dismissProgressDialog();
                 DialogUtils.showRetryDialog(getActivity(), new AlertDialogOkAndCancel.AlertDialogListener() {
                     @Override
                     public void onSubmit() {
-                        getReviewIncome();
+                        getReviewDeduction();
                     }
 
                     @Override
@@ -269,37 +270,32 @@ public class FragmentReviewDividends extends BaseFragment implements View.OnClic
         });
     }
 
-    private void uploadImage(final ArrayList<Dividend> ds) {
-        int count = 0;
-        for (final Dividend dividend : ds
+    private void uploadImage(final ArrayList<Donation> ds) {
+
+        for (final Donation e1 : ds
                 ) {
-            dividend.setListUp(new ArrayList<Image>());
-            for (Image image : dividend.getImages()
+            e1.setListUp(new ArrayList<Image>());
+            for (Image image : e1.getImages()
                     ) {
-                if (image.getId() == 0 && !image.isAdd()) dividend.getListUp().add(image);
+                if (image.getId() == 0 && !image.isAdd()) e1.getListUp().add(image);
             }
         }
 
-        for (Dividend dividend1 : ds
+        for (Donation e2 : ds
                 ) {
-            if (dividend1.getListUp().size() > 0) count++;
+            if (e2.getListUp().size() > 0) countDown++;
         }
-
-        if (count == 0) doSaveReview();
+        if (countDown == 0) doSaveReview();
         else {
-            for (final Dividend d : ds
+            for (final Donation e3 : ds
                     ) {
-                if (d.getListUp().size() > 0) {
-                    count--;
-                    final int finalCount = count;
-                    LogUtils.d(TAG, "doUploadImage count" + finalCount + dividends.toString());
-                    ImageUtils.doUploadImage(getContext(), d.getListUp(), new ImageUtils.UpImagesListener() {
+                if (e3.getListUp().size() > 0) {
+                    ImageUtils.doUploadImage(getContext(), e3.getListUp(), new ImageUtils.UpImagesListener() {
                         @Override
                         public void onSuccess(List<Attachment> responses) {
-//                            LogUtils.d(TAG, "doUploadImage" + finalCount + responses.toString());
-                            d.getAttach().addAll(responses);
-                            LogUtils.d(TAG, "doUploadImage finalCount" + finalCount + dividends.toString());
-                            doSaveReview();
+                            countDown--;
+                            e3.getAttach().addAll(responses);
+                            if (countDown == 0) doSaveReview();
                         }
                     });
                 }
@@ -312,19 +308,16 @@ public class FragmentReviewDividends extends BaseFragment implements View.OnClic
 
     private void doSaveReview() {
         ProgressDialogUtils.showProgressDialog(getContext());
-        LogUtils.d(TAG, "doSaveReview" + dividends.toString());
+        LogUtils.d(TAG, "doSaveReview" + donations.toString());
         JSONObject jsonRequest = new JSONObject();
         try {
             JSONArray jsonArray = new JSONArray();
-            for (Dividend d : dividends
+            for (Donation d : donations
                     ) {
                 JSONObject mJs = new JSONObject();
                 mJs.put(Constants.PARAMETER_PUT_ID, d.getId());
-                mJs.put(Constants.PARAMETER_REVIEW_INCOM_DIVIDEND_COMPANY, d.getCompanyName());
-                mJs.put(Constants.PARAMETER_REVIEW_INCOM_DIVIDEND_UNFRANKED, d.getUnfranked());
-                mJs.put(Constants.PARAMETER_REVIEW_INCOM_DIVIDEND_FRANKED, d.getFranked());
-                mJs.put(Constants.PARAMETER_REVIEW_INCOM_DIVIDEND_FRANKED_CREATE, d.getFrankingCredits());
-                mJs.put(Constants.PARAMETER_REVIEW_INCOM_DIVIDEND_TAX, d.getTaxWithheld());
+                mJs.put(Constants.PARAMETER_REVIEW_DONATION_OZ, d.getOrganization());
+                mJs.put(Constants.PARAMETER_REVIEW_AMOUNT, d.getAmount());
                 if (d.getImages().size() > 1) {
                     for (Image image : d.getImages()
                             ) {
@@ -345,22 +338,22 @@ public class FragmentReviewDividends extends BaseFragment implements View.OnClic
                 jsonArray.put(mJs);
             }
             if (adapter.isExpend())
-                jsonRequest.put(Constants.PARAMETER_REVIEW_INCOME_DIVIDEND, jsonArray);
-            else jsonRequest.put(Constants.PARAMETER_REVIEW_INCOME_DIVIDEND, new JSONArray());
+                jsonRequest.put(Constants.PARAMETER_REVIEW_DEDUCTION_DONATION, jsonArray);
+            else jsonRequest.put(Constants.PARAMETER_REVIEW_DEDUCTION_DONATION, new JSONArray());
         } catch (JSONException e) {
             e.printStackTrace();
         }
         LogUtils.d(TAG, "doSaveReview jsonRequest : " + jsonRequest.toString());
         RequestBody body = RequestBody.create(MediaType.parse("application/json"), jsonRequest.toString());
-        ApiClient.getApiService().putReviewIncom(UserManager.getUserToken(), appID, body).enqueue(new Callback<IncomeResponse>() {
+        ApiClient.getApiService().putReviewDeduction(UserManager.getUserToken(), appID, body).enqueue(new Callback<DeductionResponse>() {
             @Override
-            public void onResponse(Call<IncomeResponse> call, Response<IncomeResponse> response) {
+            public void onResponse(Call<DeductionResponse> call, Response<DeductionResponse> response) {
                 ProgressDialogUtils.dismissProgressDialog();
                 LogUtils.d(TAG, "doSaveReview code: " + response.code());
                 if (response.code() == Constants.HTTP_CODE_OK) {
-                    LogUtils.d(TAG, "doSaveReview body: " + response.body().getDividends().toString());
-                    LogUtils.d(TAG, " dividends image " + dividends.toString());
-                    openFragment(R.id.layout_container, EarlyTerminationPayments.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
+                    LogUtils.d(TAG, "doSaveReview body: " + response.body().getDonations().toString());
+                    LogUtils.d(TAG, " dividends image " + donations.toString());
+                    openFragment(R.id.layout_container, ReviewTaxAgentFragment.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
                 } else {
                     APIError error = Utils.parseError(response);
                     LogUtils.e(TAG, "doSaveReview error : " + error.message());
@@ -377,7 +370,7 @@ public class FragmentReviewDividends extends BaseFragment implements View.OnClic
             }
 
             @Override
-            public void onFailure(Call<IncomeResponse> call, Throwable t) {
+            public void onFailure(Call<DeductionResponse> call, Throwable t) {
                 LogUtils.e(TAG, "doSaveReview onFailure : " + t.getMessage());
                 ProgressDialogUtils.dismissProgressDialog();
                 DialogUtils.showRetryDialog(getContext(), new AlertDialogOkAndCancel.AlertDialogListener() {
@@ -396,12 +389,12 @@ public class FragmentReviewDividends extends BaseFragment implements View.OnClic
     }
 
 
-    public void AddIconAdd(Dividend dividend) {
-        if (dividend.getImages() == null || dividend.getImages().size() == 0) {
+    public void AddIconAdd(Donation donation) {
+        if (donation.getImages() == null || donation.getImages().size() == 0) {
             final Image image = new Image();
             image.setId(0);
             image.setAdd(true);
-            dividend.getImages().add(image);
+            donation.getImages().add(image);
         }
     }
 
@@ -425,12 +418,12 @@ public class FragmentReviewDividends extends BaseFragment implements View.OnClic
             case R.id.btn_next:
                 if (isEditApp()) {
                     if (adapter.isExpend())
-                        uploadImage(dividends);
+                        uploadImage(donations);
                     else {
                         doSaveReview();
                     }
                 } else
-                    openFragment(R.id.layout_container, EarlyTerminationPayments.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
+                    openFragment(R.id.layout_container, ReviewTaxAgentFragment.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
                 break;
         }
 

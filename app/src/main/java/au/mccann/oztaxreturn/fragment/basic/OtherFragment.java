@@ -62,8 +62,8 @@ import static au.mccann.oztaxreturn.utils.Utils.showToolTip;
  * Created by LongBui on 4/17/18.
  */
 
-public class IncomeOther extends BaseFragment implements View.OnClickListener {
-    private static final String TAG = IncomeOther.class.getSimpleName();
+public class OtherFragment extends BaseFragment implements View.OnClickListener {
+    private static final String TAG = OtherFragment.class.getSimpleName();
     private MyGridView grImage;
     private ImageAdapter imageAdapter;
     private ArrayList<Image> images;

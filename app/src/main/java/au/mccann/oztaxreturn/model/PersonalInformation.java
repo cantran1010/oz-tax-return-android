@@ -161,7 +161,7 @@ public class PersonalInformation implements Serializable {
 
     @Override
     public String toString() {
-        return "PersonInforFragment{" +
+        return "FragmentPersonal{" +
                 "title='" + title + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", middleName='" + middleName + '\'' +

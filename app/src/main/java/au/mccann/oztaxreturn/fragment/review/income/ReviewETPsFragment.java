@@ -1,8 +1,10 @@
-package au.mccann.oztaxreturn.fragment.review.deduction;
+package au.mccann.oztaxreturn.fragment.review.income;
 
 import android.Manifest;
 import android.animation.ObjectAnimator;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -14,6 +16,7 @@ import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CompoundButton;
+import android.widget.DatePicker;
 import android.widget.ScrollView;
 
 import org.json.JSONArray;
@@ -22,6 +25,9 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import au.mccann.oztaxreturn.R;
@@ -32,15 +38,17 @@ import au.mccann.oztaxreturn.common.Constants;
 import au.mccann.oztaxreturn.database.UserManager;
 import au.mccann.oztaxreturn.dialog.AlertDialogOk;
 import au.mccann.oztaxreturn.dialog.AlertDialogOkAndCancel;
+import au.mccann.oztaxreturn.dialog.CodeDialog;
 import au.mccann.oztaxreturn.dialog.PickImageDialog;
 import au.mccann.oztaxreturn.fragment.BaseFragment;
-import au.mccann.oztaxreturn.fragment.basic.IncomeOther;
+import au.mccann.oztaxreturn.fragment.basic.OtherFragment;
 import au.mccann.oztaxreturn.model.APIError;
 import au.mccann.oztaxreturn.model.Attachment;
-import au.mccann.oztaxreturn.model.DeductionResponse;
+import au.mccann.oztaxreturn.model.Etps;
 import au.mccann.oztaxreturn.model.Image;
-import au.mccann.oztaxreturn.model.Vehicles;
+import au.mccann.oztaxreturn.model.IncomeResponse;
 import au.mccann.oztaxreturn.networking.ApiClient;
+import au.mccann.oztaxreturn.utils.DateTimeUtils;
 import au.mccann.oztaxreturn.utils.DialogUtils;
 import au.mccann.oztaxreturn.utils.FileUtils;
 import au.mccann.oztaxreturn.utils.ImageUtils;
@@ -65,10 +73,10 @@ import static au.mccann.oztaxreturn.utils.Utils.showToolTip;
 /**
  * Created by CanTran on 4/24/18.
  */
-public class FragmentReviewVehicle extends BaseFragment implements View.OnClickListener {
+public class ReviewETPsFragment extends BaseFragment implements View.OnClickListener {
     private RadioButtonCustom rbYes, rbNo;
-    private EdittextCustom edtHow, edtKm, edtType, edtReg, edtAmount;
-    private static final String TAG = IncomeOther.class.getSimpleName();
+    private EdittextCustom edtPaymentDate, edtPayerAbn, edtTaxWidthheld, edtTaxtableComponent, edtCode;
+    private static final String TAG = OtherFragment.class.getSimpleName();
     private MyGridView grImage;
     private ImageAdapter imageAdapter;
     private ArrayList<Image> images;
@@ -76,15 +84,15 @@ public class FragmentReviewVehicle extends BaseFragment implements View.OnClickL
     private String imgPath;
     private ScrollView scrollView;
     private ExpandableLayout layout;
-    private Vehicles vehicles = new Vehicles();
+    private Etps etps = new Etps();
     private ArrayList<Attachment> attach;
     private int appID;
+    private final Calendar calendar = GregorianCalendar.getInstance();
     private FloatingActionButton fab;
-
 
     @Override
     protected int getLayout() {
-        return R.layout.fragment_review_deduction_vehicle;
+        return R.layout.fragment_early_termination_payments;
     }
 
     @Override
@@ -96,20 +104,24 @@ public class FragmentReviewVehicle extends BaseFragment implements View.OnClickL
         rbYes.setEnabled(false);
         rbNo = (RadioButtonCustom) findViewById(R.id.rb_no);
         rbNo.setEnabled(false);
-        edtHow = (EdittextCustom) findViewById(R.id.edt_how);
-        edtHow.setEnabled(false);
-        edtType = (EdittextCustom) findViewById(R.id.edt_type);
-        edtType.setEnabled(false);
-        edtKm = (EdittextCustom) findViewById(R.id.edt_km);
-        edtKm.setEnabled(false);
-        edtReg = (EdittextCustom) findViewById(R.id.edt_registration_number);
-        edtReg.setEnabled(false);
-        edtAmount = (EdittextCustom) findViewById(R.id.edt_calculated_amuont);
-        edtAmount.setEnabled(false);
+        edtPaymentDate = (EdittextCustom) findViewById(R.id.edt_payment_date);
+        edtPaymentDate.setEnabled(false);
+        edtPaymentDate.setOnClickListener(this);
+        edtPayerAbn = (EdittextCustom) findViewById(R.id.edt_payer_abn);
+        edtPayerAbn.setEnabled(false);
+        edtTaxWidthheld = (EdittextCustom) findViewById(R.id.edt_tax_widthheld);
+        edtTaxWidthheld.setEnabled(false);
+        edtTaxtableComponent = (EdittextCustom) findViewById(R.id.edt_taxtable_component);
+        edtTaxtableComponent.setEnabled(false);
+        edtCode = (EdittextCustom) findViewById(R.id.edt_code);
+        edtCode.setEnabled(false);
+        edtCode.setOnClickListener(this);
         grImage = (MyGridView) findViewById(R.id.gr_image);
         grImage.setEnabled(false);
         scrollView = (ScrollView) findViewById(R.id.scrollView);
         layout = (ExpandableLayout) findViewById(R.id.layout_expandable);
+
+
     }
 
     @Override
@@ -159,18 +171,18 @@ public class FragmentReviewVehicle extends BaseFragment implements View.OnClickL
                 }
             }
         });
-        getReviewDeduction();
+        getReviewIncome();
     }
 
 
-    private void updateUI(Vehicles b) {
-        rbYes.setChecked(b.isHad());
-        edtHow.setText(b.getHowRelated());
-        edtKm.setText(b.getTravelled());
-        edtType.setText(b.getTypeBrand());
-        edtReg.setText(b.getRegNumber());
-        edtAmount.setText(b.getAmount());
-        showImage(b.getAttachments(), images, imageAdapter);
+    private void updateUI(Etps e) {
+        rbYes.setChecked(e.isHad());
+        edtPaymentDate.setText(e.getPaymentDate());
+        edtPayerAbn.setText(e.getPayerAbn());
+        edtTaxWidthheld.setText(e.getTaxWithheld());
+        edtTaxtableComponent.setText(e.getTaxableCom());
+        edtCode.setText(e.getCode());
+        showImage(e.getAttachments(), images, imageAdapter);
     }
 
     private void checkPermissionImageAttach() {
@@ -253,8 +265,8 @@ public class FragmentReviewVehicle extends BaseFragment implements View.OnClickL
     private void scollLayout() {
         int[] coords = {0, 0};
         scrollView.getLocationOnScreen(coords);
-        int absoluteBottom = coords[1] + 250;
-        ObjectAnimator objectAnimator = ObjectAnimator.ofInt(scrollView, "scrollY", absoluteBottom).setDuration(1000);
+        int absoluteBottom = coords[1] + scrollView.getHeight();
+        ObjectAnimator objectAnimator = ObjectAnimator.ofInt(scrollView, "scrollY", absoluteBottom).setDuration(1500);
         objectAnimator.start();
     }
 
@@ -268,21 +280,21 @@ public class FragmentReviewVehicle extends BaseFragment implements View.OnClickL
 
     }
 
-    private void getReviewDeduction() {
+    private void getReviewIncome() {
         ProgressDialogUtils.showProgressDialog(getActivity());
-        LogUtils.d(TAG, "getReviewDeduction appId : " + appID);
-        ApiClient.getApiService().getReviewDeduction(UserManager.getUserToken(), appID).enqueue(new Callback<DeductionResponse>() {
+        LogUtils.d(TAG, "getReviewIncome code : " + appID);
+        ApiClient.getApiService().getReviewIncome(UserManager.getUserToken(), appID).enqueue(new Callback<IncomeResponse>() {
             @Override
-            public void onResponse(Call<DeductionResponse> call, Response<DeductionResponse> response) {
+            public void onResponse(Call<IncomeResponse> call, Response<IncomeResponse> response) {
                 ProgressDialogUtils.dismissProgressDialog();
-                LogUtils.d(TAG, "getReviewDeduction code : " + response.code());
+                LogUtils.d(TAG, "getReviewIncome code : " + response.code());
                 if (response.code() == Constants.HTTP_CODE_OK) {
-                    vehicles = response.body().getVehicles();
-                    if (vehicles != null) updateUI(vehicles);
+                    etps = response.body().getEtps();
+                    if (etps != null) updateUI(etps);
                 } else {
                     APIError error = Utils.parseError(response);
                     if (error != null) {
-                        LogUtils.d(TAG, "getReviewDeduction error : " + error.message());
+                        LogUtils.d(TAG, "getReviewIncome error : " + error.message());
                         DialogUtils.showOkDialog(getActivity(), getString(R.string.error), error.message(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
                             @Override
                             public void onSubmit() {
@@ -295,13 +307,13 @@ public class FragmentReviewVehicle extends BaseFragment implements View.OnClickL
             }
 
             @Override
-            public void onFailure(Call<DeductionResponse> call, Throwable t) {
-                LogUtils.e(TAG, "getReviewDeduction onFailure : " + t.getMessage());
+            public void onFailure(Call<IncomeResponse> call, Throwable t) {
+                LogUtils.e(TAG, "getReviewIncome onFailure : " + t.getMessage());
                 ProgressDialogUtils.dismissProgressDialog();
                 DialogUtils.showRetryDialog(getActivity(), new AlertDialogOkAndCancel.AlertDialogListener() {
                     @Override
                     public void onSubmit() {
-                        getReviewDeduction();
+                        getReviewIncome();
                     }
 
                     @Override
@@ -343,11 +355,11 @@ public class FragmentReviewVehicle extends BaseFragment implements View.OnClickL
             JSONObject govJson = new JSONObject();
             govJson.put(Constants.PARAMETER_REVIEW_HAD, rbYes.isChecked());
             if (rbYes.isChecked()) {
-                govJson.put(Constants.PARAMETER_REVIEW_DEDUCTION_HOW, edtHow.getText().toString().trim());
-                govJson.put(Constants.PARAMETER_REVIEW_DEDUCTION_KM, edtKm.getText().toString().trim());
-                govJson.put(Constants.PARAMETER_REVIEW_DEDUCTION_TYPE, edtType.getText().toString().trim());
-                govJson.put(Constants.PARAMETER_REVIEW_DEDUCTION_REG, edtReg.getText().toString().trim());
-                govJson.put(Constants.PARAMETER_REVIEW_AMOUNT, edtAmount.getText().toString().trim());
+                govJson.put(Constants.PARAMETER_REVIEW_ETPS_PAYMENT_DATE, edtPaymentDate.getText().toString().trim());
+                govJson.put(Constants.PARAMETER_REVIEW_ETPS_PAYMENT_ABN, edtPayerAbn.getText().toString().trim());
+                govJson.put(Constants.PARAMETER_REVIEW_ETPS_PAYMENT_TAX, edtTaxWidthheld.getText().toString().trim());
+                govJson.put(Constants.PARAMETER_REVIEW_ETPS_PAYMENT_COM, edtTaxtableComponent.getText().toString().trim());
+                govJson.put(Constants.PARAMETER_REVIEW_ETPS_PAYMENT_CODE, edtCode.getText().toString().trim());
                 if (images.size() > 1) {
                     for (Image image : images
                             ) {
@@ -364,20 +376,21 @@ public class FragmentReviewVehicle extends BaseFragment implements View.OnClickL
                     govJson.put(Constants.PARAMETER_ATTACHMENTS, jsonArray);
                 }
             }
-            jsonRequest.put(Constants.PARAMETER_REVIEW_DEDUCTION_VEHICLES, govJson);
+            jsonRequest.put(Constants.PARAMETER_REVIEW_INCOME_ETPS, govJson);
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
         LogUtils.d(TAG, "doSaveReview jsonRequest : " + jsonRequest.toString());
         RequestBody body = RequestBody.create(MediaType.parse("application/json"), jsonRequest.toString());
-        ApiClient.getApiService().putReviewDeduction(UserManager.getUserToken(), appID, body).enqueue(new Callback<DeductionResponse>() {
+        ApiClient.getApiService().putReviewIncom(UserManager.getUserToken(), appID, body).enqueue(new Callback<IncomeResponse>() {
             @Override
-            public void onResponse(Call<DeductionResponse> call, Response<DeductionResponse> response) {
+            public void onResponse(Call<IncomeResponse> call, Response<IncomeResponse> response) {
                 ProgressDialogUtils.dismissProgressDialog();
                 LogUtils.d(TAG, "doSaveReview code: " + response.code());
                 if (response.code() == Constants.HTTP_CODE_OK) {
-//                    LogUtils.d(TAG, "doSaveReview code: " + response.body().getClothes().toString());
-                    openFragment(R.id.layout_container, FragmentReviewClothes.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
+                    LogUtils.d(TAG, "doSaveReview code: " + response.body().getJobs().toString());
+                    openFragment(R.id.layout_container, ReviewAnnuitiesFragment.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
                 } else {
                     APIError error = Utils.parseError(response);
                     LogUtils.e(TAG, "doSaveReview error : " + error.message());
@@ -394,7 +407,7 @@ public class FragmentReviewVehicle extends BaseFragment implements View.OnClickL
             }
 
             @Override
-            public void onFailure(Call<DeductionResponse> call, Throwable t) {
+            public void onFailure(Call<IncomeResponse> call, Throwable t) {
                 LogUtils.e(TAG, "doSaveReview onFailure : " + t.getMessage());
                 ProgressDialogUtils.dismissProgressDialog();
                 DialogUtils.showRetryDialog(getContext(), new AlertDialogOkAndCancel.AlertDialogListener() {
@@ -412,64 +425,96 @@ public class FragmentReviewVehicle extends BaseFragment implements View.OnClickL
         });
     }
 
+    private void openDatePicker() {
+        @SuppressWarnings("deprecation") DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), AlertDialog.THEME_HOLO_LIGHT,
+                new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, final int year,
+                                          final int monthOfYear, final int dayOfMonth) {
+                        if (view.isShown()) {
+                            calendar.set(year, monthOfYear, dayOfMonth);
+                            edtPaymentDate.setText(DateTimeUtils.fromCalendarToBirthday(calendar));
+                        }
+                    }
+                }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+        datePickerDialog.getDatePicker().setMaxDate(new Date().getTime() - 10000);
+        datePickerDialog.setTitle(getString(R.string.your_birthday));
+        datePickerDialog.show();
+    }
+
+    private void selectCode() {
+        CodeDialog codeDialog = new CodeDialog(getContext());
+        codeDialog.setValues(edtCode.getText().toString());
+        codeDialog.setCodeListenner(new CodeDialog.CodeListenner() {
+            @Override
+            public void onCodeListenner(String values) {
+                edtCode.setText(values);
+            }
+        });
+        codeDialog.showView();
+    }
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.fab:
                 rbYes.setEnabled(true);
                 rbNo.setEnabled(true);
-                edtHow.setEnabled(true);
-                edtHow.requestFocus();
-                edtHow.setSelection(edtHow.length());
-                edtKm.setEnabled(true);
-                edtType.setEnabled(true);
-                edtReg.setEnabled(true);
-                edtAmount.setEnabled(true);
+                edtPayerAbn.setEnabled(true);
+                edtPayerAbn.requestFocus();
+                edtPayerAbn.setSelection(edtPayerAbn.length());
+                edtPaymentDate.setEnabled(true);
+                edtTaxtableComponent.setEnabled(true);
+                edtTaxWidthheld.setEnabled(true);
+                edtCode.setEnabled(true);
                 grImage.setEnabled(true);
-//               if (rbYes.isChecked())Utils.showSoftKeyboard(getContext(), edtHow);
+                break;
+            case R.id.edt_payment_date:
+                openDatePicker();
+                break;
+            case R.id.edt_code:
+                selectCode();
                 break;
             case R.id.btn_next:
                 if (isEditApp()) {
                     if (rbYes.isChecked()) {
-                        if (edtHow.getText().toString().trim().isEmpty()) {
-                            edtHow.getParent().requestChildFocus(edtHow, edtHow);
-                            showToolTip(getContext(), edtHow,  getString(R.string.vali_all_empty));
+                        if (edtPaymentDate.getText().toString().trim().isEmpty()) {
+                            showToolTip(getContext(), edtPaymentDate, getString(R.string.vali_all_empty));
                             return;
                         }
-                        if (edtKm.getText().toString().trim().isEmpty()) {
-                            edtKm.getParent().requestChildFocus(edtKm, edtKm);
-                            showToolTip(getContext(), edtKm,  getString(R.string.vali_all_empty));
+                        if (edtPayerAbn.getText().toString().trim().isEmpty()) {
+                            showToolTip(getContext(), edtPayerAbn, getString(R.string.vali_all_empty));
                             return;
                         }
-                        if (edtType.getText().toString().trim().isEmpty()) {
-                            edtType.getParent().requestChildFocus(edtType, edtType);
-                            showToolTip(getContext(), edtType,  getString(R.string.vali_all_empty));
+                        if (edtTaxWidthheld.getText().toString().trim().isEmpty()) {
+                            showToolTip(getContext(), edtTaxWidthheld, getString(R.string.vali_all_empty));
                             return;
                         }
-                        if (edtReg.getText().toString().trim().isEmpty()) {
-                            edtReg.getParent().requestChildFocus(edtReg, edtReg);
-                            showToolTip(getContext(), edtReg, getString(R.string.vali_all_empty));
+                        if (edtTaxtableComponent.getText().toString().trim().isEmpty()) {
+                            showToolTip(getContext(), edtTaxtableComponent, getString(R.string.vali_all_empty));
                             return;
                         }
-                        if (edtAmount.getText().toString().trim().isEmpty()) {
-                            edtAmount.getParent().requestChildFocus(edtAmount, edtAmount);
-                            showToolTip(getContext(), edtAmount,  getString(R.string.vali_all_empty));
+                        if (edtCode.getText().toString().trim().isEmpty()) {
+                            showToolTip(getContext(), edtCode, getString(R.string.vali_all_empty));
                             return;
                         }
                         if (images.size() < 2) {
-                            showToolTip(getContext(), grImage,getString(R.string.vali_all_empty));
+                            showToolTip(getContext(), grImage, getString(R.string.valid_deduction_image));
                             return;
                         }
                         uploadImage();
+
                     } else {
                         doSaveReview();
                     }
                 } else
-                    openFragment(R.id.layout_container, FragmentReviewClothes.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
+                    openFragment(R.id.layout_container, ReviewAnnuitiesFragment.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
                 break;
 
 
         }
 
     }
+
+
 }

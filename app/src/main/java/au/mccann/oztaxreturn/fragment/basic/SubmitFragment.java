@@ -46,8 +46,8 @@ import static au.mccann.oztaxreturn.utils.Utils.showToolTip;
 /**
  * Created by CanTran on 4/19/18.
  */
-public class SubmitInformation extends BaseFragment implements View.OnClickListener {
-    private static final String TAG = SubmitInformation.class.getSimpleName();
+public class SubmitFragment extends BaseFragment implements View.OnClickListener {
+    private static final String TAG = SubmitFragment.class.getSimpleName();
     private EdittextCustom edtBankName, edtBSB, edtAccountNumber, edtStreetName, edtSuburb, edtState, edtPostCode, edtPhone, edtEmail;
     private ButtonCustom btnSubmit;
     private TextViewCustom tvNote;

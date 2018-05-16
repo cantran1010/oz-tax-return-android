@@ -50,8 +50,8 @@ import static au.mccann.oztaxreturn.utils.Utils.showToolTip;
 /**
  * Created by CanTran on 4/19/18.
  */
-public class PersonInforFragment extends BaseFragment implements View.OnClickListener {
-    private static final String TAG = PersonInforFragment.class.getSimpleName();
+public class PersonalFragment extends BaseFragment implements View.OnClickListener {
+    private static final String TAG = PersonalFragment.class.getSimpleName();
     private EdittextCustom edtTitle, edtFirstName, edtMidName, edtLastName, edtBirthDay;
     private Spinner spGender;
     private RadioButtonCustom rbYes;
@@ -184,7 +184,7 @@ public class PersonInforFragment extends BaseFragment implements View.OnClickLis
                 ProgressDialogUtils.dismissProgressDialog();
                 LogUtils.d(TAG, "doSaveBasic code: " + response.code());
                 if (response.code() == Constants.HTTP_CODE_OK) {
-                    openFragment(R.id.layout_container, SubmitInformation.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
+                    openFragment(R.id.layout_container, SubmitFragment.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
                 } else {
                     APIError error = Utils.parseError(response);
                     LogUtils.e(TAG, "doSaveBasic error : " + error.message());
