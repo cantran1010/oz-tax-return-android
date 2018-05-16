@@ -1,7 +1,6 @@
 package au.mccann.oztaxreturn.fragment.review.deduction;
 
 import android.Manifest;
-import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -11,10 +10,9 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.CompoundButton;
-import android.widget.ScrollView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -27,19 +25,18 @@ import java.util.List;
 import au.mccann.oztaxreturn.R;
 import au.mccann.oztaxreturn.activity.AlbumActivity;
 import au.mccann.oztaxreturn.activity.PreviewImageActivity;
-import au.mccann.oztaxreturn.adapter.ImageAdapter;
+import au.mccann.oztaxreturn.adapter.DonationAdapter;
 import au.mccann.oztaxreturn.common.Constants;
 import au.mccann.oztaxreturn.database.UserManager;
 import au.mccann.oztaxreturn.dialog.AlertDialogOk;
 import au.mccann.oztaxreturn.dialog.AlertDialogOkAndCancel;
 import au.mccann.oztaxreturn.dialog.PickImageDialog;
 import au.mccann.oztaxreturn.fragment.BaseFragment;
-import au.mccann.oztaxreturn.fragment.basic.IncomeOther;
 import au.mccann.oztaxreturn.model.APIError;
 import au.mccann.oztaxreturn.model.Attachment;
 import au.mccann.oztaxreturn.model.DeductionResponse;
+import au.mccann.oztaxreturn.model.Donation;
 import au.mccann.oztaxreturn.model.Image;
-import au.mccann.oztaxreturn.model.Vehicles;
 import au.mccann.oztaxreturn.networking.ApiClient;
 import au.mccann.oztaxreturn.utils.DialogUtils;
 import au.mccann.oztaxreturn.utils.FileUtils;
@@ -48,129 +45,107 @@ import au.mccann.oztaxreturn.utils.LogUtils;
 import au.mccann.oztaxreturn.utils.ProgressDialogUtils;
 import au.mccann.oztaxreturn.utils.TransitionScreen;
 import au.mccann.oztaxreturn.utils.Utils;
-import au.mccann.oztaxreturn.view.EdittextCustom;
-import au.mccann.oztaxreturn.view.ExpandableLayout;
-import au.mccann.oztaxreturn.view.MyGridView;
-import au.mccann.oztaxreturn.view.RadioButtonCustom;
+import au.mccann.oztaxreturn.view.ButtonCustom;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static au.mccann.oztaxreturn.utils.ImageUtils.showImage;
-import static au.mccann.oztaxreturn.utils.Utils.showToolTip;
-
-
 /**
- * Created by CanTran on 4/24/18.
+ * Created by CanTran on 4/23/18.
  */
-public class FragmentReviewVehicle extends BaseFragment implements View.OnClickListener {
-    private RadioButtonCustom rbYes, rbNo;
-    private EdittextCustom edtHow, edtKm, edtType, edtReg, edtAmount;
-    private static final String TAG = IncomeOther.class.getSimpleName();
-    private MyGridView grImage;
-    private ImageAdapter imageAdapter;
-    private ArrayList<Image> images;
+public class ReviewDonationsFragment extends BaseFragment implements View.OnClickListener {
+    private static final String TAG = ReviewDonationsFragment.class.getSimpleName();
+    private DonationAdapter adapter;
+    private ArrayList<Donation> donations = new ArrayList<>();
+    private RecyclerView recyclerView;
+    private int appID;
+    private ArrayList<Image> images = new ArrayList<>();
     private final String[] permissions = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
     private String imgPath;
-    private ScrollView scrollView;
-    private ExpandableLayout layout;
-    private Vehicles vehicles = new Vehicles();
-    private ArrayList<Attachment> attach;
-    private int appID;
+    private int countDown = 0;
     private FloatingActionButton fab;
-
 
     @Override
     protected int getLayout() {
-        return R.layout.fragment_review_deduction_vehicle;
+        return R.layout.fragment_review_deduction_educations;
     }
 
     @Override
     protected void initView() {
         fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(this);
-        findViewById(R.id.btn_next).setOnClickListener(this);
-        rbYes = (RadioButtonCustom) findViewById(R.id.rb_yes);
-        rbYes.setEnabled(false);
-        rbNo = (RadioButtonCustom) findViewById(R.id.rb_no);
-        rbNo.setEnabled(false);
-        edtHow = (EdittextCustom) findViewById(R.id.edt_how);
-        edtHow.setEnabled(false);
-        edtType = (EdittextCustom) findViewById(R.id.edt_type);
-        edtType.setEnabled(false);
-        edtKm = (EdittextCustom) findViewById(R.id.edt_km);
-        edtKm.setEnabled(false);
-        edtReg = (EdittextCustom) findViewById(R.id.edt_registration_number);
-        edtReg.setEnabled(false);
-        edtAmount = (EdittextCustom) findViewById(R.id.edt_calculated_amuont);
-        edtAmount.setEnabled(false);
-        grImage = (MyGridView) findViewById(R.id.gr_image);
-        grImage.setEnabled(false);
-        scrollView = (ScrollView) findViewById(R.id.scrollView);
-        layout = (ExpandableLayout) findViewById(R.id.layout_expandable);
+        ButtonCustom btnnext = (ButtonCustom) findViewById(R.id.btn_next);
+        btnnext.setOnClickListener(this);
+        recyclerView = (RecyclerView) findViewById(R.id.rcv_education);
+
     }
+
 
     @Override
     protected void initData() {
         getReviewProgress(getApplicationResponse());
-        images = new ArrayList<>();
-        attach = new ArrayList<>();
         appID = getApplicationResponse().getId();
         fab.setEnabled(isEditApp());
         setTitle(getString(R.string.review_income_title));
         appBarVisibility(true, true, 1);
-        //images
-        if (images.size() == 0) {
-            final Image image = new Image();
-            image.setId(0);
-            image.setAdd(true);
-            images.add(image);
-        }
-        imageAdapter = new ImageAdapter(getActivity(), images);
-        grImage.setAdapter(imageAdapter);
+        updateList();
+        getReviewDeduction();
+    }
 
-        grImage.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+    private void updateUI(ArrayList<Donation> ds) {
+        donations.clear();
+        donations.addAll(ds);
+        for (Donation education : donations
+                ) {
+            AddIconAdd(education);
+            showImage(education.getAttachments(), education.getImages());
+        }
+        adapter.notifyDataSetChanged();
+
+    }
+
+    public static void showImage(ArrayList<Attachment> attachments, ArrayList<Image> images) {
+        if (attachments.size() > 0) {
+            for (Attachment attachment : attachments
+                    ) {
+                Image image = new Image();
+                image.setId(attachment.getId());
+                image.setAdd(false);
+                image.setPath(attachment.getUrl());
+                images.add(0, image);
+            }
+
+        }
+    }
+
+    private void updateList() {
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+        recyclerView.setLayoutManager(linearLayoutManager);
+        adapter = new DonationAdapter(getContext(), donations);
+        recyclerView.setAdapter(adapter);
+        adapter.setOnClickImageListener(new DonationAdapter.OnClickImageListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (images.get(position).isAdd) {
+            public void onClick(int position, int n) {
+                LogUtils.d(TAG, "setOnClickImageListener" + n + " position " + position + donations.get(position).getImages().toString());
+                images = donations.get(position).getImages();
+                if (images.get(n).isAdd) {
+                    LogUtils.d(TAG, "setOnClickImageListener 3");
                     if (images.size() >= 10) {
                         Utils.showLongToast(getActivity(), getString(R.string.max_image_attach_err, 9), true, false);
                     } else {
                         checkPermissionImageAttach();
                     }
                 } else {
+                    LogUtils.d(TAG, "setOnClickImageListener 1");
                     Intent intent = new Intent(getActivity(), PreviewImageActivity.class);
                     intent.putExtra(Constants.EXTRA_IMAGE_PATH, images.get(position).getPath());
                     startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
                 }
             }
         });
-        rbYes.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                LogUtils.d(TAG, "setOnCheckedChangeListener : " + b);
-                if (b) {
-                    layout.setExpanded(true);
-//                    scollLayout();
-                } else {
-                    layout.setExpanded(false);
-                }
-            }
-        });
-        getReviewDeduction();
-    }
 
-
-    private void updateUI(Vehicles b) {
-        rbYes.setChecked(b.isHad());
-        edtHow.setText(b.getHowRelated());
-        edtKm.setText(b.getTravelled());
-        edtType.setText(b.getTypeBrand());
-        edtReg.setText(b.getRegNumber());
-        edtAmount.setText(b.getAmount());
-        showImage(b.getAttachments(), images, imageAdapter);
     }
 
     private void checkPermissionImageAttach() {
@@ -233,7 +208,7 @@ public class FragmentReviewVehicle extends BaseFragment implements View.OnClickL
                 && data != null) {
             ArrayList<Image> imagesSelected = data.getParcelableArrayListExtra(Constants.INTENT_EXTRA_IMAGES);
             images.addAll(0, imagesSelected);
-            imageAdapter.notifyDataSetChanged();
+            adapter.notifyDataSetChanged();
         } else if (requestCode == Constants.REQUEST_CODE_CAMERA && resultCode == Activity.RESULT_OK) {
             final String selectedImagePath = getImagePath();
             LogUtils.d(TAG, "onActivityResult selectedImagePath : " + selectedImagePath);
@@ -242,7 +217,7 @@ public class FragmentReviewVehicle extends BaseFragment implements View.OnClickL
             image.setAdd(false);
             image.setPath(selectedImagePath);
             images.add(0, image);
-            imageAdapter.notifyDataSetChanged();
+            adapter.notifyDataSetChanged();
         }
     }
 
@@ -250,35 +225,17 @@ public class FragmentReviewVehicle extends BaseFragment implements View.OnClickL
         return imgPath;
     }
 
-    private void scollLayout() {
-        int[] coords = {0, 0};
-        scrollView.getLocationOnScreen(coords);
-        int absoluteBottom = coords[1] + 250;
-        ObjectAnimator objectAnimator = ObjectAnimator.ofInt(scrollView, "scrollY", absoluteBottom).setDuration(1000);
-        objectAnimator.start();
-    }
-
-    @Override
-    protected void resumeData() {
-
-    }
-
-    @Override
-    public void onRefresh() {
-
-    }
-
     private void getReviewDeduction() {
         ProgressDialogUtils.showProgressDialog(getActivity());
-        LogUtils.d(TAG, "getReviewDeduction appId : " + appID);
+        LogUtils.d(TAG, "getReviewDeduction id : " + appID);
         ApiClient.getApiService().getReviewDeduction(UserManager.getUserToken(), appID).enqueue(new Callback<DeductionResponse>() {
             @Override
             public void onResponse(Call<DeductionResponse> call, Response<DeductionResponse> response) {
                 ProgressDialogUtils.dismissProgressDialog();
                 LogUtils.d(TAG, "getReviewDeduction code : " + response.code());
                 if (response.code() == Constants.HTTP_CODE_OK) {
-                    vehicles = response.body().getVehicles();
-                    if (vehicles != null) updateUI(vehicles);
+                    LogUtils.d(TAG, "getReviewDeduction body : " + response.body().getDonations().toString());
+                    updateUI(response.body().getDonations());
                 } else {
                     APIError error = Utils.parseError(response);
                     if (error != null) {
@@ -313,58 +270,76 @@ public class FragmentReviewVehicle extends BaseFragment implements View.OnClickL
         });
     }
 
+    private void uploadImage(final ArrayList<Donation> ds) {
 
-    private void uploadImage() {
-        final ArrayList<Image> listUp = new ArrayList<>();
-        for (Image image : images
+        for (final Donation e1 : ds
                 ) {
-            if (image.getId() == 0 && !image.isAdd()) listUp.add(image);
+            e1.setListUp(new ArrayList<Image>());
+            for (Image image : e1.getImages()
+                    ) {
+                if (image.getId() == 0 && !image.isAdd()) e1.getListUp().add(image);
+            }
         }
-        if (listUp.size() > 0) {
-            LogUtils.d(TAG, "uploadImage" + listUp.toString());
-            ImageUtils.doUploadImage(getContext(), listUp, new ImageUtils.UpImagesListener() {
-                @Override
-                public void onSuccess(List<Attachment> responses) {
-                    attach.addAll(responses);
-                    doSaveReview();
+
+        for (Donation e2 : ds
+                ) {
+            if (e2.getListUp().size() > 0) countDown++;
+        }
+        if (countDown == 0) doSaveReview();
+        else {
+            for (final Donation e3 : ds
+                    ) {
+                if (e3.getListUp().size() > 0) {
+                    ImageUtils.doUploadImage(getContext(), e3.getListUp(), new ImageUtils.UpImagesListener() {
+                        @Override
+                        public void onSuccess(List<Attachment> responses) {
+                            countDown--;
+                            e3.getAttach().addAll(responses);
+                            if (countDown == 0) doSaveReview();
+                        }
+                    });
                 }
-            });
-        } else {
-            doSaveReview();
+
+            }
+
         }
-
-
     }
+
 
     private void doSaveReview() {
         ProgressDialogUtils.showProgressDialog(getContext());
-        final JSONObject jsonRequest = new JSONObject();
+        LogUtils.d(TAG, "doSaveReview" + donations.toString());
+        JSONObject jsonRequest = new JSONObject();
         try {
-            JSONObject govJson = new JSONObject();
-            govJson.put(Constants.PARAMETER_REVIEW_HAD, rbYes.isChecked());
-            if (rbYes.isChecked()) {
-                govJson.put(Constants.PARAMETER_REVIEW_DEDUCTION_HOW, edtHow.getText().toString().trim());
-                govJson.put(Constants.PARAMETER_REVIEW_DEDUCTION_KM, edtKm.getText().toString().trim());
-                govJson.put(Constants.PARAMETER_REVIEW_DEDUCTION_TYPE, edtType.getText().toString().trim());
-                govJson.put(Constants.PARAMETER_REVIEW_DEDUCTION_REG, edtReg.getText().toString().trim());
-                govJson.put(Constants.PARAMETER_REVIEW_AMOUNT, edtAmount.getText().toString().trim());
-                if (images.size() > 1) {
-                    for (Image image : images
+            JSONArray jsonArray = new JSONArray();
+            for (Donation d : donations
+                    ) {
+                JSONObject mJs = new JSONObject();
+                mJs.put(Constants.PARAMETER_PUT_ID, d.getId());
+                mJs.put(Constants.PARAMETER_REVIEW_DONATION_OZ, d.getOrganization());
+                mJs.put(Constants.PARAMETER_REVIEW_AMOUNT, d.getAmount());
+                if (d.getImages().size() > 1) {
+                    for (Image image : d.getImages()
                             ) {
                         if (image.getId() > 0) {
                             Attachment attachment = new Attachment();
                             attachment.setId((int) image.getId());
                             attachment.setUrl(image.getPath());
-                            attach.add(attachment);
+                            d.getAttach().add(attachment);
                         }
                     }
-                    JSONArray jsonArray = new JSONArray();
-                    for (Attachment mId : attach)
-                        jsonArray.put(mId.getId());
-                    govJson.put(Constants.PARAMETER_ATTACHMENTS, jsonArray);
+                    JSONArray js = new JSONArray();
+                    for (Attachment mId : d.getAttach())
+                        js.put(mId.getId());
+                    mJs.put(Constants.PARAMETER_ATTACHMENTS, js);
+                } else {
+                    mJs.put(Constants.PARAMETER_ATTACHMENTS, new JSONArray());
                 }
+                jsonArray.put(mJs);
             }
-            jsonRequest.put(Constants.PARAMETER_REVIEW_DEDUCTION_VEHICLES, govJson);
+            if (adapter.isExpend())
+                jsonRequest.put(Constants.PARAMETER_REVIEW_DEDUCTION_DONATION, jsonArray);
+            else jsonRequest.put(Constants.PARAMETER_REVIEW_DEDUCTION_DONATION, new JSONArray());
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -376,8 +351,9 @@ public class FragmentReviewVehicle extends BaseFragment implements View.OnClickL
                 ProgressDialogUtils.dismissProgressDialog();
                 LogUtils.d(TAG, "doSaveReview code: " + response.code());
                 if (response.code() == Constants.HTTP_CODE_OK) {
-//                    LogUtils.d(TAG, "doSaveReview code: " + response.body().getClothes().toString());
-                    openFragment(R.id.layout_container, FragmentReviewClothes.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
+                    LogUtils.d(TAG, "doSaveReview body: " + response.body().getDonations().toString());
+                    LogUtils.d(TAG, " dividends image " + donations.toString());
+                    openFragment(R.id.layout_container, ReviewTaxAgentFragment.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
                 } else {
                     APIError error = Utils.parseError(response);
                     LogUtils.e(TAG, "doSaveReview error : " + error.message());
@@ -412,63 +388,43 @@ public class FragmentReviewVehicle extends BaseFragment implements View.OnClickL
         });
     }
 
+
+    public void AddIconAdd(Donation donation) {
+        if (donation.getImages() == null || donation.getImages().size() == 0) {
+            final Image image = new Image();
+            image.setId(0);
+            image.setAdd(true);
+            donation.getImages().add(image);
+        }
+    }
+
+    @Override
+    protected void resumeData() {
+
+    }
+
+    @Override
+    public void onRefresh() {
+
+    }
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.fab:
-                rbYes.setEnabled(true);
-                rbNo.setEnabled(true);
-                edtHow.setEnabled(true);
-                edtHow.requestFocus();
-                edtHow.setSelection(edtHow.length());
-                edtKm.setEnabled(true);
-                edtType.setEnabled(true);
-                edtReg.setEnabled(true);
-                edtAmount.setEnabled(true);
-                grImage.setEnabled(true);
-//               if (rbYes.isChecked())Utils.showSoftKeyboard(getContext(), edtHow);
+                adapter.setEdit(true);
+                adapter.notifyDataSetChanged();
                 break;
             case R.id.btn_next:
                 if (isEditApp()) {
-                    if (rbYes.isChecked()) {
-                        if (edtHow.getText().toString().trim().isEmpty()) {
-                            edtHow.getParent().requestChildFocus(edtHow, edtHow);
-                            showToolTip(getContext(), edtHow,  getString(R.string.vali_all_empty));
-                            return;
-                        }
-                        if (edtKm.getText().toString().trim().isEmpty()) {
-                            edtKm.getParent().requestChildFocus(edtKm, edtKm);
-                            showToolTip(getContext(), edtKm,  getString(R.string.vali_all_empty));
-                            return;
-                        }
-                        if (edtType.getText().toString().trim().isEmpty()) {
-                            edtType.getParent().requestChildFocus(edtType, edtType);
-                            showToolTip(getContext(), edtType,  getString(R.string.vali_all_empty));
-                            return;
-                        }
-                        if (edtReg.getText().toString().trim().isEmpty()) {
-                            edtReg.getParent().requestChildFocus(edtReg, edtReg);
-                            showToolTip(getContext(), edtReg, getString(R.string.vali_all_empty));
-                            return;
-                        }
-                        if (edtAmount.getText().toString().trim().isEmpty()) {
-                            edtAmount.getParent().requestChildFocus(edtAmount, edtAmount);
-                            showToolTip(getContext(), edtAmount,  getString(R.string.vali_all_empty));
-                            return;
-                        }
-                        if (images.size() < 2) {
-                            showToolTip(getContext(), grImage,getString(R.string.vali_all_empty));
-                            return;
-                        }
-                        uploadImage();
-                    } else {
+                    if (adapter.isExpend())
+                        uploadImage(donations);
+                    else {
                         doSaveReview();
                     }
                 } else
-                    openFragment(R.id.layout_container, FragmentReviewClothes.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
+                    openFragment(R.id.layout_container, ReviewTaxAgentFragment.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
                 break;
-
-
         }
 
     }

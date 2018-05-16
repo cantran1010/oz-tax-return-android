@@ -63,7 +63,7 @@ import retrofit2.Response;
  * Created by CanTran on 4/23/18.
  */
 public class ReviewIncomeSuperLumpSum extends BaseFragment implements View.OnClickListener {
-    private static final String TAG = FragmentReviewDividends.class.getSimpleName();
+    private static final String TAG = ReviewDividendsFragment.class.getSimpleName();
     private LumpSumAdapter adapter;
     private ArrayList<LumpSum> lumpSums = new ArrayList<>();
     private RecyclerView recyclerView;
@@ -390,7 +390,7 @@ public class ReviewIncomeSuperLumpSum extends BaseFragment implements View.OnCli
                 if (response.code() == Constants.HTTP_CODE_OK) {
                     LogUtils.d(TAG, "doSaveReview body: " + response.body().getLumpSums().toString());
                     LogUtils.d(TAG, " dividends image " + lumpSums.toString());
-                    openFragment(R.id.layout_container, RentalProperties.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
+                    openFragment(R.id.layout_container, ReviewRentalFragment.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
                 } else {
                     APIError error = Utils.parseError(response);
                     LogUtils.e(TAG, "doSaveReview error : " + error.message());
@@ -460,7 +460,7 @@ public class ReviewIncomeSuperLumpSum extends BaseFragment implements View.OnCli
                         doSaveReview();
                     }
                 } else
-                    openFragment(R.id.layout_container, RentalProperties.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
+                    openFragment(R.id.layout_container, ReviewRentalFragment.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
                 break;
         }
 

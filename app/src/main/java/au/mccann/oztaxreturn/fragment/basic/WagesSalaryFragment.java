@@ -71,9 +71,9 @@ import static au.mccann.oztaxreturn.utils.Utils.showToolTip;
  * Created by LongBui on 4/17/18.
  */
 
-public class IncomeWagesSalaryFragment extends BaseFragment implements View.OnClickListener {
+public class WagesSalaryFragment extends BaseFragment implements View.OnClickListener {
 
-    private static final String TAG = IncomeWagesSalaryFragment.class.getSimpleName();
+    private static final String TAG = WagesSalaryFragment.class.getSimpleName();
     private MyGridView grImage;
     private ImageAdapter imageAdapter;
     private ArrayList<Image> images;
@@ -300,7 +300,7 @@ public class IncomeWagesSalaryFragment extends BaseFragment implements View.OnCl
                 LogUtils.d(TAG, "doSaveBasic code: " + response.code());
                 if (response.code() == Constants.HTTP_CODE_OK) {
                     LogUtils.d(TAG, "doSaveBasic body: " + response.body());
-                    openFragment(R.id.layout_container, IncomeOther.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
+                    openFragment(R.id.layout_container, OtherFragment.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
                 } else {
                     APIError error = Utils.parseError(response);
                     LogUtils.e(TAG, "doSaveBasic error : " + error.message());

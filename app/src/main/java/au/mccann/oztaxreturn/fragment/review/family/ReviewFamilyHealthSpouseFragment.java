@@ -41,7 +41,7 @@ import au.mccann.oztaxreturn.dialog.AlertDialogOkAndCancel;
 import au.mccann.oztaxreturn.dialog.PickImageDialog;
 import au.mccann.oztaxreturn.fragment.BaseFragment;
 import au.mccann.oztaxreturn.fragment.HomeFragment;
-import au.mccann.oztaxreturn.fragment.review.summary.ReviewSummary;
+import au.mccann.oztaxreturn.fragment.review.summary.ReviewSummaryFragment;
 import au.mccann.oztaxreturn.model.APIError;
 import au.mccann.oztaxreturn.model.Attachment;
 import au.mccann.oztaxreturn.model.Image;
@@ -279,7 +279,7 @@ public class ReviewFamilyHealthSpouseFragment extends BaseFragment implements Vi
                 if (response.code() == Constants.HTTP_CODE_OK) {
                     LogUtils.d(TAG, "doUpdate body : " + response.body().toString());
                     if (isEditApp())
-                        openFragment(R.id.layout_container, ReviewSummary.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
+                        openFragment(R.id.layout_container, ReviewSummaryFragment.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
                     else
                         openFragment(R.id.layout_container, HomeFragment.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
                 } else {

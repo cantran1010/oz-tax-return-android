@@ -1,4 +1,4 @@
-package au.mccann.oztaxreturn.fragment.review.income;
+package au.mccann.oztaxreturn.fragment.review.deduction;
 
 import android.Manifest;
 import android.animation.ObjectAnimator;
@@ -34,12 +34,12 @@ import au.mccann.oztaxreturn.dialog.AlertDialogOk;
 import au.mccann.oztaxreturn.dialog.AlertDialogOkAndCancel;
 import au.mccann.oztaxreturn.dialog.PickImageDialog;
 import au.mccann.oztaxreturn.fragment.BaseFragment;
-import au.mccann.oztaxreturn.fragment.basic.IncomeOther;
+import au.mccann.oztaxreturn.fragment.basic.OtherFragment;
 import au.mccann.oztaxreturn.model.APIError;
 import au.mccann.oztaxreturn.model.Attachment;
-import au.mccann.oztaxreturn.model.Bank;
+import au.mccann.oztaxreturn.model.DeductionResponse;
 import au.mccann.oztaxreturn.model.Image;
-import au.mccann.oztaxreturn.model.IncomeResponse;
+import au.mccann.oztaxreturn.model.Vehicles;
 import au.mccann.oztaxreturn.networking.ApiClient;
 import au.mccann.oztaxreturn.utils.DialogUtils;
 import au.mccann.oztaxreturn.utils.FileUtils;
@@ -61,13 +61,14 @@ import retrofit2.Response;
 import static au.mccann.oztaxreturn.utils.ImageUtils.showImage;
 import static au.mccann.oztaxreturn.utils.Utils.showToolTip;
 
+
 /**
  * Created by CanTran on 4/24/18.
  */
-public class ReviewBankInterests extends BaseFragment implements View.OnClickListener {
+public class ReviewVehicleFragment extends BaseFragment implements View.OnClickListener {
     private RadioButtonCustom rbYes, rbNo;
-    private EdittextCustom edtBankName, edtBankNumber, edtTotalInteres, edtTax, edtBankFees;
-    private static final String TAG = IncomeOther.class.getSimpleName();
+    private EdittextCustom edtHow, edtKm, edtType, edtReg, edtAmount;
+    private static final String TAG = OtherFragment.class.getSimpleName();
     private MyGridView grImage;
     private ImageAdapter imageAdapter;
     private ArrayList<Image> images;
@@ -75,14 +76,15 @@ public class ReviewBankInterests extends BaseFragment implements View.OnClickLis
     private String imgPath;
     private ScrollView scrollView;
     private ExpandableLayout layout;
-    private Bank bank = new Bank();
+    private Vehicles vehicles = new Vehicles();
     private ArrayList<Attachment> attach;
     private int appID;
     private FloatingActionButton fab;
 
+
     @Override
     protected int getLayout() {
-        return R.layout.fragment_review_interest;
+        return R.layout.fragment_review_deduction_vehicle;
     }
 
     @Override
@@ -94,21 +96,20 @@ public class ReviewBankInterests extends BaseFragment implements View.OnClickLis
         rbYes.setEnabled(false);
         rbNo = (RadioButtonCustom) findViewById(R.id.rb_no);
         rbNo.setEnabled(false);
-        edtBankName = (EdittextCustom) findViewById(R.id.edt_interest_bank_name);
-        edtBankName.setEnabled(false);
-        edtBankNumber = (EdittextCustom) findViewById(R.id.edt_interest_account_number);
-        edtBankNumber.setEnabled(false);
-        edtTotalInteres = (EdittextCustom) findViewById(R.id.edt_total_interests);
-        edtTotalInteres.setEnabled(false);
-        edtTax = (EdittextCustom) findViewById(R.id.edt_interest_tax);
-        edtTax.setEnabled(false);
-        edtBankFees = (EdittextCustom) findViewById(R.id.edt_interest_bank_fees);
-        edtBankFees.setEnabled(false);
+        edtHow = (EdittextCustom) findViewById(R.id.edt_how);
+        edtHow.setEnabled(false);
+        edtType = (EdittextCustom) findViewById(R.id.edt_type);
+        edtType.setEnabled(false);
+        edtKm = (EdittextCustom) findViewById(R.id.edt_km);
+        edtKm.setEnabled(false);
+        edtReg = (EdittextCustom) findViewById(R.id.edt_registration_number);
+        edtReg.setEnabled(false);
+        edtAmount = (EdittextCustom) findViewById(R.id.edt_calculated_amuont);
+        edtAmount.setEnabled(false);
         grImage = (MyGridView) findViewById(R.id.gr_image);
         grImage.setEnabled(false);
         scrollView = (ScrollView) findViewById(R.id.scrollView);
         layout = (ExpandableLayout) findViewById(R.id.layout_expandable);
-
     }
 
     @Override
@@ -158,17 +159,17 @@ public class ReviewBankInterests extends BaseFragment implements View.OnClickLis
                 }
             }
         });
-        getReviewIncome();
+        getReviewDeduction();
     }
 
 
-    private void updateUI(Bank b) {
+    private void updateUI(Vehicles b) {
         rbYes.setChecked(b.isHad());
-        edtBankName.setText(b.getBankName());
-        edtBankNumber.setText(b.getAccountNumber());
-        edtTotalInteres.setText(b.getTotalInterest());
-        edtTax.setText(b.getTaxWithheld());
-        edtBankFees.setText(b.getFees());
+        edtHow.setText(b.getHowRelated());
+        edtKm.setText(b.getTravelled());
+        edtType.setText(b.getTypeBrand());
+        edtReg.setText(b.getRegNumber());
+        edtAmount.setText(b.getAmount());
         showImage(b.getAttachments(), images, imageAdapter);
     }
 
@@ -252,8 +253,8 @@ public class ReviewBankInterests extends BaseFragment implements View.OnClickLis
     private void scollLayout() {
         int[] coords = {0, 0};
         scrollView.getLocationOnScreen(coords);
-        int absoluteBottom = coords[1] + scrollView.getHeight();
-        ObjectAnimator objectAnimator = ObjectAnimator.ofInt(scrollView, "scrollY", absoluteBottom).setDuration(1500);
+        int absoluteBottom = coords[1] + 250;
+        ObjectAnimator objectAnimator = ObjectAnimator.ofInt(scrollView, "scrollY", absoluteBottom).setDuration(1000);
         objectAnimator.start();
     }
 
@@ -267,22 +268,21 @@ public class ReviewBankInterests extends BaseFragment implements View.OnClickLis
 
     }
 
-    private void getReviewIncome() {
+    private void getReviewDeduction() {
         ProgressDialogUtils.showProgressDialog(getActivity());
-        LogUtils.d(TAG, "getReviewIncome code : " + appID);
-        ApiClient.getApiService().getReviewIncome(UserManager.getUserToken(), appID).enqueue(new Callback<IncomeResponse>() {
+        LogUtils.d(TAG, "getReviewDeduction appId : " + appID);
+        ApiClient.getApiService().getReviewDeduction(UserManager.getUserToken(), appID).enqueue(new Callback<DeductionResponse>() {
             @Override
-            public void onResponse(Call<IncomeResponse> call, Response<IncomeResponse> response) {
+            public void onResponse(Call<DeductionResponse> call, Response<DeductionResponse> response) {
                 ProgressDialogUtils.dismissProgressDialog();
-                LogUtils.d(TAG, "getReviewIncome code : " + response.code());
+                LogUtils.d(TAG, "getReviewDeduction code : " + response.code());
                 if (response.code() == Constants.HTTP_CODE_OK) {
-                    LogUtils.d(TAG, "getReviewIncome body : " + response.body().getBank().toString());
-                    bank = response.body().getBank();
-                    if (bank != null) updateUI(bank);
+                    vehicles = response.body().getVehicles();
+                    if (vehicles != null) updateUI(vehicles);
                 } else {
                     APIError error = Utils.parseError(response);
                     if (error != null) {
-                        LogUtils.d(TAG, "getReviewIncome error : " + error.message());
+                        LogUtils.d(TAG, "getReviewDeduction error : " + error.message());
                         DialogUtils.showOkDialog(getActivity(), getString(R.string.error), error.message(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
                             @Override
                             public void onSubmit() {
@@ -295,13 +295,13 @@ public class ReviewBankInterests extends BaseFragment implements View.OnClickLis
             }
 
             @Override
-            public void onFailure(Call<IncomeResponse> call, Throwable t) {
-                LogUtils.e(TAG, "getReviewIncome onFailure : " + t.getMessage());
+            public void onFailure(Call<DeductionResponse> call, Throwable t) {
+                LogUtils.e(TAG, "getReviewDeduction onFailure : " + t.getMessage());
                 ProgressDialogUtils.dismissProgressDialog();
                 DialogUtils.showRetryDialog(getActivity(), new AlertDialogOkAndCancel.AlertDialogListener() {
                     @Override
                     public void onSubmit() {
-                        getReviewIncome();
+                        getReviewDeduction();
                     }
 
                     @Override
@@ -343,11 +343,11 @@ public class ReviewBankInterests extends BaseFragment implements View.OnClickLis
             JSONObject govJson = new JSONObject();
             govJson.put(Constants.PARAMETER_REVIEW_HAD, rbYes.isChecked());
             if (rbYes.isChecked()) {
-                govJson.put(Constants.PARAMETER_REVIEW_INCOME_BANK_NAME, edtBankName.getText().toString().trim());
-                govJson.put(Constants.PARAMETER_REVIEW_INCOME_BANK_NUMBER, edtBankNumber.getText().toString().trim());
-                govJson.put(Constants.PARAMETER_REVIEW_INCOME_BANK_TOTAL_INTEREST, edtTotalInteres.getText().toString().trim());
-                govJson.put(Constants.PARAMETER_REVIEW_INCOME_BANK_TAX, edtTax.getText().toString().trim());
-                govJson.put(Constants.PARAMETER_REVIEW_INCOME_BANK_FEES, edtBankFees.getText().toString().trim());
+                govJson.put(Constants.PARAMETER_REVIEW_DEDUCTION_HOW, edtHow.getText().toString().trim());
+                govJson.put(Constants.PARAMETER_REVIEW_DEDUCTION_KM, edtKm.getText().toString().trim());
+                govJson.put(Constants.PARAMETER_REVIEW_DEDUCTION_TYPE, edtType.getText().toString().trim());
+                govJson.put(Constants.PARAMETER_REVIEW_DEDUCTION_REG, edtReg.getText().toString().trim());
+                govJson.put(Constants.PARAMETER_REVIEW_AMOUNT, edtAmount.getText().toString().trim());
                 if (images.size() > 1) {
                     for (Image image : images
                             ) {
@@ -364,20 +364,20 @@ public class ReviewBankInterests extends BaseFragment implements View.OnClickLis
                     govJson.put(Constants.PARAMETER_ATTACHMENTS, jsonArray);
                 }
             }
-            jsonRequest.put(Constants.PARAMETER_REVIEW_INCOME_BANK, govJson);
+            jsonRequest.put(Constants.PARAMETER_REVIEW_DEDUCTION_VEHICLES, govJson);
         } catch (JSONException e) {
             e.printStackTrace();
         }
         LogUtils.d(TAG, "doSaveReview jsonRequest : " + jsonRequest.toString());
         RequestBody body = RequestBody.create(MediaType.parse("application/json"), jsonRequest.toString());
-        ApiClient.getApiService().putReviewIncom(UserManager.getUserToken(), appID, body).enqueue(new Callback<IncomeResponse>() {
+        ApiClient.getApiService().putReviewDeduction(UserManager.getUserToken(), appID, body).enqueue(new Callback<DeductionResponse>() {
             @Override
-            public void onResponse(Call<IncomeResponse> call, Response<IncomeResponse> response) {
+            public void onResponse(Call<DeductionResponse> call, Response<DeductionResponse> response) {
                 ProgressDialogUtils.dismissProgressDialog();
                 LogUtils.d(TAG, "doSaveReview code: " + response.code());
                 if (response.code() == Constants.HTTP_CODE_OK) {
-                    LogUtils.d(TAG, "doSaveReview code: " + response.body().getJobs().toString());
-                    openFragment(R.id.layout_container, FragmentReviewDividends.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
+//                    LogUtils.d(TAG, "doSaveReview code: " + response.body().getClothes().toString());
+                    openFragment(R.id.layout_container, ReviewClothesFragment.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
                 } else {
                     APIError error = Utils.parseError(response);
                     LogUtils.e(TAG, "doSaveReview error : " + error.message());
@@ -394,7 +394,7 @@ public class ReviewBankInterests extends BaseFragment implements View.OnClickLis
             }
 
             @Override
-            public void onFailure(Call<IncomeResponse> call, Throwable t) {
+            public void onFailure(Call<DeductionResponse> call, Throwable t) {
                 LogUtils.e(TAG, "doSaveReview onFailure : " + t.getMessage());
                 ProgressDialogUtils.dismissProgressDialog();
                 DialogUtils.showRetryDialog(getContext(), new AlertDialogOkAndCancel.AlertDialogListener() {
@@ -416,43 +416,48 @@ public class ReviewBankInterests extends BaseFragment implements View.OnClickLis
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.fab:
-                edtBankName.requestFocus();
-                edtBankName.setSelection(edtBankName.length());
                 rbYes.setEnabled(true);
                 rbNo.setEnabled(true);
-                edtBankName.setEnabled(true);
-                edtBankNumber.setEnabled(true);
-                edtTotalInteres.setEnabled(true);
-                edtTax.setEnabled(true);
-                edtBankFees.setEnabled(true);
+                edtHow.setEnabled(true);
+                edtHow.requestFocus();
+                edtHow.setSelection(edtHow.length());
+                edtKm.setEnabled(true);
+                edtType.setEnabled(true);
+                edtReg.setEnabled(true);
+                edtAmount.setEnabled(true);
                 grImage.setEnabled(true);
+//               if (rbYes.isChecked())Utils.showSoftKeyboard(getContext(), edtHow);
                 break;
             case R.id.btn_next:
-
                 if (isEditApp()) {
                     if (rbYes.isChecked()) {
-                        if (edtBankName.getText().toString().trim().isEmpty()) {
-                            showToolTip(getContext(), edtBankName, getString(R.string.vali_all_empty));
+                        if (edtHow.getText().toString().trim().isEmpty()) {
+                            edtHow.getParent().requestChildFocus(edtHow, edtHow);
+                            showToolTip(getContext(), edtHow,  getString(R.string.vali_all_empty));
                             return;
                         }
-                        if (edtBankNumber.getText().toString().trim().isEmpty()) {
-                            showToolTip(getContext(), edtBankNumber, getString(R.string.vali_all_empty));
+                        if (edtKm.getText().toString().trim().isEmpty()) {
+                            edtKm.getParent().requestChildFocus(edtKm, edtKm);
+                            showToolTip(getContext(), edtKm,  getString(R.string.vali_all_empty));
                             return;
                         }
-                        if (edtTotalInteres.getText().toString().trim().isEmpty()) {
-                            showToolTip(getContext(), edtTotalInteres,  getString(R.string.vali_all_empty));
+                        if (edtType.getText().toString().trim().isEmpty()) {
+                            edtType.getParent().requestChildFocus(edtType, edtType);
+                            showToolTip(getContext(), edtType,  getString(R.string.vali_all_empty));
                             return;
                         }
-                        if (edtBankFees.getText().toString().trim().isEmpty()) {
-                            showToolTip(getContext(), edtBankFees, getString(R.string.vali_all_empty));
+                        if (edtReg.getText().toString().trim().isEmpty()) {
+                            edtReg.getParent().requestChildFocus(edtReg, edtReg);
+                            showToolTip(getContext(), edtReg, getString(R.string.vali_all_empty));
                             return;
                         }
-                        if (edtTax.getText().toString().trim().isEmpty()) {
-                            showToolTip(getContext(), edtTax,getString(R.string.vali_all_empty));
+                        if (edtAmount.getText().toString().trim().isEmpty()) {
+                            edtAmount.getParent().requestChildFocus(edtAmount, edtAmount);
+                            showToolTip(getContext(), edtAmount,  getString(R.string.vali_all_empty));
                             return;
                         }
                         if (images.size() < 2) {
-                            showToolTip(getContext(), grImage,getString(R.string.valid_deduction_image));
+                            showToolTip(getContext(), grImage,getString(R.string.vali_all_empty));
                             return;
                         }
                         uploadImage();
@@ -460,7 +465,7 @@ public class ReviewBankInterests extends BaseFragment implements View.OnClickLis
                         doSaveReview();
                     }
                 } else
-                    openFragment(R.id.layout_container, FragmentReviewDividends.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
+                    openFragment(R.id.layout_container, ReviewClothesFragment.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
                 break;
 
 

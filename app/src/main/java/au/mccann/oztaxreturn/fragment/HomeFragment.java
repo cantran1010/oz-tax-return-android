@@ -18,11 +18,11 @@ import au.mccann.oztaxreturn.common.Constants;
 import au.mccann.oztaxreturn.database.UserManager;
 import au.mccann.oztaxreturn.dialog.AlertDialogOk;
 import au.mccann.oztaxreturn.dialog.AlertDialogOkAndCancel;
-import au.mccann.oztaxreturn.fragment.basic.IncomeWagesSalaryFragment;
+import au.mccann.oztaxreturn.fragment.basic.WagesSalaryFragment;
 import au.mccann.oztaxreturn.fragment.review.begin.ReviewBeginAFragment;
 import au.mccann.oztaxreturn.fragment.review.begin.ReviewBeginBFragment;
-import au.mccann.oztaxreturn.fragment.review.summary.ReviewAfterBeingAudited;
-import au.mccann.oztaxreturn.fragment.review.summary.ReviewSummary;
+import au.mccann.oztaxreturn.fragment.review.summary.ReviewAuditedFragment;
+import au.mccann.oztaxreturn.fragment.review.summary.ReviewSummaryFragment;
 import au.mccann.oztaxreturn.model.APIError;
 import au.mccann.oztaxreturn.networking.ApiClient;
 import au.mccann.oztaxreturn.rest.response.ApplicationResponse;
@@ -105,7 +105,7 @@ public class HomeFragment extends BaseFragment {
                         setEditApp(true);
                         setApplicationResponse(applicationResponses.get(position));
                         updateAppInNavigation(applicationResponses.get(position));
-                        openFragment(R.id.layout_container, IncomeWagesSalaryFragment.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
+                        openFragment(R.id.layout_container, WagesSalaryFragment.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
                         break;
                     case "submitted":
                         setApplicationResponse(applicationResponses.get(position));
@@ -123,19 +123,19 @@ public class HomeFragment extends BaseFragment {
                         setEditApp(false);
                         setApplicationResponse(applicationResponses.get(position));
                         updateAppInNavigation(applicationResponses.get(position));
-                        openFragment(R.id.layout_container, ReviewSummary.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
+                        openFragment(R.id.layout_container, ReviewSummaryFragment.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
                         break;
                     case "auditing":
                         setEditApp(true);
                         setApplicationResponse(applicationResponses.get(position));
                         updateAppInNavigation(applicationResponses.get(position));
-                        openFragment(R.id.layout_container, ReviewAfterBeingAudited.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
+                        openFragment(R.id.layout_container, ReviewAuditedFragment.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
                         break;
                     case "completed":
                         setEditApp(false);
                         setApplicationResponse(applicationResponses.get(position));
                         updateAppInNavigation(applicationResponses.get(position));
-                        openFragment(R.id.layout_container, ReviewSummary.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
+                        openFragment(R.id.layout_container, ReviewSummaryFragment.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
                         break;
                 }
             }

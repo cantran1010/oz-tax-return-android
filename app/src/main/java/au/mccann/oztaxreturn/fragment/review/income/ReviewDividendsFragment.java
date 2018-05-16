@@ -1,10 +1,7 @@
 package au.mccann.oztaxreturn.fragment.review.income;
 
 import android.Manifest;
-import android.animation.ObjectAnimator;
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -13,11 +10,9 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.CompoundButton;
-import android.widget.DatePicker;
-import android.widget.ScrollView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -25,30 +20,24 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 import au.mccann.oztaxreturn.R;
 import au.mccann.oztaxreturn.activity.AlbumActivity;
 import au.mccann.oztaxreturn.activity.PreviewImageActivity;
-import au.mccann.oztaxreturn.adapter.ImageAdapter;
+import au.mccann.oztaxreturn.adapter.DividendAdapter;
 import au.mccann.oztaxreturn.common.Constants;
 import au.mccann.oztaxreturn.database.UserManager;
 import au.mccann.oztaxreturn.dialog.AlertDialogOk;
 import au.mccann.oztaxreturn.dialog.AlertDialogOkAndCancel;
-import au.mccann.oztaxreturn.dialog.CodeDialog;
 import au.mccann.oztaxreturn.dialog.PickImageDialog;
 import au.mccann.oztaxreturn.fragment.BaseFragment;
-import au.mccann.oztaxreturn.fragment.basic.IncomeOther;
 import au.mccann.oztaxreturn.model.APIError;
 import au.mccann.oztaxreturn.model.Attachment;
-import au.mccann.oztaxreturn.model.Etps;
+import au.mccann.oztaxreturn.model.Dividend;
 import au.mccann.oztaxreturn.model.Image;
 import au.mccann.oztaxreturn.model.IncomeResponse;
 import au.mccann.oztaxreturn.networking.ApiClient;
-import au.mccann.oztaxreturn.utils.DateTimeUtils;
 import au.mccann.oztaxreturn.utils.DialogUtils;
 import au.mccann.oztaxreturn.utils.FileUtils;
 import au.mccann.oztaxreturn.utils.ImageUtils;
@@ -56,133 +45,106 @@ import au.mccann.oztaxreturn.utils.LogUtils;
 import au.mccann.oztaxreturn.utils.ProgressDialogUtils;
 import au.mccann.oztaxreturn.utils.TransitionScreen;
 import au.mccann.oztaxreturn.utils.Utils;
-import au.mccann.oztaxreturn.view.EdittextCustom;
-import au.mccann.oztaxreturn.view.ExpandableLayout;
-import au.mccann.oztaxreturn.view.MyGridView;
-import au.mccann.oztaxreturn.view.RadioButtonCustom;
+import au.mccann.oztaxreturn.view.ButtonCustom;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static au.mccann.oztaxreturn.utils.ImageUtils.showImage;
-import static au.mccann.oztaxreturn.utils.Utils.showToolTip;
-
-
 /**
- * Created by CanTran on 4/24/18.
+ * Created by CanTran on 4/23/18.
  */
-public class EarlyTerminationPayments extends BaseFragment implements View.OnClickListener {
-    private RadioButtonCustom rbYes, rbNo;
-    private EdittextCustom edtPaymentDate, edtPayerAbn, edtTaxWidthheld, edtTaxtableComponent, edtCode;
-    private static final String TAG = IncomeOther.class.getSimpleName();
-    private MyGridView grImage;
-    private ImageAdapter imageAdapter;
-    private ArrayList<Image> images;
+public class ReviewDividendsFragment extends BaseFragment implements View.OnClickListener {
+    private static final String TAG = ReviewDividendsFragment.class.getSimpleName();
+    private DividendAdapter adapter;
+    private ArrayList<Dividend> dividends = new ArrayList<>();
+    private RecyclerView recyclerView;
+    private int appID;
+    private ArrayList<Image> images = new ArrayList<>();
     private final String[] permissions = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
     private String imgPath;
-    private ScrollView scrollView;
-    private ExpandableLayout layout;
-    private Etps etps = new Etps();
-    private ArrayList<Attachment> attach;
-    private int appID;
-    private final Calendar calendar = GregorianCalendar.getInstance();
     private FloatingActionButton fab;
 
     @Override
     protected int getLayout() {
-        return R.layout.fragment_early_termination_payments;
+        return R.layout.fragment_review_income_dividend;
     }
 
     @Override
     protected void initView() {
         fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(this);
-        findViewById(R.id.btn_next).setOnClickListener(this);
-        rbYes = (RadioButtonCustom) findViewById(R.id.rb_yes);
-        rbYes.setEnabled(false);
-        rbNo = (RadioButtonCustom) findViewById(R.id.rb_no);
-        rbNo.setEnabled(false);
-        edtPaymentDate = (EdittextCustom) findViewById(R.id.edt_payment_date);
-        edtPaymentDate.setEnabled(false);
-        edtPaymentDate.setOnClickListener(this);
-        edtPayerAbn = (EdittextCustom) findViewById(R.id.edt_payer_abn);
-        edtPayerAbn.setEnabled(false);
-        edtTaxWidthheld = (EdittextCustom) findViewById(R.id.edt_tax_widthheld);
-        edtTaxWidthheld.setEnabled(false);
-        edtTaxtableComponent = (EdittextCustom) findViewById(R.id.edt_taxtable_component);
-        edtTaxtableComponent.setEnabled(false);
-        edtCode = (EdittextCustom) findViewById(R.id.edt_code);
-        edtCode.setEnabled(false);
-        edtCode.setOnClickListener(this);
-        grImage = (MyGridView) findViewById(R.id.gr_image);
-        grImage.setEnabled(false);
-        scrollView = (ScrollView) findViewById(R.id.scrollView);
-        layout = (ExpandableLayout) findViewById(R.id.layout_expandable);
-
+        ButtonCustom btnnext = (ButtonCustom) findViewById(R.id.btn_next);
+        btnnext.setOnClickListener(this);
+        recyclerView = (RecyclerView) findViewById(R.id.rcv_job);
 
     }
+
 
     @Override
     protected void initData() {
         getReviewProgress(getApplicationResponse());
-        images = new ArrayList<>();
-        attach = new ArrayList<>();
         appID = getApplicationResponse().getId();
         fab.setEnabled(isEditApp());
         setTitle(getString(R.string.review_income_title));
         appBarVisibility(true, true, 1);
-        //images
-        if (images.size() == 0) {
-            final Image image = new Image();
-            image.setId(0);
-            image.setAdd(true);
-            images.add(image);
-        }
-        imageAdapter = new ImageAdapter(getActivity(), images);
-        grImage.setAdapter(imageAdapter);
+        updateList();
+        getReviewIncome();
+    }
 
-        grImage.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+    private void updateUI(ArrayList<Dividend> ds) {
+        dividends.clear();
+        dividends.addAll(ds);
+        for (Dividend dividend : dividends
+                ) {
+            AddIconAdd(dividend);
+            showImage(dividend.getAttachments(), dividend.getImages());
+        }
+        adapter.notifyDataSetChanged();
+
+    }
+
+    public static void showImage(ArrayList<Attachment> attachments, ArrayList<Image> images) {
+        if (attachments.size() > 0) {
+            for (Attachment attachment : attachments
+                    ) {
+                Image image = new Image();
+                image.setId(attachment.getId());
+                image.setAdd(false);
+                image.setPath(attachment.getUrl());
+                images.add(0, image);
+            }
+
+        }
+    }
+
+    private void updateList() {
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+        recyclerView.setLayoutManager(linearLayoutManager);
+        adapter = new DividendAdapter(getContext(), dividends);
+        recyclerView.setAdapter(adapter);
+        adapter.setOnClickImageListener(new DividendAdapter.OnClickImageListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (images.get(position).isAdd) {
+            public void onClick(int position, int n) {
+                LogUtils.d(TAG, "setOnClickImageListener" + n + " position " + position + dividends.get(position).getImages().toString());
+                images = dividends.get(position).getImages();
+                if (images.get(n).isAdd) {
+                    LogUtils.d(TAG, "setOnClickImageListener 3");
                     if (images.size() >= 10) {
                         Utils.showLongToast(getActivity(), getString(R.string.max_image_attach_err, 9), true, false);
                     } else {
                         checkPermissionImageAttach();
                     }
                 } else {
+                    LogUtils.d(TAG, "setOnClickImageListener 1");
                     Intent intent = new Intent(getActivity(), PreviewImageActivity.class);
                     intent.putExtra(Constants.EXTRA_IMAGE_PATH, images.get(position).getPath());
                     startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
                 }
             }
         });
-        rbYes.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                LogUtils.d(TAG, "setOnCheckedChangeListener : " + b);
-                if (b) {
-                    layout.setExpanded(true);
-//                    scollLayout();
-                } else {
-                    layout.setExpanded(false);
-                }
-            }
-        });
-        getReviewIncome();
-    }
 
-
-    private void updateUI(Etps e) {
-        rbYes.setChecked(e.isHad());
-        edtPaymentDate.setText(e.getPaymentDate());
-        edtPayerAbn.setText(e.getPayerAbn());
-        edtTaxWidthheld.setText(e.getTaxWithheld());
-        edtTaxtableComponent.setText(e.getTaxableCom());
-        edtCode.setText(e.getCode());
-        showImage(e.getAttachments(), images, imageAdapter);
     }
 
     private void checkPermissionImageAttach() {
@@ -245,7 +207,7 @@ public class EarlyTerminationPayments extends BaseFragment implements View.OnCli
                 && data != null) {
             ArrayList<Image> imagesSelected = data.getParcelableArrayListExtra(Constants.INTENT_EXTRA_IMAGES);
             images.addAll(0, imagesSelected);
-            imageAdapter.notifyDataSetChanged();
+            adapter.notifyDataSetChanged();
         } else if (requestCode == Constants.REQUEST_CODE_CAMERA && resultCode == Activity.RESULT_OK) {
             final String selectedImagePath = getImagePath();
             LogUtils.d(TAG, "onActivityResult selectedImagePath : " + selectedImagePath);
@@ -254,7 +216,7 @@ public class EarlyTerminationPayments extends BaseFragment implements View.OnCli
             image.setAdd(false);
             image.setPath(selectedImagePath);
             images.add(0, image);
-            imageAdapter.notifyDataSetChanged();
+            adapter.notifyDataSetChanged();
         }
     }
 
@@ -262,35 +224,17 @@ public class EarlyTerminationPayments extends BaseFragment implements View.OnCli
         return imgPath;
     }
 
-    private void scollLayout() {
-        int[] coords = {0, 0};
-        scrollView.getLocationOnScreen(coords);
-        int absoluteBottom = coords[1] + scrollView.getHeight();
-        ObjectAnimator objectAnimator = ObjectAnimator.ofInt(scrollView, "scrollY", absoluteBottom).setDuration(1500);
-        objectAnimator.start();
-    }
-
-    @Override
-    protected void resumeData() {
-
-    }
-
-    @Override
-    public void onRefresh() {
-
-    }
-
     private void getReviewIncome() {
         ProgressDialogUtils.showProgressDialog(getActivity());
-        LogUtils.d(TAG, "getReviewIncome code : " + appID);
+        LogUtils.d(TAG, "getReviewIncome id : " + appID);
         ApiClient.getApiService().getReviewIncome(UserManager.getUserToken(), appID).enqueue(new Callback<IncomeResponse>() {
             @Override
             public void onResponse(Call<IncomeResponse> call, Response<IncomeResponse> response) {
                 ProgressDialogUtils.dismissProgressDialog();
                 LogUtils.d(TAG, "getReviewIncome code : " + response.code());
                 if (response.code() == Constants.HTTP_CODE_OK) {
-                    etps = response.body().getEtps();
-                    if (etps != null) updateUI(etps);
+                    LogUtils.d(TAG, "getReviewIncome body : " + response.body().getDividends().toString());
+                    updateUI(response.body().getDividends());
                 } else {
                     APIError error = Utils.parseError(response);
                     if (error != null) {
@@ -325,59 +269,84 @@ public class EarlyTerminationPayments extends BaseFragment implements View.OnCli
         });
     }
 
-
-    private void uploadImage() {
-        final ArrayList<Image> listUp = new ArrayList<>();
-        for (Image image : images
+    private void uploadImage(final ArrayList<Dividend> ds) {
+        int count = 0;
+        for (final Dividend dividend : ds
                 ) {
-            if (image.getId() == 0 && !image.isAdd()) listUp.add(image);
+            dividend.setListUp(new ArrayList<Image>());
+            for (Image image : dividend.getImages()
+                    ) {
+                if (image.getId() == 0 && !image.isAdd()) dividend.getListUp().add(image);
+            }
         }
-        if (listUp.size() > 0) {
-            LogUtils.d(TAG, "uploadImage" + listUp.toString());
-            ImageUtils.doUploadImage(getContext(), listUp, new ImageUtils.UpImagesListener() {
-                @Override
-                public void onSuccess(List<Attachment> responses) {
-                    attach.addAll(responses);
-                    doSaveReview();
+
+        for (Dividend dividend1 : ds
+                ) {
+            if (dividend1.getListUp().size() > 0) count++;
+        }
+
+        if (count == 0) doSaveReview();
+        else {
+            for (final Dividend d : ds
+                    ) {
+                if (d.getListUp().size() > 0) {
+                    count--;
+                    final int finalCount = count;
+                    LogUtils.d(TAG, "doUploadImage count" + finalCount + dividends.toString());
+                    ImageUtils.doUploadImage(getContext(), d.getListUp(), new ImageUtils.UpImagesListener() {
+                        @Override
+                        public void onSuccess(List<Attachment> responses) {
+//                            LogUtils.d(TAG, "doUploadImage" + finalCount + responses.toString());
+                            d.getAttach().addAll(responses);
+                            LogUtils.d(TAG, "doUploadImage finalCount" + finalCount + dividends.toString());
+                            doSaveReview();
+                        }
+                    });
                 }
-            });
-        } else {
-            doSaveReview();
+
+            }
+
         }
-
-
     }
+
 
     private void doSaveReview() {
         ProgressDialogUtils.showProgressDialog(getContext());
-        final JSONObject jsonRequest = new JSONObject();
+        LogUtils.d(TAG, "doSaveReview" + dividends.toString());
+        JSONObject jsonRequest = new JSONObject();
         try {
-            JSONObject govJson = new JSONObject();
-            govJson.put(Constants.PARAMETER_REVIEW_HAD, rbYes.isChecked());
-            if (rbYes.isChecked()) {
-                govJson.put(Constants.PARAMETER_REVIEW_ETPS_PAYMENT_DATE, edtPaymentDate.getText().toString().trim());
-                govJson.put(Constants.PARAMETER_REVIEW_ETPS_PAYMENT_ABN, edtPayerAbn.getText().toString().trim());
-                govJson.put(Constants.PARAMETER_REVIEW_ETPS_PAYMENT_TAX, edtTaxWidthheld.getText().toString().trim());
-                govJson.put(Constants.PARAMETER_REVIEW_ETPS_PAYMENT_COM, edtTaxtableComponent.getText().toString().trim());
-                govJson.put(Constants.PARAMETER_REVIEW_ETPS_PAYMENT_CODE, edtCode.getText().toString().trim());
-                if (images.size() > 1) {
-                    for (Image image : images
+            JSONArray jsonArray = new JSONArray();
+            for (Dividend d : dividends
+                    ) {
+                JSONObject mJs = new JSONObject();
+                mJs.put(Constants.PARAMETER_PUT_ID, d.getId());
+                mJs.put(Constants.PARAMETER_REVIEW_INCOM_DIVIDEND_COMPANY, d.getCompanyName());
+                mJs.put(Constants.PARAMETER_REVIEW_INCOM_DIVIDEND_UNFRANKED, d.getUnfranked());
+                mJs.put(Constants.PARAMETER_REVIEW_INCOM_DIVIDEND_FRANKED, d.getFranked());
+                mJs.put(Constants.PARAMETER_REVIEW_INCOM_DIVIDEND_FRANKED_CREATE, d.getFrankingCredits());
+                mJs.put(Constants.PARAMETER_REVIEW_INCOM_DIVIDEND_TAX, d.getTaxWithheld());
+                if (d.getImages().size() > 1) {
+                    for (Image image : d.getImages()
                             ) {
                         if (image.getId() > 0) {
                             Attachment attachment = new Attachment();
                             attachment.setId((int) image.getId());
                             attachment.setUrl(image.getPath());
-                            attach.add(attachment);
+                            d.getAttach().add(attachment);
                         }
                     }
-                    JSONArray jsonArray = new JSONArray();
-                    for (Attachment mId : attach)
-                        jsonArray.put(mId.getId());
-                    govJson.put(Constants.PARAMETER_ATTACHMENTS, jsonArray);
+                    JSONArray js = new JSONArray();
+                    for (Attachment mId : d.getAttach())
+                        js.put(mId.getId());
+                    mJs.put(Constants.PARAMETER_ATTACHMENTS, js);
+                } else {
+                    mJs.put(Constants.PARAMETER_ATTACHMENTS, new JSONArray());
                 }
+                jsonArray.put(mJs);
             }
-            jsonRequest.put(Constants.PARAMETER_REVIEW_INCOME_ETPS, govJson);
-
+            if (adapter.isExpend())
+                jsonRequest.put(Constants.PARAMETER_REVIEW_INCOME_DIVIDEND, jsonArray);
+            else jsonRequest.put(Constants.PARAMETER_REVIEW_INCOME_DIVIDEND, new JSONArray());
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -389,8 +358,9 @@ public class EarlyTerminationPayments extends BaseFragment implements View.OnCli
                 ProgressDialogUtils.dismissProgressDialog();
                 LogUtils.d(TAG, "doSaveReview code: " + response.code());
                 if (response.code() == Constants.HTTP_CODE_OK) {
-                    LogUtils.d(TAG, "doSaveReview code: " + response.body().getJobs().toString());
-                    openFragment(R.id.layout_container, AnnuitiesAndSupers.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
+                    LogUtils.d(TAG, "doSaveReview body: " + response.body().getDividends().toString());
+                    LogUtils.d(TAG, " dividends image " + dividends.toString());
+                    openFragment(R.id.layout_container, ReviewETPsFragment.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
                 } else {
                     APIError error = Utils.parseError(response);
                     LogUtils.e(TAG, "doSaveReview error : " + error.message());
@@ -425,96 +395,44 @@ public class EarlyTerminationPayments extends BaseFragment implements View.OnCli
         });
     }
 
-    private void openDatePicker() {
-        @SuppressWarnings("deprecation") DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), AlertDialog.THEME_HOLO_LIGHT,
-                new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker view, final int year,
-                                          final int monthOfYear, final int dayOfMonth) {
-                        if (view.isShown()) {
-                            calendar.set(year, monthOfYear, dayOfMonth);
-                            edtPaymentDate.setText(DateTimeUtils.fromCalendarToBirthday(calendar));
-                        }
-                    }
-                }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
-        datePickerDialog.getDatePicker().setMaxDate(new Date().getTime() - 10000);
-        datePickerDialog.setTitle(getString(R.string.your_birthday));
-        datePickerDialog.show();
+
+    public void AddIconAdd(Dividend dividend) {
+        if (dividend.getImages() == null || dividend.getImages().size() == 0) {
+            final Image image = new Image();
+            image.setId(0);
+            image.setAdd(true);
+            dividend.getImages().add(image);
+        }
     }
 
-    private void selectCode() {
-        CodeDialog codeDialog = new CodeDialog(getContext());
-        codeDialog.setValues(edtCode.getText().toString());
-        codeDialog.setCodeListenner(new CodeDialog.CodeListenner() {
-            @Override
-            public void onCodeListenner(String values) {
-                edtCode.setText(values);
-            }
-        });
-        codeDialog.showView();
+    @Override
+    protected void resumeData() {
+
+    }
+
+    @Override
+    public void onRefresh() {
+
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.fab:
-                rbYes.setEnabled(true);
-                rbNo.setEnabled(true);
-                edtPayerAbn.setEnabled(true);
-                edtPayerAbn.requestFocus();
-                edtPayerAbn.setSelection(edtPayerAbn.length());
-                edtPaymentDate.setEnabled(true);
-                edtTaxtableComponent.setEnabled(true);
-                edtTaxWidthheld.setEnabled(true);
-                edtCode.setEnabled(true);
-                grImage.setEnabled(true);
-                break;
-            case R.id.edt_payment_date:
-                openDatePicker();
-                break;
-            case R.id.edt_code:
-                selectCode();
+                adapter.setEdit(true);
+                adapter.notifyDataSetChanged();
                 break;
             case R.id.btn_next:
                 if (isEditApp()) {
-                    if (rbYes.isChecked()) {
-                        if (edtPaymentDate.getText().toString().trim().isEmpty()) {
-                            showToolTip(getContext(), edtPaymentDate, getString(R.string.vali_all_empty));
-                            return;
-                        }
-                        if (edtPayerAbn.getText().toString().trim().isEmpty()) {
-                            showToolTip(getContext(), edtPayerAbn, getString(R.string.vali_all_empty));
-                            return;
-                        }
-                        if (edtTaxWidthheld.getText().toString().trim().isEmpty()) {
-                            showToolTip(getContext(), edtTaxWidthheld, getString(R.string.vali_all_empty));
-                            return;
-                        }
-                        if (edtTaxtableComponent.getText().toString().trim().isEmpty()) {
-                            showToolTip(getContext(), edtTaxtableComponent, getString(R.string.vali_all_empty));
-                            return;
-                        }
-                        if (edtCode.getText().toString().trim().isEmpty()) {
-                            showToolTip(getContext(), edtCode, getString(R.string.vali_all_empty));
-                            return;
-                        }
-                        if (images.size() < 2) {
-                            showToolTip(getContext(), grImage, getString(R.string.valid_deduction_image));
-                            return;
-                        }
-                        uploadImage();
-
-                    } else {
+                    if (adapter.isExpend())
+                        uploadImage(dividends);
+                    else {
                         doSaveReview();
                     }
                 } else
-                    openFragment(R.id.layout_container, AnnuitiesAndSupers.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
+                    openFragment(R.id.layout_container, ReviewETPsFragment.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
                 break;
-
-
         }
 
     }
-
-
 }

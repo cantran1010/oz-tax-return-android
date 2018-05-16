@@ -14,8 +14,8 @@ import au.mccann.oztaxreturn.view.TextViewCustom;
 /**
  * Created by CanTran on 4/18/18.
  */
-public class EstimateTaxRefund extends BaseFragment implements View.OnClickListener {
-    private static final String TAG = EstimateTaxRefund.class.getSimpleName();
+public class EstimateFragment extends BaseFragment implements View.OnClickListener {
+    private static final String TAG = EstimateFragment.class.getSimpleName();
     private TextViewCustom tvNote;
 
 
@@ -58,7 +58,7 @@ public class EstimateTaxRefund extends BaseFragment implements View.OnClickListe
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_next:
-                openFragment(R.id.layout_container, PersonInforFragment.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
+                openFragment(R.id.layout_container, PersonalFragment.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
                 break;
         }
     }

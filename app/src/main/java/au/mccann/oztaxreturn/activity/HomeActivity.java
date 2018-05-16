@@ -22,22 +22,22 @@ import au.mccann.oztaxreturn.dialog.AlertDialogOkAndCancel;
 import au.mccann.oztaxreturn.fragment.ContactFragment;
 import au.mccann.oztaxreturn.fragment.HomeFragment;
 import au.mccann.oztaxreturn.fragment.NotificationFragment;
-import au.mccann.oztaxreturn.fragment.review.deduction.FragmentReviewClothes;
-import au.mccann.oztaxreturn.fragment.review.deduction.FragmentReviewDonations;
-import au.mccann.oztaxreturn.fragment.review.deduction.FragmentReviewEducations;
-import au.mccann.oztaxreturn.fragment.review.deduction.FragmentReviewOthers;
-import au.mccann.oztaxreturn.fragment.review.deduction.FragmentReviewTaxAgent;
-import au.mccann.oztaxreturn.fragment.review.deduction.FragmentReviewVehicle;
+import au.mccann.oztaxreturn.fragment.review.deduction.ReviewClothesFragment;
+import au.mccann.oztaxreturn.fragment.review.deduction.ReviewDonationsFragment;
+import au.mccann.oztaxreturn.fragment.review.deduction.ReviewEducationsFragment;
+import au.mccann.oztaxreturn.fragment.review.deduction.ReviewOthersFragment;
+import au.mccann.oztaxreturn.fragment.review.deduction.ReviewTaxAgentFragment;
+import au.mccann.oztaxreturn.fragment.review.deduction.ReviewVehicleFragment;
 import au.mccann.oztaxreturn.fragment.review.family.ReviewFamilyHealthDependantsFragment;
 import au.mccann.oztaxreturn.fragment.review.family.ReviewFamilyHealthMedicareFragment;
 import au.mccann.oztaxreturn.fragment.review.family.ReviewFamilyHealthPrivateFragment;
 import au.mccann.oztaxreturn.fragment.review.family.ReviewFamilyHealthSpouseFragment;
-import au.mccann.oztaxreturn.fragment.review.income.AnnuitiesAndSupers;
-import au.mccann.oztaxreturn.fragment.review.income.EarlyTerminationPayments;
-import au.mccann.oztaxreturn.fragment.review.income.FragmentReviewDividends;
-import au.mccann.oztaxreturn.fragment.review.income.GovementPayment;
-import au.mccann.oztaxreturn.fragment.review.income.RentalProperties;
-import au.mccann.oztaxreturn.fragment.review.income.ReviewBankInterests;
+import au.mccann.oztaxreturn.fragment.review.income.ReviewAnnuitiesFragment;
+import au.mccann.oztaxreturn.fragment.review.income.ReviewETPsFragment;
+import au.mccann.oztaxreturn.fragment.review.income.ReviewDividendsFragment;
+import au.mccann.oztaxreturn.fragment.review.income.ReviewGovementFragment;
+import au.mccann.oztaxreturn.fragment.review.income.ReviewRentalFragment;
+import au.mccann.oztaxreturn.fragment.review.income.ReviewInterestsFragment;
 import au.mccann.oztaxreturn.fragment.review.income.ReviewIncomeSuperLumpSum;
 import au.mccann.oztaxreturn.fragment.review.income.ReviewIncomeWS;
 import au.mccann.oztaxreturn.fragment.review.personal.ReviewPersonalInfomationA;
@@ -772,28 +772,28 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
             case R.id.tv_income_government_payment:
                 if (drawer.isDrawerOpen(GravityCompat.END))
                     drawer.closeDrawer(GravityCompat.END);
-                openFragment(R.id.layout_container, GovementPayment.class, true, new Bundle(), TransitionScreen.FADE_IN);
+                openFragment(R.id.layout_container, ReviewGovementFragment.class, true, new Bundle(), TransitionScreen.FADE_IN);
                 break;
             case R.id.tv_income_interests:
                 if (drawer.isDrawerOpen(GravityCompat.END))
                     drawer.closeDrawer(GravityCompat.END);
-                openFragment(R.id.layout_container, ReviewBankInterests.class, true, new Bundle(), TransitionScreen.FADE_IN);
+                openFragment(R.id.layout_container, ReviewInterestsFragment.class, true, new Bundle(), TransitionScreen.FADE_IN);
                 break;
             case R.id.tv_income_dividends:
                 if (drawer.isDrawerOpen(GravityCompat.END))
                     drawer.closeDrawer(GravityCompat.END);
-                openFragment(R.id.layout_container, FragmentReviewDividends.class, true, new Bundle(), TransitionScreen.FADE_IN);
+                openFragment(R.id.layout_container, ReviewDividendsFragment.class, true, new Bundle(), TransitionScreen.FADE_IN);
                 break;
             case R.id.tv_incomes_early:
                 if (drawer.isDrawerOpen(GravityCompat.END))
                     drawer.closeDrawer(GravityCompat.END);
-                openFragment(R.id.layout_container, EarlyTerminationPayments.class, true, new Bundle(), TransitionScreen.FADE_IN);
+                openFragment(R.id.layout_container, ReviewETPsFragment.class, true, new Bundle(), TransitionScreen.FADE_IN);
                 break;
 
             case R.id.tv_income_annuities_suppers:
                 if (drawer.isDrawerOpen(GravityCompat.END))
                     drawer.closeDrawer(GravityCompat.END);
-                openFragment(R.id.layout_container, AnnuitiesAndSupers.class, true, new Bundle(), TransitionScreen.FADE_IN);
+                openFragment(R.id.layout_container, ReviewAnnuitiesFragment.class, true, new Bundle(), TransitionScreen.FADE_IN);
                 break;
             case R.id.tv_income_lump_sum:
                 if (drawer.isDrawerOpen(GravityCompat.END))
@@ -803,38 +803,38 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
             case R.id.tv_income_rental:
                 if (drawer.isDrawerOpen(GravityCompat.END))
                     drawer.closeDrawer(GravityCompat.END);
-                openFragment(R.id.layout_container, RentalProperties.class, true, new Bundle(), TransitionScreen.FADE_IN);
+                openFragment(R.id.layout_container, ReviewRentalFragment.class, true, new Bundle(), TransitionScreen.FADE_IN);
                 break;
 
             case R.id.tv_deduction_vehicles:
                 if (drawer.isDrawerOpen(GravityCompat.END))
                     drawer.closeDrawer(GravityCompat.END);
-                openFragment(R.id.layout_container, FragmentReviewVehicle.class, true, new Bundle(), TransitionScreen.FADE_IN);
+                openFragment(R.id.layout_container, ReviewVehicleFragment.class, true, new Bundle(), TransitionScreen.FADE_IN);
                 break;
             case R.id.tv_deduction_clothing:
                 if (drawer.isDrawerOpen(GravityCompat.END))
                     drawer.closeDrawer(GravityCompat.END);
-                openFragment(R.id.layout_container, FragmentReviewClothes.class, true, new Bundle(), TransitionScreen.FADE_IN);
+                openFragment(R.id.layout_container, ReviewClothesFragment.class, true, new Bundle(), TransitionScreen.FADE_IN);
                 break;
             case R.id.tv_deduction_education:
                 if (drawer.isDrawerOpen(GravityCompat.END))
                     drawer.closeDrawer(GravityCompat.END);
-                openFragment(R.id.layout_container, FragmentReviewEducations.class, true, new Bundle(), TransitionScreen.FADE_IN);
+                openFragment(R.id.layout_container, ReviewEducationsFragment.class, true, new Bundle(), TransitionScreen.FADE_IN);
                 break;
             case R.id.tv_deduction_other:
                 if (drawer.isDrawerOpen(GravityCompat.END))
                     drawer.closeDrawer(GravityCompat.END);
-                openFragment(R.id.layout_container, FragmentReviewOthers.class, true, new Bundle(), TransitionScreen.FADE_IN);
+                openFragment(R.id.layout_container, ReviewOthersFragment.class, true, new Bundle(), TransitionScreen.FADE_IN);
                 break;
             case R.id.tv_deduction_donation:
                 if (drawer.isDrawerOpen(GravityCompat.END))
                     drawer.closeDrawer(GravityCompat.END);
-                openFragment(R.id.layout_container, FragmentReviewDonations.class, true, new Bundle(), TransitionScreen.FADE_IN);
+                openFragment(R.id.layout_container, ReviewDonationsFragment.class, true, new Bundle(), TransitionScreen.FADE_IN);
                 break;
             case R.id.tv_deduction_tax_agents:
                 if (drawer.isDrawerOpen(GravityCompat.END))
                     drawer.closeDrawer(GravityCompat.END);
-                openFragment(R.id.layout_container, FragmentReviewTaxAgent.class, true, new Bundle(), TransitionScreen.FADE_IN);
+                openFragment(R.id.layout_container, ReviewTaxAgentFragment.class, true, new Bundle(), TransitionScreen.FADE_IN);
                 break;
 
         }
