@@ -38,6 +38,7 @@
         <au.mccann.oztaxreturn.view.TextViewCustom
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="2dp"
             android:text="@string/income_ws_des2"
             android:textStyle="bold" />
     </LinearLayout>

@@ -1,5 +1,6 @@
 package au.mccann.oztaxreturn.activity;
 
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.EditText;
@@ -77,6 +78,12 @@ public class AddNewBoardActivity extends BaseActivity implements View.OnClickLis
     protected void initData() {
         applicationResponses = getIntent().getParcelableArrayListExtra(Constants.APP_LIST_EXTRA);
 
+        if (applicationResponses.size() > 0) {
+            cbDuplicate.setVisibility(View.VISIBLE);
+        } else {
+            cbDuplicate.setVisibility(View.GONE);
+        }
+
         List<String> listName = new ArrayList<>();
         for (ApplicationResponse applicationResponse : applicationResponses) {
 //            if (!listName.contains(applicationResponse.getPayerName()))
@@ -134,6 +141,12 @@ public class AddNewBoardActivity extends BaseActivity implements View.OnClickLis
     }
 
     private void doCreateApplication() {
+
+        if (TextUtils.isEmpty(edtTaxPayer.getText().toString().trim())) {
+            Utils.showToolTip(this, edtTaxPayer, getString(R.string.vali_all_empty));
+            return;
+        }
+
         ProgressDialogUtils.showProgressDialog(this);
         JSONObject jsonRequest = new JSONObject();
         try {
@@ -155,7 +168,7 @@ public class AddNewBoardActivity extends BaseActivity implements View.OnClickLis
                     LogUtils.d(TAG, "doCreateApplication body : " + response.body().toString());
                     setResult(Constants.CREATE_APP_RESULT_CODE);
                     finish();
-                } else if (response.code() == Constants.HTTP_CODE_OK){
+                } else {
                     APIError error = Utils.parseError(response);
                     LogUtils.d(TAG, "doCreateApplication error : " + error.message());
                     if (error != null) {

@@ -23,7 +23,7 @@
     <string name="term">Term</string>
     <string name="register_privacy_policy">Privacy policy</string>
     <string name="btn_register">register</string>
-    <string name="ok">Ok</string>
+    <string name="ok">OK</string>
     <string name="error">Error!</string>
     <string name="retry_title">No internet connection</string>
     <string name="retry_content">Please check your internet connection and try again</string>
@@ -59,7 +59,7 @@
     <string name="max_size_attach_error">Maximun file size is %1$d MB.\nPlease select another photo!</string>
     <string name="min_size_attach_error">Extenstion not support.\nPlease select another photo!</string>
     <string name="err_pick_image">You must select at least one image</string>
-    <string name="max_image_attach_err">Maximum %1$d image attached !</string>
+    <string name="max_image_attach_err">Maximum %1$d images attached !</string>
 
     <!-- home screen -->
     <string name="home_title">Tax Return</string>
@@ -132,9 +132,9 @@
     <!-- personal information -->
     <string name="personal_title">title</string>
     <string name="your_title">Your title</string>
-    <string name="personal_your_name">yourname</string>
+    <string name="personal_your_name">your name</string>
     <string name="gender">gender</string>
-    <string name="permanant_residence">Are you Autralian or Permanant Residence ?</string>
+    <string name="permanant_residence">Are you Australian or Permanent Residence?</string>
     <string name="personal_information_title">personal information</string>
     <string-array name="string_array_gender">
         <item>Male</item>
@@ -194,7 +194,7 @@
 
     <!-- review personal infomation a -->
     <string name="infomation_a">REVIEW</string>
-    <string name="infomation_a_name">Personal\nInfomation</string>
+    <string name="infomation_a_name">Personal\nInformation</string>
     <string name="infomation_a_title">Title</string>
     <string name="infomation_a_title_hint">Mr</string>
 
@@ -205,7 +205,7 @@
     <string name="USD2">$ %1$s</string>
 
     <!-- navigation menu review -->
-    <string name="menu_personal">Personal information</string>
+    <string name="menu_personal">Personal Information</string>
     <string name="menu_personal_name">Name &amp; Residency</string>
     <string name="menu_personal_bank">Bank &amp; Address</string>
     <string name="menu_personal_education">Education Debt</string>
@@ -329,6 +329,7 @@
     <string name="checkout_month">Month</string>
     <string name="checkout_year">Year</string>
     <string name="checkout_cvm">CVM</string>
+    <string name="checkout_cvm_hint">369</string>
     <string name="checkout_btn">CHECK OUT</string>
     <string name="checkout_success">Checkout Success!</string>
     <string name="reviewed">Reviewed</string>

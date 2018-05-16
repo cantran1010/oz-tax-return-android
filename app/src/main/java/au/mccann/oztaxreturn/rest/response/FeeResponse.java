@@ -8,35 +8,35 @@ import java.io.Serializable;
  * Created by LongBui on 5/2/18.
  */
 
-public class FeeResponse implements Serializable{
-    private int amount;
+public class FeeResponse implements Serializable {
+    private float amount;
     @SerializedName("amount_after")
-    private int amountAfter;
+    private float amountAfter;
     @SerializedName("amount_discounted")
-    private int amountDiscounted;
+    private float amountDiscounted;
     private String currency;
 
-    public int getAmount() {
+    public float getAmount() {
         return amount;
     }
 
-    public void setAmount(int amount) {
+    public void setAmount(float amount) {
         this.amount = amount;
     }
 
-    public int getAmountAfter() {
+    public float getAmountAfter() {
         return amountAfter;
     }
 
-    public void setAmountAfter(int amountAfter) {
+    public void setAmountAfter(float amountAfter) {
         this.amountAfter = amountAfter;
     }
 
-    public int getAmountDiscounted() {
+    public float getAmountDiscounted() {
         return amountDiscounted;
     }
 
-    public void setAmountDiscounted(int amountDiscounted) {
+    public void setAmountDiscounted(float amountDiscounted) {
         this.amountDiscounted = amountDiscounted;
     }
 

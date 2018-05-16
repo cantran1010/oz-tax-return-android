@@ -442,13 +442,20 @@ public class Utils {
             return bmInput;
     }
 
+    public static String formatNumber2Digit(float input) {
+        DecimalFormat myFormatter = new DecimalFormat("###,###.##");
+        String result = myFormatter.format(input);
+        if (result.endsWith(".0")) result = result.substring(0, result.length() - 3);
+        return result;
+    }
+
     public static String formatNumber(double input) {
-        DecimalFormat myFormatter = new DecimalFormat("###,###.###");
+        DecimalFormat myFormatter = new DecimalFormat("###,###.##");
         return myFormatter.format(input);
     }
 
     public static String formatNumber(long input) {
-        DecimalFormat myFormatter = new DecimalFormat("###,###.###");
+        DecimalFormat myFormatter = new DecimalFormat("###,###.##");
         return myFormatter.format(input);
     }
 
@@ -536,30 +543,6 @@ public class Utils {
                     .show();
         }
 
-    }
-
-    public static void showToolTip(View view, String content) {
-        ViewTooltip
-                .on(view)
-                .autoHide(true, 2000)
-                .corner(30)
-                .position(ViewTooltip.Position.TOP)
-                .color(ContextCompat.getColor(view.getContext(), R.color.tool_tip))
-                .align(ViewTooltip.ALIGN.END)
-                .text(content)
-                .show();
-    }
-
-    public static void showNote(Context context, View view, String content) {
-        ViewTooltip
-                .on(view)
-                .autoHide(true, 2000)
-                .corner(30)
-                .position(ViewTooltip.Position.BOTTOM)
-                .color(ContextCompat.getColor(context, R.color.app_bg))
-                .align(ViewTooltip.ALIGN.CENTER)
-                .text(content)
-                .show();
     }
 
     public static String getCountryCode(Context context) {
