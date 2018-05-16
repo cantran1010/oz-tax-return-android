@@ -23,7 +23,7 @@
     <string name="term">Term</string>
     <string name="register_privacy_policy">Privacy policy</string>
     <string name="btn_register">register</string>
-    <string name="ok">Ok</string>
+    <string name="ok">OK</string>
     <string name="error">Error!</string>
     <string name="retry_title">No internet connection</string>
     <string name="retry_content">Please check your internet connection and try again</string>
@@ -59,7 +59,7 @@
     <string name="max_size_attach_error">Maximun file size is %1$d MB.\nPlease select another photo!</string>
     <string name="min_size_attach_error">Extenstion not support.\nPlease select another photo!</string>
     <string name="err_pick_image">You must select at least one image</string>
-    <string name="max_image_attach_err">Maximum %1$d image attached !</string>
+    <string name="max_image_attach_err">Maximum %1$d images attached !</string>
 
     <!-- home screen -->
     <string name="home_title">Tax Return</string>
