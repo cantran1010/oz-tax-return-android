@@ -160,10 +160,10 @@ public class ReviewSummary extends BaseFragment implements View.OnClickListener 
     private void updateUI(Summary summary) {
         if (summary.getStatus().equalsIgnoreCase(Constants.STATUS_COMPLETED)) {
             layoutActual.setVisibility(View.VISIBLE);
-            if (Integer.parseInt(summary.getActualTaxRefund()) > 0) {
+            if (Double.parseDouble(summary.getActualTaxRefund()) > 0) {
                 tvPolicy.setText(getContext().getString(R.string.positive_tax_refund));
             } else {
-                String negativeTaxRefund = getContext().getString(R.string.negative_tax_refund) + " " + getContext().getString(R.string.dolla) + " " + summary.getActualTaxRefund() + getContext().getString(R.string.negative_tax_refund_end);
+                String negativeTaxRefund = getContext().getString(R.string.negative_tax_refund) + " " + getContext().getString(R.string.dolla) + " " + summary.getActualTaxRefund() + " "+getContext().getString(R.string.negative_tax_refund_end);
                 tvPolicy.setText(negativeTaxRefund);
             }
             setClickDownload(tvPolicy, summary);

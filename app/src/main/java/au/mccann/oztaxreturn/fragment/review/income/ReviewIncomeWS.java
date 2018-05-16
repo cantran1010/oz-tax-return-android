@@ -29,6 +29,7 @@ import au.mccann.oztaxreturn.utils.ProgressDialogUtils;
 import au.mccann.oztaxreturn.utils.TransitionScreen;
 import au.mccann.oztaxreturn.utils.Utils;
 import au.mccann.oztaxreturn.view.ButtonCustom;
+import au.mccann.oztaxreturn.view.TextViewCustom;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
 import retrofit2.Call;
@@ -45,6 +46,7 @@ public class ReviewIncomeWS extends BaseFragment implements View.OnClickListener
     private RecyclerView recyclerView;
     private int appID;
     private FloatingActionButton fab;
+    private TextViewCustom tvNoData;
 
     @Override
     protected int getLayout() {
@@ -58,6 +60,7 @@ public class ReviewIncomeWS extends BaseFragment implements View.OnClickListener
         ButtonCustom btnnext = (ButtonCustom) findViewById(R.id.btn_next);
         btnnext.setOnClickListener(this);
         recyclerView = (RecyclerView) findViewById(R.id.rcv_job);
+        tvNoData = (TextViewCustom) findViewById(R.id.tv_no_data);
 
     }
 
@@ -94,6 +97,8 @@ public class ReviewIncomeWS extends BaseFragment implements View.OnClickListener
                     jobs.clear();
                     jobs.addAll(response.body().getJobs());
                     jobAdapter.notifyDataSetChanged();
+                    if (jobs != null || jobs.size() > 0) tvNoData.setVisibility(View.GONE);
+                    else tvNoData.setVisibility(View.VISIBLE);
                 } else {
                     APIError error = Utils.parseError(response);
                     if (error != null) {

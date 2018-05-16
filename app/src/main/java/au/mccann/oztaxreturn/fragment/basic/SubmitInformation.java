@@ -1,5 +1,6 @@
 package au.mccann.oztaxreturn.fragment.basic;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.SpannableStringBuilder;
@@ -13,6 +14,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import au.mccann.oztaxreturn.R;
+import au.mccann.oztaxreturn.activity.GeneralInfoActivity;
 import au.mccann.oztaxreturn.common.Constants;
 import au.mccann.oztaxreturn.database.UserManager;
 import au.mccann.oztaxreturn.dialog.AlertDialogOk;
@@ -38,7 +40,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static au.mccann.oztaxreturn.utils.Utils.formatPhoneNumber;
-import static au.mccann.oztaxreturn.utils.Utils.openGeneralInfoActivity;
 import static au.mccann.oztaxreturn.utils.Utils.showToolTip;
 
 
@@ -49,7 +50,7 @@ public class SubmitInformation extends BaseFragment implements View.OnClickListe
     private static final String TAG = SubmitInformation.class.getSimpleName();
     private EdittextCustom edtBankName, edtBSB, edtAccountNumber, edtStreetName, edtSuburb, edtState, edtPostCode, edtPhone, edtEmail;
     private ButtonCustom btnSubmit;
-    private ResponseBasicInformation basic;
+    private TextViewCustom tvNote;
 
 
     @Override
@@ -69,6 +70,7 @@ public class SubmitInformation extends BaseFragment implements View.OnClickListe
         edtPhone = (EdittextCustom) findViewById(R.id.edt_phone);
         edtEmail = (EdittextCustom) findViewById(R.id.edt_email);
         btnSubmit = (ButtonCustom) findViewById(R.id.btn_submit);
+        tvNote = (TextViewCustom) findViewById(R.id.tv_note);
         btnSubmit.setOnClickListener(this);
     }
 
@@ -76,15 +78,11 @@ public class SubmitInformation extends BaseFragment implements View.OnClickListe
     protected void initData() {
         setTitle(getString(R.string.personal_information_title));
         appBarVisibility(false, true, 0);
-        basic = (ResponseBasicInformation) getArguments().getSerializable(Constants.KEY_BASIC_INFORMATION);
-        LogUtils.d(TAG, "initData ResponseBasicInformation" + basic.toString());
-        setUnderLinePolicy((TextViewCustom) findViewById(R.id.tv_note));
-        updateUI(basic);
+        getBasicInformation();
 
     }
 
-    private void updateUI(ResponseBasicInformation basic) {
-        PersonalInformation pf = basic.getPersonalInformation();
+    private void updateUI(PersonalInformation pf) {
         edtBankName.setText(pf.getBankAccountName());
         edtAccountNumber.setText(pf.getBankAccountNumber());
         edtBSB.setText(pf.getBankAccountBsb());
@@ -92,6 +90,55 @@ public class SubmitInformation extends BaseFragment implements View.OnClickListe
         edtSuburb.setText(pf.getSuburb());
         edtPhone.setText(pf.getPhone());
         edtEmail.setText(pf.getEmail());
+        edtPostCode.setText(pf.getPostcode());
+        edtState.setText(pf.getState());
+        setUnderLinePolicy(tvNote);
+    }
+
+    private void getBasicInformation() {
+        ProgressDialogUtils.showProgressDialog(getActivity());
+        LogUtils.d(TAG, "getBasicInformation code : " + getApplicationResponse().getId());
+        ApiClient.getApiService().getBasicInformation(UserManager.getUserToken(), getApplicationResponse().getId()).enqueue(new Callback<ResponseBasicInformation>() {
+            @Override
+            public void onResponse(Call<ResponseBasicInformation> call, Response<ResponseBasicInformation> response) {
+                ProgressDialogUtils.dismissProgressDialog();
+                LogUtils.d(TAG, "getBasicInformation code : " + response.code());
+                if (response.code() == Constants.HTTP_CODE_OK) {
+                    LogUtils.d(TAG, "getBasicInformation body : " + response.body().toString());
+                    if (response.body().getPersonalInformation() != null)
+                        updateUI(response.body().getPersonalInformation());
+                } else {
+                    APIError error = Utils.parseError(response);
+                    if (error != null) {
+                        LogUtils.d(TAG, "getBasicInformation error : " + error.message());
+                        DialogUtils.showOkDialog(getActivity(), getString(R.string.notification_title), error.message(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                            @Override
+                            public void onSubmit() {
+
+                            }
+                        });
+                    }
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBasicInformation> call, Throwable t) {
+                LogUtils.e(TAG, "getBasicInformation onFailure : " + t.getMessage());
+                ProgressDialogUtils.dismissProgressDialog();
+                DialogUtils.showRetryDialog(getActivity(), new AlertDialogOkAndCancel.AlertDialogListener() {
+                    @Override
+                    public void onSubmit() {
+                        getBasicInformation();
+                    }
+
+                    @Override
+                    public void onCancel() {
+
+                    }
+                });
+            }
+        });
     }
 
 
@@ -126,7 +173,7 @@ public class SubmitInformation extends BaseFragment implements View.OnClickListe
         }
         LogUtils.d(TAG, "doSaveBasic jsonRequest : " + jsonRequest.toString());
         RequestBody body = RequestBody.create(MediaType.parse("application/json"), jsonRequest.toString());
-        ApiClient.getApiService().saveBasicInformation(UserManager.getUserToken(), basic.getAppId(), body).enqueue(new Callback<ResponseBasicInformation>() {
+        ApiClient.getApiService().saveBasicInformation(UserManager.getUserToken(), getApplicationResponse().getId(), body).enqueue(new Callback<ResponseBasicInformation>() {
             @Override
             public void onResponse(Call<ResponseBasicInformation> call, Response<ResponseBasicInformation> response) {
                 ProgressDialogUtils.dismissProgressDialog();
@@ -135,9 +182,10 @@ public class SubmitInformation extends BaseFragment implements View.OnClickListe
                     openFragment(R.id.layout_container, FirstCheckoutFragment.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
                 } else {
                     APIError error = Utils.parseError(response);
+                    LogUtils.e(TAG, "doSaveBasic error status: " + error.status());
                     LogUtils.e(TAG, "doSaveBasic error : " + error.message());
                     if (error != null) {
-                        DialogUtils.showOkDialog(getContext(), getString(R.string.error), error.message(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                        DialogUtils.showOkDialog(getContext(), getString(R.string.error), error.message().replace(".", " ").replace("_", " "), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
                             @Override
                             public void onSubmit() {
 
@@ -226,19 +274,20 @@ public class SubmitInformation extends BaseFragment implements View.OnClickListe
         doSaveBasic();
     }
 
+
     private void setUnderLinePolicy(TextViewCustom textViewCustom) {
         String text = getString(R.string.privacy_policy);
         SpannableStringBuilder ssBuilder = new SpannableStringBuilder(text);
         ClickableSpan conditionClickableSpan = new ClickableSpan() {
             @Override
             public void onClick(View view) {
-                openGeneralInfoActivity(getActivity(), getString(R.string.app_term_conditions), "http://oztax.tonishdev.com/terms-and-conditions");
+                openGeneralInfoActivity(getString(R.string.app_term_conditions), "http://oztax.tonishdev.com/terms-and-conditions");
             }
         };
         ClickableSpan nadClickableSpan = new ClickableSpan() {
             @Override
             public void onClick(View view) {
-                openGeneralInfoActivity(getActivity(), getString(R.string.app_privacy_policy), "http://oztax.tonishdev.com/privacy-policy");
+                openGeneralInfoActivity(getString(R.string.app_privacy_policy), "http://oztax.tonishdev.com/privacy-policy");
             }
         };
         ssBuilder.setSpan(
@@ -277,6 +326,14 @@ public class SubmitInformation extends BaseFragment implements View.OnClickListe
         textViewCustom.setMovementMethod(LinkMovementMethod.getInstance());
         textViewCustom.setHighlightColor(Color.TRANSPARENT);
     }
+
+    private void openGeneralInfoActivity(String title, String url) {
+        Intent intent = new Intent(getContext(), GeneralInfoActivity.class);
+        intent.putExtra(Constants.URL_EXTRA, url);
+        intent.putExtra(Constants.TITLE_INFO_EXTRA, title);
+        startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
+    }
+
 
     @Override
     public void onClick(View view) {

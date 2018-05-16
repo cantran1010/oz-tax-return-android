@@ -16,7 +16,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:layout_marginBottom="-30dp"
-            android:src="@drawable/img_inbox" />
+            android:src="@drawable/img_inbox"
+            android:contentDescription="TODO" />
 
     </LinearLayout>
 

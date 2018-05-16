@@ -7,10 +7,7 @@ import android.text.style.ForegroundColorSpan;
 import android.view.View;
 
 import au.mccann.oztaxreturn.R;
-import au.mccann.oztaxreturn.common.Constants;
 import au.mccann.oztaxreturn.fragment.BaseFragment;
-import au.mccann.oztaxreturn.model.ResponseBasicInformation;
-import au.mccann.oztaxreturn.utils.LogUtils;
 import au.mccann.oztaxreturn.utils.TransitionScreen;
 import au.mccann.oztaxreturn.view.TextViewCustom;
 
@@ -20,7 +17,7 @@ import au.mccann.oztaxreturn.view.TextViewCustom;
 public class EstimateTaxRefund extends BaseFragment implements View.OnClickListener {
     private static final String TAG = EstimateTaxRefund.class.getSimpleName();
     private TextViewCustom tvNote;
-    private ResponseBasicInformation basic;
+
 
 
     @Override
@@ -37,8 +34,6 @@ public class EstimateTaxRefund extends BaseFragment implements View.OnClickListe
 
     @Override
     protected void initData() {
-        basic = (ResponseBasicInformation) getArguments().getSerializable(Constants.KEY_BASIC_INFORMATION);
-        LogUtils.d(TAG, "initData ResponseBasicInformation" + basic.toString());
         setTitle(getString(R.string.estimate_title));
         appBarVisibility(false, true,0);
     }
@@ -63,9 +58,7 @@ public class EstimateTaxRefund extends BaseFragment implements View.OnClickListe
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_next:
-                Bundle bundle = new Bundle();
-                bundle.putSerializable(Constants.KEY_BASIC_INFORMATION, basic);
-                openFragment(R.id.layout_container, PersonInforFragment.class, true, bundle, TransitionScreen.RIGHT_TO_LEFT);
+                openFragment(R.id.layout_container, PersonInforFragment.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
                 break;
         }
     }

@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:text="@string/no_data"
-        android:textSize="20sp"
+        android:textSize="@dimen/tv_size_xlager"
         android:visibility="gone" />
 
 </RelativeLayout>

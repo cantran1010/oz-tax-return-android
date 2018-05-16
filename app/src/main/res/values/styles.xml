@@ -92,6 +92,7 @@
 
     <style name="EditText">
         <item name="android:textSize">15sp</item>
+        <item name="android:maxLength">191</item>
         <item name="android:paddingRight">16dp</item>
         <item name="android:paddingLeft">16dp</item>
         <item name="android:textColor">@color/title_color</item>

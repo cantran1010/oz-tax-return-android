@@ -107,7 +107,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:src="@drawable/img_attachment" />
+            android:src="@drawable/img_attachment"
+            android:contentDescription="TODO" />
 
         <ImageView
             android:id="@+id/img_send"
@@ -115,7 +116,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:src="@drawable/img_send" />
+            android:src="@drawable/img_send"
+            android:contentDescription="TODO" />
 
         <au.mccann.oztaxreturn.view.EdittextCustom
             android:id="@+id/edt_msg"

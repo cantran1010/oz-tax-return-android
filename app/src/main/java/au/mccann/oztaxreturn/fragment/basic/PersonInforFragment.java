@@ -57,8 +57,6 @@ public class PersonInforFragment extends BaseFragment implements View.OnClickLis
     private RadioButtonCustom rbYes;
     private Calendar calendar = GregorianCalendar.getInstance();
     private List<String> genders = new ArrayList<>();
-    private ResponseBasicInformation basic;
-    private int appID;
 
     @Override
     protected int getLayout() {
@@ -83,18 +81,14 @@ public class PersonInforFragment extends BaseFragment implements View.OnClickLis
     protected void initData() {
         setTitle(getString(R.string.personal_information_title));
         appBarVisibility(false, true, 0);
-        basic = (ResponseBasicInformation) getArguments().getSerializable(Constants.KEY_BASIC_INFORMATION);
-        appID = basic.getAppId();
-        LogUtils.d(TAG, "initData ResponseBasicInformation" + basic.toString());
         genders = Arrays.asList(getResources().getStringArray(R.array.string_array_gender));
         OzSpinnerAdapter dataNameAdapter = new OzSpinnerAdapter(getContext(), genders);
         spGender.setAdapter(dataNameAdapter);
         findViewById(R.id.btn_next).setOnClickListener(this);
-        updateUI(basic);
+        getBasicInformation();
     }
 
-    private void updateUI(ResponseBasicInformation basic) {
-        PersonalInformation pf = basic.getPersonalInformation();
+    private void updateUI(PersonalInformation pf) {
         edtTitle.setText(pf.getTitle());
         edtFirstName.setText(pf.getFirstName());
         edtMidName.setText(pf.getMiddleName());
@@ -108,6 +102,52 @@ public class PersonInforFragment extends BaseFragment implements View.OnClickLis
             }
         }
         rbYes.setChecked(pf.isLocal());
+    }
+
+    private void getBasicInformation() {
+        ProgressDialogUtils.showProgressDialog(getActivity());
+        LogUtils.d(TAG, "getBasicInformation code : " + getApplicationResponse().getId());
+        ApiClient.getApiService().getBasicInformation(UserManager.getUserToken(), getApplicationResponse().getId()).enqueue(new Callback<ResponseBasicInformation>() {
+            @Override
+            public void onResponse(Call<ResponseBasicInformation> call, Response<ResponseBasicInformation> response) {
+                ProgressDialogUtils.dismissProgressDialog();
+                LogUtils.d(TAG, "getBasicInformation code : " + response.code());
+                if (response.code() == Constants.HTTP_CODE_OK) {
+                    LogUtils.d(TAG, "getBasicInformation body : " + response.body().toString());
+                    if (response.body().getPersonalInformation() != null)
+                        updateUI(response.body().getPersonalInformation());
+                } else {
+                    APIError error = Utils.parseError(response);
+                    if (error != null) {
+                        LogUtils.d(TAG, "getBasicInformation error : " + error.message());
+                        DialogUtils.showOkDialog(getActivity(), getString(R.string.notification_title), error.message(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                            @Override
+                            public void onSubmit() {
+
+                            }
+                        });
+                    }
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBasicInformation> call, Throwable t) {
+                LogUtils.e(TAG, "getBasicInformation onFailure : " + t.getMessage());
+                ProgressDialogUtils.dismissProgressDialog();
+                DialogUtils.showRetryDialog(getActivity(), new AlertDialogOkAndCancel.AlertDialogListener() {
+                    @Override
+                    public void onSubmit() {
+                        getBasicInformation();
+                    }
+
+                    @Override
+                    public void onCancel() {
+
+                    }
+                });
+            }
+        });
     }
 
     @Override
@@ -138,22 +178,18 @@ public class PersonInforFragment extends BaseFragment implements View.OnClickLis
         }
         LogUtils.d(TAG, "doSaveBasic jsonRequest : " + jsonRequest.toString());
         RequestBody body = RequestBody.create(MediaType.parse("application/json"), jsonRequest.toString());
-        ApiClient.getApiService().saveBasicInformation(UserManager.getUserToken(), appID, body).enqueue(new Callback<ResponseBasicInformation>() {
+        ApiClient.getApiService().saveBasicInformation(UserManager.getUserToken(), getApplicationResponse().getId(), body).enqueue(new Callback<ResponseBasicInformation>() {
             @Override
             public void onResponse(Call<ResponseBasicInformation> call, Response<ResponseBasicInformation> response) {
                 ProgressDialogUtils.dismissProgressDialog();
                 LogUtils.d(TAG, "doSaveBasic code: " + response.code());
                 if (response.code() == Constants.HTTP_CODE_OK) {
-                    basic = response.body();
-                    basic.setAppId(appID);
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable(Constants.KEY_BASIC_INFORMATION, basic);
-                    openFragment(R.id.layout_container, SubmitInformation.class, true, bundle, TransitionScreen.RIGHT_TO_LEFT);
+                    openFragment(R.id.layout_container, SubmitInformation.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
                 } else {
                     APIError error = Utils.parseError(response);
                     LogUtils.e(TAG, "doSaveBasic error : " + error.message());
                     if (error != null) {
-                        DialogUtils.showOkDialog(getContext(), getString(R.string.error), error.message(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                        DialogUtils.showOkDialog(getContext(), getString(R.string.error), error.message().replace(".", " ").replace("_", " "), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
                             @Override
                             public void onSubmit() {
 

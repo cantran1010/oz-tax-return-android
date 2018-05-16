@@ -49,9 +49,6 @@
                 style="@style/TextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
                 android:button="@drawable/checkbox_selector"
                 android:paddingLeft="5dp"
                 android:paddingStart="5dp"
@@ -63,7 +60,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:orientation="horizontal"
-                android:visibility="gone">
+                android:visibility="gone"
+                android:baselineAligned="false">
 
                 <RelativeLayout
                     android:layout_width="0dp"
@@ -125,9 +123,6 @@
                 style="@style/TextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
                 android:layout_marginTop="20dp"
                 android:button="@drawable/checkbox_selector"
                 android:paddingLeft="5dp"

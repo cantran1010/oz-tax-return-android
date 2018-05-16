@@ -140,6 +140,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                     UserEntity user = response.body().getUser();
                     user.setToken(response.body().getToken());
                     UserManager.insertUser(user);
+                    clearData();
                     startActivity(new Intent(RegisterActivity.this, LoginActivity.class), TransitionScreen.RIGHT_TO_LEFT);
                 } else {
                     APIError error = Utils.parseError(response);
@@ -149,25 +150,25 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                         case Constants.USERNAME_UNIQUE:
                         case Constants.USERNAME_MAX:
                             edtUsername.requestFocus();
-                            showToolTip(RegisterActivity.this, edtUsername,error.message());
+                            showToolTip(RegisterActivity.this, edtUsername, error.message());
                             break;
                         case Constants.PASSWORD_REQUIRE:
                         case Constants.PASSWORD_CONFIRM:
                             edtPassword.requestFocus();
-                            showToolTip(RegisterActivity.this, edtPassword,error.message());
+                            showToolTip(RegisterActivity.this, edtPassword, error.message());
                             break;
                         case Constants.RE_PASSWORD_REQUIRE:
                             edtRePassword.requestFocus();
-                            showToolTip(RegisterActivity.this, edtRePassword,error.message());
+                            showToolTip(RegisterActivity.this, edtRePassword, error.message());
                         case Constants.EMAIL_REQUIRE:
                         case Constants.EMAIL_EMAIL:
                             edtEmail.requestFocus();
-                            showToolTip(RegisterActivity.this, edtEmail,error.message());
+                            showToolTip(RegisterActivity.this, edtEmail, error.message());
                             break;
                         case Constants.PHONE_REQUIRED:
                         case Constants.PHONE_UNIQUE:
                             edtPhone.requestFocus();
-                            showToolTip(RegisterActivity.this, edtPhone,error.message());
+                            showToolTip(RegisterActivity.this, edtPhone, error.message());
                             break;
                         case Constants.SYSTEM_ERROR:
                             DialogUtils.showOkDialog(RegisterActivity.this, getString(R.string.error), error.message(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
@@ -263,6 +264,16 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         textViewCustom.setText(ssBuilder);
         textViewCustom.setMovementMethod(LinkMovementMethod.getInstance());
         textViewCustom.setHighlightColor(Color.TRANSPARENT);
+    }
+
+    private void clearData() {
+        edtUsername.setText("");
+        edtEmail.setText("");
+        edtPhone.setText("");
+        edtRePassword.setText("");
+        edtPassword.setText("");
+        btnRegister.setText("");
+        btnRegister.setText("");
     }
 
     @Override

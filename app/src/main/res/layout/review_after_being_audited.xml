@@ -40,7 +40,6 @@
             <au.mccann.oztaxreturn.view.TextViewCustom
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/tv_content"
                 android:layout_marginTop="20dp"
                 android:gravity="center"
                 android:text="@string/review_audi_content"

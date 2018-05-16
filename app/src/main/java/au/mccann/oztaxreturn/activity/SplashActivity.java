@@ -51,7 +51,7 @@ public class SplashActivity extends BaseActivity {
             public void run() {
                 checkUpdate();
             }
-        }, 500);
+        }, 200);
     }
 
     private void checkUpdate() {

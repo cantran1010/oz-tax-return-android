@@ -42,7 +42,8 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="15dp"
             android:layout_marginStart="15dp"
-            android:src="@drawable/ic_drop_down" />
+            android:src="@drawable/ic_drop_down"
+            android:contentDescription="TODO" />
     </RelativeLayout>
 
     <au.mccann.oztaxreturn.view.ExpandableLayout

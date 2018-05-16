@@ -399,7 +399,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
                     realm.beginTransaction();
                     realm.deleteAll();
                     realm.commitTransaction();
-                    Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
+                    Intent intent = new Intent(HomeActivity.this, MainActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
                 } else {
@@ -709,7 +709,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
             // do not remove,must have
             case R.id.img_user_avatar:
             case R.id.tv_user_name:
-                startActivity(new Intent(this, ManageAccount.class), TransitionScreen.RIGHT_TO_LEFT);
+                startActivity(new Intent(this, ManageAccountActivity.class), TransitionScreen.RIGHT_TO_LEFT);
 
                 break;
 

@@ -15,7 +15,7 @@
 
     <!-- register  -->
     <string name="title_create_account">Create account</string>
-    <string name="label_mail">email</string>
+    <string name="label_mail">Email Address</string>
     <string name="label_mobile">mobile phone</string>
     <string name="label_password">password</string>
     <string name="label_re_password">re-password</string>
@@ -127,7 +127,7 @@
     <!-- estimate -->
     <string name="estimate_title">estimate tax refund</string>
     <string name="estimate_content">Our accountant will process your applicaition and fill in other information using our expertise to help you get the best possible tax refund.   You will be notified to review the final application and provide extra information if required before we loge it to ATO.</string>
-    <string name="estimate_note">* please click next to provide your personal information</string>
+    <string name="estimate_note">* Please click Next to provide your personal information</string>
 
     <!-- personal information -->
     <string name="personal_title">title</string>
@@ -139,16 +139,16 @@
     <string-array name="string_array_gender">
         <item>Male</item>
         <item>Female</item>
-        <item>Others</item>
+        <item>Unknown</item>
     </string-array>
     <string name="valid_personal_title">Enter your title</string>
 
     <!-- personal information submit -->
-    <string name="submit_bank_account">Your tax refund will be transferred to your bank account</string>
+    <string name="submit_bank_account">Your tax refund will be transfered to your bank account.</string>
     <string name="bank_account_name">bank account name</string>
     <string name="bsb">bsb</string>
     <string name="account_number">account number</string>
-    <string name="provide_postal">Please provide postal address</string>
+    <string name="provide_postal">Please provide postal address.</string>
     <string name="street_number">Street number and name</string>
     <string name="suburb">Suburb</string>
     <string name="state">state</string>
@@ -156,7 +156,7 @@
     <string name="phone_number">phone number</string>
     <string name="email_address">email address</string>
     <string name="submit">submit</string>
-    <string name="privacy_policy">* By lick ing on the button below. You agree with Privacy policy and Term and conditions.</string>
+    <string name="privacy_policy">* By clicking on the button below. You agree with Privacy policy and Term and conditions.</string>
     <string name="valid_app_bank_name">Enter bank account name</string>
     <string name="valid_app_bsb">Enter BSB</string>
     <string name="valid_app_account_number">Enter account number</string>
@@ -496,6 +496,7 @@
     <string name="review_auditing_title">Your application has been audit by ATO.</string>
     <string name="tax_return_report">tax return report</string>
     <string name="review_audi_content">Please review your application again and submit additional information and image require by ATO to relogde your application. Your can contact our accountant for free support.</string>
+    <string name="actual_tax_refund">Actual\ntax refund</string>
 
     <!-- notification screen -->
     <string name="notification_title">NOTIFICATION</string>
@@ -526,7 +527,7 @@
     <string name="manage_account">Manage account</string>
     <string name="update_information">Update personal\ninfomation</string>
     <string name="manage_title">title</string>
-    <string name="format_date">YYYY-MM-DD</string>
+    <string name="format_date">DD/MM/YYYY</string>
     <string name="username">username</string>
     <string name="old_password">old password</string>
     <string name="new_password">new password</string>
