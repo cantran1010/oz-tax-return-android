@@ -47,6 +47,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
+                        android:gravity="center"
                         android:text="@string/summary_header"
                         android:textColor="@color/white"
                         android:textSize="@dimen/size_small" />
@@ -58,7 +59,8 @@
                         android:layout_toEndOf="@+id/lb"
                         android:layout_toRightOf="@+id/lb"
                         android:padding="5dp"
-                        android:src="@drawable/ic_exclamation" />
+                        android:src="@drawable/ic_exclamation"
+                        android:contentDescription="TODO" />
                 </RelativeLayout>
 
 
@@ -80,14 +82,14 @@
             </LinearLayout>
 
             <LinearLayout
-                android:visibility="visible"
                 android:id="@+id/layout_actual"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/bg_top_summary"
                 android:orientation="vertical"
-                android:padding="10dp">
+                android:padding="10dp"
+                android:visibility="gone">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -98,7 +100,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
-                        android:text="@string/summary_header"
+                        android:gravity="center"
+                        android:text="@string/actual_tax_refund"
                         android:textColor="@color/white"
                         android:textSize="@dimen/size_small" />
 
@@ -109,7 +112,8 @@
                         android:layout_toEndOf="@+id/lbac"
                         android:layout_toRightOf="@+id/lbac"
                         android:padding="5dp"
-                        android:src="@drawable/ic_exclamation" />
+                        android:src="@drawable/ic_exclamation"
+                        android:contentDescription="TODO" />
                 </RelativeLayout>
 
 

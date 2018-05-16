@@ -18,7 +18,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -75,8 +74,7 @@ public class IncomeOther extends BaseFragment implements View.OnClickListener {
     private ExpandableLayout layout;
     private EdittextCustom edtResource;
     private ArrayList<Attachment> attach;
-    private ResponseBasicInformation basic;
-    private int appID;
+
 
     @Override
     protected int getLayout() {
@@ -95,9 +93,6 @@ public class IncomeOther extends BaseFragment implements View.OnClickListener {
 
     @Override
     protected void initData() {
-        basic = (ResponseBasicInformation) getArguments().getSerializable(Constants.KEY_BASIC_INFORMATION);
-        appID = basic.getAppId();
-        LogUtils.d(TAG, "initData ResponseBasicInformation" + basic.getOther().toString());
         images = new ArrayList<>();
         attach = new ArrayList<>();
         setTitle(getString(R.string.income_ws_title));
@@ -127,7 +122,7 @@ public class IncomeOther extends BaseFragment implements View.OnClickListener {
                 }
             }
         });
-        updateUI(basic);
+        getBasicInformation();
         rbYes.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
@@ -151,8 +146,7 @@ public class IncomeOther extends BaseFragment implements View.OnClickListener {
 
     }
 
-    private void updateUI(ResponseBasicInformation basic) {
-        Other other = basic.getOther();
+    private void updateUI(Other other) {
         boolean check = other.getContent() != null || (other.getAttachments() != null && other.getAttachments().size() > 0);
         LogUtils.d(TAG, "update" + check);
         if (check) {
@@ -163,6 +157,51 @@ public class IncomeOther extends BaseFragment implements View.OnClickListener {
         rbYes.setChecked(check);
     }
 
+    private void getBasicInformation() {
+        ProgressDialogUtils.showProgressDialog(getActivity());
+        LogUtils.d(TAG, "getBasicInformation code : " + getApplicationResponse().getId());
+        ApiClient.getApiService().getBasicInformation(UserManager.getUserToken(), getApplicationResponse().getId()).enqueue(new Callback<ResponseBasicInformation>() {
+            @Override
+            public void onResponse(Call<ResponseBasicInformation> call, Response<ResponseBasicInformation> response) {
+                ProgressDialogUtils.dismissProgressDialog();
+                LogUtils.d(TAG, "getBasicInformation code : " + response.code());
+                if (response.code() == Constants.HTTP_CODE_OK) {
+                    LogUtils.d(TAG, "getBasicInformation body : " + response.body().toString());
+                    if (response.body().getOther() != null)
+                        updateUI(response.body().getOther());
+                } else {
+                    APIError error = Utils.parseError(response);
+                    if (error != null) {
+                        LogUtils.d(TAG, "getBasicInformation error : " + error.message());
+                        DialogUtils.showOkDialog(getActivity(), getString(R.string.notification_title), error.message(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                            @Override
+                            public void onSubmit() {
+
+                            }
+                        });
+                    }
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBasicInformation> call, Throwable t) {
+                LogUtils.e(TAG, "getBasicInformation onFailure : " + t.getMessage());
+                ProgressDialogUtils.dismissProgressDialog();
+                DialogUtils.showRetryDialog(getActivity(), new AlertDialogOkAndCancel.AlertDialogListener() {
+                    @Override
+                    public void onSubmit() {
+                        getBasicInformation();
+                    }
+
+                    @Override
+                    public void onCancel() {
+
+                    }
+                });
+            }
+        });
+    }
 
     private void checkPermissionImageAttach() {
         if (ContextCompat.checkSelfPermission(getContext(),
@@ -272,17 +311,13 @@ public class IncomeOther extends BaseFragment implements View.OnClickListener {
         }
         LogUtils.d(TAG, "doSaveBasic jsonRequest : " + jsonRequest.toString());
         RequestBody body = RequestBody.create(MediaType.parse("application/json"), jsonRequest.toString());
-        ApiClient.getApiService().saveBasicInformation(UserManager.getUserToken(), appID, body).enqueue(new Callback<ResponseBasicInformation>() {
+        ApiClient.getApiService().saveBasicInformation(UserManager.getUserToken(), getApplicationResponse().getId(), body).enqueue(new Callback<ResponseBasicInformation>() {
             @Override
             public void onResponse(Call<ResponseBasicInformation> call, Response<ResponseBasicInformation> response) {
                 ProgressDialogUtils.dismissProgressDialog();
                 LogUtils.d(TAG, "doSaveBasic code: " + response.code());
                 if (response.code() == Constants.HTTP_CODE_OK) {
-                    basic = response.body();
-                    basic.setAppId(appID);
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable(Constants.KEY_BASIC_INFORMATION, (Serializable) basic);
-                    openFragment(R.id.layout_container, DeductionFragment.class, true, bundle, TransitionScreen.RIGHT_TO_LEFT);
+                    openFragment(R.id.layout_container, DeductionFragment.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
                 } else {
                     APIError error = Utils.parseError(response);
                     LogUtils.e(TAG, "doSaveBasic error : " + error.message());

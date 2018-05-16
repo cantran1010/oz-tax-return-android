@@ -87,7 +87,6 @@ public class IncomeWagesSalaryFragment extends BaseFragment implements View.OnCl
     private Calendar calendar = GregorianCalendar.getInstance();
     private ResponseBasicInformation basicInformation;
     private ArrayList<Attachment> attach;
-    private int appID;
 
     @Override
     protected int getLayout() {
@@ -118,7 +117,6 @@ public class IncomeWagesSalaryFragment extends BaseFragment implements View.OnCl
         basicInformation = new ResponseBasicInformation();
         setTitle(getString(R.string.income_ws_title));
         appBarVisibility(false, true, 0);
-        appID = getApplicationResponse().getId();
         //images
         if (images.size() == 0) {
             final Image image = new Image();
@@ -179,8 +177,8 @@ public class IncomeWagesSalaryFragment extends BaseFragment implements View.OnCl
 
     private void getBasicInformation() {
         ProgressDialogUtils.showProgressDialog(getActivity());
-        LogUtils.d(TAG, "getBasicInformation code : " + appID);
-        ApiClient.getApiService().getBasicInformation(UserManager.getUserToken(), appID).enqueue(new Callback<ResponseBasicInformation>() {
+        LogUtils.d(TAG, "getBasicInformation code : " + getApplicationResponse().getId());
+        ApiClient.getApiService().getBasicInformation(UserManager.getUserToken(), getApplicationResponse().getId()).enqueue(new Callback<ResponseBasicInformation>() {
             @Override
             public void onResponse(Call<ResponseBasicInformation> call, Response<ResponseBasicInformation> response) {
                 ProgressDialogUtils.dismissProgressDialog();
@@ -293,20 +291,16 @@ public class IncomeWagesSalaryFragment extends BaseFragment implements View.OnCl
             e.printStackTrace();
         }
         LogUtils.d(TAG, "doSaveBasic jsonRequest : " + jsonRequest.toString());
-        LogUtils.d(TAG, "doSaveBasic appId : " + appID);
+        LogUtils.d(TAG, "doSaveBasic appId : " + getApplicationResponse().getId());
         RequestBody body = RequestBody.create(MediaType.parse("application/json"), jsonRequest.toString());
-        ApiClient.getApiService().saveBasicInformation(UserManager.getUserToken(), appID, body).enqueue(new Callback<ResponseBasicInformation>() {
+        ApiClient.getApiService().saveBasicInformation(UserManager.getUserToken(), getApplicationResponse().getId(), body).enqueue(new Callback<ResponseBasicInformation>() {
             @Override
             public void onResponse(Call<ResponseBasicInformation> call, Response<ResponseBasicInformation> response) {
                 ProgressDialogUtils.dismissProgressDialog();
                 LogUtils.d(TAG, "doSaveBasic code: " + response.code());
                 if (response.code() == Constants.HTTP_CODE_OK) {
                     LogUtils.d(TAG, "doSaveBasic body: " + response.body());
-                    basicInformation = response.body();
-                    basicInformation.setAppId(appID);
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable(Constants.KEY_BASIC_INFORMATION, basicInformation);
-                    openFragment(R.id.layout_container, IncomeOther.class, true, bundle, TransitionScreen.RIGHT_TO_LEFT);
+                    openFragment(R.id.layout_container, IncomeOther.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
                 } else {
                     APIError error = Utils.parseError(response);
                     LogUtils.e(TAG, "doSaveBasic error : " + error.message());

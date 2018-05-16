@@ -36,6 +36,7 @@
             android:layout_toRightOf="@id/img_back"
             android:layout_toStartOf="@+id/tv_done"
             android:ellipsize="end"
+            android:gravity="center"
             android:maxLines="1"
             android:text="@string/gallery" />
 

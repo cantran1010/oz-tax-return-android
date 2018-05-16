@@ -10,8 +10,11 @@
         android:layout_marginBottom="8dp"
         android:layout_marginTop="8dp"
         android:gravity="center_vertical"
+        android:paddingEnd="5dp"
         android:paddingLeft="16dp"
         android:paddingRight="5dp"
-        android:textSize="15sp" />
+        android:paddingStart="16dp"
+        android:textColor="@color/income_conten"
+        android:textSize="@dimen/size_nomal" />
 
 </FrameLayout>

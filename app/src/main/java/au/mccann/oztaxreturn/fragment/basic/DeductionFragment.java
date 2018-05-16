@@ -68,8 +68,7 @@ public class DeductionFragment extends BaseFragment implements View.OnClickListe
     private String imgPath;
     private EdittextCustom edtDeduction;
     private ArrayList<Attachment> attach;
-    private ResponseBasicInformation basic;
-    private int appID;
+
 
     @Override
     protected int getLayout() {
@@ -86,9 +85,6 @@ public class DeductionFragment extends BaseFragment implements View.OnClickListe
 
     @Override
     protected void initData() {
-        basic = (ResponseBasicInformation) getArguments().getSerializable(Constants.KEY_BASIC_INFORMATION);
-        appID = basic.getAppId();
-        LogUtils.d(TAG, "initData ResponseBasicInformation" + basic.toString());
         images = new ArrayList<>();
         attach = new ArrayList<>();
         setTitle(getString(R.string.deduction_title));
@@ -118,18 +114,62 @@ public class DeductionFragment extends BaseFragment implements View.OnClickListe
                 }
             }
         });
-        updateUI(basic);
+        getBasicInformation();
 
     }
 
-    private void updateUI(ResponseBasicInformation basic) {
-        Deduction deduction = basic.getDeduction();
+    private void updateUI(Deduction deduction) {
         if (deduction != null) {
             edtDeduction.setText(deduction.getContent());
             showImage(deduction.getAttachments(), images, imageAdapter);
         }
     }
 
+    private void getBasicInformation() {
+        ProgressDialogUtils.showProgressDialog(getActivity());
+        LogUtils.d(TAG, "getBasicInformation code : " + getApplicationResponse().getId());
+        ApiClient.getApiService().getBasicInformation(UserManager.getUserToken(), getApplicationResponse().getId()).enqueue(new Callback<ResponseBasicInformation>() {
+            @Override
+            public void onResponse(Call<ResponseBasicInformation> call, Response<ResponseBasicInformation> response) {
+                ProgressDialogUtils.dismissProgressDialog();
+                LogUtils.d(TAG, "getBasicInformation code : " + response.code());
+                if (response.code() == Constants.HTTP_CODE_OK) {
+                    LogUtils.d(TAG, "getBasicInformation body : " + response.body().toString());
+                    if (response.body().getDeduction() != null)
+                        updateUI(response.body().getDeduction());
+                } else {
+                    APIError error = Utils.parseError(response);
+                    if (error != null) {
+                        LogUtils.d(TAG, "getBasicInformation error : " + error.message());
+                        DialogUtils.showOkDialog(getActivity(), getString(R.string.notification_title), error.message(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                            @Override
+                            public void onSubmit() {
+
+                            }
+                        });
+                    }
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBasicInformation> call, Throwable t) {
+                LogUtils.e(TAG, "getBasicInformation onFailure : " + t.getMessage());
+                ProgressDialogUtils.dismissProgressDialog();
+                DialogUtils.showRetryDialog(getActivity(), new AlertDialogOkAndCancel.AlertDialogListener() {
+                    @Override
+                    public void onSubmit() {
+                        getBasicInformation();
+                    }
+
+                    @Override
+                    public void onCancel() {
+
+                    }
+                });
+            }
+        });
+    }
 
     @Override
     protected void resumeData() {
@@ -245,17 +285,13 @@ public class DeductionFragment extends BaseFragment implements View.OnClickListe
         }
         LogUtils.d(TAG, "doSaveBasic jsonRequest : " + jsonRequest.toString());
         RequestBody body = RequestBody.create(MediaType.parse("application/json"), jsonRequest.toString());
-        ApiClient.getApiService().saveBasicInformation(UserManager.getUserToken(), appID, body).enqueue(new Callback<ResponseBasicInformation>() {
+        ApiClient.getApiService().saveBasicInformation(UserManager.getUserToken(), getApplicationResponse().getId(), body).enqueue(new Callback<ResponseBasicInformation>() {
             @Override
             public void onResponse(Call<ResponseBasicInformation> call, Response<ResponseBasicInformation> response) {
                 ProgressDialogUtils.dismissProgressDialog();
                 LogUtils.d(TAG, "doSaveBasic code: " + response.code());
                 if (response.code() == Constants.HTTP_CODE_OK) {
-                    basic = response.body();
-                    basic.setAppId(appID);
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable(Constants.KEY_BASIC_INFORMATION, basic);
-                    openFragment(R.id.layout_container, EstimateTaxRefund.class, true, bundle, TransitionScreen.RIGHT_TO_LEFT);
+                    openFragment(R.id.layout_container, EstimateTaxRefund.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
                 } else {
                     APIError error = Utils.parseError(response);
                     LogUtils.e(TAG, "doSaveBasic error : " + error.message());

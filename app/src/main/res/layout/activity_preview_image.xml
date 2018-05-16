@@ -28,8 +28,6 @@
             android:layout_centerInParent="true"
             android:layout_marginLeft="10dp"
             android:layout_marginStart="10dp"
-            android:layout_toEndOf="@id/img_back"
-            android:layout_toRightOf="@id/img_back"
             android:text="@string/preview_image_title" />
 
     </RelativeLayout>

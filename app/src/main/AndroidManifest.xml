@@ -94,7 +94,7 @@
             </intent-filter>
         </service>
         <activity
-            android:name=".activity.ManageAccount"
+            android:name=".activity.ManageAccountActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.BlockActivity"

@@ -352,7 +352,7 @@ public class FragmentReviewTaxAgent extends BaseFragment implements View.OnClick
                     govJson.put(Constants.PARAMETER_ATTACHMENTS, jsonArray);
                 }
             }
-            jsonRequest.put(Constants.PARAMETER_REVIEW_DEDUCTION_VEHICLES, govJson);
+            jsonRequest.put(Constants.PARAMETER_REVIEW_DEDUCTION_TAX, govJson);
         } catch (JSONException e) {
             e.printStackTrace();
         }
