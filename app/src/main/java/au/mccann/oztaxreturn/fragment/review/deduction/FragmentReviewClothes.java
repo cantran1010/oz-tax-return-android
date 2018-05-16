@@ -364,7 +364,7 @@ public class FragmentReviewClothes extends BaseFragment implements View.OnClickL
                     govJson.put(Constants.PARAMETER_ATTACHMENTS, jsonArray);
                 }
             }
-            jsonRequest.put(Constants.PARAMETER_REVIEW_DEDUCTION_VEHICLES, govJson);
+            jsonRequest.put(Constants.PARAMETER_REVIEW_DEDUCTION_CLOTHES, govJson);
         } catch (JSONException e) {
             e.printStackTrace();
         }

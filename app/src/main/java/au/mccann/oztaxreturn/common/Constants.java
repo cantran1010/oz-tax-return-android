@@ -135,6 +135,7 @@ public class Constants {
     public static final String PARAMETER_REVIEW_INCOM_ANNUITY_ARREAR_TAX = "arrears_taxed";
     public static final String PARAMETER_REVIEW_INCOM_ANNUITY_ARREAR_UNTAX = "arrears_untaxed";
     public static final String PARAMETER_REVIEW_DEDUCTION_VEHICLES = "vehicles";
+    public static final String PARAMETER_REVIEW_DEDUCTION_CLOTHES = "clothes";
     public static final String PARAMETER_REVIEW_DEDUCTION_HOW = "how_related";
     public static final String PARAMETER_REVIEW_DEDUCTION_KM = "km_travelled";
     public static final String PARAMETER_REVIEW_DEDUCTION_TYPE = "type_brand";
@@ -176,6 +177,7 @@ public class Constants {
     public static final String STATUS_USER_BLOCK = "block";
     public static final String STATUS_USER_DEACTIVATE = "deactivate";
     public static final String NOTIFICATION_EXTRA = "notification_extra";
+    public static final String PARAMETER_REVIEW_DEDUCTION_TAX ="tax_agents" ;
     public static int MAX_IMAGE_ATTACH = 9;
     public static final String INTENT_EXTRA_ALBUM = "album_name";
     public static final int REQUEST_CODE_PICK_IMAGE = 357;
