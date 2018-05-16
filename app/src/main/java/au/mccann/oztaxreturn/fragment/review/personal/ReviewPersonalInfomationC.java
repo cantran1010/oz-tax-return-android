@@ -125,6 +125,8 @@ public class ReviewPersonalInfomationC extends BaseFragment implements View.OnCl
         try {
             if (rbYes.isChecked())
                 jsonRequest.put("student_loan", edtLoan.getText().toString().trim());
+            else
+                jsonRequest.put("student_loan", 0);
         } catch (JSONException e) {
             e.printStackTrace();
         }
