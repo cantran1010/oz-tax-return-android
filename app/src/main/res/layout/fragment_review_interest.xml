@@ -222,11 +222,10 @@
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/FloatingActionButton"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_margin="25dp"
+        app:fabSize="mini"
         android:src="@drawable/ic_write" />
 
     <au.mccann.oztaxreturn.view.ButtonCustom

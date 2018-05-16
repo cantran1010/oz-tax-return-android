@@ -15,7 +15,7 @@ import au.mccann.oztaxreturn.database.UserManager;
 import au.mccann.oztaxreturn.dialog.AlertDialogOk;
 import au.mccann.oztaxreturn.dialog.AlertDialogOkAndCancel;
 import au.mccann.oztaxreturn.fragment.BaseFragment;
-import au.mccann.oztaxreturn.fragment.review.income.ReviewIncomeWS;
+import au.mccann.oztaxreturn.fragment.review.income.ReviewWagesSalaryFragment;
 import au.mccann.oztaxreturn.model.APIError;
 import au.mccann.oztaxreturn.networking.ApiClient;
 import au.mccann.oztaxreturn.rest.response.PersonalInfomationResponse;
@@ -141,7 +141,7 @@ public class ReviewPersonalInfomationC extends BaseFragment implements View.OnCl
                 if (response.code() == Constants.HTTP_CODE_OK) {
                     LogUtils.d(TAG, "doNextC body : " + response.body().toString());
 //                    bundle.putSerializable(Constants.PERSONNAL_INFO_EXTRA, response.body());
-                    openFragment(R.id.layout_container, ReviewIncomeWS.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
+                    openFragment(R.id.layout_container, ReviewWagesSalaryFragment.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
                 } else {
                     APIError error = Utils.parseError(response);
                     LogUtils.d(TAG, "doNextC error : " + error.message());
@@ -239,7 +239,7 @@ public class ReviewPersonalInfomationC extends BaseFragment implements View.OnCl
             case R.id.btn_next:
                 if (isEditApp()) doNextC();
                 else
-                    openFragment(R.id.layout_container, ReviewIncomeWS.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
+                    openFragment(R.id.layout_container, ReviewWagesSalaryFragment.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
                 break;
 
             case R.id.fab:

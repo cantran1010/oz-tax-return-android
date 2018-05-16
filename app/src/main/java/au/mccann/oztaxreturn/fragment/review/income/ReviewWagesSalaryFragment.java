@@ -39,8 +39,8 @@ import retrofit2.Response;
 /**
  * Created by CanTran on 4/23/18.
  */
-public class ReviewIncomeWS extends BaseFragment implements View.OnClickListener {
-    private static final String TAG = ReviewIncomeWS.class.getSimpleName();
+public class ReviewWagesSalaryFragment extends BaseFragment implements View.OnClickListener {
+    private static final String TAG = ReviewWagesSalaryFragment.class.getSimpleName();
     private JobAdapter jobAdapter;
     private ArrayList<Job> jobs = new ArrayList<>();
     private RecyclerView recyclerView;
@@ -103,7 +103,7 @@ public class ReviewIncomeWS extends BaseFragment implements View.OnClickListener
                     APIError error = Utils.parseError(response);
                     if (error != null) {
                         LogUtils.d(TAG, "getReviewIncome error : " + error.message());
-                        DialogUtils.showOkDialog(getActivity(), getString(R.string.error), error.message(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                        DialogUtils.showOkDialog(getActivity(), getString(R.string.error), error.message().replace("."," ").replace("_"," "), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
                             @Override
                             public void onSubmit() {
 

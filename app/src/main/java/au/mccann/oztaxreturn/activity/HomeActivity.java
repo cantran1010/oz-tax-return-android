@@ -38,8 +38,8 @@ import au.mccann.oztaxreturn.fragment.review.income.ReviewDividendsFragment;
 import au.mccann.oztaxreturn.fragment.review.income.ReviewGovementFragment;
 import au.mccann.oztaxreturn.fragment.review.income.ReviewRentalFragment;
 import au.mccann.oztaxreturn.fragment.review.income.ReviewInterestsFragment;
-import au.mccann.oztaxreturn.fragment.review.income.ReviewIncomeSuperLumpSum;
-import au.mccann.oztaxreturn.fragment.review.income.ReviewIncomeWS;
+import au.mccann.oztaxreturn.fragment.review.income.ReviewLumpSumFragment;
+import au.mccann.oztaxreturn.fragment.review.income.ReviewWagesSalaryFragment;
 import au.mccann.oztaxreturn.fragment.review.personal.ReviewPersonalInfomationA;
 import au.mccann.oztaxreturn.fragment.review.personal.ReviewPersonalInfomationB;
 import au.mccann.oztaxreturn.fragment.review.personal.ReviewPersonalInfomationC;
@@ -767,7 +767,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
             case R.id.tv_wages_salary:
                 if (drawer.isDrawerOpen(GravityCompat.END))
                     drawer.closeDrawer(GravityCompat.END);
-                openFragment(R.id.layout_container, ReviewIncomeWS.class, true, new Bundle(), TransitionScreen.FADE_IN);
+                openFragment(R.id.layout_container, ReviewWagesSalaryFragment.class, true, new Bundle(), TransitionScreen.FADE_IN);
                 break;
             case R.id.tv_income_government_payment:
                 if (drawer.isDrawerOpen(GravityCompat.END))
@@ -798,7 +798,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
             case R.id.tv_income_lump_sum:
                 if (drawer.isDrawerOpen(GravityCompat.END))
                     drawer.closeDrawer(GravityCompat.END);
-                openFragment(R.id.layout_container, ReviewIncomeSuperLumpSum.class, true, new Bundle(), TransitionScreen.FADE_IN);
+                openFragment(R.id.layout_container, ReviewLumpSumFragment.class, true, new Bundle(), TransitionScreen.FADE_IN);
                 break;
             case R.id.tv_income_rental:
                 if (drawer.isDrawerOpen(GravityCompat.END))
