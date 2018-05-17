@@ -1,7 +1,6 @@
 package au.mccann.oztaxreturn.fragment.review.income;
 
 import android.Manifest;
-import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -14,7 +13,6 @@ import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CompoundButton;
-import android.widget.ScrollView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -48,6 +46,7 @@ import au.mccann.oztaxreturn.utils.LogUtils;
 import au.mccann.oztaxreturn.utils.ProgressDialogUtils;
 import au.mccann.oztaxreturn.utils.TransitionScreen;
 import au.mccann.oztaxreturn.utils.Utils;
+import au.mccann.oztaxreturn.view.EditTextEasyMoney;
 import au.mccann.oztaxreturn.view.EdittextCustom;
 import au.mccann.oztaxreturn.view.ExpandableLayout;
 import au.mccann.oztaxreturn.view.MyGridView;
@@ -58,23 +57,20 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static au.mccann.oztaxreturn.utils.ImageUtils.showImage;
-import static au.mccann.oztaxreturn.utils.Utils.showToolTip;
-
 
 /**
  * Created by CanTran on 4/24/18.
  */
 public class ReviewGovementFragment extends BaseFragment implements View.OnClickListener {
     private RadioButtonCustom rbYes, rbNo;
-    private EdittextCustom edtIncomeType, edtGrossPayment, edtTax;
+    private EdittextCustom edtIncomeType;
+    private EditTextEasyMoney edtGrossPayment, edtTax;
     private static final String TAG = OtherFragment.class.getSimpleName();
     private MyGridView grImage;
     private ImageAdapter imageAdapter;
     private ArrayList<Image> images;
     private final String[] permissions = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
     private String imgPath;
-    private ScrollView scrollView;
     private ExpandableLayout layout;
     private GovPayment govPayment = new GovPayment();
     private ArrayList<Attachment> attach;
@@ -98,15 +94,13 @@ public class ReviewGovementFragment extends BaseFragment implements View.OnClick
         rbNo.setEnabled(false);
         edtIncomeType = (EdittextCustom) findViewById(R.id.edt_income_type);
         edtIncomeType.setEnabled(false);
-        edtGrossPayment = (EdittextCustom) findViewById(R.id.edt_gross_payment);
+        edtGrossPayment = (EditTextEasyMoney) findViewById(R.id.edt_gross_payment);
         edtGrossPayment.setEnabled(false);
-        edtTax = (EdittextCustom) findViewById(R.id.edt_tax_widthheld);
+        edtTax = (EditTextEasyMoney) findViewById(R.id.edt_tax_widthheld);
         edtTax.setEnabled(false);
         grImage = (MyGridView) findViewById(R.id.gr_image);
         grImage.setEnabled(false);
-        scrollView = (ScrollView) findViewById(R.id.scrollView);
         layout = (ExpandableLayout) findViewById(R.id.layout_expandable);
-
     }
 
     @Override
@@ -164,10 +158,12 @@ public class ReviewGovementFragment extends BaseFragment implements View.OnClick
 
     private void updateUI(GovPayment govPayment) {
         rbYes.setChecked(govPayment.isHad());
-        edtIncomeType.setText(govPayment.getType());
-        edtGrossPayment.setText(Utils.formatMoneyFloat(getActivity(), Float.parseFloat(govPayment.getGross())));
-        edtTax.setText(Utils.formatMoneyFloat(getActivity(), Float.parseFloat(govPayment.getTax())));
-        showImage(govPayment.getAttachments(), images, imageAdapter);
+        if (govPayment.isHad()) {
+            edtIncomeType.setText(govPayment.getType());
+            edtGrossPayment.setText(govPayment.getGross());
+            edtTax.setText(govPayment.getTax());
+        }
+        ImageUtils.showImage(govPayment.getAttachments(), images, imageAdapter);
     }
 
     private void checkPermissionImageAttach() {
@@ -247,13 +243,6 @@ public class ReviewGovementFragment extends BaseFragment implements View.OnClick
         return imgPath;
     }
 
-    private void scollLayout() {
-        int[] coords = {0, 0};
-        scrollView.getLocationOnScreen(coords);
-        int absoluteBottom = coords[1] + scrollView.getHeight();
-        ObjectAnimator objectAnimator = ObjectAnimator.ofInt(scrollView, "scrollY", absoluteBottom).setDuration(1500);
-        objectAnimator.start();
-    }
 
     @Override
     protected void resumeData() {
@@ -342,8 +331,9 @@ public class ReviewGovementFragment extends BaseFragment implements View.OnClick
             govJson.put(Constants.PARAMETER_REVIEW_HAD, rbYes.isChecked());
             if (rbYes.isChecked()) {
                 govJson.put(Constants.PARAMETER_REVIEW_INCOME_GOVEMENT_TYPE, edtIncomeType.getText().toString().trim());
-                govJson.put(Constants.PARAMETER_REVIEW_INCOME_GOVEMENT_GROSS, edtGrossPayment.getText().toString().trim());
-                govJson.put(Constants.PARAMETER_REVIEW_INCOME_GOVEMENT_TAX, edtTax.getText().toString().trim());
+                govJson.put(Constants.PARAMETER_REVIEW_INCOME_GOVEMENT_GROSS, edtGrossPayment.getValuesFloat());
+                govJson.put(Constants.PARAMETER_REVIEW_INCOME_GOVEMENT_TAX, edtTax.getValuesFloat());
+
                 if (images.size() > 1) {
                     for (Image image : images
                             ) {
@@ -424,19 +414,19 @@ public class ReviewGovementFragment extends BaseFragment implements View.OnClick
                 if (isEditApp()) {
                     if (rbYes.isChecked()) {
                         if (edtIncomeType.getText().toString().trim().isEmpty()) {
-                            showToolTip(getContext(), edtIncomeType, getString(R.string.vali_all_empty));
+                            Utils.showToolTip(getContext(), edtIncomeType, getString(R.string.vali_all_empty));
                             return;
                         }
                         if (edtGrossPayment.getText().toString().trim().isEmpty()) {
-                            showToolTip(getContext(), edtGrossPayment, getString(R.string.vali_all_empty));
+                            Utils.showToolTip(getContext(), edtGrossPayment, getString(R.string.vali_all_empty));
                             return;
                         }
                         if (edtTax.getText().toString().trim().isEmpty()) {
-                            showToolTip(getContext(), edtTax, getString(R.string.vali_all_empty));
+                            Utils.showToolTip(getContext(), edtTax, getString(R.string.vali_all_empty));
                             return;
                         }
                         if (images.size() < 2) {
-                            showToolTip(getContext(), grImage, getString(R.string.vali_all_empty));
+                            Utils.showToolTip(getContext(), grImage, getString(R.string.vali_all_empty));
                             return;
                         }
                         uploadImage();

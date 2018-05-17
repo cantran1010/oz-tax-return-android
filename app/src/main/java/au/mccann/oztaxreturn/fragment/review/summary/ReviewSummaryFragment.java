@@ -51,6 +51,7 @@ import au.mccann.oztaxreturn.utils.ProgressDialogUtils;
 import au.mccann.oztaxreturn.utils.TransitionScreen;
 import au.mccann.oztaxreturn.utils.Utils;
 import au.mccann.oztaxreturn.view.ButtonCustom;
+import au.mccann.oztaxreturn.view.TextViewEasyMoney;
 import au.mccann.oztaxreturn.view.ExpandableLayout;
 import au.mccann.oztaxreturn.view.TextViewCustom;
 import okhttp3.ResponseBody;
@@ -65,7 +66,8 @@ import retrofit2.Response;
 public class ReviewSummaryFragment extends BaseFragment implements View.OnClickListener {
     private static final int PERMISSION_REQUEST_CODE = 1;
     private static final String TAG = ReviewSummaryFragment.class.getSimpleName();
-    private TextViewCustom tvTaxReturn, tvActual, tvTotalIncome, tvTotalDeduction, tvTaxPayable, tvTaxWidthheld;
+    private TextViewCustom tvActual, tvTotalIncome, tvTotalDeduction, tvTaxPayable, tvTaxWidthheld;
+    private TextViewEasyMoney tvTaxReturn;
     private TextViewCustom tvIncomeSalary, tvGovernmentPayments, tvInterest, tvDividends, tvEarlyTermination, tvSuperIncomeStream, tvSuperLumpSum, tvRentaIncome;
     private TextViewCustom tvVehicles, tvWorkRelatedClothing, tvWorkRelatedEducation, tvOtherWorkRelatedExpenses, tvDonations, tvTaxAgentFees, tvBankFees;
     private TextViewCustom tvTaxOn, tvMedicareLevy, tvMedicareLevySurcharge, tvRepayment, tvTaxOffsets, tvTaxCredits;
@@ -87,7 +89,7 @@ public class ReviewSummaryFragment extends BaseFragment implements View.OnClickL
 
     @Override
     protected void initView() {
-        tvTaxReturn = (TextViewCustom) findViewById(R.id.tv_tax_return);
+        tvTaxReturn = (TextViewEasyMoney) findViewById(R.id.tv_tax_return);
         tvActual = (TextViewCustom) findViewById(R.id.tv_tax_actual);
         tvTotalIncome = (TextViewCustom) findViewById(R.id.tv_total_income);
         tvTotalDeduction = (TextViewCustom) findViewById(R.id.tv_total_deduction);
@@ -162,7 +164,7 @@ public class ReviewSummaryFragment extends BaseFragment implements View.OnClickL
             if (Double.parseDouble(summary.getActualTaxRefund()) > 0) {
                 tvPolicy.setText(getContext().getString(R.string.positive_tax_refund));
             } else {
-                String negativeTaxRefund = getContext().getString(R.string.negative_tax_refund) + " " + getContext().getString(R.string.dolla) + " " + summary.getActualTaxRefund() + " "+getContext().getString(R.string.negative_tax_refund_end);
+                String negativeTaxRefund = getContext().getString(R.string.negative_tax_refund) + " " + getContext().getString(R.string.dolla) + " " + summary.getActualTaxRefund() + " " + getContext().getString(R.string.negative_tax_refund_end);
                 tvPolicy.setText(negativeTaxRefund);
             }
             setClickDownload(tvPolicy, summary);
@@ -173,7 +175,7 @@ public class ReviewSummaryFragment extends BaseFragment implements View.OnClickL
                 setUnderLinePolicy(tvPolicy);
             } else tvPolicy.setText(getContext().getString(R.string.review_summary_note));
         }
-        tvTaxReturn.setText(Utils.formatMoneyFloat(getActivity(), Float.parseFloat(summary.getEstimatedTaxRefund())));
+        tvTaxReturn.setText(summary.getEstimatedTaxRefund());
         tvActual.setText(Utils.formatMoneyFloat(getActivity(), Float.parseFloat(summary.getActualTaxRefund())));
         tvTotalIncome.setText(Utils.formatMoneyFloat(getActivity(), Float.parseFloat(summary.getIncome().getTotal())));
         tvTotalDeduction.setText(Utils.formatMoneyFloat(getActivity(), Float.parseFloat(summary.getDeduction().getTotal())));

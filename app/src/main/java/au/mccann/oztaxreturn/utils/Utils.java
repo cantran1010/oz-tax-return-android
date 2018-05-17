@@ -40,6 +40,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.lang.annotation.Annotation;
 import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -449,19 +450,13 @@ public class Utils {
         return result;
     }
 
-    public static String formatNumber(double input) {
-        DecimalFormat myFormatter = new DecimalFormat("###,###.##");
-        return myFormatter.format(input);
+    static public String displayCurrency(String aFloat) {
+        Float aFloat1 = Float.parseFloat(aFloat.replace(",", "").replace("$", ""));
+        Float currencyAmount = new Float(aFloat);
+        NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance(Locale.US);
+        return currencyFormatter.format(currencyAmount);
     }
-
-    public static String formatNumber(long input) {
-        DecimalFormat myFormatter = new DecimalFormat("###,###.##");
-        return myFormatter.format(input);
-    }
-
-//    public static String formatMoney(Context context, double input) {
-//        return context.getString(R.string.dolla) + formatNumber(input);
-//    }
+//
     public static String formatMoneyFloat(Context context, float input) {
         return context.getString(R.string.dolla) + formatNumber2Digit(input);
     }

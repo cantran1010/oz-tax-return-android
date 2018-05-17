@@ -168,7 +168,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 @Override
                 public void onResponse(Call<Void> call, Response<Void> response) {
                     LogUtils.d(TAG, "sendRegistrationToServer , code : " + response.code());
-
                     if (response.code() == Constants.HTTP_CODE_OK) {
                         LogUtils.d(TAG, "sendRegistrationToServer , body : " + response.body());
                     } else {
