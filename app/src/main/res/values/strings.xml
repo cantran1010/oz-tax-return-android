@@ -50,6 +50,7 @@
     <string name="error_must_one">You must select at least one option!</string>
     <string name="logout">Are you sure you want to logout?</string>
     <string name="required_all">All fields are required!</string>
+    <string name="required_image">Attach images are required!</string>
 
     <!-- pick image dialog -->
     <string name="attach_img_title">Attach image</string>
@@ -487,7 +488,7 @@
     <string name="review_summary_title">review summary</string>
     <string name="lodged_successfully">The application is lodged successfully</string>
     <string name="app_term_conditions">Term and conditions</string>
-    <string name="lodge">Lodge</string>
+    <string name="lodge">Lodged</string>
     <string name="review_summary_note">Your application has been lodged. You can review it but no changes can be made at this state. You will be notified for any update of your aplication </string>
     <string name="positive_tax_refund">Your application has been successfully completed. your tax refund has been transferred to your nominated bank account. You can download your tax return report here.</string>
     <string name="negative_tax_refund">Your application has been successfully completed. You are required to pay</string>

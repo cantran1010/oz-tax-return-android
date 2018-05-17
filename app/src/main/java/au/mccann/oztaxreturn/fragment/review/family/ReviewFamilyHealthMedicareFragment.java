@@ -108,6 +108,7 @@ public class ReviewFamilyHealthMedicareFragment extends BaseFragment implements 
         }
         imageAdapter = new ImageAdapter(getActivity(), images);
         grImage.setAdapter(imageAdapter);
+        imageAdapter.setRemove(false);
 
         grImage.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -237,6 +238,7 @@ public class ReviewFamilyHealthMedicareFragment extends BaseFragment implements 
     private void doEdit() {
         cbYes.setEnabled(true);
         cbNo.setEnabled(true);
+        imageAdapter.setRemove(true);
     }
 
     private void doNext() {
