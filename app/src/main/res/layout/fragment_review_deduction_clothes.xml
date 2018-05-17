@@ -127,8 +127,8 @@
                             android:layout_centerVertical="true"
                             android:layout_marginEnd="10dp"
                             android:layout_marginRight="10dp"
-                            android:src="@drawable/ic_down"
-                            android:contentDescription="TODO" />
+                            android:contentDescription="TODO"
+                            android:src="@drawable/ic_down" />
                     </RelativeLayout>
 
                     <au.mccann.oztaxreturn.view.TextViewCustom
@@ -173,13 +173,11 @@
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/FloatingActionButton"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_margin="25dp"
-        app:fabSize="mini"
-        android:src="@drawable/ic_write" />
+        android:src="@drawable/ic_write"
+        app:fabSize="mini" />
 
     <au.mccann.oztaxreturn.view.ButtonCustom
         android:id="@+id/btn_next"
@@ -189,5 +187,4 @@
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="20dp"
         android:text="@string/next" />
-
 </RelativeLayout>

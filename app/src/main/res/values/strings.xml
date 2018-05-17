@@ -254,11 +254,11 @@
     <string name="job">Job</string>
 
     <!-- review govement payment -->
-    <string name="review_govement_payment">Govement\npayment</string>
+    <string name="review_govement_payment">Government\nPayments</string>
     <string name="review_govement_payment_ask">Do you receive government such as Newstart, Youth Allowance or Parenting payment</string>
     <string name="income_type">income type</string>
     <string name="gross_payment">gross payment</string>
-    <string name="tax_widthheld">Tax widthheld</string>
+    <string name="tax_widthheld">Tax withheld</string>
     <string name="label_image">image</string>
 
     <!-- review bank interest  -->

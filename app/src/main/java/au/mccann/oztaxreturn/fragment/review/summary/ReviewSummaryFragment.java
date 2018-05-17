@@ -58,7 +58,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static au.mccann.oztaxreturn.utils.Utils.formatMoney;
 
 /**
  * Created by CanTran on 4/23/18.
@@ -174,45 +173,45 @@ public class ReviewSummaryFragment extends BaseFragment implements View.OnClickL
                 setUnderLinePolicy(tvPolicy);
             } else tvPolicy.setText(getContext().getString(R.string.review_summary_note));
         }
-        tvTaxReturn.setText(formatMoney(getContext(), Double.parseDouble(summary.getEstimatedTaxRefund())));
-        tvActual.setText(formatMoney(getContext(), Double.parseDouble(summary.getActualTaxRefund())));
-        tvTotalIncome.setText(formatMoney(getContext(), Double.parseDouble(summary.getIncome().getTotal())));
-        tvTotalDeduction.setText(formatMoney(getContext(), Double.parseDouble(summary.getDeduction().getTotal())));
-        tvTaxPayable.setText(formatMoney(getContext(), Double.parseDouble(summary.getTaxLiability().getTotal())));
-        tvTaxWidthheld.setText(formatMoney(getContext(), Double.parseDouble(summary.getTaxWithheld())));
+        tvTaxReturn.setText(Utils.formatMoneyFloat(getActivity(), Float.parseFloat(summary.getEstimatedTaxRefund())));
+        tvActual.setText(Utils.formatMoneyFloat(getActivity(), Float.parseFloat(summary.getActualTaxRefund())));
+        tvTotalIncome.setText(Utils.formatMoneyFloat(getActivity(), Float.parseFloat(summary.getIncome().getTotal())));
+        tvTotalDeduction.setText(Utils.formatMoneyFloat(getActivity(), Float.parseFloat(summary.getDeduction().getTotal())));
+        tvTaxPayable.setText(Utils.formatMoneyFloat(getActivity(), Float.parseFloat(summary.getTaxLiability().getTotal())));
+        tvTaxWidthheld.setText(Utils.formatMoneyFloat(getActivity(), Float.parseFloat(summary.getTaxWithheld())));
         updateIncome(summary.getIncome().getParts());
         updateDeduction(summary.getDeduction().getParts());
         updateTax(summary.getTaxLiability().getParts());
     }
 
     private void updateIncome(IncomePart part) {
-        tvIncomeSalary.setText(formatMoney(getContext(), Double.parseDouble(part.getSalary())));
-        tvGovernmentPayments.setText(formatMoney(getContext(), Double.parseDouble(part.getGovPayments())));
-        tvInterest.setText(formatMoney(getContext(), Double.parseDouble(part.getBankInterests())));
-        tvDividends.setText(formatMoney(getContext(), Double.parseDouble(part.getDividends())));
-        tvEarlyTermination.setText(formatMoney(getContext(), Double.parseDouble(part.getEtps())));
-        tvSuperIncomeStream.setText(formatMoney(getContext(), Double.parseDouble(part.getSuperIncomeStream())));
-        tvSuperLumpSum.setText(formatMoney(getContext(), Double.parseDouble(part.getSuperLumpSum())));
-        tvRentaIncome.setText(formatMoney(getContext(), Double.parseDouble(part.getRentals())));
+        tvIncomeSalary.setText(Utils.formatMoneyFloat(getActivity(), Float.parseFloat(part.getSalary())));
+        tvGovernmentPayments.setText(Utils.formatMoneyFloat(getActivity(), Float.parseFloat(part.getGovPayments())));
+        tvInterest.setText(Utils.formatMoneyFloat(getActivity(), Float.parseFloat(part.getBankInterests())));
+        tvDividends.setText(Utils.formatMoneyFloat(getActivity(), Float.parseFloat(part.getDividends())));
+        tvEarlyTermination.setText(Utils.formatMoneyFloat(getActivity(), Float.parseFloat(part.getEtps())));
+        tvSuperIncomeStream.setText(Utils.formatMoneyFloat(getActivity(), Float.parseFloat(part.getSuperIncomeStream())));
+        tvSuperLumpSum.setText(Utils.formatMoneyFloat(getActivity(), Float.parseFloat(part.getSuperLumpSum())));
+        tvRentaIncome.setText(Utils.formatMoneyFloat(getActivity(), Float.parseFloat(part.getRentals())));
     }
 
     private void updateDeduction(DeductionPart part) {
-        tvVehicles.setText(formatMoney(getContext(), Double.parseDouble(part.getVehicles())));
-        tvWorkRelatedClothing.setText(formatMoney(getContext(), Double.parseDouble(part.getClothes())));
-        tvWorkRelatedEducation.setText(formatMoney(getContext(), Double.parseDouble(part.getEducations())));
-        tvOtherWorkRelatedExpenses.setText(formatMoney(getContext(), Double.parseDouble(part.getOthers())));
-        tvDonations.setText(formatMoney(getContext(), Double.parseDouble(part.getDonations())));
-        tvTaxAgentFees.setText(formatMoney(getContext(), Double.parseDouble(part.getTaxAgents())));
-        tvBankFees.setText(formatMoney(getContext(), Double.parseDouble(part.getBankFees())));
+        tvVehicles.setText(Utils.formatMoneyFloat(getActivity(), Float.parseFloat(part.getVehicles())));
+        tvWorkRelatedClothing.setText(Utils.formatMoneyFloat(getActivity(), Float.parseFloat(part.getClothes())));
+        tvWorkRelatedEducation.setText(Utils.formatMoneyFloat(getActivity(), Float.parseFloat(part.getEducations())));
+        tvOtherWorkRelatedExpenses.setText(Utils.formatMoneyFloat(getActivity(), Float.parseFloat(part.getOthers())));
+        tvDonations.setText(Utils.formatMoneyFloat(getActivity(), Float.parseFloat(part.getDonations())));
+        tvTaxAgentFees.setText(Utils.formatMoneyFloat(getActivity(), Float.parseFloat(part.getTaxAgents())));
+        tvBankFees.setText(Utils.formatMoneyFloat(getActivity(), Float.parseFloat(part.getBankFees())));
     }
 
     private void updateTax(TaxPart part) {
-        tvTaxOn.setText(formatMoney(getContext(), Double.parseDouble(part.getOnTaxableIncome())));
-        tvMedicareLevy.setText(formatMoney(getContext(), Double.parseDouble(part.getMedicareLevy())));
-        tvMedicareLevySurcharge.setText(formatMoney(getContext(), Double.parseDouble(part.getMedicareLevySurcharge())));
-        tvRepayment.setText(formatMoney(getContext(), Double.parseDouble(part.getHecsHelpRepayment())));
-        tvTaxOffsets.setText(formatMoney(getContext(), Double.parseDouble(part.getTaxOffsets())));
-        tvTaxCredits.setText(formatMoney(getContext(), Double.parseDouble(part.getTaxCredits())));
+        tvTaxOn.setText(Utils.formatMoneyFloat(getActivity(), Float.parseFloat(part.getOnTaxableIncome())));
+        tvMedicareLevy.setText(Utils.formatMoneyFloat(getActivity(), Float.parseFloat(part.getMedicareLevy())));
+        tvMedicareLevySurcharge.setText(Utils.formatMoneyFloat(getActivity(), Float.parseFloat(part.getMedicareLevySurcharge())));
+        tvRepayment.setText(Utils.formatMoneyFloat(getActivity(), Float.parseFloat(part.getHecsHelpRepayment())));
+        tvTaxOffsets.setText(Utils.formatMoneyFloat(getActivity(), Float.parseFloat(part.getTaxOffsets())));
+        tvTaxCredits.setText(Utils.formatMoneyFloat(getActivity(), Float.parseFloat(part.getTaxCredits())));
     }
 
     private void expandableLayout(ExpandableLayout expan, ImageView img) {

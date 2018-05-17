@@ -165,8 +165,8 @@ public class ReviewGovementFragment extends BaseFragment implements View.OnClick
     private void updateUI(GovPayment govPayment) {
         rbYes.setChecked(govPayment.isHad());
         edtIncomeType.setText(govPayment.getType());
-        edtGrossPayment.setText(govPayment.getGross());
-        edtTax.setText(govPayment.getTax());
+        edtGrossPayment.setText(Utils.formatMoneyFloat(getActivity(), Float.parseFloat(govPayment.getGross())));
+        edtTax.setText(Utils.formatMoneyFloat(getActivity(), Float.parseFloat(govPayment.getTax())));
         showImage(govPayment.getAttachments(), images, imageAdapter);
     }
 
@@ -424,7 +424,7 @@ public class ReviewGovementFragment extends BaseFragment implements View.OnClick
                 if (isEditApp()) {
                     if (rbYes.isChecked()) {
                         if (edtIncomeType.getText().toString().trim().isEmpty()) {
-                            showToolTip(getContext(), edtIncomeType,  getString(R.string.vali_all_empty));
+                            showToolTip(getContext(), edtIncomeType, getString(R.string.vali_all_empty));
                             return;
                         }
                         if (edtGrossPayment.getText().toString().trim().isEmpty()) {
@@ -432,7 +432,7 @@ public class ReviewGovementFragment extends BaseFragment implements View.OnClick
                             return;
                         }
                         if (edtTax.getText().toString().trim().isEmpty()) {
-                            showToolTip(getContext(), edtTax,  getString(R.string.vali_all_empty));
+                            showToolTip(getContext(), edtTax, getString(R.string.vali_all_empty));
                             return;
                         }
                         if (images.size() < 2) {

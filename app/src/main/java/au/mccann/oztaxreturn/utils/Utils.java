@@ -459,8 +459,11 @@ public class Utils {
         return myFormatter.format(input);
     }
 
-    public static String formatMoney(Context context, double input) {
-        return context.getString(R.string.dolla) + formatNumber(input);
+//    public static String formatMoney(Context context, double input) {
+//        return context.getString(R.string.dolla) + formatNumber(input);
+//    }
+    public static String formatMoneyFloat(Context context, float input) {
+        return context.getString(R.string.dolla) + formatNumber2Digit(input);
     }
 
     // format phone number to nation format

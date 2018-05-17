@@ -62,7 +62,7 @@ import retrofit2.Response;
 /**
  * Created by CanTran on 4/23/18.
  */
-public class ReviewIncomeSuperLumpSum extends BaseFragment implements View.OnClickListener {
+public class ReviewLumpSumFragment extends BaseFragment implements View.OnClickListener {
     private static final String TAG = ReviewDividendsFragment.class.getSimpleName();
     private LumpSumAdapter adapter;
     private ArrayList<LumpSum> lumpSums = new ArrayList<>();

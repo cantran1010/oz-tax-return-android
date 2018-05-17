@@ -360,7 +360,7 @@ public class ReviewAnnuitiesFragment extends BaseFragment implements View.OnClic
                 if (response.code() == Constants.HTTP_CODE_OK) {
                     LogUtils.d(TAG, "doSaveReview body: " + response.body().getDividends().toString());
                     LogUtils.d(TAG, " dividends image " + annuities.toString());
-                    openFragment(R.id.layout_container, ReviewIncomeSuperLumpSum.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
+                    openFragment(R.id.layout_container, ReviewLumpSumFragment.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
                 } else {
                     APIError error = Utils.parseError(response);
                     LogUtils.e(TAG, "doSaveReview error : " + error.message());
@@ -430,7 +430,7 @@ public class ReviewAnnuitiesFragment extends BaseFragment implements View.OnClic
                         doSaveReview();
                     }
                 } else
-                    openFragment(R.id.layout_container, ReviewIncomeSuperLumpSum.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
+                    openFragment(R.id.layout_container, ReviewLumpSumFragment.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
                 break;
         }
 
