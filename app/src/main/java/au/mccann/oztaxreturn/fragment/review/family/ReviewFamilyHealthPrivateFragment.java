@@ -291,6 +291,7 @@ public class ReviewFamilyHealthPrivateFragment extends BaseFragment implements V
                     });
                 } else {
                     doNext();
+                    return;
                 }
             }
         }
