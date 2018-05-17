@@ -15,7 +15,7 @@ import au.mccann.oztaxreturn.R;
 /**
  * Created by CanTran on 5/17/18.
  */
-public class TextViewEasyMoney extends EdittextCustom {
+public class TextViewEasyMoney extends TextViewCustom {
 
     private String _currencySymbol;
     private boolean _showCurrency;
@@ -88,7 +88,6 @@ public class TextViewEasyMoney extends EdittextCustom {
 
                     //setting text after format to EditText
                     setText(formattedString);
-                    setSelection(getText().length());
 
                 } catch (NumberFormatException nfe) {
                     nfe.printStackTrace();
@@ -113,7 +112,6 @@ public class TextViewEasyMoney extends EdittextCustom {
                             }
                         }
                     }
-                    setSelection(getText().length());
                 }
 
                 TextViewEasyMoney.this.addTextChangedListener(this);
