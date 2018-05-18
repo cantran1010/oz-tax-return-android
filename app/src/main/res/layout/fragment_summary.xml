@@ -72,15 +72,14 @@
                     android:layout_marginTop="8dp"
                     android:background="@color/white" />
 
-                <au.mccann.oztaxreturn.view.TextViewEasyMoney
+                <au.mccann.oztaxreturn.view.TextViewCustom
                     android:id="@+id/tv_tax_return"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:gravity="center"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/tv_size_xxlager"
-                    app:currency_symbol="$" />
+                    android:textSize="@dimen/tv_size_xxlager" />
             </LinearLayout>
 
             <LinearLayout

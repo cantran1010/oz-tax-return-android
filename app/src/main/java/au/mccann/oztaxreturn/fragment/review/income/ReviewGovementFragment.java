@@ -361,6 +361,7 @@ public class ReviewGovementFragment extends BaseFragment implements View.OnClick
             @Override
             public void onResponse(Call<IncomeResponse> call, Response<IncomeResponse> response) {
                 ProgressDialogUtils.dismissProgressDialog();
+                attach.clear();
                 LogUtils.d(TAG, "doSaveReview code: " + response.code());
                 if (response.code() == Constants.HTTP_CODE_OK) {
                     LogUtils.d(TAG, "doSaveReview code: " + response.body().getJobs().toString());
@@ -414,19 +415,26 @@ public class ReviewGovementFragment extends BaseFragment implements View.OnClick
                 if (isEditApp()) {
                     if (rbYes.isChecked()) {
                         if (edtIncomeType.getText().toString().trim().isEmpty()) {
+                            edtIncomeType.requestFocus();
+                            edtIncomeType.getParent().requestChildFocus(edtIncomeType, edtIncomeType);
                             Utils.showToolTip(getContext(), edtIncomeType, getString(R.string.vali_all_empty));
                             return;
                         }
                         if (edtGrossPayment.getText().toString().trim().isEmpty()) {
+                            edtGrossPayment.requestFocus();
+                            edtGrossPayment.getParent().requestChildFocus(edtGrossPayment, edtGrossPayment);
                             Utils.showToolTip(getContext(), edtGrossPayment, getString(R.string.vali_all_empty));
                             return;
                         }
                         if (edtTax.getText().toString().trim().isEmpty()) {
+                            edtTax.requestFocus();
+                            edtTax.getParent().requestChildFocus(edtTax, edtTax);
                             Utils.showToolTip(getContext(), edtTax, getString(R.string.vali_all_empty));
                             return;
                         }
                         if (images.size() < 2) {
-                            Utils.showToolTip(getContext(), grImage, getString(R.string.vali_all_empty));
+                            grImage.getParent().requestChildFocus(grImage, grImage);
+                            Utils.showToolTip(getContext(), grImage, getString(R.string.err_pick_image));
                             return;
                         }
                         uploadImage();

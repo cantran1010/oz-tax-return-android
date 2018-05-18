@@ -24,7 +24,7 @@ import au.mccann.oztaxreturn.utils.LogUtils;
 import au.mccann.oztaxreturn.utils.ProgressDialogUtils;
 import au.mccann.oztaxreturn.utils.TransitionScreen;
 import au.mccann.oztaxreturn.utils.Utils;
-import au.mccann.oztaxreturn.view.EdittextCustom;
+import au.mccann.oztaxreturn.view.EditTextEasyMoney;
 import au.mccann.oztaxreturn.view.RadioButtonCustom;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
@@ -44,7 +44,7 @@ public class ReviewPersonalInfomationC extends BaseFragment implements View.OnCl
     private RadioButtonCustom rbYes, rbNo;
     private LinearLayout layoutRemain;
     private PersonalInfomationResponse personalInfomationResponse;
-    private EdittextCustom edtLoan;
+    private EditTextEasyMoney edtLoan;
     private FloatingActionButton fab;
 
     @Override
@@ -58,7 +58,7 @@ public class ReviewPersonalInfomationC extends BaseFragment implements View.OnCl
         rbNo = (RadioButtonCustom) findViewById(R.id.rb_no);
         findViewById(R.id.btn_next).setOnClickListener(this);
         layoutRemain = (LinearLayout) findViewById(R.id.remain_layout);
-        edtLoan = (EdittextCustom) findViewById(R.id.edt_loan);
+        edtLoan = (EditTextEasyMoney) findViewById(R.id.edt_loan);
         fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(this);
     }
@@ -83,7 +83,7 @@ public class ReviewPersonalInfomationC extends BaseFragment implements View.OnCl
     private void updatePersonalInfo() {
         if (personalInfomationResponse.getStudentLoan() > 0) {
             layoutRemain.setVisibility(View.VISIBLE);
-            edtLoan.setText(personalInfomationResponse.getStudentLoan() + "");
+            edtLoan.setText(String.valueOf(personalInfomationResponse.getStudentLoan()));
             rbYes.setChecked(true);
             rbNo.setChecked(false);
         } else {
@@ -124,7 +124,7 @@ public class ReviewPersonalInfomationC extends BaseFragment implements View.OnCl
         JSONObject jsonRequest = new JSONObject();
         try {
             if (rbYes.isChecked())
-                jsonRequest.put("student_loan", edtLoan.getText().toString().trim());
+                jsonRequest.put("student_loan", edtLoan.getValuesFloat());
             else
                 jsonRequest.put("student_loan", 0);
         } catch (JSONException e) {

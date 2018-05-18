@@ -374,6 +374,7 @@ public class ReviewVehicleFragment extends BaseFragment implements View.OnClickL
             @Override
             public void onResponse(Call<DeductionResponse> call, Response<DeductionResponse> response) {
                 ProgressDialogUtils.dismissProgressDialog();
+                attach.clear();
                 LogUtils.d(TAG, "doSaveReview code: " + response.code());
                 if (response.code() == Constants.HTTP_CODE_OK) {
 //                    LogUtils.d(TAG, "doSaveReview code: " + response.body().getClothes().toString());
@@ -433,17 +434,17 @@ public class ReviewVehicleFragment extends BaseFragment implements View.OnClickL
                     if (rbYes.isChecked()) {
                         if (edtHow.getText().toString().trim().isEmpty()) {
                             edtHow.getParent().requestChildFocus(edtHow, edtHow);
-                            showToolTip(getContext(), edtHow,  getString(R.string.vali_all_empty));
+                            showToolTip(getContext(), edtHow, getString(R.string.vali_all_empty));
                             return;
                         }
                         if (edtKm.getText().toString().trim().isEmpty()) {
                             edtKm.getParent().requestChildFocus(edtKm, edtKm);
-                            showToolTip(getContext(), edtKm,  getString(R.string.vali_all_empty));
+                            showToolTip(getContext(), edtKm, getString(R.string.vali_all_empty));
                             return;
                         }
                         if (edtType.getText().toString().trim().isEmpty()) {
                             edtType.getParent().requestChildFocus(edtType, edtType);
-                            showToolTip(getContext(), edtType,  getString(R.string.vali_all_empty));
+                            showToolTip(getContext(), edtType, getString(R.string.vali_all_empty));
                             return;
                         }
                         if (edtReg.getText().toString().trim().isEmpty()) {
@@ -453,11 +454,11 @@ public class ReviewVehicleFragment extends BaseFragment implements View.OnClickL
                         }
                         if (edtAmount.getText().toString().trim().isEmpty()) {
                             edtAmount.getParent().requestChildFocus(edtAmount, edtAmount);
-                            showToolTip(getContext(), edtAmount,  getString(R.string.vali_all_empty));
+                            showToolTip(getContext(), edtAmount, getString(R.string.vali_all_empty));
                             return;
                         }
                         if (images.size() < 2) {
-                            showToolTip(getContext(), grImage,getString(R.string.vali_all_empty));
+                            showToolTip(getContext(), grImage, getString(R.string.vali_all_empty));
                             return;
                         }
                         uploadImage();

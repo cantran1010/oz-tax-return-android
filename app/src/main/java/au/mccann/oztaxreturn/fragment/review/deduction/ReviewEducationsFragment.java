@@ -236,6 +236,11 @@ public class ReviewEducationsFragment extends BaseFragment implements View.OnCli
             @Override
             public void onResponse(Call<DeductionResponse> call, Response<DeductionResponse> response) {
                 ProgressDialogUtils.dismissProgressDialog();
+                for (Education education : educations
+                        ) {
+                    education.getAttach().clear();
+                    adapter.notifyDataSetChanged();
+                }
                 LogUtils.d(TAG, "getReviewDeduction code : " + response.code());
                 if (response.code() == Constants.HTTP_CODE_OK) {
                     LogUtils.d(TAG, "getReviewDeduction body : " + response.body().getEducations().toString());

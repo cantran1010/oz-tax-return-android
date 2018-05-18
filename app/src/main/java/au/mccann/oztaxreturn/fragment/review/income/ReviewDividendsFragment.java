@@ -89,7 +89,6 @@ public class ReviewDividendsFragment extends BaseFragment implements View.OnClic
         fab.setEnabled(isEditApp());
         setTitle(getString(R.string.review_income_title));
         appBarVisibility(true, true, 1);
-        updateList();
         getReviewIncome();
     }
 
@@ -101,7 +100,7 @@ public class ReviewDividendsFragment extends BaseFragment implements View.OnClic
             AddIconAdd(dividend);
             showImage(dividend.getAttachments(), dividend.getImages());
         }
-        adapter.notifyDataSetChanged();
+        updateList();
 
     }
 
@@ -356,6 +355,11 @@ public class ReviewDividendsFragment extends BaseFragment implements View.OnClic
             @Override
             public void onResponse(Call<IncomeResponse> call, Response<IncomeResponse> response) {
                 ProgressDialogUtils.dismissProgressDialog();
+                for (Dividend dividend : dividends
+                        ) {
+                    dividend.getAttach().clear();
+                    adapter.notifyDataSetChanged();
+                }
                 LogUtils.d(TAG, "doSaveReview code: " + response.code());
                 if (response.code() == Constants.HTTP_CODE_OK) {
                     LogUtils.d(TAG, "doSaveReview body: " + response.body().getDividends().toString());

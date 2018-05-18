@@ -356,6 +356,11 @@ public class ReviewOthersFragment extends BaseFragment implements View.OnClickLi
             @Override
             public void onResponse(Call<DeductionResponse> call, Response<DeductionResponse> response) {
                 ProgressDialogUtils.dismissProgressDialog();
+                for (OtherResponse otherResponse : otherResponses
+                        ) {
+                    otherResponse.getAttach().clear();
+                    adapter.notifyDataSetChanged();
+                }
                 LogUtils.d(TAG, "doSaveReview code: " + response.code());
                 if (response.code() == Constants.HTTP_CODE_OK) {
                     LogUtils.d(TAG, "doSaveReview body: " + response.body().getEducations().toString());

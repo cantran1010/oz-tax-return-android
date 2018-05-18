@@ -51,7 +51,6 @@ import au.mccann.oztaxreturn.utils.ProgressDialogUtils;
 import au.mccann.oztaxreturn.utils.TransitionScreen;
 import au.mccann.oztaxreturn.utils.Utils;
 import au.mccann.oztaxreturn.view.ButtonCustom;
-import au.mccann.oztaxreturn.view.TextViewEasyMoney;
 import au.mccann.oztaxreturn.view.ExpandableLayout;
 import au.mccann.oztaxreturn.view.TextViewCustom;
 import okhttp3.ResponseBody;
@@ -66,8 +65,8 @@ import retrofit2.Response;
 public class ReviewSummaryFragment extends BaseFragment implements View.OnClickListener {
     private static final int PERMISSION_REQUEST_CODE = 1;
     private static final String TAG = ReviewSummaryFragment.class.getSimpleName();
-    private TextViewCustom tvActual, tvTotalIncome, tvTotalDeduction, tvTaxPayable, tvTaxWidthheld;
-    private TextViewEasyMoney tvTaxReturn;
+    private TextViewCustom tvTaxReturn, tvActual, tvTotalIncome, tvTotalDeduction, tvTaxPayable, tvTaxWidthheld;
+
     private TextViewCustom tvIncomeSalary, tvGovernmentPayments, tvInterest, tvDividends, tvEarlyTermination, tvSuperIncomeStream, tvSuperLumpSum, tvRentaIncome;
     private TextViewCustom tvVehicles, tvWorkRelatedClothing, tvWorkRelatedEducation, tvOtherWorkRelatedExpenses, tvDonations, tvTaxAgentFees, tvBankFees;
     private TextViewCustom tvTaxOn, tvMedicareLevy, tvMedicareLevySurcharge, tvRepayment, tvTaxOffsets, tvTaxCredits;
@@ -89,7 +88,7 @@ public class ReviewSummaryFragment extends BaseFragment implements View.OnClickL
 
     @Override
     protected void initView() {
-        tvTaxReturn = (TextViewEasyMoney) findViewById(R.id.tv_tax_return);
+        tvTaxReturn = (TextViewCustom) findViewById(R.id.tv_tax_return);
         tvActual = (TextViewCustom) findViewById(R.id.tv_tax_actual);
         tvTotalIncome = (TextViewCustom) findViewById(R.id.tv_total_income);
         tvTotalDeduction = (TextViewCustom) findViewById(R.id.tv_total_deduction);
@@ -175,45 +174,45 @@ public class ReviewSummaryFragment extends BaseFragment implements View.OnClickL
                 setUnderLinePolicy(tvPolicy);
             } else tvPolicy.setText(getContext().getString(R.string.review_summary_note));
         }
-        tvTaxReturn.setText(summary.getEstimatedTaxRefund());
-        tvActual.setText(Utils.formatMoneyFloat(getActivity(), Float.parseFloat(summary.getActualTaxRefund())));
-        tvTotalIncome.setText(Utils.formatMoneyFloat(getActivity(), Float.parseFloat(summary.getIncome().getTotal())));
-        tvTotalDeduction.setText(Utils.formatMoneyFloat(getActivity(), Float.parseFloat(summary.getDeduction().getTotal())));
-        tvTaxPayable.setText(Utils.formatMoneyFloat(getActivity(), Float.parseFloat(summary.getTaxLiability().getTotal())));
-        tvTaxWidthheld.setText(Utils.formatMoneyFloat(getActivity(), Float.parseFloat(summary.getTaxWithheld())));
+        tvTaxReturn.setText(Utils.displayCurrency(summary.getEstimatedTaxRefund()));
+        tvActual.setText(Utils.displayCurrency(summary.getActualTaxRefund()));
+        tvTotalIncome.setText(Utils.displayCurrency(summary.getIncome().getTotal()));
+        tvTotalDeduction.setText(Utils.displayCurrency(summary.getDeduction().getTotal()));
+        tvTaxPayable.setText(Utils.displayCurrency(summary.getTaxLiability().getTotal()));
+        tvTaxWidthheld.setText(Utils.displayCurrency(summary.getTaxWithheld()));
         updateIncome(summary.getIncome().getParts());
         updateDeduction(summary.getDeduction().getParts());
         updateTax(summary.getTaxLiability().getParts());
     }
 
     private void updateIncome(IncomePart part) {
-        tvIncomeSalary.setText(Utils.formatMoneyFloat(getActivity(), Float.parseFloat(part.getSalary())));
-        tvGovernmentPayments.setText(Utils.formatMoneyFloat(getActivity(), Float.parseFloat(part.getGovPayments())));
-        tvInterest.setText(Utils.formatMoneyFloat(getActivity(), Float.parseFloat(part.getBankInterests())));
-        tvDividends.setText(Utils.formatMoneyFloat(getActivity(), Float.parseFloat(part.getDividends())));
-        tvEarlyTermination.setText(Utils.formatMoneyFloat(getActivity(), Float.parseFloat(part.getEtps())));
-        tvSuperIncomeStream.setText(Utils.formatMoneyFloat(getActivity(), Float.parseFloat(part.getSuperIncomeStream())));
-        tvSuperLumpSum.setText(Utils.formatMoneyFloat(getActivity(), Float.parseFloat(part.getSuperLumpSum())));
-        tvRentaIncome.setText(Utils.formatMoneyFloat(getActivity(), Float.parseFloat(part.getRentals())));
+        tvIncomeSalary.setText(Utils.displayCurrency(part.getSalary()));
+        tvGovernmentPayments.setText(Utils.displayCurrency(part.getGovPayments()));
+        tvInterest.setText(Utils.displayCurrency(part.getBankInterests()));
+        tvDividends.setText(Utils.displayCurrency(part.getDividends()));
+        tvEarlyTermination.setText(Utils.displayCurrency(part.getEtps()));
+        tvSuperIncomeStream.setText(Utils.displayCurrency(part.getSuperIncomeStream()));
+        tvSuperLumpSum.setText(Utils.displayCurrency(part.getSuperLumpSum()));
+        tvRentaIncome.setText(Utils.displayCurrency(part.getRentals()));
     }
 
     private void updateDeduction(DeductionPart part) {
-        tvVehicles.setText(Utils.formatMoneyFloat(getActivity(), Float.parseFloat(part.getVehicles())));
-        tvWorkRelatedClothing.setText(Utils.formatMoneyFloat(getActivity(), Float.parseFloat(part.getClothes())));
-        tvWorkRelatedEducation.setText(Utils.formatMoneyFloat(getActivity(), Float.parseFloat(part.getEducations())));
-        tvOtherWorkRelatedExpenses.setText(Utils.formatMoneyFloat(getActivity(), Float.parseFloat(part.getOthers())));
-        tvDonations.setText(Utils.formatMoneyFloat(getActivity(), Float.parseFloat(part.getDonations())));
-        tvTaxAgentFees.setText(Utils.formatMoneyFloat(getActivity(), Float.parseFloat(part.getTaxAgents())));
-        tvBankFees.setText(Utils.formatMoneyFloat(getActivity(), Float.parseFloat(part.getBankFees())));
+        tvVehicles.setText(Utils.displayCurrency(part.getVehicles()));
+        tvWorkRelatedClothing.setText(Utils.displayCurrency(part.getClothes()));
+        tvWorkRelatedEducation.setText(Utils.displayCurrency(part.getEducations()));
+        tvOtherWorkRelatedExpenses.setText(Utils.displayCurrency(part.getOthers()));
+        tvDonations.setText(Utils.displayCurrency(part.getDonations()));
+        tvTaxAgentFees.setText(Utils.displayCurrency(part.getTaxAgents()));
+        tvBankFees.setText(Utils.displayCurrency(part.getBankFees()));
     }
 
     private void updateTax(TaxPart part) {
-        tvTaxOn.setText(Utils.formatMoneyFloat(getActivity(), Float.parseFloat(part.getOnTaxableIncome())));
-        tvMedicareLevy.setText(Utils.formatMoneyFloat(getActivity(), Float.parseFloat(part.getMedicareLevy())));
-        tvMedicareLevySurcharge.setText(Utils.formatMoneyFloat(getActivity(), Float.parseFloat(part.getMedicareLevySurcharge())));
-        tvRepayment.setText(Utils.formatMoneyFloat(getActivity(), Float.parseFloat(part.getHecsHelpRepayment())));
-        tvTaxOffsets.setText(Utils.formatMoneyFloat(getActivity(), Float.parseFloat(part.getTaxOffsets())));
-        tvTaxCredits.setText(Utils.formatMoneyFloat(getActivity(), Float.parseFloat(part.getTaxCredits())));
+        tvTaxOn.setText(Utils.displayCurrency(part.getOnTaxableIncome()));
+        tvMedicareLevy.setText(Utils.displayCurrency(part.getMedicareLevy()));
+        tvMedicareLevySurcharge.setText(Utils.displayCurrency(part.getMedicareLevySurcharge()));
+        tvRepayment.setText(Utils.displayCurrency(part.getHecsHelpRepayment()));
+        tvTaxOffsets.setText(Utils.displayCurrency(part.getTaxOffsets()));
+        tvTaxCredits.setText(Utils.displayCurrency(part.getTaxCredits()));
     }
 
     private void expandableLayout(ExpandableLayout expan, ImageView img) {
@@ -384,39 +383,6 @@ public class ReviewSummaryFragment extends BaseFragment implements View.OnClickL
             }
         });
     }
-
-//    private void openFile() {
-//        MimeTypeMap myMime = MimeTypeMap.getSingleton();
-//        Intent newIntent = new Intent(Intent.ACTION_VIEW);
-//        String mimeType = myMime.getMimeTypeFromExtension(fileExt(futureStudioIconFile.getAbsolutePath()).substring(1));
-//        newIntent.setDataAndType(Uri.fromFile(futureStudioIconFile), mimeType);
-//        newIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//        newIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//        try {
-//            getActivity().startActivity(newIntent);
-//        } catch (ActivityNotFoundException e) {
-//            Toast.makeText(getActivity(), "No handler for this type of file.", Toast.LENGTH_LONG).show();
-//        }
-//    }
-
-//    private String fileExt(String url) {
-//        if (url.indexOf("?") > -1) {
-//            url = url.substring(0, url.indexOf("?"));
-//        }
-//        if (url.lastIndexOf(".") == -1) {
-//            return null;
-//        } else {
-//            String ext = url.substring(url.lastIndexOf(".") + 1);
-//            if (ext.indexOf("%") > -1) {
-//                ext = ext.substring(0, ext.indexOf("%"));
-//            }
-//            if (ext.indexOf("/") > -1) {
-//                ext = ext.substring(0, ext.indexOf("/"));
-//            }
-//            return ext.toLowerCase();
-//
-//        }
-//    }
 
     private boolean checkPermission() {
         int result = ContextCompat.checkSelfPermission(getContext(),
@@ -623,10 +589,10 @@ public class ReviewSummaryFragment extends BaseFragment implements View.OnClickL
                 expandableLayout(layoutTax, icTax);
                 break;
             case R.id.img_estimated:
-                Utils.showToolTip(getActivity(), imgNoteEstimated, getString(R.string.review_summary_note));
+                Utils.showToolTip(getActivity(), imgNoteEstimated, getString(R.string.astimated_tax_refund_message));
                 break;
             case R.id.img_actual:
-                Utils.showToolTip(getActivity(), imgTacRefund, getString(R.string.review_summary_note));
+                Utils.showToolTip(getActivity(), imgTacRefund, getString(R.string.actual_tax_refund_message));
                 break;
         }
 

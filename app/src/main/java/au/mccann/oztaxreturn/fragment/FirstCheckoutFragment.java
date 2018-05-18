@@ -20,8 +20,8 @@ import au.mccann.oztaxreturn.utils.LogUtils;
 import au.mccann.oztaxreturn.utils.ProgressDialogUtils;
 import au.mccann.oztaxreturn.utils.TransitionScreen;
 import au.mccann.oztaxreturn.utils.Utils;
-import au.mccann.oztaxreturn.view.TextViewEasyMoney;
 import au.mccann.oztaxreturn.view.EdittextCustom;
+import au.mccann.oztaxreturn.view.TextViewCustom;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
 import retrofit2.Call;
@@ -35,7 +35,7 @@ import retrofit2.Response;
 public class FirstCheckoutFragment extends BaseFragment implements View.OnClickListener {
 
     private static final String TAG = FirstCheckoutFragment.class.getSimpleName();
-    private TextViewEasyMoney tvServiceFee, tvTotalFee;
+    private TextViewCustom tvServiceFee, tvTotalFee;
     private EdittextCustom edtPromotionCode;
     private FeeResponse feeResponse;
 
@@ -47,8 +47,8 @@ public class FirstCheckoutFragment extends BaseFragment implements View.OnClickL
 
     @Override
     protected void initView() {
-        tvServiceFee = (TextViewEasyMoney) findViewById(R.id.tv_service_fee);
-        tvTotalFee = (TextViewEasyMoney) findViewById(R.id.tv_total_fee);
+        tvServiceFee = (TextViewCustom) findViewById(R.id.tv_service_fee);
+        tvTotalFee = (TextViewCustom) findViewById(R.id.tv_total_fee);
         edtPromotionCode = (EdittextCustom) findViewById(R.id.edt_promotion_code);
 
         findViewById(R.id.btn_next).setOnClickListener(this);
@@ -158,8 +158,8 @@ public class FirstCheckoutFragment extends BaseFragment implements View.OnClickL
                 if (response.code() == Constants.HTTP_CODE_OK) {
                     LogUtils.d(TAG, "checkPromotionCode body : " + response.body().toString());
                     feeResponse = response.body();
-                    tvServiceFee.setText(String.valueOf(feeResponse.getAmount()));
-                    tvTotalFee.setText(String.valueOf(feeResponse.getAmountAfter()));
+                    tvServiceFee.setText(Utils.displayCurrency(String.valueOf(feeResponse.getAmount())));
+                    tvTotalFee.setText(Utils.displayCurrency(String.valueOf(feeResponse.getAmountAfter())));
                 } else {
                     APIError error = Utils.parseError(response);
                     LogUtils.d(TAG, "getPromotionFee error : " + error.message());

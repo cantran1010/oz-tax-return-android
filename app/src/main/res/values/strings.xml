@@ -280,8 +280,8 @@
     <string name="dividends_company_name">company name</string>
     <string name="unfrank_dividends">unfranks dividends</string>
     <string name="franking_credits">franking credits</string>
-    <string name="dividends_tax_widthheld">Tax widthheld</string>
-    <string name="label_add">Add New</string>
+    <string name="dividends_tax_widthheld">Tax withheld</string>
+    <string name="label_add">add new</string>
     <string name="franked_dividends">franked dividends</string>
 
     <!-- review etps   -->
@@ -498,6 +498,8 @@
     <string name="tax_return_report">tax return report</string>
     <string name="review_audi_content">Please review your application again and submit additional information and image require by ATO to relogde your application. Your can contact our accountant for free support.</string>
     <string name="actual_tax_refund">Actual\ntax refund</string>
+    <string name="astimated_tax_refund_message">This actual tax return is issued by ATO based on your provided information.</string>
+    <string name="actual_tax_refund_message">Your tax refund is estimated based on information you have provided and our calculation method.\nYour final tax refund may be prone to changing by ATO.</string>
 
     <!-- notification screen -->
     <string name="notification_title">NOTIFICATION</string>

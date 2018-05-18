@@ -97,12 +97,6 @@
         <attr name="el_parallax" format="float" />
         <attr name="android:orientation" />
     </declare-styleable>
-    <declare-styleable name="currencyEditText">
-        <attr name="groupDivider" format="string" />
-        <attr name="monetaryDivider" format="string" />
-        <attr name="locale" format="string" />
-        <attr name="showSymbol" format="boolean" />
-    </declare-styleable>
     <declare-styleable name="EasyMoneyWidgets">
         <attr name="currency_symbol" format="string" />
         <attr name="show_currency" format="boolean" />

@@ -85,7 +85,6 @@ public class WagesSalaryFragment extends BaseFragment implements View.OnClickLis
     private EdittextCustom edtTfn, edtFirstName, edtMidName, edtLastName;
     private EdittextCustom edtBirthday;
     private Calendar calendar = GregorianCalendar.getInstance();
-    private ResponseBasicInformation basicInformation;
     private ArrayList<Attachment> attach;
 
     @Override
@@ -114,7 +113,6 @@ public class WagesSalaryFragment extends BaseFragment implements View.OnClickLis
     protected void initData() {
         images = new ArrayList<>();
         attach = new ArrayList<>();
-        basicInformation = new ResponseBasicInformation();
         setTitle(getString(R.string.income_ws_title));
         appBarVisibility(false, true, 0);
         //images
@@ -297,6 +295,7 @@ public class WagesSalaryFragment extends BaseFragment implements View.OnClickLis
             @Override
             public void onResponse(Call<ResponseBasicInformation> call, Response<ResponseBasicInformation> response) {
                 ProgressDialogUtils.dismissProgressDialog();
+                attach.clear();
                 LogUtils.d(TAG, "doSaveBasic code: " + response.code());
                 if (response.code() == Constants.HTTP_CODE_OK) {
                     LogUtils.d(TAG, "doSaveBasic body: " + response.body());
@@ -449,7 +448,7 @@ public class WagesSalaryFragment extends BaseFragment implements View.OnClickLis
                 LogUtils.d(TAG, "doSaveBasic" + cbYes.isChecked() + images.size());
                 if (cbYes.isChecked()) {
                     if (images.size() < 2) {
-                        showToolTip(getContext(), grImage, getString(R.string.image_attach_empty));
+                        showToolTip(getContext(), grImage, getString(R.string.err_pick_image));
                         return;
                     } else uploadImage();
                 } else if (cbNo.isChecked()) {

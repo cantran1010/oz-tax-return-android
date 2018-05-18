@@ -96,7 +96,6 @@ public class ReviewLumpSumFragment extends BaseFragment implements View.OnClickL
         fab.setEnabled(isEditApp());
         setTitle(getString(R.string.review_income_title));
         appBarVisibility(true, true, 1);
-        updateList();
         getReviewIncome();
     }
 
@@ -108,7 +107,7 @@ public class ReviewLumpSumFragment extends BaseFragment implements View.OnClickL
             AddIconAdd(dividend);
             showImage(dividend.getAttachments(), dividend.getImages());
         }
-        adapter.notifyDataSetChanged();
+        updateList();
 
     }
 
