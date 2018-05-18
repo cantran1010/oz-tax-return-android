@@ -249,19 +249,24 @@ public class ReviewFamilyHealthMedicareFragment extends BaseFragment implements 
                 if (image.getId() == 0 && !image.isAdd()) listUp.add(image);
             }
 
-            if (listUp.size() == 0) {
+            if (images.size() == 1) {
                 Utils.showLongToast(getActivity(), getString(R.string.image_attach_empty), true, false);
                 return;
             }
 
             LogUtils.d(TAG, "doNext : " + listUp.toString());
-            ImageUtils.doUploadImage(getContext(), listUp, new ImageUtils.UpImagesListener() {
-                @Override
-                public void onSuccess(List<Attachment> responses) {
-                    attach.addAll(responses);
-                    doUpdate();
-                }
-            });
+
+            if (listUp.size() > 0) {
+                ImageUtils.doUploadImage(getContext(), listUp, new ImageUtils.UpImagesListener() {
+                    @Override
+                    public void onSuccess(List<Attachment> responses) {
+                        attach.addAll(responses);
+                        doUpdate();
+                    }
+                });
+            } else {
+                doUpdate();
+            }
 
         } else {
             doUpdate();
