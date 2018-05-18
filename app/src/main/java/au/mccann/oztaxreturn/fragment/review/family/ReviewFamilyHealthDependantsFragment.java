@@ -170,7 +170,7 @@ public class ReviewFamilyHealthDependantsFragment extends BaseFragment implement
 
         if (cbYes.isChecked()) {
             if (edtNumber.getText().toString().trim().isEmpty()) {
-                Utils.showToolTip(getActivity(), edtNumber, getString(R.string.valid_number));
+                Utils.showToolTip(getActivity(), edtNumber, getString(R.string.vali_all_empty));
                 return;
             }
         }

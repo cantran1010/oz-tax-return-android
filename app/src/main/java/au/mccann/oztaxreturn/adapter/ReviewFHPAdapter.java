@@ -189,12 +189,15 @@ public class ReviewFHPAdapter extends RecyclerView.Adapter<ReviewFHPAdapter.MyVi
 
         ImageAdapter imageAdapter = new ImageAdapter(context, images);
         holder.myGridView.setAdapter(imageAdapter);
+        imageAdapter.setRemove(isEdit());
 
         imageAdapter.setRemoveListener(new ImageAdapter.RemoveListener() {
             @Override
             public void remove(int position) {
                 LogUtils.d(TAG, "setRemoveListener , position : " + position);
-                reviewPrivateResponse.getAttachments().remove(reviewPrivateResponse.getAttachments().size() - position - 1);
+
+                if (isEdit())
+                    reviewPrivateResponse.getAttachments().remove(reviewPrivateResponse.getAttachments().size() - position - 1);
             }
         });
 

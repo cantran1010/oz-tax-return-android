@@ -137,6 +137,7 @@ public class ReviewFamilyHealthSpouseFragment extends BaseFragment implements Vi
         }
         imageAdapter = new ImageAdapter(getActivity(), images);
         grImage.setAdapter(imageAdapter);
+        imageAdapter.setRemove(false);
 
         grImage.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -240,6 +241,11 @@ public class ReviewFamilyHealthSpouseFragment extends BaseFragment implements Vi
                     return;
                 }
 
+                if (images.size() == 1) {
+                    Utils.showToolTip(getActivity(), edtTaxAble, getString(R.string.image_attach_empty));
+                    return;
+                }
+
                 for (Image image : images) {
                     if (image.getId() > 0) {
                         Attachment attachment = new Attachment();
@@ -324,6 +330,7 @@ public class ReviewFamilyHealthSpouseFragment extends BaseFragment implements Vi
         edtLastName.setEnabled(true);
         edtTaxAble.setEnabled(true);
         tvBirth.setEnabled(true);
+        imageAdapter.setRemove(true);
     }
 
     private void doNext() {
