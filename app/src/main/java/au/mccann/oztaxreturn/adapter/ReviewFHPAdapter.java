@@ -66,7 +66,7 @@ public class ReviewFHPAdapter extends RecyclerView.Adapter<ReviewFHPAdapter.MyVi
             holder.edtPremiums.setText(String.valueOf(reviewPrivateResponse.getPremiumsPaid()));
         if (reviewPrivateResponse.getGovRebateReceived() != 0)
             holder.edtGovernment.setText(String.valueOf(reviewPrivateResponse.getGovRebateReceived()));
-        if (reviewPrivateResponse.getDaysCovered() != 0)
+//        if (reviewPrivateResponse.getDaysCovered() != 0)
             holder.edtDay.setText(String.valueOf(reviewPrivateResponse.getDaysCovered()));
 
         if (isEdit()) {
