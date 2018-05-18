@@ -27,8 +27,8 @@ import java.util.List;
 
 import au.mccann.oztaxreturn.R;
 import au.mccann.oztaxreturn.activity.AlbumActivity;
+import au.mccann.oztaxreturn.adapter.LanguageSpinnerAdapter;
 import au.mccann.oztaxreturn.adapter.MessageAdapter;
-import au.mccann.oztaxreturn.adapter.OzSpinnerAdapter;
 import au.mccann.oztaxreturn.common.Constants;
 import au.mccann.oztaxreturn.database.UserEntity;
 import au.mccann.oztaxreturn.database.UserManager;
@@ -335,12 +335,8 @@ public class ContactFragment extends BaseFragment implements View.OnClickListene
 
                     languagesArr = (ArrayList<Language>) response.body();
 
-                    List<String> languages = new ArrayList<>();
-                    for (Language language : response.body()) {
-                        languages.add(language.getName());
-                    }
-                    OzSpinnerAdapter dataYearCreateAdapter = new OzSpinnerAdapter(getActivity(), languages);
-                    spLanguage.setAdapter(dataYearCreateAdapter);
+                    LanguageSpinnerAdapter languageSpinnerAdapter = new LanguageSpinnerAdapter(getActivity(), response.body());
+                    spLanguage.setAdapter(languageSpinnerAdapter);
 
                     getUserInformation();
                 } else {

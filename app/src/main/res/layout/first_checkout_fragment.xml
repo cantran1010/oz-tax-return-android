@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:android.support.v7.cardview="http://schemas.android.com/apk/res-auto"
     xmlns:card_view="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -53,59 +54,13 @@
 
             </LinearLayout>
 
-
-        </android.support.v7.widget.CardView>
-
-        <android.support.v7.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/left_right_margin_screen"
-            android:layout_marginRight="@dimen/left_right_margin_screen"
-            android:layout_marginTop="20dp"
-            android:background="@color/white"
-            card_view:cardBackgroundColor="@color/bg"
-            card_view:cardElevation="10dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:orientation="vertical">
-
-                <au.mccann.oztaxreturn.view.TextViewCustom
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:text="@string/total_fee"
-                    android:textSize="10sp" />
-
-                <View
-                    android:layout_width="30dp"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="10dp"
-                    android:background="@color/line_color" />
-
-                <au.mccann.oztaxreturn.view.TextViewCustom
-                    android:id="@+id/tv_total_fee"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginTop="10dp"
-                    android:text="$50"
-                    android:textColor="@color/oz_blue"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
-
-            </LinearLayout>
-
-
         </android.support.v7.widget.CardView>
 
         <View
-            android:layout_width="20dp"
-            android:layout_height="3dp"
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
             android:layout_marginTop="20dp"
-            android:background="@color/app_bg" />
+            android:background="#f6f6f6" />
 
         <au.mccann.oztaxreturn.view.EdittextCustom
             android:id="@+id/edt_promotion_code"
@@ -126,8 +81,54 @@
             android:layout_marginLeft="@dimen/left_right_margin_screen"
             android:layout_marginRight="@dimen/left_right_margin_screen"
             android:layout_marginTop="10dp"
+            android:gravity="center"
             android:text="@string/promotion_des"
             android:textSize="15sp" />
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/left_right_margin_screen"
+            android:layout_marginRight="@dimen/left_right_margin_screen"
+            android:layout_marginTop="20dp"
+            android.support.v7.cardview:cardBackgroundColor="#e9f1fc"
+            card_view:cardElevation="10dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/img_checked"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:src="@drawable/img_promotion_ok"
+                    android:visibility="gone" />
+
+                <au.mccann.oztaxreturn.view.TextViewCustom
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:text="@string/total_fee"
+                    android:textSize="10sp" />
+
+                <au.mccann.oztaxreturn.view.TextViewCustom
+                    android:id="@+id/tv_total_fee"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginTop="10dp"
+                    android:text="$50"
+                    android:textColor="@color/oz_blue"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
 
     </LinearLayout>
 

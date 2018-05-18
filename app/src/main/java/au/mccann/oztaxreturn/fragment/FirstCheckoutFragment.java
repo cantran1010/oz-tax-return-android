@@ -3,6 +3,7 @@ package au.mccann.oztaxreturn.fragment;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.ImageView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -38,6 +39,7 @@ public class FirstCheckoutFragment extends BaseFragment implements View.OnClickL
     private TextViewCustom tvServiceFee, tvTotalFee;
     private EdittextCustom edtPromotionCode;
     private FeeResponse feeResponse;
+    private ImageView imgChecked;
 
 
     @Override
@@ -50,6 +52,7 @@ public class FirstCheckoutFragment extends BaseFragment implements View.OnClickL
         tvServiceFee = (TextViewCustom) findViewById(R.id.tv_service_fee);
         tvTotalFee = (TextViewCustom) findViewById(R.id.tv_total_fee);
         edtPromotionCode = (EdittextCustom) findViewById(R.id.edt_promotion_code);
+        imgChecked = (ImageView) findViewById(R.id.img_checked);
 
         findViewById(R.id.btn_next).setOnClickListener(this);
     }
@@ -102,9 +105,16 @@ public class FirstCheckoutFragment extends BaseFragment implements View.OnClickL
                     tvServiceFee.setText(String.valueOf(feeResponse.getAmount()));
                     tvTotalFee.setText(String.valueOf(feeResponse.getAmountAfter()));
 
-//                    Bundle bundle = new Bundle();
-//                    bundle.putSerializable(Constants.PARAMETER_FEE_EXTRA, feeResponse);
-//                    openFragment(R.id.layout_container, CheckoutFragment.class, true, bundle, TransitionScreen.RIGHT_TO_LEFT);
+                    imgChecked.setVisibility(View.VISIBLE);
+
+                    DialogUtils.showOkDialog(getActivity(), getString(R.string.app_name), getString(R.string.promotion_ok), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                        @Override
+                        public void onSubmit() {
+                            Bundle bundle = new Bundle();
+                            bundle.putSerializable(Constants.PARAMETER_FEE_EXTRA, feeResponse);
+                            openFragment(R.id.layout_container, CheckoutFragment.class, true, bundle, TransitionScreen.RIGHT_TO_LEFT);
+                        }
+                    });
 
                 } else {
                     APIError error = Utils.parseError(response);

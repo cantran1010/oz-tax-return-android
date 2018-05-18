@@ -175,7 +175,7 @@
     <string name="service_fee">Our services fee</string>
     <string name="total_fee">Total payable fee</string>
     <string name="promotion_hint">Promotion code</string>
-    <string name="promotion_des">User can enter promotion code to get discount</string>
+    <string name="promotion_des">User can enter promotion code\nto get discount</string>
     <string name="next_des">* please click next to process to the checkout</string>
     <string name="currency">$ %1$d</string>
     <string name="back_to_exit">Press back button again to exit</string>
@@ -556,6 +556,8 @@
     <string name="app_sologan">Lets optimize your tax return with our online accountants</string>
     <string name="no_app">Have No Application</string>
     <string name="max_3_add">Maximum 3 private healths are allowed!</string>
+
+    <string name="promotion_ok">Promotion is correct,do you want to continue?</string>
 
 
 </resources>
