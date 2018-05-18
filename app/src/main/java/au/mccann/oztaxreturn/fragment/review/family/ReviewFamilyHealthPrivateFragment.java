@@ -76,7 +76,6 @@ public class ReviewFamilyHealthPrivateFragment extends BaseFragment implements V
     private int positionPickImage = 0;
     private int countDown;
     private RelativeLayout layoutAdd;
-    private boolean isEdit = false;
 
     @Override
     protected int getLayout() {
@@ -164,13 +163,17 @@ public class ReviewFamilyHealthPrivateFragment extends BaseFragment implements V
         reviewFHPAdapter.setPickImageListener(new ReviewFHPAdapter.PickImageListener() {
             @Override
             public void doPick(int position) {
-                LogUtils.d(TAG, "doPick , position : " + position);
-                positionPickImage = position;
-                checkPermissionImageAttach(position);
+
+                if (isEditApp()) {
+                    LogUtils.d(TAG, "doPick , position : " + position);
+                    positionPickImage = position;
+                    checkPermissionImageAttach(position);
+                }
+
             }
         });
 
-        if (isEdit) reviewFHPAdapter.setEdit(true);
+        if (isEditApp()) reviewFHPAdapter.setEdit(true);
     }
 
     private void checkPermissionImageAttach(int position) {
@@ -401,7 +404,6 @@ public class ReviewFamilyHealthPrivateFragment extends BaseFragment implements V
         reviewFHPAdapter.setEdit(true);
         reviewFHPAdapter.notifyDataSetChanged();
         fbAdd.setEnabled(true);
-        isEdit = true;
     }
 
     private void updateUI() {
