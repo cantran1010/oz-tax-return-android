@@ -172,6 +172,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
+                        android:drawableRight="@drawable/ic_down"
+                        android:drawableEnd="@drawable/ic_down"
                         android:layout_marginTop="5dp"
                         android:focusable="false"
                         android:gravity="center_vertical"

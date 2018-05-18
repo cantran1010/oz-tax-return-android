@@ -90,7 +90,6 @@ public class ReviewDonationsFragment extends BaseFragment implements View.OnClic
         fab.setEnabled(isEditApp());
         setTitle(getString(R.string.review_income_title));
         appBarVisibility(true, true, 1);
-        updateList();
         getReviewDeduction();
     }
 
@@ -102,7 +101,7 @@ public class ReviewDonationsFragment extends BaseFragment implements View.OnClic
             AddIconAdd(education);
             showImage(education.getAttachments(), education.getImages());
         }
-        adapter.notifyDataSetChanged();
+        updateList();
 
     }
 
@@ -232,6 +231,11 @@ public class ReviewDonationsFragment extends BaseFragment implements View.OnClic
             @Override
             public void onResponse(Call<DeductionResponse> call, Response<DeductionResponse> response) {
                 ProgressDialogUtils.dismissProgressDialog();
+                for (Donation donation : donations
+                        ) {
+                    donation.getAttach().clear();
+                    adapter.notifyDataSetChanged();
+                }
                 LogUtils.d(TAG, "getReviewDeduction code : " + response.code());
                 if (response.code() == Constants.HTTP_CODE_OK) {
                     LogUtils.d(TAG, "getReviewDeduction body : " + response.body().getDonations().toString());

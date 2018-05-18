@@ -70,7 +70,6 @@ public class OtherFragment extends BaseFragment implements View.OnClickListener 
     private final String[] permissions = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
     private String imgPath;
     private RadioButtonCustom rbYes;
-    private RadioButtonCustom rbNo;
     private ExpandableLayout layout;
     private EdittextCustom edtResource;
     private ArrayList<Attachment> attach;
@@ -85,7 +84,6 @@ public class OtherFragment extends BaseFragment implements View.OnClickListener 
     protected void initView() {
         grImage = (MyGridView) findViewById(R.id.gr_image);
         rbYes = (RadioButtonCustom) findViewById(R.id.rb_yes);
-        rbNo = (RadioButtonCustom) findViewById(R.id.rb_no);
         edtResource = (EdittextCustom) findViewById(R.id.edt_resource);
         layout = (ExpandableLayout) findViewById(R.id.layout_expandable);
         findViewById(R.id.btn_next).setOnClickListener(this);
@@ -315,6 +313,7 @@ public class OtherFragment extends BaseFragment implements View.OnClickListener 
             @Override
             public void onResponse(Call<ResponseBasicInformation> call, Response<ResponseBasicInformation> response) {
                 ProgressDialogUtils.dismissProgressDialog();
+                attach.clear();
                 LogUtils.d(TAG, "doSaveBasic code: " + response.code());
                 if (response.code() == Constants.HTTP_CODE_OK) {
                     openFragment(R.id.layout_container, DeductionFragment.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);

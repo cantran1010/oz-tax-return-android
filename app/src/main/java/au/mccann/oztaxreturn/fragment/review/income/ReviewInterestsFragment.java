@@ -375,6 +375,7 @@ public class ReviewInterestsFragment extends BaseFragment implements View.OnClic
             public void onResponse(Call<IncomeResponse> call, Response<IncomeResponse> response) {
                 ProgressDialogUtils.dismissProgressDialog();
                 LogUtils.d(TAG, "doSaveReview code: " + response.code());
+                attach.clear();
                 if (response.code() == Constants.HTTP_CODE_OK) {
                     LogUtils.d(TAG, "doSaveReview code: " + response.body().getJobs().toString());
                     openFragment(R.id.layout_container, ReviewDividendsFragment.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
@@ -432,27 +433,38 @@ public class ReviewInterestsFragment extends BaseFragment implements View.OnClic
                 if (isEditApp()) {
                     if (rbYes.isChecked()) {
                         if (edtBankName.getText().toString().trim().isEmpty()) {
+                            edtBankName.requestFocus();
+                            edtBankName.getParent().requestChildFocus(edtBankName, edtBankName);
                             showToolTip(getContext(), edtBankName, getString(R.string.vali_all_empty));
                             return;
                         }
                         if (edtBankNumber.getText().toString().trim().isEmpty()) {
+                            edtBankNumber.requestFocus();
+                            edtBankNumber.getParent().requestChildFocus(edtBankNumber, edtBankNumber);
                             showToolTip(getContext(), edtBankNumber, getString(R.string.vali_all_empty));
                             return;
                         }
                         if (edtTotalInteres.getText().toString().trim().isEmpty()) {
-                            showToolTip(getContext(), edtTotalInteres,  getString(R.string.vali_all_empty));
+                            edtTotalInteres.requestFocus();
+                            edtTotalInteres.getParent().requestChildFocus(edtTotalInteres, edtTotalInteres);
+                            showToolTip(getContext(), edtTotalInteres, getString(R.string.vali_all_empty));
                             return;
                         }
                         if (edtBankFees.getText().toString().trim().isEmpty()) {
+                            edtBankFees.requestFocus();
+                            edtBankFees.getParent().requestChildFocus(edtBankFees, edtBankFees);
                             showToolTip(getContext(), edtBankFees, getString(R.string.vali_all_empty));
                             return;
                         }
                         if (edtTax.getText().toString().trim().isEmpty()) {
-                            showToolTip(getContext(), edtTax,getString(R.string.vali_all_empty));
+                            edtTax.requestFocus();
+                            edtTax.getParent().requestChildFocus(edtTax, edtTax);
+                            showToolTip(getContext(), edtTax, getString(R.string.vali_all_empty));
                             return;
                         }
                         if (images.size() < 2) {
-                            showToolTip(getContext(), grImage,getString(R.string.valid_deduction_image));
+                            grImage.getParent().requestChildFocus(grImage, grImage);
+                            showToolTip(getContext(), grImage, getString(R.string.err_pick_image));
                             return;
                         }
                         uploadImage();

@@ -97,4 +97,9 @@
         <attr name="el_parallax" format="float" />
         <attr name="android:orientation" />
     </declare-styleable>
+    <declare-styleable name="EasyMoneyWidgets">
+        <attr name="currency_symbol" format="string" />
+        <attr name="show_currency" format="boolean" />
+        <attr name="show_commas" format="boolean" />
+    </declare-styleable>
 </resources>

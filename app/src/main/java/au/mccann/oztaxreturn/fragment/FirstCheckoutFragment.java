@@ -97,8 +97,10 @@ public class FirstCheckoutFragment extends BaseFragment implements View.OnClickL
                     LogUtils.d(TAG, "checkPromotionCode body : " + response.body().toString());
                     feeResponse = response.body();
 
-                    tvServiceFee.setText(getString(R.string.USD2, Utils.formatNumber2Digit(feeResponse.getAmount())));
-                    tvTotalFee.setText(getString(R.string.USD2, Utils.formatNumber2Digit(feeResponse.getAmountAfter())));
+//                    tvServiceFee.setText(getString(R.string.USD2, Utils.formatNumber2Digit(feeResponse.getAmount())));
+//                    tvTotalFee.setText(getString(R.string.USD2, Utils.formatNumber2Digit(feeResponse.getAmountAfter())));
+                    tvServiceFee.setText(String.valueOf(feeResponse.getAmount()));
+                    tvTotalFee.setText(String.valueOf(feeResponse.getAmountAfter()));
 
 //                    Bundle bundle = new Bundle();
 //                    bundle.putSerializable(Constants.PARAMETER_FEE_EXTRA, feeResponse);
@@ -156,9 +158,8 @@ public class FirstCheckoutFragment extends BaseFragment implements View.OnClickL
                 if (response.code() == Constants.HTTP_CODE_OK) {
                     LogUtils.d(TAG, "checkPromotionCode body : " + response.body().toString());
                     feeResponse = response.body();
-
-                    tvServiceFee.setText(getString(R.string.USD2, Utils.formatNumber2Digit(feeResponse.getAmount())));
-                    tvTotalFee.setText(getString(R.string.USD2, Utils.formatNumber2Digit(feeResponse.getAmountAfter())));
+                    tvServiceFee.setText(Utils.displayCurrency(String.valueOf(feeResponse.getAmount())));
+                    tvTotalFee.setText(Utils.displayCurrency(String.valueOf(feeResponse.getAmountAfter())));
                 } else {
                     APIError error = Utils.parseError(response);
                     LogUtils.d(TAG, "getPromotionFee error : " + error.message());

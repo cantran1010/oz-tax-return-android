@@ -89,7 +89,6 @@ public class ReviewAnnuitiesFragment extends BaseFragment implements View.OnClic
         fab.setEnabled(isEditApp());
         setTitle(getString(R.string.review_income_title));
         appBarVisibility(true, true, 1);
-        updateList();
         getReviewIncome();
     }
 
@@ -101,7 +100,7 @@ public class ReviewAnnuitiesFragment extends BaseFragment implements View.OnClic
             AddIconAdd(dividend);
             showImage(dividend.getAttachments(), dividend.getImages());
         }
-        adapter.notifyDataSetChanged();
+        updateList();
 
     }
 

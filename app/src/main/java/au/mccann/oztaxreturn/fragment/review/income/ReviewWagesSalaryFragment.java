@@ -97,8 +97,8 @@ public class ReviewWagesSalaryFragment extends BaseFragment implements View.OnCl
                     jobs.clear();
                     jobs.addAll(response.body().getJobs());
                     jobAdapter.notifyDataSetChanged();
-                    if (jobs != null || jobs.size() > 0) tvNoData.setVisibility(View.GONE);
-                    else tvNoData.setVisibility(View.VISIBLE);
+                    if (jobs != null || jobs.size() > 0) tvNoData.setVisibility(View.VISIBLE);
+                    else tvNoData.setVisibility(View.GONE);
                 } else {
                     APIError error = Utils.parseError(response);
                     if (error != null) {

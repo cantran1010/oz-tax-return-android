@@ -72,7 +72,7 @@ public class DeductionFragment extends BaseFragment implements View.OnClickListe
 
     @Override
     protected int getLayout() {
-        return R.layout.fragment_diduction;
+        return R.layout.fragment_deduction;
     }
 
     @Override
@@ -289,6 +289,7 @@ public class DeductionFragment extends BaseFragment implements View.OnClickListe
             @Override
             public void onResponse(Call<ResponseBasicInformation> call, Response<ResponseBasicInformation> response) {
                 ProgressDialogUtils.dismissProgressDialog();
+                attach.clear();
                 LogUtils.d(TAG, "doSaveBasic code: " + response.code());
                 if (response.code() == Constants.HTTP_CODE_OK) {
                     openFragment(R.id.layout_container, EstimateFragment.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
@@ -357,7 +358,7 @@ public class DeductionFragment extends BaseFragment implements View.OnClickListe
                     return;
                 }
                 if (images.size() < 2) {
-                    showToolTip(getContext(), grImage, getString(R.string.valid_deduction_image));
+                    showToolTip(getContext(), grImage, getString(R.string.err_pick_image));
                     return;
                 }
                 uploadImage();

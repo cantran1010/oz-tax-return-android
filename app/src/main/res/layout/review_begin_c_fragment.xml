@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_marginLeft="@dimen/left_right_margin_screen"
     android:layout_marginRight="@dimen/left_right_margin_screen">
 
@@ -95,35 +95,18 @@
                 android:textColor="@color/tv_gray"
                 android:textSize="@dimen/size_small" />
 
-            <LinearLayout
+            <au.mccann.oztaxreturn.view.EditTextEasyMoney
+                android:id="@+id/edt_loan"
+                style="@style/EditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
                 android:layout_marginTop="10dp"
-                android:background="@drawable/bg_edittext"
-                android:gravity="center"
-                android:orientation="horizontal">
+                android:enabled="false"
+                android:inputType="numberDecimal"
+                android:textColor="@color/income_conten"
+                android:textColorHint="@color/tv_gray"
+                app:currency_symbol="$" />
 
-                <au.mccann.oztaxreturn.view.TextViewCustom
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:text="@string/USD"
-                    android:textAllCaps="true"
-                    android:textColor="@color/black"
-                    android:textSize="18sp" />
-
-                <au.mccann.oztaxreturn.view.EdittextCustom
-                    android:id="@+id/edt_loan"
-                    style="@style/EditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:enabled="false"
-                    android:inputType="number"
-                    android:textColor="@color/income_conten"
-                    android:textColorHint="@color/tv_gray" />
-
-            </LinearLayout>
 
         </LinearLayout>
 
@@ -143,9 +126,9 @@
         android:id="@+id/fab"
         style="@style/FloatingActionButton"
         android:layout_alignParentEnd="true"
-        app:fabSize="mini"
         android:layout_alignParentRight="true"
-        android:src="@drawable/ic_write" />
+        android:src="@drawable/ic_write"
+        app:fabSize="mini" />
 
 
 </RelativeLayout>

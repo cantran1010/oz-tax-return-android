@@ -1,112 +1,119 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:layout_marginEnd="@dimen/left_right_margin_screen"
+    android:layout_marginLeft="@dimen/left_right_margin_screen"
+    android:layout_marginRight="@dimen/left_right_margin_screen"
+    android:layout_marginStart="@dimen/left_right_margin_screen">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginLeft="@dimen/left_right_margin_screen"
-        android:layout_marginRight="@dimen/left_right_margin_screen"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-        <au.mccann.oztaxreturn.view.TextViewCustom
-            style="@style/TextViewRegister"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
-            android:text="@string/checkout_des" />
-
-        <au.mccann.oztaxreturn.view.TextViewCustom
-            style="@style/TextViewRegister"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
-            android:text="@string/checkout_name" />
-
-        <au.mccann.oztaxreturn.view.EdittextCustom
-            android:id="@+id/edt_name"
-            style="@style/EditTextRegister"
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:inputType="textPersonName" />
+            android:orientation="vertical">
 
-        <au.mccann.oztaxreturn.view.TextViewCustom
-            style="@style/TextViewRegister"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
-            android:text="@string/checkout_number" />
+            <au.mccann.oztaxreturn.view.TextViewCustom
+                style="@style/TextViewRegister"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="@string/checkout_des" />
 
-        <au.mccann.oztaxreturn.view.EdittextCustom
-            android:id="@+id/edt_number"
-            style="@style/EditTextRegister"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:inputType="number" />
-
-        <au.mccann.oztaxreturn.view.TextViewCustom
-            style="@style/TextViewRegister"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
-            android:text="@string/checkout_date" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            <au.mccann.oztaxreturn.view.TextViewCustom
+                style="@style/TextViewRegister"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:text="@string/checkout_name" />
 
             <au.mccann.oztaxreturn.view.EdittextCustom
-                android:id="@+id/edt_month"
+                android:id="@+id/edt_name"
                 style="@style/EditTextRegister"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="10dp"
                 android:layout_marginTop="5dp"
-                android:layout_weight="1"
-                android:hint="03"
-                android:inputType="number"
-                android:maxLength="2" />
+                android:inputType="textPersonName" />
+
+            <au.mccann.oztaxreturn.view.TextViewCustom
+                style="@style/TextViewRegister"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:text="@string/checkout_number" />
 
             <au.mccann.oztaxreturn.view.EdittextCustom
-                android:id="@+id/edt_year"
+                android:id="@+id/edt_number"
                 style="@style/EditTextRegister"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:layout_weight="1"
-                android:hint="2018"
                 android:inputType="number" />
+
+            <au.mccann.oztaxreturn.view.TextViewCustom
+                style="@style/TextViewRegister"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:text="@string/checkout_date" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <au.mccann.oztaxreturn.view.EdittextCustom
+                    android:id="@+id/edt_month"
+                    style="@style/EditTextRegister"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_weight="1"
+                    android:hint="03"
+                    android:inputType="number"
+                    android:maxLength="2" />
+
+                <au.mccann.oztaxreturn.view.EdittextCustom
+                    android:id="@+id/edt_year"
+                    style="@style/EditTextRegister"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_weight="1"
+                    android:hint="2018"
+                    android:inputType="number"
+                    android:maxLength="4" />
+            </LinearLayout>
+
+            <au.mccann.oztaxreturn.view.TextViewCustom
+                style="@style/TextViewRegister"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:text="@string/checkout_cvm" />
+
+            <au.mccann.oztaxreturn.view.EdittextCustom
+                android:id="@+id/edt_cvm"
+                style="@style/EditTextRegister"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:hint="@string/checkout_cvm_hint"
+                android:inputType="number" />
+
         </LinearLayout>
+    </ScrollView>
 
-        <au.mccann.oztaxreturn.view.TextViewCustom
-            style="@style/TextViewRegister"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
-            android:text="@string/checkout_cvm" />
-
-        <au.mccann.oztaxreturn.view.EdittextCustom
-            android:id="@+id/edt_cvm"
-            style="@style/EditTextRegister"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:hint="@string/checkout_cvm_hint"
-            android:inputType="number" />
-
-        <au.mccann.oztaxreturn.view.ButtonCustom
-            android:id="@+id/btn_checkout"
-            style="@style/Button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="@string/checkout_btn" />
-
-    </LinearLayout>
-
-</android.support.v4.widget.NestedScrollView>
+    <au.mccann.oztaxreturn.view.ButtonCustom
+        android:id="@+id/btn_checkout"
+        style="@style/Button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20dp"
+        android:text="@string/checkout_btn" />
+</RelativeLayout>

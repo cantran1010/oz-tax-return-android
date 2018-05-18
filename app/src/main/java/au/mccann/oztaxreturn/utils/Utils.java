@@ -39,7 +39,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.lang.annotation.Annotation;
-import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -442,29 +442,23 @@ public class Utils {
             return bmInput;
     }
 
-    public static String formatNumber2Digit(float input) {
-        DecimalFormat myFormatter = new DecimalFormat("###,###.##");
-        String result = myFormatter.format(input);
-        if (result.endsWith(".0")) result = result.substring(0, result.length() - 3);
-        return result;
-    }
-
-    public static String formatNumber(double input) {
-        DecimalFormat myFormatter = new DecimalFormat("###,###.##");
-        return myFormatter.format(input);
-    }
-
-    public static String formatNumber(long input) {
-        DecimalFormat myFormatter = new DecimalFormat("###,###.##");
-        return myFormatter.format(input);
-    }
-
-//    public static String formatMoney(Context context, double input) {
-//        return context.getString(R.string.dolla) + formatNumber(input);
+//    public static String formatNumber2Digit(float input) {
+//        DecimalFormat myFormatter = new DecimalFormat("###,###.##");
+//        String result = myFormatter.format(input);
+//        if (result.endsWith(".0")) result = result.substring(0, result.length() - 3);
+//        return result;
 //    }
-    public static String formatMoneyFloat(Context context, float input) {
-        return context.getString(R.string.dolla) + formatNumber2Digit(input);
+
+    static public String displayCurrency(String aFloat) {
+        Float aFloat1 = Float.parseFloat(aFloat.replace(",", "").replace("$", ""));
+        Float currencyAmount = new Float(aFloat);
+        NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance(Locale.US);
+        return currencyFormatter.format(currencyAmount);
     }
+//
+//    public static String formatMoneyFloat(Context context, float input) {
+//        return context.getString(R.string.dolla) + formatNumber2Digit(input);
+//    }
 
     // format phone number to nation format
     public static String formatPhoneNumber(String phoneStr) {
