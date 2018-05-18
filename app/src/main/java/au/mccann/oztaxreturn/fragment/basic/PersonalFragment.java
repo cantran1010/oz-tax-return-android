@@ -54,7 +54,7 @@ public class PersonalFragment extends BaseFragment implements View.OnClickListen
     private static final String TAG = PersonalFragment.class.getSimpleName();
     private EdittextCustom edtTitle, edtFirstName, edtMidName, edtLastName, edtBirthDay;
     private Spinner spGender;
-    private RadioButtonCustom rbYes;
+    private RadioButtonCustom rbYes, rbNo;
     private Calendar calendar = GregorianCalendar.getInstance();
     private List<String> genders = new ArrayList<>();
 
@@ -72,6 +72,7 @@ public class PersonalFragment extends BaseFragment implements View.OnClickListen
         edtBirthDay = (EdittextCustom) findViewById(R.id.tv_birthday);
         spGender = (Spinner) findViewById(R.id.sp_gender);
         rbYes = (RadioButtonCustom) findViewById(R.id.rb_yes);
+        rbNo = (RadioButtonCustom) findViewById(R.id.rb_no);
         edtBirthDay.setOnClickListener(this);
 
 
@@ -98,10 +99,14 @@ public class PersonalFragment extends BaseFragment implements View.OnClickListen
         for (int i = 0; i < genders.size(); i++) {
             if (pf.getGender().equalsIgnoreCase(genders.get(i))) {
                 spGender.setSelection(i);
-                return;
+                break;
             }
         }
-        rbYes.setChecked(pf.isLocal());
+
+        if (pf.isLocal())
+            rbYes.setChecked(true);
+        else
+            rbNo.setChecked(true);
     }
 
     private void getBasicInformation() {
