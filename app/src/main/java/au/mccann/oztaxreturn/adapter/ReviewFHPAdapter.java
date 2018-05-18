@@ -66,7 +66,7 @@ public class ReviewFHPAdapter extends RecyclerView.Adapter<ReviewFHPAdapter.MyVi
             holder.edtPremiums.setText(String.valueOf(reviewPrivateResponse.getPremiumsPaid()));
         if (reviewPrivateResponse.getGovRebateReceived() != 0)
             holder.edtGovernment.setText(String.valueOf(reviewPrivateResponse.getGovRebateReceived()));
-        if (reviewPrivateResponse.getDaysCovered() != 0)
+//        if (reviewPrivateResponse.getDaysCovered() != 0)
             holder.edtDay.setText(String.valueOf(reviewPrivateResponse.getDaysCovered()));
 
         if (isEdit()) {
@@ -189,12 +189,15 @@ public class ReviewFHPAdapter extends RecyclerView.Adapter<ReviewFHPAdapter.MyVi
 
         ImageAdapter imageAdapter = new ImageAdapter(context, images);
         holder.myGridView.setAdapter(imageAdapter);
+        imageAdapter.setRemove(isEdit());
 
         imageAdapter.setRemoveListener(new ImageAdapter.RemoveListener() {
             @Override
             public void remove(int position) {
                 LogUtils.d(TAG, "setRemoveListener , position : " + position);
-                reviewPrivateResponse.getAttachments().remove(reviewPrivateResponse.getAttachments().size() - position - 1);
+
+                if (isEdit())
+                    reviewPrivateResponse.getAttachments().remove(reviewPrivateResponse.getAttachments().size() - position - 1);
             }
         });
 

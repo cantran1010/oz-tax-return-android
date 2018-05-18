@@ -108,6 +108,7 @@ public class ReviewFamilyHealthMedicareFragment extends BaseFragment implements 
         }
         imageAdapter = new ImageAdapter(getActivity(), images);
         grImage.setAdapter(imageAdapter);
+        imageAdapter.setRemove(false);
 
         grImage.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -237,6 +238,7 @@ public class ReviewFamilyHealthMedicareFragment extends BaseFragment implements 
     private void doEdit() {
         cbYes.setEnabled(true);
         cbNo.setEnabled(true);
+        imageAdapter.setRemove(true);
     }
 
     private void doNext() {
@@ -247,19 +249,24 @@ public class ReviewFamilyHealthMedicareFragment extends BaseFragment implements 
                 if (image.getId() == 0 && !image.isAdd()) listUp.add(image);
             }
 
-            if (listUp.size() == 0) {
+            if (images.size() == 1) {
                 Utils.showLongToast(getActivity(), getString(R.string.image_attach_empty), true, false);
                 return;
             }
 
             LogUtils.d(TAG, "doNext : " + listUp.toString());
-            ImageUtils.doUploadImage(getContext(), listUp, new ImageUtils.UpImagesListener() {
-                @Override
-                public void onSuccess(List<Attachment> responses) {
-                    attach.addAll(responses);
-                    doUpdate();
-                }
-            });
+
+            if (listUp.size() > 0) {
+                ImageUtils.doUploadImage(getContext(), listUp, new ImageUtils.UpImagesListener() {
+                    @Override
+                    public void onSuccess(List<Attachment> responses) {
+                        attach.addAll(responses);
+                        doUpdate();
+                    }
+                });
+            } else {
+                doUpdate();
+            }
 
         } else {
             doUpdate();

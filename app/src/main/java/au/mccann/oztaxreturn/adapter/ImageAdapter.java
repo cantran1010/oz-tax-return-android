@@ -23,6 +23,15 @@ import au.mccann.oztaxreturn.utils.Utils;
 public class ImageAdapter extends ArrayAdapter<Image> {
     private static final String TAG = ImageAdapter.class.getName();
     private final ArrayList<Image> images;
+    private boolean isRemove = true;
+
+    public boolean isRemove() {
+        return isRemove;
+    }
+
+    public void setRemove(boolean remove) {
+        isRemove = remove;
+    }
 
     public interface RemoveListener {
         public void remove(int position);
@@ -80,8 +89,11 @@ public class ImageAdapter extends ArrayAdapter<Image> {
         holder.imgRemove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                images.remove(position);
-                notifyDataSetChanged();
+
+                if(isRemove){
+                    images.remove(position);
+                    notifyDataSetChanged();
+                }
 
                 if (removeListener != null) removeListener.remove(position);
             }
