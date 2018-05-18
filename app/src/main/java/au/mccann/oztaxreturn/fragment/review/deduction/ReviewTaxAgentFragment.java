@@ -269,6 +269,7 @@ public class ReviewTaxAgentFragment extends BaseFragment implements View.OnClick
                 LogUtils.d(TAG, "getReviewDeduction code : " + response.code());
                 if (response.code() == Constants.HTTP_CODE_OK) {
                     taxAgents = response.body().getTaxAgents();
+                    LogUtils.d(TAG, "getReviewDeduction code : " + response.body().getTaxAgents().toString());
                     if (taxAgents != null) updateUI(taxAgents);
                 } else {
                     APIError error = Utils.parseError(response);
@@ -334,7 +335,7 @@ public class ReviewTaxAgentFragment extends BaseFragment implements View.OnClick
             JSONObject govJson = new JSONObject();
             govJson.put(Constants.PARAMETER_REVIEW_HAD, rbYes.isChecked());
             if (rbYes.isChecked()) {
-                govJson.put(Constants.PARAMETER_REVIEW_TYPE, edtOrgan.getText().toString().trim());
+                govJson.put(Constants.PARAMETER_REVIEW_DONATION_OZ, edtOrgan.getText().toString().trim());
                 govJson.put(Constants.PARAMETER_REVIEW_AMOUNT, edtAmount.getText().toString().trim());
                 if (images.size() > 1) {
                     for (Image image : images

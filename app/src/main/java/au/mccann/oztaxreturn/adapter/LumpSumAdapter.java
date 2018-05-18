@@ -20,7 +20,9 @@ import au.mccann.oztaxreturn.R;
 import au.mccann.oztaxreturn.model.Attachment;
 import au.mccann.oztaxreturn.model.Image;
 import au.mccann.oztaxreturn.model.LumpSum;
+import au.mccann.oztaxreturn.utils.DateTimeUtils;
 import au.mccann.oztaxreturn.utils.LogUtils;
+import au.mccann.oztaxreturn.view.EditTextEasyMoney;
 import au.mccann.oztaxreturn.view.EdittextCustom;
 import au.mccann.oztaxreturn.view.ExpandableLayout;
 import au.mccann.oztaxreturn.view.MyGridView;
@@ -96,7 +98,7 @@ public class LumpSumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     @SuppressLint("RecyclerView")
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull final RecyclerView.ViewHolder holder, final int position) {
         if (holder instanceof HeaderViewHolder) {
             HeaderViewHolder headerViewHolder = (HeaderViewHolder) holder;
             onBind = true;
@@ -135,6 +137,8 @@ public class LumpSumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             itemViewHolder.edtUnTaxed.setText(lumpSum.getTaxableComUntaxed());
             itemViewHolder.edtPayerAbn.setText(lumpSum.getPayerAbn());
             itemViewHolder.edtPaymenDate.setText(lumpSum.getPaymentDate());
+            if (lumpSum.getPaymentDate() != null)
+                itemViewHolder.edtPaymenDate.setText(DateTimeUtils.getDateBirthDayFromIso(lumpSum.getPaymentDate()));
 
             if (lumpSum.getImages() == null || lumpSum.getImages().size() == 0) {
                 final Image image = new Image();
@@ -164,7 +168,7 @@ public class LumpSumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
                 @Override
                 public void afterTextChanged(Editable editable) {
-                    lumpSums.get(position - 1).setTaxWithheld(editable.toString().trim());
+                    lumpSums.get(position - 1).setTaxWithheld(((ItemViewHolder) holder).edtEdtTaxWidthheld.getValuesFloat());
                 }
             });
             ((ItemViewHolder) holder).edtTaxed.addTextChangedListener(new TextWatcher() {
@@ -180,7 +184,7 @@ public class LumpSumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
                 @Override
                 public void afterTextChanged(Editable editable) {
-                    lumpSums.get(position - 1).setTaxableComTaxed(editable.toString().trim());
+                    lumpSums.get(position - 1).setTaxableComTaxed(((ItemViewHolder) holder).edtTaxed.getValuesFloat());
                 }
             });
             ((ItemViewHolder) holder).edtUnTaxed.addTextChangedListener(new TextWatcher() {
@@ -196,7 +200,7 @@ public class LumpSumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
                 @Override
                 public void afterTextChanged(Editable editable) {
-                    lumpSums.get(position - 1).setTaxableComUntaxed(editable.toString().trim());
+                    lumpSums.get(position - 1).setTaxableComUntaxed(((ItemViewHolder) holder).edtUnTaxed.getValuesFloat());
                 }
             });
             ((ItemViewHolder) holder).edtPayerAbn.addTextChangedListener(new TextWatcher() {
@@ -301,9 +305,9 @@ public class LumpSumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     private class ItemViewHolder extends RecyclerView.ViewHolder {
         final ExpandableLayout expandableLayout;
-        final EdittextCustom edtEdtTaxWidthheld;
-        final EdittextCustom edtTaxed;
-        final EdittextCustom edtUnTaxed;
+        final EditTextEasyMoney edtEdtTaxWidthheld;
+        final EditTextEasyMoney edtTaxed;
+        final EditTextEasyMoney edtUnTaxed;
         final EdittextCustom edtPayerAbn;
         final EdittextCustom edtPaymenDate;
         final MyGridView grImage;

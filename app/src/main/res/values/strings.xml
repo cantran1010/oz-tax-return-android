@@ -121,7 +121,7 @@
     <!-- diduction -->
     <string name="income_deduction_hint">Example: Labourer, Restaurant worl</string>
     <string name="deduction_title">deductions</string>
-    <string name="deduction_content">Please let our accountants know what you do at work so that wr can help in putting your deduction claims.</string>
+    <string name="deduction_content">Please let our accountants know what you do at work so that we can help in putting your deduction claims.</string>
     <string name="valid_deduction_content">Enter deduction content</string>
     <string name="valid_deduction_image">please choose at least a photo</string>
 
@@ -245,10 +245,10 @@
     <string name="review_income_ws_title">Wages\nSalary</string>
     <string name="job_1">job 1:</string>
     <string name="total_gross">Total gross income</string>
-    <string name="total_tax_width_held">Total tax widthheld</string>
+    <string name="total_tax_width_held">Total tax withheld</string>
     <string name="allowances">Allowances</string>
-    <string name="reportable_fringer_benefits">reportable fringer benefits</string>
-    <string name="reportable_employer_super_contribution">reportable employer super contribution</string>
+    <string name="reportable_fringer_benefits">Reporttable Fringe Benefits</string>
+    <string name="reportable_employer_super_contribution">Reportable Employer Super Contributions</string>
     <string name="company_name">company name</string>
     <string name="company_abn">company ABN</string>
     <string name="company_contact">company contact</string>
@@ -283,6 +283,7 @@
     <string name="dividends_tax_widthheld">Tax withheld</string>
     <string name="label_add">add new</string>
     <string name="franked_dividends">franked dividends</string>
+    <string name="vali_company_name">Company name must be a string.</string>
 
     <!-- review etps   -->
     <string name="early_termination_payment">Early termination payment</string>
@@ -405,7 +406,7 @@
 
     <!-- review deduction Donations -->
     <string name="review_donation">Donations</string>
-    <string name="donation_oz">ozganization</string>
+    <string name="donation_oz">organization</string>
     <string name="donation_oz_hint">Example: Friday Appeal</string>
 
     <!-- review deduction Tax Agents -->

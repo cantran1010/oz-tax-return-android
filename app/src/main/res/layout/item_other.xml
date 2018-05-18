@@ -66,7 +66,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:hint="@string/description_hint"
-            android:inputType="number"
+            android:inputType="text"
             android:textColor="@color/income_conten"
             android:textColorHint="@color/tv_gray" />
 

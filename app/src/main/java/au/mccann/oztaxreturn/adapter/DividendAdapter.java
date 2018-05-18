@@ -21,6 +21,7 @@ import au.mccann.oztaxreturn.model.Attachment;
 import au.mccann.oztaxreturn.model.Dividend;
 import au.mccann.oztaxreturn.model.Image;
 import au.mccann.oztaxreturn.utils.LogUtils;
+import au.mccann.oztaxreturn.view.EditTextEasyMoney;
 import au.mccann.oztaxreturn.view.EdittextCustom;
 import au.mccann.oztaxreturn.view.ExpandableLayout;
 import au.mccann.oztaxreturn.view.MyGridView;
@@ -104,7 +105,7 @@ public class DividendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         } else if (holder instanceof ItemViewHolder) {
             LogUtils.d("onBindViewHolder", dividends.toString() + "position" + position);
             Dividend dividend = dividends.get(position - 1);
-            ItemViewHolder itemViewHolder = (ItemViewHolder) holder;
+            final ItemViewHolder itemViewHolder = (ItemViewHolder) holder;
             if (isExpend) {
                 itemViewHolder.expandableLayout.setExpanded(true);
             } else itemViewHolder.expandableLayout.setExpanded(false);
@@ -125,7 +126,7 @@ public class DividendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             }
             itemViewHolder.edtCompanyName.setText(dividend.getCompanyName());
             itemViewHolder.edtUnFrankDividends.setText(dividend.getUnfranked());
-            itemViewHolder.edtFrankDividends.setText(dividend.getUnfranked());
+            itemViewHolder.edtFrankDividends.setText(dividend.getFranked());
             itemViewHolder.edtFrankingCredits.setText(dividend.getFrankingCredits());
             itemViewHolder.edtTaxWidthheld.setText(dividend.getTaxWithheld());
             if (dividend.getImages() == null || dividend.getImages().size() == 0) {
@@ -172,7 +173,7 @@ public class DividendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
                 @Override
                 public void afterTextChanged(Editable editable) {
-                    dividends.get(position - 1).setUnfranked(editable.toString().trim());
+                    dividends.get(position - 1).setUnfranked(itemViewHolder.edtUnFrankDividends.getValueString());
                 }
             });
             ((ItemViewHolder) holder).edtFrankDividends.addTextChangedListener(new TextWatcher() {
@@ -188,7 +189,7 @@ public class DividendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
                 @Override
                 public void afterTextChanged(Editable editable) {
-                    dividends.get(position - 1).setFranked(editable.toString().trim());
+                    dividends.get(position - 1).setFranked(itemViewHolder.edtFrankDividends.getValueString());
                 }
             });
             ((ItemViewHolder) holder).edtFrankingCredits.addTextChangedListener(new TextWatcher() {
@@ -204,7 +205,7 @@ public class DividendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
                 @Override
                 public void afterTextChanged(Editable editable) {
-                    dividends.get(position - 1).setFrankingCredits(editable.toString().trim());
+                    dividends.get(position - 1).setFrankingCredits(itemViewHolder.edtFrankingCredits.getValueString());
                 }
             });
             ((ItemViewHolder) holder).edtTaxWidthheld.addTextChangedListener(new TextWatcher() {
@@ -220,7 +221,7 @@ public class DividendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
                 @Override
                 public void afterTextChanged(Editable editable) {
-                    dividends.get(position - 1).setTaxWithheld(editable.toString().trim());
+                    dividends.get(position - 1).setTaxWithheld(itemViewHolder.edtTaxWidthheld.getValueString());
                 }
             });
         } else if (holder instanceof FooterViewHolder) {
@@ -296,10 +297,10 @@ public class DividendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private class ItemViewHolder extends RecyclerView.ViewHolder {
         final ExpandableLayout expandableLayout;
         final EdittextCustom edtCompanyName;
-        final EdittextCustom edtUnFrankDividends;
-        final EdittextCustom edtFrankDividends;
-        final EdittextCustom edtFrankingCredits;
-        final EdittextCustom edtTaxWidthheld;
+        final EditTextEasyMoney edtUnFrankDividends;
+        final EditTextEasyMoney edtFrankDividends;
+        final EditTextEasyMoney edtFrankingCredits;
+        final EditTextEasyMoney edtTaxWidthheld;
         final MyGridView grImage;
 
         ItemViewHolder(View itemView) {

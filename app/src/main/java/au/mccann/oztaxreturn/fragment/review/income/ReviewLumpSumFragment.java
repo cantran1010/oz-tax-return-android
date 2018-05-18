@@ -168,6 +168,7 @@ public class ReviewLumpSumFragment extends BaseFragment implements View.OnClickL
                         if (view.isShown()) {
                             calendar.set(year, monthOfYear, dayOfMonth);
                             lumpSums.get(pos).setPaymentDate(DateTimeUtils.fromCalendarToBirthday(calendar));
+//                            lumpSums.get(pos).setPaymentDate(DateFormat.getDateInstance(DateFormat.SHORT).format(calendar.getTime()));
                             adapter.notifyDataSetChanged();
                         }
                     }
@@ -393,6 +394,7 @@ public class ReviewLumpSumFragment extends BaseFragment implements View.OnClickL
                 } else {
                     APIError error = Utils.parseError(response);
                     LogUtils.e(TAG, "doSaveReview error : " + error.message());
+                    LogUtils.e(TAG, "doSaveReview error  : " + error.status());
                     if (error != null) {
                         DialogUtils.showOkDialog(getContext(), getString(R.string.error), error.message(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
                             @Override

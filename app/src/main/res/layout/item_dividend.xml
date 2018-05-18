@@ -46,15 +46,16 @@
             android:textColor="@color/tv_gray"
             android:textSize="@dimen/size_small" />
 
-        <au.mccann.oztaxreturn.view.EdittextCustom
+        <au.mccann.oztaxreturn.view.EditTextEasyMoney
             android:id="@+id/edt_unfrank_dividends"
             style="@style/EditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:inputType="text"
+            android:inputType="numberDecimal"
             android:textColor="@color/income_conten"
-            android:textColorHint="@color/tv_gray" />
+            android:textColorHint="@color/tv_gray"
+            app:currency_symbol="$" />
 
         <au.mccann.oztaxreturn.view.TextViewCustom
             android:layout_width="wrap_content"
@@ -65,13 +66,14 @@
             android:textColor="@color/tv_gray"
             android:textSize="@dimen/size_small" />
 
-        <au.mccann.oztaxreturn.view.EdittextCustom
+        <au.mccann.oztaxreturn.view.EditTextEasyMoney
             android:id="@+id/edt_franked_dividends"
             style="@style/EditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:inputType="text"
+            android:inputType="numberDecimal"
+            app:currency_symbol="$"
             android:textColor="@color/income_conten"
             android:textColorHint="@color/tv_gray" />
 
@@ -84,13 +86,14 @@
             android:textColor="@color/tv_gray"
             android:textSize="@dimen/size_small" />
 
-        <au.mccann.oztaxreturn.view.EdittextCustom
+        <au.mccann.oztaxreturn.view.EditTextEasyMoney
             android:id="@+id/edt_franking_credits"
             style="@style/EditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:inputType="text"
+            android:inputType="numberDecimal"
+            app:currency_symbol="$"
             android:textColor="@color/income_conten"
             android:textColorHint="@color/tv_gray" />
 
@@ -104,13 +107,14 @@
             android:textColor="@color/tv_gray"
             android:textSize="@dimen/size_small" />
 
-        <au.mccann.oztaxreturn.view.EdittextCustom
+        <au.mccann.oztaxreturn.view.EditTextEasyMoney
             android:id="@+id/edt_tax_widthheld"
             style="@style/EditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:inputType="text"
+            android:inputType="numberDecimal"
+            app:currency_symbol="$"
             android:textColor="@color/income_conten"
             android:textColorHint="@color/tv_gray" />
 

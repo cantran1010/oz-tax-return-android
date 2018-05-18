@@ -65,6 +65,7 @@ public class ReviewDividendsFragment extends BaseFragment implements View.OnClic
     private final String[] permissions = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
     private String imgPath;
     private FloatingActionButton fab;
+    private LinearLayoutManager linearLayoutManager;
 
     @Override
     protected int getLayout() {
@@ -119,7 +120,7 @@ public class ReviewDividendsFragment extends BaseFragment implements View.OnClic
     }
 
     private void updateList() {
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+        linearLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(linearLayoutManager);
         adapter = new DividendAdapter(getContext(), dividends);
         recyclerView.setAdapter(adapter);
@@ -368,13 +369,30 @@ public class ReviewDividendsFragment extends BaseFragment implements View.OnClic
                 } else {
                     APIError error = Utils.parseError(response);
                     LogUtils.e(TAG, "doSaveReview error : " + error.message());
+                    LogUtils.e(TAG, "doSaveReview error status: " + error.status());
                     if (error != null) {
-                        DialogUtils.showOkDialog(getContext(), getString(R.string.error), error.message(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
-                            @Override
-                            public void onSubmit() {
+                        switch (error.status()) {
+                            case "dividends.0.company_name.string":
+                            case "dividends.1.company_name.string":
+                            case "dividends.2.company_name.string":
+                                DialogUtils.showOkDialog(getContext(), getString(R.string.error), getString(R.string.vali_company_name), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                                    @Override
+                                    public void onSubmit() {
 
-                            }
-                        });
+                                    }
+                                });
+                                break;
+                            default:
+                                DialogUtils.showOkDialog(getContext(), getString(R.string.error), error.message(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                                    @Override
+                                    public void onSubmit() {
+
+                                    }
+                                });
+                                break;
+
+                        }
+
                     }
                 }
 
@@ -398,7 +416,6 @@ public class ReviewDividendsFragment extends BaseFragment implements View.OnClic
             }
         });
     }
-
 
     public void AddIconAdd(Dividend dividend) {
         if (dividend.getImages() == null || dividend.getImages().size() == 0) {
