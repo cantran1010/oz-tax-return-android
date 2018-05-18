@@ -69,7 +69,6 @@ public class DeductionFragment extends BaseFragment implements View.OnClickListe
     private EdittextCustom edtDeduction;
     private ArrayList<Attachment> attach;
 
-
     @Override
     protected int getLayout() {
         return R.layout.fragment_deduction;
