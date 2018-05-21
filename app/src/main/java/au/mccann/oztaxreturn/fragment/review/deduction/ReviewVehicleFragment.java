@@ -11,6 +11,8 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CompoundButton;
@@ -52,6 +54,7 @@ import au.mccann.oztaxreturn.view.EdittextCustom;
 import au.mccann.oztaxreturn.view.ExpandableLayout;
 import au.mccann.oztaxreturn.view.MyGridView;
 import au.mccann.oztaxreturn.view.RadioButtonCustom;
+import au.mccann.oztaxreturn.view.TextViewCustom;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
 import retrofit2.Call;
@@ -67,7 +70,8 @@ import static au.mccann.oztaxreturn.utils.Utils.showToolTip;
  */
 public class ReviewVehicleFragment extends BaseFragment implements View.OnClickListener {
     private RadioButtonCustom rbYes, rbNo;
-    private EdittextCustom edtHow, edtKm, edtType, edtReg, edtAmount;
+    private EdittextCustom edtHow, edtKm, edtType, edtReg;
+    private TextViewCustom edtAmount;
     private static final String TAG = OtherFragment.class.getSimpleName();
     private MyGridView grImage;
     private ImageAdapter imageAdapter;
@@ -80,6 +84,7 @@ public class ReviewVehicleFragment extends BaseFragment implements View.OnClickL
     private ArrayList<Attachment> attach;
     private int appID;
     private FloatingActionButton fab;
+    private Float value = 0.0f;
 
 
     @Override
@@ -104,7 +109,7 @@ public class ReviewVehicleFragment extends BaseFragment implements View.OnClickL
         edtKm.setEnabled(false);
         edtReg = (EdittextCustom) findViewById(R.id.edt_registration_number);
         edtReg.setEnabled(false);
-        edtAmount = (EdittextCustom) findViewById(R.id.edt_calculated_amuont);
+        edtAmount = (TextViewCustom) findViewById(R.id.edt_calculated_amuont);
         edtAmount.setEnabled(false);
         grImage = (MyGridView) findViewById(R.id.gr_image);
         grImage.setEnabled(false);
@@ -160,16 +165,35 @@ public class ReviewVehicleFragment extends BaseFragment implements View.OnClickL
             }
         });
         getReviewDeduction();
+        edtKm.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if (!editable.toString().trim().isEmpty()) {
+                    edtAmount.setText(Utils.displayCurrency(String.valueOf(value * Float.parseFloat(editable.toString().trim()))));
+                }
+            }
+        });
     }
 
 
     private void updateUI(Vehicles b) {
+        value = Float.parseFloat(b.getKmValue());
         rbYes.setChecked(b.isHad());
         edtHow.setText(b.getHowRelated());
         edtKm.setText(b.getTravelled());
         edtType.setText(b.getTypeBrand());
         edtReg.setText(b.getRegNumber());
-        edtAmount.setText(b.getAmount());
+        edtAmount.setText(Utils.displayCurrency(String.valueOf(Float.parseFloat(b.getKmValue()) * Float.parseFloat(b.getTravelled()))));
         showImage(b.getAttachments(), images, imageAdapter);
     }
 
@@ -279,6 +303,7 @@ public class ReviewVehicleFragment extends BaseFragment implements View.OnClickL
                 if (response.code() == Constants.HTTP_CODE_OK) {
                     vehicles = response.body().getVehicles();
                     if (vehicles != null) updateUI(vehicles);
+                    LogUtils.d(TAG, "getReviewDeduction code : " + vehicles.toString());
                 } else {
                     APIError error = Utils.parseError(response);
                     if (error != null) {
@@ -452,11 +477,7 @@ public class ReviewVehicleFragment extends BaseFragment implements View.OnClickL
                             showToolTip(getContext(), edtReg, getString(R.string.vali_all_empty));
                             return;
                         }
-                        if (edtAmount.getText().toString().trim().isEmpty()) {
-                            edtAmount.getParent().requestChildFocus(edtAmount, edtAmount);
-                            showToolTip(getContext(), edtAmount, getString(R.string.vali_all_empty));
-                            return;
-                        }
+
                         if (images.size() < 2) {
                             showToolTip(getContext(), grImage, getString(R.string.vali_all_empty));
                             return;

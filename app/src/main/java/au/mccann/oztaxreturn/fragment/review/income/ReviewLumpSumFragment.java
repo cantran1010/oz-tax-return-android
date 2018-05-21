@@ -350,6 +350,7 @@ public class ReviewLumpSumFragment extends BaseFragment implements View.OnClickL
             for (LumpSum d : lumpSums
                     ) {
                 JSONObject mJs = new JSONObject();
+                mJs.put(Constants.PARAMETER_PUT_ID, d.getId());
                 mJs.put(Constants.PARAMETER_REVIEW_INCOME_LUMP_PAYER_ABN, d.getPayerAbn());
                 mJs.put(Constants.PARAMETER_REVIEW_INCOME_LUMP_TAX, d.getTaxWithheld());
                 mJs.put(Constants.PARAMETER_REVIEW_INCOME_LUMP_TAXED, d.getTaxableComTaxed());

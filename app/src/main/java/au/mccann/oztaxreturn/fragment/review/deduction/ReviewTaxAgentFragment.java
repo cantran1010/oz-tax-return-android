@@ -1,7 +1,6 @@
 package au.mccann.oztaxreturn.fragment.review.deduction;
 
 import android.Manifest;
-import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -49,6 +48,7 @@ import au.mccann.oztaxreturn.utils.LogUtils;
 import au.mccann.oztaxreturn.utils.ProgressDialogUtils;
 import au.mccann.oztaxreturn.utils.TransitionScreen;
 import au.mccann.oztaxreturn.utils.Utils;
+import au.mccann.oztaxreturn.view.EditTextEasyMoney;
 import au.mccann.oztaxreturn.view.EdittextCustom;
 import au.mccann.oztaxreturn.view.ExpandableLayout;
 import au.mccann.oztaxreturn.view.MyGridView;
@@ -68,7 +68,8 @@ import static au.mccann.oztaxreturn.utils.Utils.showToolTip;
  */
 public class ReviewTaxAgentFragment extends BaseFragment implements View.OnClickListener {
     private RadioButtonCustom rbYes, rbNo;
-    private EdittextCustom edtOrgan, edtAmount;
+    private EdittextCustom edtOrgan;
+    private EditTextEasyMoney edtAmount;
     private static final String TAG = OtherFragment.class.getSimpleName();
     private MyGridView grImage;
     private ImageAdapter imageAdapter;
@@ -98,7 +99,7 @@ public class ReviewTaxAgentFragment extends BaseFragment implements View.OnClick
         rbNo.setEnabled(false);
         edtOrgan = (EdittextCustom) findViewById(R.id.edt_organization);
         edtOrgan.setEnabled(false);
-        edtAmount = (EdittextCustom) findViewById(R.id.edt_amount);
+        edtAmount = (EditTextEasyMoney) findViewById(R.id.edt_amount);
         edtAmount.setEnabled(false);
         grImage = (MyGridView) findViewById(R.id.gr_image);
         grImage.setEnabled(false);
@@ -241,14 +242,6 @@ public class ReviewTaxAgentFragment extends BaseFragment implements View.OnClick
         return imgPath;
     }
 
-    private void scollLayout() {
-        int[] coords = {0, 0};
-        scrollView.getLocationOnScreen(coords);
-        int absoluteBottom = coords[1] + 250;
-        ObjectAnimator objectAnimator = ObjectAnimator.ofInt(scrollView, "scrollY", absoluteBottom).setDuration(1000);
-        objectAnimator.start();
-    }
-
     @Override
     protected void resumeData() {
 
@@ -336,7 +329,7 @@ public class ReviewTaxAgentFragment extends BaseFragment implements View.OnClick
             govJson.put(Constants.PARAMETER_REVIEW_HAD, rbYes.isChecked());
             if (rbYes.isChecked()) {
                 govJson.put(Constants.PARAMETER_REVIEW_DONATION_OZ, edtOrgan.getText().toString().trim());
-                govJson.put(Constants.PARAMETER_REVIEW_AMOUNT, edtAmount.getText().toString().trim());
+                govJson.put(Constants.PARAMETER_REVIEW_AMOUNT, edtAmount.getValuesFloat());
                 if (images.size() > 1) {
                     for (Image image : images
                             ) {

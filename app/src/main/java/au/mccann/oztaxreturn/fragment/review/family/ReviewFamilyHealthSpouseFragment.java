@@ -57,6 +57,7 @@ import au.mccann.oztaxreturn.utils.ProgressDialogUtils;
 import au.mccann.oztaxreturn.utils.TransitionScreen;
 import au.mccann.oztaxreturn.utils.Utils;
 import au.mccann.oztaxreturn.view.CheckBoxCustom;
+import au.mccann.oztaxreturn.view.EditTextEasyMoney;
 import au.mccann.oztaxreturn.view.EdittextCustom;
 import au.mccann.oztaxreturn.view.MyGridView;
 import au.mccann.oztaxreturn.view.TextViewCustom;
@@ -84,7 +85,8 @@ public class ReviewFamilyHealthSpouseFragment extends BaseFragment implements Vi
     private final String[] permissions = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
     private String imgPath;
     private ArrayList<Attachment> attach;
-    private EdittextCustom edtFirstName, edtMiddleName, edtLastName, edtTaxAble;
+    private EdittextCustom edtFirstName, edtMiddleName, edtLastName;
+    private EditTextEasyMoney edtTaxAble;
     private TextViewCustom tvBirth;
     private Calendar calendar = GregorianCalendar.getInstance();
 
@@ -109,7 +111,7 @@ public class ReviewFamilyHealthSpouseFragment extends BaseFragment implements Vi
         edtFirstName = (EdittextCustom) findViewById(R.id.edt_first_name);
         edtMiddleName = (EdittextCustom) findViewById(R.id.edt_middle_name);
         edtLastName = (EdittextCustom) findViewById(R.id.edt_last_name);
-        edtTaxAble = (EdittextCustom) findViewById(R.id.edt_taxable);
+        edtTaxAble = (EditTextEasyMoney) findViewById(R.id.edt_taxable);
 
         tvBirth = (TextViewCustom) findViewById(R.id.tv_birthday);
         tvBirth.setOnClickListener(this);
@@ -264,7 +266,7 @@ public class ReviewFamilyHealthSpouseFragment extends BaseFragment implements Vi
                 jsonBody.put("first_name", edtFirstName.getText().toString().trim());
                 jsonBody.put("middle_name", edtMiddleName.getText().toString().trim());
                 jsonBody.put("last_name", edtLastName.getText().toString().trim());
-                jsonBody.put("taxable_income", edtTaxAble.getText().toString().trim());
+                jsonBody.put("taxable_income", edtTaxAble.getValuesFloat());
                 jsonRequest.put("birthday", DateTimeUtils.fromCalendarToBirthday(calendar));
 
             } else {

@@ -25,6 +25,7 @@
             android:textAllCaps="true"
             android:textColor="@color/tv_gray"
             android:textSize="@dimen/size_small" />
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -46,8 +47,8 @@
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="10dp"
                 android:layout_marginRight="10dp"
-                android:src="@drawable/ic_down"
-                android:contentDescription="TODO" />
+                android:contentDescription="TODO"
+                android:src="@drawable/ic_down" />
         </RelativeLayout>
 
         <au.mccann.oztaxreturn.view.TextViewCustom
@@ -79,16 +80,17 @@
             android:textColor="@color/tv_gray"
             android:textSize="@dimen/size_small" />
 
-        <au.mccann.oztaxreturn.view.EdittextCustom
+        <au.mccann.oztaxreturn.view.EditTextEasyMoney
             android:id="@+id/edt_education_amount"
             style="@style/EditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:hint="@string/amount_hint"
-            android:inputType="text"
+            android:inputType="numberDecimal"
             android:textColor="@color/income_conten"
-            android:textColorHint="@color/tv_gray" />
+            android:textColorHint="@color/tv_gray"
+            app:currency_symbol="$" />
 
         <au.mccann.oztaxreturn.view.TextViewCustom
             android:layout_width="wrap_content"

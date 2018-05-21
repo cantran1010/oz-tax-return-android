@@ -20,9 +20,9 @@ public class ReviewPrivateResponse {
     @SerializedName("membership_no")
     private String membershipNo;
     @SerializedName("premiums_paid")
-    private double premiumsPaid;
+    private String premiumsPaid;
     @SerializedName("gov_rebate_received")
-    private double govRebateReceived;
+    private String govRebateReceived;
     @SerializedName("days_covered")
     private int daysCovered;
     private List<Attachment> attachments = new ArrayList<>();
@@ -51,19 +51,19 @@ public class ReviewPrivateResponse {
         this.membershipNo = membershipNo;
     }
 
-    public double getPremiumsPaid() {
+    public String getPremiumsPaid() {
         return premiumsPaid;
     }
 
-    public void setPremiumsPaid(double premiumsPaid) {
+    public void setPremiumsPaid(String premiumsPaid) {
         this.premiumsPaid = premiumsPaid;
     }
 
-    public double getGovRebateReceived() {
+    public String getGovRebateReceived() {
         return govRebateReceived;
     }
 
-    public void setGovRebateReceived(double govRebateReceived) {
+    public void setGovRebateReceived(String govRebateReceived) {
         this.govRebateReceived = govRebateReceived;
     }
 

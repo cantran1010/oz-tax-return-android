@@ -12,7 +12,8 @@
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/btn_next">
+        android:layout_above="@+id/btn_next"
+        android:scrollbars="none">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -140,16 +141,17 @@
                         android:textColor="@color/tv_gray"
                         android:textSize="@dimen/size_small" />
 
-                    <au.mccann.oztaxreturn.view.EdittextCustom
+                    <au.mccann.oztaxreturn.view.EditTextEasyMoney
                         android:id="@+id/edt_amount"
                         style="@style/EditText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:hint="@string/amount_hint"
-                        android:inputType="number"
+                        android:inputType="numberDecimal"
                         android:textColor="@color/income_conten"
-                        android:textColorHint="@color/tv_gray" />
+                        android:textColorHint="@color/tv_gray"
+                        app:currency_symbol="$" />
 
                     <au.mccann.oztaxreturn.view.TextViewCustom
                         android:layout_width="wrap_content"
