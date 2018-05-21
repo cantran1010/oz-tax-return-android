@@ -176,8 +176,7 @@ public class ReviewETPsFragment extends BaseFragment implements View.OnClickList
 
     private void updateUI(Etps e) {
         rbYes.setChecked(e.isHad());
-        edtPaymentDate.setText(e.getPaymentDate());
-        if (e.getPaymentDate() != null)
+        if (e.getPaymentDate() != null&&!e.getPaymentDate().isEmpty())
             edtPaymentDate.setText(DateTimeUtils.getDateBirthDayFromIso(e.getPaymentDate()));
         edtPayerAbn.setText(e.getPayerAbn());
         edtTaxWidthheld.setText(e.getTaxWithheld());
