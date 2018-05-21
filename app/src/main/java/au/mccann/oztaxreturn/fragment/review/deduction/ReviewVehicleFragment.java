@@ -135,7 +135,7 @@ public class ReviewVehicleFragment extends BaseFragment implements View.OnClickL
         }
         imageAdapter = new ImageAdapter(getActivity(), images);
         grImage.setAdapter(imageAdapter);
-
+        imageAdapter.setRemove(false);
         grImage.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -452,6 +452,7 @@ public class ReviewVehicleFragment extends BaseFragment implements View.OnClickL
                 edtReg.setEnabled(true);
                 edtAmount.setEnabled(true);
                 grImage.setEnabled(true);
+                imageAdapter.setRemove(isEditApp());
 //               if (rbYes.isChecked())Utils.showSoftKeyboard(getContext(), edtHow);
                 break;
             case R.id.btn_next:

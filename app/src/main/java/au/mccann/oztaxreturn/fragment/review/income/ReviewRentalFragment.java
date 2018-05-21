@@ -147,6 +147,7 @@ public class ReviewRentalFragment extends BaseFragment implements View.OnClickLi
         }
         imageAdapter = new ImageAdapter(getActivity(), images);
         grImage.setAdapter(imageAdapter);
+        imageAdapter.setRemove(false);
         grImage.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -470,6 +471,7 @@ public class ReviewRentalFragment extends BaseFragment implements View.OnClickLi
                 edtRentalIncome.setEnabled(true);
                 edtRentalExpenses.setEnabled(true);
                 grImage.setEnabled(true);
+                imageAdapter.setRemove(isEditApp());
                 break;
             case R.id.edt_first_date:
                 openDatePicker();

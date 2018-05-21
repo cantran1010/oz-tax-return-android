@@ -121,7 +121,7 @@ public class ReviewGovementFragment extends BaseFragment implements View.OnClick
         }
         imageAdapter = new ImageAdapter(getActivity(), images);
         grImage.setAdapter(imageAdapter);
-
+        imageAdapter.setRemove(false);
         grImage.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -404,6 +404,7 @@ public class ReviewGovementFragment extends BaseFragment implements View.OnClick
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.fab:
+                imageAdapter.setRemove(isEditApp());
                 rbYes.setEnabled(true);
                 rbNo.setEnabled(true);
                 edtIncomeType.setEnabled(true);

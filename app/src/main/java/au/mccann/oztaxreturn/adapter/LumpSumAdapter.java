@@ -148,6 +148,7 @@ public class LumpSumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             }
             ImageAdapter imageAdapter = new ImageAdapter(context, lumpSum.getImages());
             itemViewHolder.grImage.setAdapter(imageAdapter);
+            imageAdapter.setRemove(isEdit);
             itemViewHolder.grImage.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int n, long id) {
