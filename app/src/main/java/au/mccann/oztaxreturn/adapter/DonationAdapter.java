@@ -126,6 +126,7 @@ public class DonationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             }
             ImageAdapter imageAdapter = new ImageAdapter(context, donation.getImages());
             itemViewHolder.grImage.setAdapter(imageAdapter);
+            imageAdapter.setRemove(isEdit);
             itemViewHolder.grImage.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int n, long id) {

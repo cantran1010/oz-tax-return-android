@@ -130,7 +130,7 @@ public class ReviewInterestsFragment extends BaseFragment implements View.OnClic
         }
         imageAdapter = new ImageAdapter(getActivity(), images);
         grImage.setAdapter(imageAdapter);
-
+        imageAdapter.setRemove(false);
         grImage.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -420,6 +420,7 @@ public class ReviewInterestsFragment extends BaseFragment implements View.OnClic
                 edtTax.setEnabled(true);
                 edtBankFees.setEnabled(true);
                 grImage.setEnabled(true);
+                imageAdapter.setRemove(isEditApp());
                 break;
             case R.id.btn_next:
 

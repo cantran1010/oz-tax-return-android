@@ -128,6 +128,7 @@ public class ReviewClothesFragment extends BaseFragment implements View.OnClickL
         }
         imageAdapter = new ImageAdapter(getActivity(), images);
         grImage.setAdapter(imageAdapter);
+        imageAdapter.setRemove(false);
 
         grImage.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -423,7 +424,7 @@ public class ReviewClothesFragment extends BaseFragment implements View.OnClickL
                 edtAmount.requestFocus();
                 edtAmount.setSelection(edtAmount.length());
                 grImage.setEnabled(true);
-//               if (rbYes.isChecked())Utils.showSoftKeyboard(getContext(), edtHow);
+                imageAdapter.setRemove(isEditApp());
                 break;
             case R.id.btn_next:
                 if (isEditApp()) {

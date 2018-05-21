@@ -141,7 +141,7 @@ public class ReviewETPsFragment extends BaseFragment implements View.OnClickList
         }
         imageAdapter = new ImageAdapter(getActivity(), images);
         grImage.setAdapter(imageAdapter);
-
+        imageAdapter.setRemove(false);
         grImage.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -176,7 +176,7 @@ public class ReviewETPsFragment extends BaseFragment implements View.OnClickList
 
     private void updateUI(Etps e) {
         rbYes.setChecked(e.isHad());
-        if (e.getPaymentDate() != null&&!e.getPaymentDate().isEmpty())
+        if (e.getPaymentDate() != null && !e.getPaymentDate().isEmpty())
             edtPaymentDate.setText(DateTimeUtils.getDateBirthDayFromIso(e.getPaymentDate()));
         edtPayerAbn.setText(e.getPayerAbn());
         edtTaxWidthheld.setText(e.getTaxWithheld());
@@ -462,6 +462,7 @@ public class ReviewETPsFragment extends BaseFragment implements View.OnClickList
                 edtTaxWidthheld.setEnabled(true);
                 edtCode.setEnabled(true);
                 grImage.setEnabled(true);
+                imageAdapter.setRemove(isEditApp());
                 break;
             case R.id.edt_payment_date:
                 openDatePicker();

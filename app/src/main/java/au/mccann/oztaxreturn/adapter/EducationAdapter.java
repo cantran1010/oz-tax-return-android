@@ -142,6 +142,7 @@ public class EducationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             }
             ImageAdapter imageAdapter = new ImageAdapter(context, education.getImages());
             itemViewHolder.grImage.setAdapter(imageAdapter);
+            imageAdapter.setRemove(isEdit);
             itemViewHolder.grImage.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int n, long id) {

@@ -125,7 +125,7 @@ public class ReviewTaxAgentFragment extends BaseFragment implements View.OnClick
         }
         imageAdapter = new ImageAdapter(getActivity(), images);
         grImage.setAdapter(imageAdapter);
-
+        imageAdapter.setRemove(false);
         grImage.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -405,6 +405,7 @@ public class ReviewTaxAgentFragment extends BaseFragment implements View.OnClick
                 edtOrgan.setSelection(edtOrgan.length());
                 edtAmount.setEnabled(true);
                 grImage.setEnabled(true);
+                imageAdapter.setRemove(isEditApp());
 //               if (rbYes.isChecked())Utils.showSoftKeyboard(getContext(), edtHow);
                 break;
             case R.id.btn_next:
