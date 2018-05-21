@@ -16,13 +16,13 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
-import android.widget.ScrollView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -55,6 +55,7 @@ import au.mccann.oztaxreturn.utils.LogUtils;
 import au.mccann.oztaxreturn.utils.ProgressDialogUtils;
 import au.mccann.oztaxreturn.utils.TransitionScreen;
 import au.mccann.oztaxreturn.utils.Utils;
+import au.mccann.oztaxreturn.view.EditTextEasyMoney;
 import au.mccann.oztaxreturn.view.EdittextCustom;
 import au.mccann.oztaxreturn.view.ExpandableLayout;
 import au.mccann.oztaxreturn.view.MyGridView;
@@ -74,14 +75,14 @@ import static au.mccann.oztaxreturn.utils.Utils.showToolTip;
  */
 public class ReviewETPsFragment extends BaseFragment implements View.OnClickListener {
     private RadioButtonCustom rbYes, rbNo;
-    private EdittextCustom edtPaymentDate, edtPayerAbn, edtTaxWidthheld, edtTaxtableComponent, edtCode;
+    private EdittextCustom edtPaymentDate, edtPayerAbn, edtCode;
+    private EditTextEasyMoney edtTaxWidthheld, edtTaxtableComponent;
     private static final String TAG = OtherFragment.class.getSimpleName();
     private MyGridView grImage;
     private ImageAdapter imageAdapter;
     private ArrayList<Image> images;
     private final String[] permissions = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
     private String imgPath;
-    private ScrollView scrollView;
     private ExpandableLayout layout;
     private Etps etps = new Etps();
     private ArrayList<Attachment> attach;
@@ -108,16 +109,15 @@ public class ReviewETPsFragment extends BaseFragment implements View.OnClickList
         edtPaymentDate.setOnClickListener(this);
         edtPayerAbn = (EdittextCustom) findViewById(R.id.edt_payer_abn);
         edtPayerAbn.setEnabled(false);
-        edtTaxWidthheld = (EdittextCustom) findViewById(R.id.edt_tax_widthheld);
+        edtTaxWidthheld = (EditTextEasyMoney) findViewById(R.id.edt_tax_widthheld);
         edtTaxWidthheld.setEnabled(false);
-        edtTaxtableComponent = (EdittextCustom) findViewById(R.id.edt_taxtable_component);
+        edtTaxtableComponent = (EditTextEasyMoney) findViewById(R.id.edt_taxtable_component);
         edtTaxtableComponent.setEnabled(false);
         edtCode = (EdittextCustom) findViewById(R.id.edt_code);
         edtCode.setEnabled(false);
         edtCode.setOnClickListener(this);
         grImage = (MyGridView) findViewById(R.id.gr_image);
         grImage.setEnabled(false);
-        scrollView = (ScrollView) findViewById(R.id.scrollView);
         layout = (ExpandableLayout) findViewById(R.id.layout_expandable);
 
 
@@ -177,6 +177,8 @@ public class ReviewETPsFragment extends BaseFragment implements View.OnClickList
     private void updateUI(Etps e) {
         rbYes.setChecked(e.isHad());
         edtPaymentDate.setText(e.getPaymentDate());
+        if (e.getPaymentDate() != null)
+            edtPaymentDate.setText(DateTimeUtils.getDateBirthDayFromIso(e.getPaymentDate()));
         edtPayerAbn.setText(e.getPayerAbn());
         edtTaxWidthheld.setText(e.getTaxWithheld());
         edtTaxtableComponent.setText(e.getTaxableCom());
@@ -280,6 +282,7 @@ public class ReviewETPsFragment extends BaseFragment implements View.OnClickList
                 ProgressDialogUtils.dismissProgressDialog();
                 LogUtils.d(TAG, "getReviewIncome code : " + response.code());
                 if (response.code() == Constants.HTTP_CODE_OK) {
+                    LogUtils.d(TAG, "getReviewIncome code : " + response.body().getEtps().toString());
                     etps = response.body().getEtps();
                     if (etps != null) updateUI(etps);
                 } else {
@@ -346,10 +349,10 @@ public class ReviewETPsFragment extends BaseFragment implements View.OnClickList
             JSONObject govJson = new JSONObject();
             govJson.put(Constants.PARAMETER_REVIEW_HAD, rbYes.isChecked());
             if (rbYes.isChecked()) {
-                govJson.put(Constants.PARAMETER_REVIEW_ETPS_PAYMENT_DATE, edtPaymentDate.getText().toString().trim());
+                govJson.put(Constants.PARAMETER_REVIEW_ETPS_PAYMENT_DATE, DateTimeUtils.fromCalendarToBirthday(calendar));
                 govJson.put(Constants.PARAMETER_REVIEW_ETPS_PAYMENT_ABN, edtPayerAbn.getText().toString().trim());
-                govJson.put(Constants.PARAMETER_REVIEW_ETPS_PAYMENT_TAX, edtTaxWidthheld.getText().toString().trim());
-                govJson.put(Constants.PARAMETER_REVIEW_ETPS_PAYMENT_COM, edtTaxtableComponent.getText().toString().trim());
+                govJson.put(Constants.PARAMETER_REVIEW_ETPS_PAYMENT_TAX, edtTaxWidthheld.getValuesFloat());
+                govJson.put(Constants.PARAMETER_REVIEW_ETPS_PAYMENT_COM, edtTaxtableComponent.getValuesFloat());
                 govJson.put(Constants.PARAMETER_REVIEW_ETPS_PAYMENT_CODE, edtCode.getText().toString().trim());
                 if (images.size() > 1) {
                     for (Image image : images
@@ -425,7 +428,7 @@ public class ReviewETPsFragment extends BaseFragment implements View.OnClickList
                                           final int monthOfYear, final int dayOfMonth) {
                         if (view.isShown()) {
                             calendar.set(year, monthOfYear, dayOfMonth);
-                            edtPaymentDate.setText(DateTimeUtils.fromCalendarToBirthday(calendar));
+                            edtPaymentDate.setText(DateFormat.getDateInstance(DateFormat.SHORT).format(calendar.getTime()));
                         }
                     }
                 }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
@@ -471,26 +474,36 @@ public class ReviewETPsFragment extends BaseFragment implements View.OnClickList
                 if (isEditApp()) {
                     if (rbYes.isChecked()) {
                         if (edtPaymentDate.getText().toString().trim().isEmpty()) {
+                            edtPaymentDate.getParent().requestChildFocus(edtPaymentDate, edtPaymentDate);
                             showToolTip(getContext(), edtPaymentDate, getString(R.string.vali_all_empty));
                             return;
                         }
                         if (edtPayerAbn.getText().toString().trim().isEmpty()) {
+                            edtPayerAbn.findFocus();
+                            edtPayerAbn.getParent().requestChildFocus(edtPayerAbn, edtPayerAbn);
                             showToolTip(getContext(), edtPayerAbn, getString(R.string.vali_all_empty));
                             return;
                         }
                         if (edtTaxWidthheld.getText().toString().trim().isEmpty()) {
+                            edtTaxWidthheld.findFocus();
+                            edtTaxWidthheld.getParent().requestChildFocus(edtTaxWidthheld, edtTaxWidthheld);
                             showToolTip(getContext(), edtTaxWidthheld, getString(R.string.vali_all_empty));
                             return;
                         }
                         if (edtTaxtableComponent.getText().toString().trim().isEmpty()) {
+                            edtTaxtableComponent.findFocus();
+                            edtTaxtableComponent.getParent().requestChildFocus(edtTaxtableComponent, edtTaxtableComponent);
                             showToolTip(getContext(), edtTaxtableComponent, getString(R.string.vali_all_empty));
                             return;
                         }
                         if (edtCode.getText().toString().trim().isEmpty()) {
+                            edtCode.findFocus();
+                            edtCode.getParent().requestChildFocus(edtCode, edtCode);
                             showToolTip(getContext(), edtCode, getString(R.string.vali_all_empty));
                             return;
                         }
                         if (images.size() < 2) {
+                            grImage.getParent().requestChildFocus(grImage, grImage);
                             showToolTip(getContext(), grImage, getString(R.string.valid_deduction_image));
                             return;
                         }

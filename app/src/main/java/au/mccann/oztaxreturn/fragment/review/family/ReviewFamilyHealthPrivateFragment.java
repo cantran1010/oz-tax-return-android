@@ -313,8 +313,8 @@ public class ReviewFamilyHealthPrivateFragment extends BaseFragment implements V
 
                     if (TextUtils.isEmpty(reviewPrivateResponse.getInsurer())
                             || TextUtils.isEmpty(reviewPrivateResponse.getMembershipNo())
-                            || reviewPrivateResponse.getPremiumsPaid() == 0
-                            || reviewPrivateResponse.getGovRebateReceived() == 0
+                            || Float.parseFloat(reviewPrivateResponse.getPremiumsPaid()) == 0
+                            || Float.parseFloat(reviewPrivateResponse.getGovRebateReceived()) == 0
                             || reviewPrivateResponse.getDaysCovered() == 0
                             ) {
 

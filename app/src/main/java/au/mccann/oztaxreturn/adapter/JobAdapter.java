@@ -12,6 +12,7 @@ import java.util.ArrayList;
 
 import au.mccann.oztaxreturn.R;
 import au.mccann.oztaxreturn.model.Job;
+import au.mccann.oztaxreturn.view.EditTextEasyMoney;
 import au.mccann.oztaxreturn.view.EdittextCustom;
 import au.mccann.oztaxreturn.view.TextViewCustom;
 
@@ -38,7 +39,7 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.MyViewHolder> {
 
 
     @Override
-    public void onBindViewHolder(MyViewHolder holder, final int position) {
+    public void onBindViewHolder(final MyViewHolder holder, final int position) {
         final Job job = jobs.get(position);
         holder.tvJob.setText(context.getString(R.string.job) + (position + 1));
         holder.edtGroos.setText(job.getTotalGrossIncom());
@@ -85,7 +86,7 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.MyViewHolder> {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                jobs.get(position).setTotalGrossIncom(editable.toString().trim());
+                jobs.get(position).setTotalGrossIncom(holder.edtGroos.getValuesFloat());
             }
         });
         holder.edtTax.addTextChangedListener(new TextWatcher() {
@@ -101,7 +102,7 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.MyViewHolder> {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                jobs.get(position).setTotalTaxWidthheld(editable.toString().trim());
+                jobs.get(position).setTotalTaxWidthheld(holder.edtTax.getValuesFloat());
             }
         });
         holder.edtAllow.addTextChangedListener(new TextWatcher() {
@@ -117,7 +118,7 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.MyViewHolder> {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                jobs.get(position).setAllowances(editable.toString().trim());
+                jobs.get(position).setAllowances(holder.edtAllow.getValuesFloat());
             }
         });
         holder.edtFringer.addTextChangedListener(new TextWatcher() {
@@ -133,7 +134,7 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.MyViewHolder> {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                jobs.get(position).setReporTableFringerBenefits(editable.toString().trim());
+                jobs.get(position).setReporTableFringerBenefits(holder.edtFringer.getValuesFloat());
             }
         });
         holder.edtEmployer.addTextChangedListener(new TextWatcher() {
@@ -149,7 +150,7 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.MyViewHolder> {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                jobs.get(position).setReporTableEmployerSupper(editable.toString().trim());
+                jobs.get(position).setReporTableEmployerSupper(holder.edtEmployer.getValuesFloat());
             }
         });
         holder.edtCompanyName.addTextChangedListener(new TextWatcher() {
@@ -209,7 +210,8 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.MyViewHolder> {
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
-        EdittextCustom edtGroos, edtTax, edtAllow, edtFringer, edtEmployer, edtCompanyName, edtCompanyAbn, edtCompanyContact;
+        EditTextEasyMoney edtGroos, edtTax, edtAllow, edtFringer, edtEmployer;
+        EdittextCustom edtCompanyName, edtCompanyAbn, edtCompanyContact;
         TextViewCustom tvJob;
 
         public MyViewHolder(View itemView) {

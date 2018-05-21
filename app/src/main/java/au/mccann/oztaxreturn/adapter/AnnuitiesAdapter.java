@@ -21,7 +21,7 @@ import au.mccann.oztaxreturn.model.Annuity;
 import au.mccann.oztaxreturn.model.Attachment;
 import au.mccann.oztaxreturn.model.Image;
 import au.mccann.oztaxreturn.utils.LogUtils;
-import au.mccann.oztaxreturn.view.EdittextCustom;
+import au.mccann.oztaxreturn.view.EditTextEasyMoney;
 import au.mccann.oztaxreturn.view.ExpandableLayout;
 import au.mccann.oztaxreturn.view.MyGridView;
 import au.mccann.oztaxreturn.view.RadioButtonCustom;
@@ -87,7 +87,7 @@ public class AnnuitiesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     @SuppressLint("RecyclerView")
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull final RecyclerView.ViewHolder holder, final int position) {
         if (holder instanceof HeaderViewHolder) {
             HeaderViewHolder headerViewHolder = (HeaderViewHolder) holder;
             onBind = true;
@@ -103,7 +103,7 @@ public class AnnuitiesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         } else if (holder instanceof ItemViewHolder) {
             LogUtils.d("onBindViewHolder", annuities.toString() + "position" + position);
             final Annuity annuity = annuities.get(position - 1);
-            ItemViewHolder itemViewHolder = (ItemViewHolder) holder;
+            final ItemViewHolder itemViewHolder = (ItemViewHolder) holder;
             if (isExpend) {
                 itemViewHolder.expandableLayout.setExpanded(true);
             } else itemViewHolder.expandableLayout.setExpanded(false);
@@ -156,7 +156,7 @@ public class AnnuitiesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
                 @Override
                 public void afterTextChanged(Editable editable) {
-                    annuities.get(position - 1).setTaxWithheld(editable.toString().trim());
+                    annuities.get(position - 1).setTaxWithheld(itemViewHolder.edtEdtTaxWidthheld.getValuesFloat());
                 }
             });
             ((ItemViewHolder) holder).edtTaxed.addTextChangedListener(new TextWatcher() {
@@ -172,7 +172,7 @@ public class AnnuitiesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
                 @Override
                 public void afterTextChanged(Editable editable) {
-                    annuities.get(position - 1).setTaxableComTaxed(editable.toString().trim());
+                    annuities.get(position - 1).setTaxableComTaxed(itemViewHolder.edtTaxed.getValuesFloat());
                 }
             });
             ((ItemViewHolder) holder).edtUnTaxed.addTextChangedListener(new TextWatcher() {
@@ -188,7 +188,7 @@ public class AnnuitiesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
                 @Override
                 public void afterTextChanged(Editable editable) {
-                    annuities.get(position - 1).setTaxableComUntaxed(editable.toString().trim());
+                    annuities.get(position - 1).setTaxableComUntaxed(itemViewHolder.edtUnTaxed.getValuesFloat());
                 }
             });
             ((ItemViewHolder) holder).edtLumpTaxed.addTextChangedListener(new TextWatcher() {
@@ -204,7 +204,7 @@ public class AnnuitiesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
                 @Override
                 public void afterTextChanged(Editable editable) {
-                    annuities.get(position - 1).setArrearsTaxed(editable.toString().trim());
+                    annuities.get(position - 1).setArrearsTaxed(itemViewHolder.edtLumpTaxed.getValuesFloat());
                 }
             });
             ((ItemViewHolder) holder).edtLumpUnTaxed.addTextChangedListener(new TextWatcher() {
@@ -220,7 +220,7 @@ public class AnnuitiesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
                 @Override
                 public void afterTextChanged(Editable editable) {
-                    annuities.get(position - 1).setArrearsUntaxed(editable.toString().trim());
+                    annuities.get(position - 1).setArrearsUntaxed(itemViewHolder.edtLumpUnTaxed.getValuesFloat());
                 }
             });
         } else if (holder instanceof FooterViewHolder) {
@@ -301,11 +301,11 @@ public class AnnuitiesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     private class ItemViewHolder extends RecyclerView.ViewHolder {
         final ExpandableLayout expandableLayout;
-        final EdittextCustom edtEdtTaxWidthheld;
-        final EdittextCustom edtTaxed;
-        final EdittextCustom edtUnTaxed;
-        final EdittextCustom edtLumpTaxed;
-        final EdittextCustom edtLumpUnTaxed;
+        final EditTextEasyMoney edtEdtTaxWidthheld;
+        final EditTextEasyMoney edtTaxed;
+        final EditTextEasyMoney edtUnTaxed;
+        final EditTextEasyMoney edtLumpTaxed;
+        final EditTextEasyMoney edtLumpUnTaxed;
         final MyGridView grImage;
 
         ItemViewHolder(View itemView) {

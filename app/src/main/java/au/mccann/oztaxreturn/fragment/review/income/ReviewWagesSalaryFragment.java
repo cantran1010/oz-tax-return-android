@@ -97,13 +97,13 @@ public class ReviewWagesSalaryFragment extends BaseFragment implements View.OnCl
                     jobs.clear();
                     jobs.addAll(response.body().getJobs());
                     jobAdapter.notifyDataSetChanged();
-                    if (jobs != null || jobs.size() > 0) tvNoData.setVisibility(View.VISIBLE);
-                    else tvNoData.setVisibility(View.GONE);
+                    if (jobs.size() > 0) tvNoData.setVisibility(View.GONE);
+                    else tvNoData.setVisibility(View.VISIBLE);
                 } else {
                     APIError error = Utils.parseError(response);
                     if (error != null) {
                         LogUtils.d(TAG, "getReviewIncome error : " + error.message());
-                        DialogUtils.showOkDialog(getActivity(), getString(R.string.error), error.message().replace("."," ").replace("_"," "), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                        DialogUtils.showOkDialog(getActivity(), getString(R.string.error), error.message().replace(".", " ").replace("_", " "), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
                             @Override
                             public void onSubmit() {
 

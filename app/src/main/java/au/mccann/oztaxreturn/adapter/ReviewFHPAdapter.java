@@ -22,6 +22,7 @@ import au.mccann.oztaxreturn.rest.response.ReviewPrivateResponse;
 import au.mccann.oztaxreturn.utils.LogUtils;
 import au.mccann.oztaxreturn.utils.TransitionScreen;
 import au.mccann.oztaxreturn.utils.Utils;
+import au.mccann.oztaxreturn.view.EditTextEasyMoney;
 import au.mccann.oztaxreturn.view.EdittextCustom;
 import au.mccann.oztaxreturn.view.MyGridView;
 
@@ -54,7 +55,7 @@ public class ReviewFHPAdapter extends RecyclerView.Adapter<ReviewFHPAdapter.MyVi
     }
 
     @Override
-    public void onBindViewHolder(MyViewHolder holder, final int positionBig) {
+    public void onBindViewHolder(final MyViewHolder holder, final int positionBig) {
 
 //        EdittextCustom edtHealth, edtMembership, edtPremiums, edtGovernment, edtDay;
 //        MyGridView myGridView;
@@ -62,12 +63,10 @@ public class ReviewFHPAdapter extends RecyclerView.Adapter<ReviewFHPAdapter.MyVi
         final ReviewPrivateResponse reviewPrivateResponse = reviewPrivateResponses.get(positionBig);
         holder.edtHealth.setText(reviewPrivateResponse.getInsurer());
         holder.edtMembership.setText(reviewPrivateResponse.getMembershipNo());
-        if (reviewPrivateResponse.getPremiumsPaid() != 0)
-            holder.edtPremiums.setText(String.valueOf(reviewPrivateResponse.getPremiumsPaid()));
-        if (reviewPrivateResponse.getGovRebateReceived() != 0)
-            holder.edtGovernment.setText(String.valueOf(reviewPrivateResponse.getGovRebateReceived()));
+        holder.edtPremiums.setText(reviewPrivateResponse.getPremiumsPaid());
+        holder.edtGovernment.setText(reviewPrivateResponse.getGovRebateReceived());
 //        if (reviewPrivateResponse.getDaysCovered() != 0)
-            holder.edtDay.setText(String.valueOf(reviewPrivateResponse.getDaysCovered()));
+        holder.edtDay.setText(String.valueOf(reviewPrivateResponse.getDaysCovered()));
 
         if (isEdit()) {
             holder.edtHealth.setEnabled(true);
@@ -96,7 +95,8 @@ public class ReviewFHPAdapter extends RecyclerView.Adapter<ReviewFHPAdapter.MyVi
 
             @Override
             public void afterTextChanged(Editable editable) {
-                reviewPrivateResponses.get(positionBig).setInsurer(editable.toString().trim());
+                if (!editable.toString().trim().isEmpty())
+                    reviewPrivateResponses.get(positionBig).setInsurer(editable.toString().trim());
             }
         });
 
@@ -113,7 +113,8 @@ public class ReviewFHPAdapter extends RecyclerView.Adapter<ReviewFHPAdapter.MyVi
 
             @Override
             public void afterTextChanged(Editable editable) {
-                reviewPrivateResponses.get(positionBig).setMembershipNo(editable.toString().trim());
+                if (!editable.toString().trim().isEmpty())
+                    reviewPrivateResponses.get(positionBig).setMembershipNo(editable.toString().trim());
             }
         });
 
@@ -130,7 +131,8 @@ public class ReviewFHPAdapter extends RecyclerView.Adapter<ReviewFHPAdapter.MyVi
 
             @Override
             public void afterTextChanged(Editable editable) {
-                reviewPrivateResponses.get(positionBig).setPremiumsPaid(Double.valueOf(editable.toString().trim()));
+                if (!editable.toString().trim().isEmpty())
+                    reviewPrivateResponses.get(positionBig).setPremiumsPaid(holder.edtPremiums.getValuesFloat());
             }
         });
 
@@ -147,7 +149,7 @@ public class ReviewFHPAdapter extends RecyclerView.Adapter<ReviewFHPAdapter.MyVi
 
             @Override
             public void afterTextChanged(Editable editable) {
-                reviewPrivateResponses.get(positionBig).setGovRebateReceived(Double.valueOf(editable.toString().trim()));
+                reviewPrivateResponses.get(positionBig).setGovRebateReceived(holder.edtGovernment.getValuesFloat());
             }
         });
 
@@ -164,7 +166,8 @@ public class ReviewFHPAdapter extends RecyclerView.Adapter<ReviewFHPAdapter.MyVi
 
             @Override
             public void afterTextChanged(Editable editable) {
-                reviewPrivateResponses.get(positionBig).setDaysCovered(Integer.valueOf(editable.toString().trim()));
+                if (!editable.toString().trim().isEmpty())
+                    reviewPrivateResponses.get(positionBig).setDaysCovered(Integer.valueOf(editable.toString().trim()));
             }
         });
 
@@ -233,7 +236,8 @@ public class ReviewFHPAdapter extends RecyclerView.Adapter<ReviewFHPAdapter.MyVi
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
-        EdittextCustom edtHealth, edtMembership, edtPremiums, edtGovernment, edtDay;
+        EdittextCustom edtHealth, edtMembership, edtDay;
+        private EditTextEasyMoney edtPremiums, edtGovernment;
         MyGridView myGridView;
 
         public MyViewHolder(View itemView) {

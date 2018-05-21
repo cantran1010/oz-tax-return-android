@@ -19,6 +19,8 @@ public class Vehicles {
     private String regNumber;
     @SerializedName("amount")
     private String amount;
+    @SerializedName("km_value")
+    private String kmValue;
     private ArrayList<Attachment> attachments;
 
     public boolean isHad() {
@@ -77,6 +79,14 @@ public class Vehicles {
         this.attachments = attachments;
     }
 
+    public String getKmValue() {
+        return kmValue;
+    }
+
+    public void setKmValue(String kmValue) {
+        this.kmValue = kmValue;
+    }
+
     @Override
     public String toString() {
         return "Vehicles{" +
@@ -86,6 +96,7 @@ public class Vehicles {
                 ", typeBrand='" + typeBrand + '\'' +
                 ", regNumber='" + regNumber + '\'' +
                 ", amount='" + amount + '\'' +
+                ", kmValue='" + kmValue + '\'' +
                 ", attachments=" + attachments +
                 '}';
     }

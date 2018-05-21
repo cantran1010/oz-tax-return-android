@@ -51,7 +51,7 @@ import au.mccann.oztaxreturn.utils.LogUtils;
 import au.mccann.oztaxreturn.utils.ProgressDialogUtils;
 import au.mccann.oztaxreturn.utils.TransitionScreen;
 import au.mccann.oztaxreturn.utils.Utils;
-import au.mccann.oztaxreturn.view.EdittextCustom;
+import au.mccann.oztaxreturn.view.EditTextEasyMoney;
 import au.mccann.oztaxreturn.view.ExpandableLayout;
 import au.mccann.oztaxreturn.view.MyGridView;
 import au.mccann.oztaxreturn.view.RadioButtonCustom;
@@ -70,7 +70,7 @@ import static au.mccann.oztaxreturn.utils.Utils.showToolTip;
  */
 public class ReviewClothesFragment extends BaseFragment implements View.OnClickListener {
     private RadioButtonCustom rbYes, rbNo;
-    private EdittextCustom edtAmount;
+    private EditTextEasyMoney edtAmount;
     private Spinner spType;
     private static final String TAG = OtherFragment.class.getSimpleName();
     private MyGridView grImage;
@@ -100,7 +100,7 @@ public class ReviewClothesFragment extends BaseFragment implements View.OnClickL
         rbYes.setEnabled(false);
         rbNo = (RadioButtonCustom) findViewById(R.id.rb_no);
         rbNo.setEnabled(false);
-        edtAmount = (EdittextCustom) findViewById(R.id.edt_amount);
+        edtAmount = (EditTextEasyMoney) findViewById(R.id.edt_amount);
         edtAmount.setEnabled(false);
         grImage = (MyGridView) findViewById(R.id.gr_image);
         grImage.setEnabled(false);
@@ -347,7 +347,7 @@ public class ReviewClothesFragment extends BaseFragment implements View.OnClickL
             govJson.put(Constants.PARAMETER_REVIEW_HAD, rbYes.isChecked());
             if (rbYes.isChecked()) {
                 govJson.put(Constants.PARAMETER_REVIEW_TYPE, spType.getSelectedItem().toString());
-                govJson.put(Constants.PARAMETER_REVIEW_AMOUNT, edtAmount.getText().toString().trim());
+                govJson.put(Constants.PARAMETER_REVIEW_AMOUNT, edtAmount.getValuesFloat());
                 if (images.size() > 1) {
                     for (Image image : images
                             ) {

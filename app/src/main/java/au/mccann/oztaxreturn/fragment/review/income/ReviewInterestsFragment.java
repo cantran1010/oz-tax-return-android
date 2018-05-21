@@ -1,7 +1,6 @@
 package au.mccann.oztaxreturn.fragment.review.income;
 
 import android.Manifest;
-import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -48,6 +47,7 @@ import au.mccann.oztaxreturn.utils.LogUtils;
 import au.mccann.oztaxreturn.utils.ProgressDialogUtils;
 import au.mccann.oztaxreturn.utils.TransitionScreen;
 import au.mccann.oztaxreturn.utils.Utils;
+import au.mccann.oztaxreturn.view.EditTextEasyMoney;
 import au.mccann.oztaxreturn.view.EdittextCustom;
 import au.mccann.oztaxreturn.view.ExpandableLayout;
 import au.mccann.oztaxreturn.view.MyGridView;
@@ -66,7 +66,8 @@ import static au.mccann.oztaxreturn.utils.Utils.showToolTip;
  */
 public class ReviewInterestsFragment extends BaseFragment implements View.OnClickListener {
     private RadioButtonCustom rbYes, rbNo;
-    private EdittextCustom edtBankName, edtBankNumber, edtTotalInteres, edtTax, edtBankFees;
+    private EdittextCustom edtBankName, edtBankNumber;
+    private EditTextEasyMoney edtTotalInteres, edtTax, edtBankFees;
     private static final String TAG = OtherFragment.class.getSimpleName();
     private MyGridView grImage;
     private ImageAdapter imageAdapter;
@@ -98,11 +99,11 @@ public class ReviewInterestsFragment extends BaseFragment implements View.OnClic
         edtBankName.setEnabled(false);
         edtBankNumber = (EdittextCustom) findViewById(R.id.edt_interest_account_number);
         edtBankNumber.setEnabled(false);
-        edtTotalInteres = (EdittextCustom) findViewById(R.id.edt_total_interests);
+        edtTotalInteres = (EditTextEasyMoney) findViewById(R.id.edt_total_interests);
         edtTotalInteres.setEnabled(false);
-        edtTax = (EdittextCustom) findViewById(R.id.edt_interest_tax);
+        edtTax = (EditTextEasyMoney) findViewById(R.id.edt_interest_tax);
         edtTax.setEnabled(false);
-        edtBankFees = (EdittextCustom) findViewById(R.id.edt_interest_bank_fees);
+        edtBankFees = (EditTextEasyMoney) findViewById(R.id.edt_interest_bank_fees);
         edtBankFees.setEnabled(false);
         grImage = (MyGridView) findViewById(R.id.gr_image);
         grImage.setEnabled(false);
@@ -249,14 +250,6 @@ public class ReviewInterestsFragment extends BaseFragment implements View.OnClic
         return imgPath;
     }
 
-    private void scollLayout() {
-        int[] coords = {0, 0};
-        scrollView.getLocationOnScreen(coords);
-        int absoluteBottom = coords[1] + scrollView.getHeight();
-        ObjectAnimator objectAnimator = ObjectAnimator.ofInt(scrollView, "scrollY", absoluteBottom).setDuration(1500);
-        objectAnimator.start();
-    }
-
     @Override
     protected void resumeData() {
 
@@ -345,9 +338,9 @@ public class ReviewInterestsFragment extends BaseFragment implements View.OnClic
             if (rbYes.isChecked()) {
                 govJson.put(Constants.PARAMETER_REVIEW_INCOME_BANK_NAME, edtBankName.getText().toString().trim());
                 govJson.put(Constants.PARAMETER_REVIEW_INCOME_BANK_NUMBER, edtBankNumber.getText().toString().trim());
-                govJson.put(Constants.PARAMETER_REVIEW_INCOME_BANK_TOTAL_INTEREST, edtTotalInteres.getText().toString().trim());
-                govJson.put(Constants.PARAMETER_REVIEW_INCOME_BANK_TAX, edtTax.getText().toString().trim());
-                govJson.put(Constants.PARAMETER_REVIEW_INCOME_BANK_FEES, edtBankFees.getText().toString().trim());
+                govJson.put(Constants.PARAMETER_REVIEW_INCOME_BANK_TOTAL_INTEREST, edtTotalInteres.getValuesFloat());
+                govJson.put(Constants.PARAMETER_REVIEW_INCOME_BANK_TAX, edtTax.getValuesFloat());
+                govJson.put(Constants.PARAMETER_REVIEW_INCOME_BANK_FEES, edtBankFees.getValuesFloat());
                 if (images.size() > 1) {
                     for (Image image : images
                             ) {

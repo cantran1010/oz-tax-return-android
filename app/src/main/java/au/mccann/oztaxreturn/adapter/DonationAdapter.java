@@ -21,6 +21,7 @@ import au.mccann.oztaxreturn.model.Attachment;
 import au.mccann.oztaxreturn.model.Donation;
 import au.mccann.oztaxreturn.model.Image;
 import au.mccann.oztaxreturn.utils.LogUtils;
+import au.mccann.oztaxreturn.view.EditTextEasyMoney;
 import au.mccann.oztaxreturn.view.EdittextCustom;
 import au.mccann.oztaxreturn.view.ExpandableLayout;
 import au.mccann.oztaxreturn.view.MyGridView;
@@ -102,7 +103,7 @@ public class DonationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         } else if (holder instanceof ItemViewHolder) {
             LogUtils.d("onBindViewHolder", donations.toString() + "position" + position);
             Donation donation = donations.get(position - 1);
-            ItemViewHolder itemViewHolder = (ItemViewHolder) holder;
+            final ItemViewHolder itemViewHolder = (ItemViewHolder) holder;
             if (isExpend) {
                 itemViewHolder.expandableLayout.setExpanded(true);
             } else itemViewHolder.expandableLayout.setExpanded(false);
@@ -161,7 +162,7 @@ public class DonationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
                 @Override
                 public void afterTextChanged(Editable editable) {
-                    donations.get(position - 1).setAmount(editable.toString().trim());
+                    donations.get(position - 1).setAmount(itemViewHolder.edtAmount.getValuesFloat());
                 }
             });
         } else if (holder instanceof FooterViewHolder) {
@@ -238,7 +239,7 @@ public class DonationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private class ItemViewHolder extends RecyclerView.ViewHolder {
         final ExpandableLayout expandableLayout;
         final EdittextCustom edtOz;
-        final EdittextCustom edtAmount;
+        final EditTextEasyMoney edtAmount;
         final MyGridView grImage;
 
         ItemViewHolder(View itemView) {

@@ -170,7 +170,7 @@
                     android:textColor="@color/tv_gray"
                     android:textSize="@dimen/size_small" />
 
-                <au.mccann.oztaxreturn.view.EdittextCustom
+                <au.mccann.oztaxreturn.view.EditTextEasyMoney
                     android:id="@+id/edt_taxable"
                     style="@style/EditText"
                     android:layout_width="match_parent"
@@ -179,7 +179,8 @@
                     android:enabled="false"
                     android:inputType="numberDecimal"
                     android:textColor="@color/income_conten"
-                    android:textColorHint="@color/tv_gray" />
+                    android:textColorHint="@color/tv_gray"
+                    app:currency_symbol="$" />
 
                 <au.mccann.oztaxreturn.view.MyGridView
                     android:id="@+id/gr_image"

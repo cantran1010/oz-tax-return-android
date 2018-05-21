@@ -27,15 +27,16 @@
             android:textColor="@color/tv_gray"
             android:textSize="@dimen/size_small" />
 
-        <au.mccann.oztaxreturn.view.EdittextCustom
+        <au.mccann.oztaxreturn.view.EditTextEasyMoney
             android:id="@+id/edt_tax"
             style="@style/EditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:inputType="text"
+            android:inputType="numberDecimal"
             android:textColor="@color/income_conten"
-            android:textColorHint="@color/tv_gray" />
+            android:textColorHint="@color/tv_gray"
+            app:currency_symbol="$" />
 
         <au.mccann.oztaxreturn.view.TextViewCustom
             android:layout_width="wrap_content"
@@ -46,15 +47,16 @@
             android:textColor="@color/tv_gray"
             android:textSize="@dimen/size_small" />
 
-        <au.mccann.oztaxreturn.view.EdittextCustom
+        <au.mccann.oztaxreturn.view.EditTextEasyMoney
             android:id="@+id/edt_taxed"
             style="@style/EditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:inputType="text"
+            android:inputType="numberDecimal"
             android:textColor="@color/income_conten"
-            android:textColorHint="@color/tv_gray" />
+            android:textColorHint="@color/tv_gray"
+            app:currency_symbol="$" />
 
         <au.mccann.oztaxreturn.view.TextViewCustom
             android:layout_width="wrap_content"
@@ -65,15 +67,16 @@
             android:textColor="@color/tv_gray"
             android:textSize="@dimen/size_small" />
 
-        <au.mccann.oztaxreturn.view.EdittextCustom
+        <au.mccann.oztaxreturn.view.EditTextEasyMoney
             android:id="@+id/edt_untaxed"
             style="@style/EditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:inputType="text"
+            android:inputType="numberDecimal"
             android:textColor="@color/income_conten"
-            android:textColorHint="@color/tv_gray" />
+            android:textColorHint="@color/tv_gray"
+            app:currency_symbol="$" />
 
         <au.mccann.oztaxreturn.view.TextViewCustom
             android:layout_width="wrap_content"
@@ -84,15 +87,16 @@
             android:textColor="@color/tv_gray"
             android:textSize="@dimen/size_small" />
 
-        <au.mccann.oztaxreturn.view.EdittextCustom
+        <au.mccann.oztaxreturn.view.EditTextEasyMoney
             android:id="@+id/edt_lump_taxed"
             style="@style/EditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:inputType="text"
+            android:inputType="numberDecimal"
             android:textColor="@color/income_conten"
-            android:textColorHint="@color/tv_gray" />
+            android:textColorHint="@color/tv_gray"
+            app:currency_symbol="$" />
 
 
         <au.mccann.oztaxreturn.view.TextViewCustom
@@ -104,15 +108,16 @@
             android:textColor="@color/tv_gray"
             android:textSize="@dimen/size_small" />
 
-        <au.mccann.oztaxreturn.view.EdittextCustom
+        <au.mccann.oztaxreturn.view.EditTextEasyMoney
             android:id="@+id/edt_lump_untaxed"
             style="@style/EditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:inputType="text"
+            android:inputType="numberDecimal"
             android:textColor="@color/income_conten"
-            android:textColorHint="@color/tv_gray" />
+            android:textColorHint="@color/tv_gray"
+            app:currency_symbol="$" />
 
         <au.mccann.oztaxreturn.view.TextViewCustom
             android:layout_width="wrap_content"

@@ -120,7 +120,6 @@ public class OtherFragment extends BaseFragment implements View.OnClickListener 
                 }
             }
         });
-        getBasicInformation();
         rbYes.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
@@ -132,6 +131,7 @@ public class OtherFragment extends BaseFragment implements View.OnClickListener 
                 }
             }
         });
+        getBasicInformation();
     }
 
     @Override

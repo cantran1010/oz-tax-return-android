@@ -91,7 +91,7 @@
                 android:id="@+id/layout_expandable"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:el_duration="1000"
+                app:el_duration="@integer/expand"
                 app:el_expanded="false">
 
                 <LinearLayout
@@ -147,15 +147,16 @@
                         android:textColor="@color/tv_gray"
                         android:textSize="@dimen/size_small" />
 
-                    <au.mccann.oztaxreturn.view.EdittextCustom
+                    <au.mccann.oztaxreturn.view.EditTextEasyMoney
                         android:id="@+id/edt_tax_widthheld"
                         style="@style/EditText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:inputType="number"
+                        android:inputType="numberDecimal"
                         android:textColor="@color/income_conten"
-                        android:textColorHint="@color/tv_gray" />
+                        android:textColorHint="@color/tv_gray"
+                        app:currency_symbol="$" />
 
                     <au.mccann.oztaxreturn.view.TextViewCustom
                         android:layout_width="wrap_content"
@@ -166,15 +167,16 @@
                         android:textColor="@color/tv_gray"
                         android:textSize="@dimen/size_small" />
 
-                    <au.mccann.oztaxreturn.view.EdittextCustom
+                    <au.mccann.oztaxreturn.view.EditTextEasyMoney
                         android:id="@+id/edt_taxtable_component"
                         style="@style/EditText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:inputType="number"
+                        android:inputType="numberDecimal"
                         android:textColor="@color/income_conten"
-                        android:textColorHint="@color/tv_gray" />
+                        android:textColorHint="@color/tv_gray"
+                        app:currency_symbol="$" />
 
                     <au.mccann.oztaxreturn.view.EdittextCustom
                         android:id="@+id/edt_code"

@@ -56,6 +56,7 @@ import au.mccann.oztaxreturn.utils.LogUtils;
 import au.mccann.oztaxreturn.utils.ProgressDialogUtils;
 import au.mccann.oztaxreturn.utils.TransitionScreen;
 import au.mccann.oztaxreturn.utils.Utils;
+import au.mccann.oztaxreturn.view.EditTextEasyMoney;
 import au.mccann.oztaxreturn.view.EdittextCustom;
 import au.mccann.oztaxreturn.view.ExpandableLayout;
 import au.mccann.oztaxreturn.view.MyGridView;
@@ -75,7 +76,8 @@ import static au.mccann.oztaxreturn.utils.Utils.showToolTip;
  */
 public class ReviewRentalFragment extends BaseFragment implements View.OnClickListener {
     private RadioButtonCustom rbYes, rbNo;
-    private EdittextCustom edtOwnerShip, edtStreet, edtSuburb, edtState, edtPostCode, edtFirstDate, edtRentalIncome, edtRentalExpenses;
+    private EdittextCustom edtOwnerShip, edtStreet, edtSuburb, edtState, edtPostCode, edtFirstDate;
+    private EditTextEasyMoney edtRentalIncome, edtRentalExpenses;
     private static final String TAG = OtherFragment.class.getSimpleName();
     private MyGridView grImage;
     private ImageAdapter imageAdapter;
@@ -117,9 +119,9 @@ public class ReviewRentalFragment extends BaseFragment implements View.OnClickLi
         edtFirstDate = (EdittextCustom) findViewById(R.id.edt_first_date);
         edtFirstDate.setEnabled(false);
         edtFirstDate.setOnClickListener(this);
-        edtRentalIncome = (EdittextCustom) findViewById(R.id.edt_rental_income);
+        edtRentalIncome = (EditTextEasyMoney) findViewById(R.id.edt_rental_income);
         edtRentalIncome.setEnabled(false);
-        edtRentalExpenses = (EdittextCustom) findViewById(R.id.edt_rental_expenses);
+        edtRentalExpenses = (EditTextEasyMoney) findViewById(R.id.edt_rental_expenses);
         edtRentalExpenses.setEnabled(false);
         grImage = (MyGridView) findViewById(R.id.gr_image);
         grImage.setEnabled(false);
@@ -367,8 +369,8 @@ public class ReviewRentalFragment extends BaseFragment implements View.OnClickLi
                 govJson.put(Constants.PARAMETER_REVIEW_INCOME_RENTAL_STARTE, edtState.getText().toString().trim());
                 govJson.put(Constants.PARAMETER_REVIEW_INCOME_RENTAL_POST_CODE, edtPostCode.getText().toString().trim());
                 govJson.put(Constants.PARAMETER_REVIEW_INCOME_RENTAL_FIRST_DATE, edtFirstDate.getText().toString().trim());
-                govJson.put(Constants.PARAMETER_REVIEW_INCOME_RENTAL_INCOME, edtRentalIncome.getText().toString().trim());
-                govJson.put(Constants.PARAMETER_REVIEW_INCOME_RENTAL_EXPENSES, edtRentalExpenses.getText().toString().trim());
+                govJson.put(Constants.PARAMETER_REVIEW_INCOME_RENTAL_INCOME, edtRentalIncome.getValuesFloat());
+                govJson.put(Constants.PARAMETER_REVIEW_INCOME_RENTAL_EXPENSES, edtRentalExpenses.getValuesFloat());
                 if (images.size() > 1) {
                     for (Image image : images
                             ) {
@@ -476,7 +478,7 @@ public class ReviewRentalFragment extends BaseFragment implements View.OnClickLi
                 if (isEditApp()) {
                     if (rbYes.isChecked()) {
                         if (edtOwnerShip.getText().toString().trim().isEmpty()) {
-                            showToolTip(getContext(), edtOwnerShip,  getString(R.string.vali_all_empty));
+                            showToolTip(getContext(), edtOwnerShip, getString(R.string.vali_all_empty));
                             return;
                         }
                         if (edtStreet.getText().toString().trim().isEmpty()) {
@@ -488,7 +490,7 @@ public class ReviewRentalFragment extends BaseFragment implements View.OnClickLi
                             return;
                         }
                         if (edtState.getText().toString().trim().isEmpty()) {
-                            showToolTip(getContext(), edtState,getString(R.string.vali_all_empty));
+                            showToolTip(getContext(), edtState, getString(R.string.vali_all_empty));
                             return;
                         }
                         if (edtPostCode.getText().toString().trim().isEmpty()) {
@@ -496,11 +498,11 @@ public class ReviewRentalFragment extends BaseFragment implements View.OnClickLi
                             return;
                         }
                         if (edtFirstDate.getText().toString().trim().isEmpty()) {
-                            showToolTip(getContext(), edtFirstDate,  getString(R.string.vali_all_empty));
+                            showToolTip(getContext(), edtFirstDate, getString(R.string.vali_all_empty));
                             return;
                         }
                         if (edtRentalIncome.getText().toString().trim().isEmpty()) {
-                            showToolTip(getContext(), edtRentalIncome,  getString(R.string.vali_all_empty));
+                            showToolTip(getContext(), edtRentalIncome, getString(R.string.vali_all_empty));
                             return;
                         }
                         if (edtRentalExpenses.getText().toString().trim().isEmpty()) {
@@ -508,7 +510,7 @@ public class ReviewRentalFragment extends BaseFragment implements View.OnClickLi
                             return;
                         }
                         if (images.size() < 2) {
-                            showToolTip(getContext(), grImage,getString(R.string.valid_deduction_image));
+                            showToolTip(getContext(), grImage, getString(R.string.valid_deduction_image));
                             return;
                         }
                         uploadImage();

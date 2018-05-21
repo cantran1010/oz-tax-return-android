@@ -9,6 +9,7 @@ import java.util.ArrayList;
  * Created by CanTran on 5/5/18.
  */
 public class LumpSum implements Serializable {
+    private int id;
     @SerializedName("payer_abn")
     private String payerAbn;
     @SerializedName("tax_withheld")
@@ -23,6 +24,14 @@ public class LumpSum implements Serializable {
     private ArrayList<Image> images = new ArrayList<>();
     private ArrayList<Attachment> attach = new ArrayList<>();
     private ArrayList<Image> listUp = new ArrayList<>();
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getPayerAbn() {
         return payerAbn;
@@ -99,7 +108,8 @@ public class LumpSum implements Serializable {
     @Override
     public String toString() {
         return "LumpSum{" +
-                "payerAbn='" + payerAbn + '\'' +
+                "id=" + id +
+                ", payerAbn='" + payerAbn + '\'' +
                 ", taxWithheld='" + taxWithheld + '\'' +
                 ", taxableComTaxed='" + taxableComTaxed + '\'' +
                 ", taxableComUntaxed='" + taxableComUntaxed + '\'' +
