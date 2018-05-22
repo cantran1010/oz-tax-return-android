@@ -487,7 +487,7 @@
     <string name="app_privacy_policy">Privacy policy</string>
     <string name="dolla">$</string>
     <string name="review_summary_title">review summary</string>
-    <string name="lodged_successfully">The application is lodged successfully</string>
+    <string name="lodged_successfully">The application is lodged successfully.</string>
     <string name="app_term_conditions">Term and conditions</string>
     <string name="lodge">Lodged</string>
     <string name="review_summary_note">Your application has been lodged. You can review it but no changes can be made at this state. You will be notified for any update of your aplication </string>

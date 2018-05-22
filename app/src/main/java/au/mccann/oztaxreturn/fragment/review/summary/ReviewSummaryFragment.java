@@ -294,8 +294,12 @@ public class ReviewSummaryFragment extends BaseFragment implements View.OnClickL
                 LogUtils.d(TAG, "doSaveReview code: " + response.code());
                 if (response.code() == Constants.HTTP_CODE_OK) {
                     LogUtils.d(TAG, "doSaveReview code: " + response.body().toString());
-                    Utils.showLongToast(getContext(), getContext().getString(R.string.lodged_successfully), false, true);
-                    openFragment(R.id.layout_container, HomeFragment.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
+                    DialogUtils.showOkDialog(getContext(), getString(R.string.notification_title), getContext().getString(R.string.lodged_successfully), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                        @Override
+                        public void onSubmit() {
+                            openFragment(R.id.layout_container, HomeFragment.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
+                        }
+                    });
                 } else {
                     APIError error = Utils.parseError(response);
                     if (error != null) {
