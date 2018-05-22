@@ -71,7 +71,8 @@ public class ReviewFamilyHealthDependantsFragment extends BaseFragment implement
         getReviewProgress(getApplicationResponse());
         setTitle(getString(R.string.review_fhd_title));
         appBarVisibility(true, true, 1);
-        fab.setEnabled(isEditApp());
+        if (isEditApp()) fab.setVisibility(View.VISIBLE);
+        else fab.setVisibility(View.GONE);
         cbYes.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {

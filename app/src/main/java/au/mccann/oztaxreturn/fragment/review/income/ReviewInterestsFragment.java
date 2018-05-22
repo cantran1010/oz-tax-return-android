@@ -118,7 +118,8 @@ public class ReviewInterestsFragment extends BaseFragment implements View.OnClic
         images = new ArrayList<>();
         attach = new ArrayList<>();
         appID = getApplicationResponse().getId();
-        fab.setEnabled(isEditApp());
+        if (isEditApp()) fab.setVisibility(View.VISIBLE);
+        else fab.setVisibility(View.GONE);
         setTitle(getString(R.string.review_income_title));
         appBarVisibility(true, true, 1);
         //images

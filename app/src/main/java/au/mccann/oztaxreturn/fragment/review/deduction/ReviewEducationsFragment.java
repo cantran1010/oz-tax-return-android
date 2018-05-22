@@ -75,7 +75,8 @@ public class ReviewEducationsFragment extends BaseFragment implements View.OnCli
     @Override
     protected void initView() {
         fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(this);
+        if (isEditApp()) fab.setVisibility(View.VISIBLE);
+        else fab.setVisibility(View.GONE);
         ButtonCustom btnnext = (ButtonCustom) findViewById(R.id.btn_next);
         btnnext.setOnClickListener(this);
         recyclerView = (RecyclerView) findViewById(R.id.rcv_education);

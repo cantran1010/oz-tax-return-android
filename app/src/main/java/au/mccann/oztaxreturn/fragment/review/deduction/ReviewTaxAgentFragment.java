@@ -113,7 +113,8 @@ public class ReviewTaxAgentFragment extends BaseFragment implements View.OnClick
         images = new ArrayList<>();
         attach = new ArrayList<>();
         appID = getApplicationResponse().getId();
-        fab.setEnabled(isEditApp());
+        if (isEditApp()) fab.setVisibility(View.VISIBLE);
+        else fab.setVisibility(View.GONE);
         setTitle(getString(R.string.review_income_title));
         appBarVisibility(true, true, 1);
         //images

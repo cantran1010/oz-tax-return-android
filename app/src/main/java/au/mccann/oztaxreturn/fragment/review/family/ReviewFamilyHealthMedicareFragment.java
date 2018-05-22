@@ -94,7 +94,8 @@ public class ReviewFamilyHealthMedicareFragment extends BaseFragment implements 
         getReviewProgress(getApplicationResponse());
         setTitle(getString(R.string.review_fhd_title));
         appBarVisibility(true, true, 1);
-        fab.setEnabled(isEditApp());
+        if (isEditApp()) fab.setVisibility(View.VISIBLE);
+        else fab.setVisibility(View.GONE);
         getReviewFamilyAndHealth();
         images = new ArrayList<>();
         attach = new ArrayList<>();
