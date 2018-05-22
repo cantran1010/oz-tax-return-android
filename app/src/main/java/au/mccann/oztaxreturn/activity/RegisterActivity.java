@@ -16,8 +16,6 @@ import org.json.JSONObject;
 
 import au.mccann.oztaxreturn.R;
 import au.mccann.oztaxreturn.common.Constants;
-import au.mccann.oztaxreturn.database.UserEntity;
-import au.mccann.oztaxreturn.database.UserManager;
 import au.mccann.oztaxreturn.dialog.AlertDialogOk;
 import au.mccann.oztaxreturn.dialog.AlertDialogOkAndCancel;
 import au.mccann.oztaxreturn.model.APIError;
@@ -137,9 +135,6 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                 LogUtils.d(TAG, "doRegister code: " + response.code());
                 if (response.code() == Constants.HTTP_CODE_OK) {
                     LogUtils.d(TAG, "doRegister body: " + response.body().toString());
-                    UserEntity user = response.body().getUser();
-                    user.setToken(response.body().getToken());
-                    UserManager.insertUser(user);
                     clearData();
                     startActivity(new Intent(RegisterActivity.this, LoginActivity.class), TransitionScreen.RIGHT_TO_LEFT);
                 } else {
