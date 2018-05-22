@@ -37,7 +37,7 @@ import au.mccann.oztaxreturn.dialog.AlertDialogOk;
 import au.mccann.oztaxreturn.dialog.AlertDialogOkAndCancel;
 import au.mccann.oztaxreturn.fragment.BaseFragment;
 import au.mccann.oztaxreturn.fragment.HomeFragment;
-import au.mccann.oztaxreturn.fragment.review.begin.ReviewBeginBFragment;
+import au.mccann.oztaxreturn.fragment.review.personal.ReviewPersonalInfomationA;
 import au.mccann.oztaxreturn.model.APIError;
 import au.mccann.oztaxreturn.model.DeductionPart;
 import au.mccann.oztaxreturn.model.IncomePart;
@@ -576,7 +576,7 @@ public class ReviewSummaryFragment extends BaseFragment implements View.OnClickL
                 if (isEditApp())
                     lodgeApplication();
                 else {
-                    openFragment(R.id.layout_container, ReviewBeginBFragment.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
+                    openFragment(R.id.layout_container, ReviewPersonalInfomationA.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
                 }
                 break;
             case R.id.lo_total_income:
