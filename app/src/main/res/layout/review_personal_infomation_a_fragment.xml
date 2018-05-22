@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_marginLeft="@dimen/left_right_margin_screen"
     android:layout_marginRight="@dimen/left_right_margin_screen">
 
@@ -142,6 +143,50 @@
                 android:inputType="textPersonName"
                 android:textColor="@color/income_conten"
                 android:textColorHint="@color/tv_gray" />
+
+            <au.mccann.oztaxreturn.view.TextViewCustom
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:text="@string/gender"
+                android:textAllCaps="true"
+                android:textColor="@color/tv_gray"
+                android:textSize="@dimen/size_small" />
+
+            <RelativeLayout
+                android:id="@+id/layout_gender"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/bg_edittext"
+                android:minHeight="45dp">
+
+                <Spinner
+                    android:id="@+id/sp_gender"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_centerInParent="true"
+                    android:background="@null"
+                    android:gravity="center_vertical"
+                    android:paddingEnd="16dp"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:paddingStart="16dp"
+                    android:prompt="@string/gender" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:paddingEnd="10dp"
+                    android:paddingRight="10dp"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/ic_down"
+                    tools:ignore="ContentDescription" />
+
+            </RelativeLayout>
 
             <au.mccann.oztaxreturn.view.TextViewCustom
                 android:layout_width="wrap_content"
