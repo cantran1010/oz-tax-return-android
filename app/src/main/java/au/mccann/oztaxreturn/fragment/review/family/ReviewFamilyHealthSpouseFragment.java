@@ -124,7 +124,8 @@ public class ReviewFamilyHealthSpouseFragment extends BaseFragment implements Vi
         getReviewProgress(getApplicationResponse());
         setTitle(getString(R.string.review_fhd_title));
         appBarVisibility(true, true, 1);
-        fab.setEnabled(isEditApp());
+        if (isEditApp()) fab.setVisibility(View.VISIBLE);
+        else fab.setVisibility(View.GONE);
         getReviewFamilyAndHealth();
 
         images = new ArrayList<>();

@@ -68,7 +68,8 @@ public class ReviewPersonalInfomationB extends BaseFragment implements View.OnCl
 
     @Override
     protected void initData() {
-        fab.setEnabled(isEditApp());
+        if (isEditApp()) fab.setVisibility(View.VISIBLE);
+        else fab.setVisibility(View.GONE);
         getReviewInformationB();
         getReviewProgress(getApplicationResponse());
     }

@@ -6,17 +6,14 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.view.View;
 import android.widget.DatePicker;
-import android.widget.Spinner;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.DateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.List;
 
 import au.mccann.oztaxreturn.R;
 import au.mccann.oztaxreturn.common.Constants;
@@ -49,10 +46,8 @@ public class ReviewPersonalInfomationA extends BaseFragment implements View.OnCl
 
     private static final String TAG = ReviewPersonalInfomationA.class.getSimpleName();
     private EdittextCustom edtTitle, edtFirstName, edtMidName, edtLastName, edtBirthDay;
-    private Spinner spGender;
     private RadioButtonCustom rbYes, rbNo;
     private Calendar calendar = GregorianCalendar.getInstance();
-    private List<String> genders = new ArrayList<>();
     private FloatingActionButton fab;
 
     @Override
@@ -79,7 +74,8 @@ public class ReviewPersonalInfomationA extends BaseFragment implements View.OnCl
     protected void initData() {
         setTitle(getString(R.string.infomation_a));
         appBarVisibility(true, true, 1);
-        fab.setEnabled(isEditApp());
+        if (isEditApp()) fab.setVisibility(View.VISIBLE);
+        else fab.setVisibility(View.GONE);
         getReviewInformation();
         getReviewProgress(getApplicationResponse());
     }

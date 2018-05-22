@@ -87,7 +87,8 @@ public class ReviewOthersFragment extends BaseFragment implements View.OnClickLi
     protected void initData() {
         getReviewProgress(getApplicationResponse());
         appID = getApplicationResponse().getId();
-        fab.setEnabled(isEditApp());
+        if (isEditApp()) fab.setVisibility(View.VISIBLE);
+        else fab.setVisibility(View.GONE);
         setTitle(getString(R.string.review_income_title));
         appBarVisibility(true, true, 1);
         getReviewDeduction();
@@ -240,7 +241,7 @@ public class ReviewOthersFragment extends BaseFragment implements View.OnClickLi
                 ProgressDialogUtils.dismissProgressDialog();
                 LogUtils.d(TAG, "getReviewDeduction code : " + response.code());
                 if (response.code() == Constants.HTTP_CODE_OK) {
-                    LogUtils.d(TAG, "getReviewDeduction body : " + response.body().getClothes().toString());
+                    LogUtils.d(TAG, "getReviewDeduction body : " + response.body().getOthers().toString());
                     updateUI(response.body().getOthers());
                 } else {
                     APIError error = Utils.parseError(response);

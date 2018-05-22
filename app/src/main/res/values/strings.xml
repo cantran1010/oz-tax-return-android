@@ -474,7 +474,7 @@
     <string name="donations">Donations</string>
     <string name="tax_agent_fees">Tax Agent fees</string>
     <string name="bank_fees">Bank fees</string>
-    <string name="tax_payable">Tax payable</string>
+    <string name="tax_payable">Tax Liability</string>
     <string name="tax_on">Tax on Taxable income</string>
     <string name="medicare_levy">Medicare Levy</string>
     <string name="medicare_levy_surcharge">Medicare Levy Surcharge</string>
@@ -482,7 +482,7 @@
     <string name="tax_offsets">Tax offsets</string>
     <string name="tax_credits">Tax Credits</string>
     <string name="offsets_credits"><![CDATA[Tax offset & Credits]]></string>
-    <string name="tax_widthheld_summary">Tax Widthheld</string>
+    <string name="tax_widthheld_summary">Tax Withheld</string>
     <string name="condition">Conditions</string>
     <string name="app_privacy_policy">Privacy policy</string>
     <string name="dolla">$</string>
@@ -497,10 +497,10 @@
     <string name="Review_your_application">Review your application</string>
     <string name="review_auditing_title">Your application has been audit by ATO.</string>
     <string name="tax_return_report">tax return report</string>
-    <string name="review_audi_content">Please review your application again and submit additional information and image require by ATO to relogde your application. Your can contact our accountant for free support.</string>
+    <string name="review_audi_content">Please review your application again and submit additional information and image require\n by ATO to relogde your application. Your can contact our accountant for free support.</string>
     <string name="actual_tax_refund">Actual\ntax refund</string>
     <string name="astimated_tax_refund_message">This actual tax return is issued by ATO based on your provided information.</string>
-    <string name="actual_tax_refund_message">Your tax refund is estimated based on information you have provided and our calculation method.\nYour final tax refund may be prone to changing by ATO.</string>
+    <string name="actual_tax_refund_message">Your tax refund is estimated based on information\nyou have provided and our calculation method.\nYour final tax refund may be prone to changing by ATO.</string>
 
     <!-- notification screen -->
     <string name="notification_title">NOTIFICATION</string>
