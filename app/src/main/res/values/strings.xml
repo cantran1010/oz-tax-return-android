@@ -286,7 +286,7 @@
     <string name="vali_company_name">Company name must be a string.</string>
 
     <!-- review etps   -->
-    <string name="early_termination_payment">Early termination payment</string>
+    <string name="early_termination_payment">Early Termination Payment</string>
     <string name="review_early_ask">Did you receive any early termination payment?</string>
     <string name="payment_date">Payment date</string>
     <string name="payer_abn">payer’s ABN</string>
@@ -425,7 +425,7 @@
 
     <!-- review family and health medicare examption -->
     <string name="review_fhm_title">Medicare Levy\nExemption</string>
-    <string name="review_fhm_des">Do you have Medicare Exemption certificates issued by "The Department of Human Services"</string>
+    <string name="review_fhm_des">Do you have Medicare Exemption certificates issued by \"The Department of Human Services\"?</string>
 
     <!-- review family and health private -->
     <string name="review_fhp_title">Private Health</string>
