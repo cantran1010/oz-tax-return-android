@@ -1,7 +1,6 @@
 package au.mccann.oztaxreturn.fragment.review.deduction;
 
 import android.Manifest;
-import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -171,7 +170,7 @@ public class ReviewClothesFragment extends BaseFragment implements View.OnClickL
         for (int i = 0; i < types.size(); i++) {
             if (b.getType().equalsIgnoreCase(types.get(i))) {
                 spType.setSelection(i);
-                return;
+                break;
             }
         }
         edtAmount.setText(b.getAmount());
@@ -255,14 +254,6 @@ public class ReviewClothesFragment extends BaseFragment implements View.OnClickL
         return imgPath;
     }
 
-    private void scollLayout() {
-        int[] coords = {0, 0};
-        scrollView.getLocationOnScreen(coords);
-        int absoluteBottom = coords[1] + 250;
-        ObjectAnimator objectAnimator = ObjectAnimator.ofInt(scrollView, "scrollY", absoluteBottom).setDuration(1000);
-        objectAnimator.start();
-    }
-
     @Override
     protected void resumeData() {
 
@@ -284,6 +275,7 @@ public class ReviewClothesFragment extends BaseFragment implements View.OnClickL
                 if (response.code() == Constants.HTTP_CODE_OK) {
                     clothes = response.body().getClothes();
                     if (clothes != null) updateUI(clothes);
+                    LogUtils.d(TAG, "getReviewDeduction code : " + response.body().getClothes().toString());
                 } else {
                     APIError error = Utils.parseError(response);
                     if (error != null) {

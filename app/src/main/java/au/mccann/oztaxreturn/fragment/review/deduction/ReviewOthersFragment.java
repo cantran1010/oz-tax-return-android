@@ -241,7 +241,7 @@ public class ReviewOthersFragment extends BaseFragment implements View.OnClickLi
                 ProgressDialogUtils.dismissProgressDialog();
                 LogUtils.d(TAG, "getReviewDeduction code : " + response.code());
                 if (response.code() == Constants.HTTP_CODE_OK) {
-                    LogUtils.d(TAG, "getReviewDeduction body : " + response.body().getClothes().toString());
+                    LogUtils.d(TAG, "getReviewDeduction body : " + response.body().getOthers().toString());
                     updateUI(response.body().getOthers());
                 } else {
                     APIError error = Utils.parseError(response);

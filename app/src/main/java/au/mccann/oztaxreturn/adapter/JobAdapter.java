@@ -41,7 +41,7 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.MyViewHolder> {
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
         final Job job = jobs.get(position);
-        holder.tvJob.setText(context.getString(R.string.job) + (position + 1));
+        holder.tvJob.setText(context.getString(R.string.job) + (position));
         holder.edtGroos.setText(job.getTotalGrossIncom());
         holder.edtTax.setText(job.getTotalTaxWidthheld());
         holder.edtAllow.setText(job.getAllowances());

@@ -1,7 +1,6 @@
 package au.mccann.oztaxreturn.fragment.review.deduction;
 
 import android.Manifest;
-import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -179,9 +178,9 @@ public class ReviewVehicleFragment extends BaseFragment implements View.OnClickL
 
             @Override
             public void afterTextChanged(Editable editable) {
-                if (!editable.toString().trim().isEmpty()) {
+                if (!editable.toString().trim().isEmpty())
                     edtAmount.setText(Utils.displayCurrency(String.valueOf(value * Float.parseFloat(editable.toString().trim()))));
-                }
+                else edtAmount.setText(Utils.displayCurrency(String.valueOf(0)));
             }
         });
     }
@@ -275,14 +274,6 @@ public class ReviewVehicleFragment extends BaseFragment implements View.OnClickL
         return imgPath;
     }
 
-    private void scollLayout() {
-        int[] coords = {0, 0};
-        scrollView.getLocationOnScreen(coords);
-        int absoluteBottom = coords[1] + 250;
-        ObjectAnimator objectAnimator = ObjectAnimator.ofInt(scrollView, "scrollY", absoluteBottom).setDuration(1000);
-        objectAnimator.start();
-    }
-
     @Override
     protected void resumeData() {
 
@@ -373,7 +364,7 @@ public class ReviewVehicleFragment extends BaseFragment implements View.OnClickL
                 govJson.put(Constants.PARAMETER_REVIEW_DEDUCTION_KM, edtKm.getText().toString().trim());
                 govJson.put(Constants.PARAMETER_REVIEW_DEDUCTION_TYPE, edtType.getText().toString().trim());
                 govJson.put(Constants.PARAMETER_REVIEW_DEDUCTION_REG, edtReg.getText().toString().trim());
-                govJson.put(Constants.PARAMETER_REVIEW_AMOUNT, edtAmount.getText().toString().trim());
+//                govJson.put(Constants.PARAMETER_REVIEW_AMOUNT, edtAmount.getF);
                 if (images.size() > 1) {
                     for (Image image : images
                             ) {
