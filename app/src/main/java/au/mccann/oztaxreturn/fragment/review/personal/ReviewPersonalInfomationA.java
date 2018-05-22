@@ -6,16 +6,21 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.view.View;
 import android.widget.DatePicker;
+import android.widget.Spinner;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.DateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 import au.mccann.oztaxreturn.R;
+import au.mccann.oztaxreturn.adapter.OzSpinnerAdapter;
 import au.mccann.oztaxreturn.common.Constants;
 import au.mccann.oztaxreturn.database.UserManager;
 import au.mccann.oztaxreturn.dialog.AlertDialogOk;
@@ -49,6 +54,8 @@ public class ReviewPersonalInfomationA extends BaseFragment implements View.OnCl
     private RadioButtonCustom rbYes, rbNo;
     private Calendar calendar = GregorianCalendar.getInstance();
     private FloatingActionButton fab;
+    private Spinner spGender;
+    private List<String> genders = new ArrayList<>();
 
     @Override
     protected int getLayout() {
@@ -68,10 +75,16 @@ public class ReviewPersonalInfomationA extends BaseFragment implements View.OnCl
         fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(this);
         findViewById(R.id.btn_next).setOnClickListener(this);
+        spGender = (Spinner) findViewById(R.id.sp_gender);
     }
 
     @Override
     protected void initData() {
+
+        genders = Arrays.asList(getResources().getStringArray(R.array.string_array_gender));
+        OzSpinnerAdapter dataNameAdapter = new OzSpinnerAdapter(getContext(), genders);
+        spGender.setAdapter(dataNameAdapter);
+
         setTitle(getString(R.string.infomation_a));
         appBarVisibility(true, true, 1);
         if (isEditApp()) fab.setVisibility(View.VISIBLE);
@@ -192,7 +205,7 @@ public class ReviewPersonalInfomationA extends BaseFragment implements View.OnCl
             jsonRequest.put("last_name", edtLastName.getText().toString().trim());
             jsonRequest.put("birthday", DateTimeUtils.fromCalendarToBirthday(calendar));
             jsonRequest.put("local", rbYes.isChecked());
-
+            jsonRequest.put("gender", spGender.getSelectedItem().toString().toLowerCase());
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -258,6 +271,13 @@ public class ReviewPersonalInfomationA extends BaseFragment implements View.OnCl
         edtMidName.setText(personalInfomationResponse.getMiddleName());
         edtLastName.setText(personalInfomationResponse.getLastName());
         edtBirthDay.setText(DateFormat.getDateInstance(DateFormat.SHORT).format(calendar.getTime()));
+
+        for (int i = 0; i < genders.size(); i++) {
+            if (personalInfomationResponse.getGender().equalsIgnoreCase(genders.get(i))) {
+                spGender.setSelection(i);
+                break;
+            }
+        }
 
         if (personalInfomationResponse.isLocal()) {
             rbYes.setChecked(true);
