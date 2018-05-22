@@ -425,7 +425,7 @@
 
     <!-- review family and health medicare examption -->
     <string name="review_fhm_title">Medicare Levy\nExemption</string>
-    <string name="review_fhm_des">Do you have Medicare Exemption certificates issued by "The Department of Human Services"</string>
+    <string name="review_fhm_des">Do you have Medicare Exemption certificates issued by \"The Department of Human Services\"?</string>
 
     <!-- review family and health private -->
     <string name="review_fhp_title">Private Health</string>
