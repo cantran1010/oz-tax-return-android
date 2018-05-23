@@ -340,12 +340,11 @@ public class ReviewLumpSumFragment extends BaseFragment implements View.OnClickL
             for (final LumpSum d : ds
                     ) {
                 if (d.getListUp().size() > 0) {
-                    countDown--;
                     LogUtils.d(TAG, "doUploadImage count" + countDown + lumpSums.toString());
                     ImageUtils.doUploadImage(getContext(), d.getListUp(), new ImageUtils.UpImagesListener() {
                         @Override
                         public void onSuccess(List<Attachment> responses) {
-//                            LogUtils.d(TAG, "doUploadImage" + finalCount + responses.toString());
+                            countDown--;
                             d.getAttach().addAll(responses);
                             if (countDown == 0) doSaveReview();
                         }

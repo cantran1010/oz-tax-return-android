@@ -309,12 +309,11 @@ public class ReviewDividendsFragment extends BaseFragment implements View.OnClic
             for (final Dividend d : ds
                     ) {
                 if (d.getListUp().size() > 0) {
-                    countdown--;
                     LogUtils.d(TAG, "doUploadImage count" + countdown + dividends.toString());
                     ImageUtils.doUploadImage(getContext(), d.getListUp(), new ImageUtils.UpImagesListener() {
                         @Override
                         public void onSuccess(List<Attachment> responses) {
-//                            LogUtils.d(TAG, "doUploadImage" + finalCount + responses.toString());
+                            countdown--;
                             d.getAttach().addAll(responses);
                             if (countdown == 0) doSaveReview();
                         }

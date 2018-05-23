@@ -308,12 +308,11 @@ public class ReviewAnnuitiesFragment extends BaseFragment implements View.OnClic
             for (final Annuity d : ds
                     ) {
                 if (d.getListUp().size() > 0) {
-                    countDown--;
                     LogUtils.d(TAG, "doUploadImage count" + countDown + annuities.toString());
                     ImageUtils.doUploadImage(getContext(), d.getListUp(), new ImageUtils.UpImagesListener() {
                         @Override
                         public void onSuccess(List<Attachment> responses) {
-//                            LogUtils.d(TAG, "doUploadImage" + finalCount + responses.toString());
+                            countDown--;
                             d.getAttach().addAll(responses);
                             LogUtils.d(TAG, "doUploadImage finalCount" + countDown + annuities.toString());
                             if (countDown == 0) doSaveReview();
@@ -445,13 +444,14 @@ public class ReviewAnnuitiesFragment extends BaseFragment implements View.OnClic
                 adapter.notifyDataSetChanged();
                 break;
             case R.id.btn_next:
+                LogUtils.d(TAG, "onClick :" + adapter.isExpend() + isEditApp());
                 if (isEditApp()) {
-                    if (annuities.size() > 0)
-                        if (adapter.isExpend())
-                            uploadImage(annuities);
-                        else {
-                            doSaveReview();
-                        }
+                    if (adapter.isExpend())
+                        uploadImage(annuities);
+                    else {
+                        LogUtils.d(TAG, "onClick 1:");
+                        doSaveReview();
+                    }
                 } else
                     openFragment(R.id.layout_container, ReviewLumpSumFragment.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
                 break;
