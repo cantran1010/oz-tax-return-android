@@ -13,7 +13,6 @@ import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CompoundButton;
-import android.widget.ScrollView;
 import android.widget.Spinner;
 
 import org.json.JSONArray;
@@ -77,7 +76,6 @@ public class ReviewClothesFragment extends BaseFragment implements View.OnClickL
     private ArrayList<Image> images;
     private final String[] permissions = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
     private String imgPath;
-    private ScrollView scrollView;
     private ExpandableLayout layout;
     private Clothes clothes = new Clothes();
     private ArrayList<Attachment> attach;
@@ -103,7 +101,6 @@ public class ReviewClothesFragment extends BaseFragment implements View.OnClickL
         edtAmount.setEnabled(false);
         grImage = (MyGridView) findViewById(R.id.gr_image);
         grImage.setEnabled(false);
-        scrollView = (ScrollView) findViewById(R.id.scrollView);
         layout = (ExpandableLayout) findViewById(R.id.layout_expandable);
         spType = (Spinner) findViewById(R.id.sp_type);
         spType.setEnabled(false);

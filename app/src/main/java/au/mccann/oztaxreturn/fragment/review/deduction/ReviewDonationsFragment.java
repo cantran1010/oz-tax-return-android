@@ -354,6 +354,11 @@ public class ReviewDonationsFragment extends BaseFragment implements View.OnClic
             @Override
             public void onResponse(Call<DeductionResponse> call, Response<DeductionResponse> response) {
                 ProgressDialogUtils.dismissProgressDialog();
+                for (Donation donation : donations
+                        ) {
+                    donation.getAttach().clear();
+                    adapter.notifyDataSetChanged();
+                }
                 LogUtils.d(TAG, "doSaveReview code: " + response.code());
                 if (response.code() == Constants.HTTP_CODE_OK) {
                     LogUtils.d(TAG, "doSaveReview body: " + response.body().getDonations().toString());

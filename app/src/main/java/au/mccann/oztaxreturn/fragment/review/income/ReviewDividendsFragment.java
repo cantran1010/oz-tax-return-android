@@ -66,6 +66,7 @@ public class ReviewDividendsFragment extends BaseFragment implements View.OnClic
     private String imgPath;
     private FloatingActionButton fab;
     private LinearLayoutManager linearLayoutManager;
+    private int countdown = 0;
 
     @Override
     protected int getLayout() {
@@ -271,7 +272,6 @@ public class ReviewDividendsFragment extends BaseFragment implements View.OnClic
     }
 
     private void uploadImage(final ArrayList<Dividend> ds) {
-        int count = 0;
         for (final Dividend dividend : ds
                 ) {
             dividend.setListUp(new ArrayList<Image>());
@@ -283,24 +283,22 @@ public class ReviewDividendsFragment extends BaseFragment implements View.OnClic
 
         for (Dividend dividend1 : ds
                 ) {
-            if (dividend1.getListUp().size() > 0) count++;
+            if (dividend1.getListUp().size() > 0) countdown++;
         }
 
-        if (count == 0) doSaveReview();
+        if (countdown == 0) doSaveReview();
         else {
             for (final Dividend d : ds
                     ) {
                 if (d.getListUp().size() > 0) {
-                    count--;
-                    final int finalCount = count;
-                    LogUtils.d(TAG, "doUploadImage count" + finalCount + dividends.toString());
+                    countdown--;
+                    LogUtils.d(TAG, "doUploadImage count" + countdown + dividends.toString());
                     ImageUtils.doUploadImage(getContext(), d.getListUp(), new ImageUtils.UpImagesListener() {
                         @Override
                         public void onSuccess(List<Attachment> responses) {
 //                            LogUtils.d(TAG, "doUploadImage" + finalCount + responses.toString());
                             d.getAttach().addAll(responses);
-                            LogUtils.d(TAG, "doUploadImage finalCount" + finalCount + dividends.toString());
-                            doSaveReview();
+                            if (countdown == 0) doSaveReview();
                         }
                     });
                 }
