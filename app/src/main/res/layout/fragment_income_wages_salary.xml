@@ -179,6 +179,7 @@
                         android:focusable="false"
                         android:gravity="center_vertical"
                         android:inputType="date"
+                        android:hint="@string/birthday_hint"
                         android:paddingLeft="16dp"
                         android:paddingStart="16dp" />
 

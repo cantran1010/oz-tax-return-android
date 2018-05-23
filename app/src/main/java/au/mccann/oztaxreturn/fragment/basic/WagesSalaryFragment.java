@@ -22,7 +22,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
-import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -431,7 +430,8 @@ public class WagesSalaryFragment extends BaseFragment implements View.OnClickLis
                                           final int monthOfYear, final int dayOfMonth) {
                         if (view.isShown()) {
                             calendar.set(year, monthOfYear, dayOfMonth);
-                            edtBirthday.setText(DateFormat.getDateInstance(DateFormat.SHORT).format(calendar.getTime()));
+//                            edtBirthday.setText(DateFormat.getDateInstance(DateFormat.SHORT).format(calendar.getTime()));
+                            edtBirthday.setText(DateTimeUtils.fromCalendarToView(calendar));
 
                         }
                     }

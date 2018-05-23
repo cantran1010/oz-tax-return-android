@@ -23,7 +23,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
-import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -204,7 +203,8 @@ public class ReviewFamilyHealthSpouseFragment extends BaseFragment implements Vi
                                           final int monthOfYear, final int dayOfMonth) {
                         if (view.isShown()) {
                             calendar.set(year, monthOfYear, dayOfMonth);
-                            tvBirth.setText(DateFormat.getDateInstance(DateFormat.SHORT).format(calendar.getTime()));
+//                            tvBirth.setText(DateFormat.getDateInstance(DateFormat.SHORT).format(calendar.getTime()));
+                            tvBirth.setText(DateTimeUtils.fromCalendarToView(calendar));
                         }
                     }
                 }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
@@ -445,7 +445,8 @@ public class ReviewFamilyHealthSpouseFragment extends BaseFragment implements Vi
             edtMiddleName.setText(reviewSpouseResponse.getMiddleName());
             edtLastName.setText(reviewSpouseResponse.getLastName());
             edtTaxAble.setText(String.valueOf(reviewSpouseResponse.getTaxableIncome()));
-            tvBirth.setText(DateFormat.getDateInstance(DateFormat.SHORT).format(calendar.getTime()));
+//            tvBirth.setText(DateFormat.getDateInstance(DateFormat.SHORT).format(calendar.getTime()));
+            tvBirth.setText(DateTimeUtils.fromCalendarToView(calendar));
 
             for (Attachment atachment : reviewSpouseResponse.getAttachments()) {
                 Image image = new Image();

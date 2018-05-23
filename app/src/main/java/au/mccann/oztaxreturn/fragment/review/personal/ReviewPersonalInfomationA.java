@@ -11,7 +11,6 @@ import android.widget.Spinner;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -111,7 +110,8 @@ public class ReviewPersonalInfomationA extends BaseFragment implements View.OnCl
                                           final int monthOfYear, final int dayOfMonth) {
                         if (view.isShown()) {
                             calendar.set(year, monthOfYear, dayOfMonth);
-                            edtBirthDay.setText(DateFormat.getDateInstance(DateFormat.SHORT).format(calendar.getTime()));
+//                            edtBirthDay.setText(DateFormat.getDateInstance(DateFormat.SHORT).format(calendar.getTime()));
+                            edtBirthDay.setText(DateTimeUtils.fromCalendarToView(calendar));
                         }
                     }
                 }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
@@ -270,7 +270,8 @@ public class ReviewPersonalInfomationA extends BaseFragment implements View.OnCl
         edtFirstName.setText(personalInfomationResponse.getFirstName());
         edtMidName.setText(personalInfomationResponse.getMiddleName());
         edtLastName.setText(personalInfomationResponse.getLastName());
-        edtBirthDay.setText(DateFormat.getDateInstance(DateFormat.SHORT).format(calendar.getTime()));
+//        edtBirthDay.setText(DateFormat.getDateInstance(DateFormat.SHORT).format(calendar.getTime()));
+        edtBirthDay.setText(DateTimeUtils.fromCalendarToView(calendar));
 
         for (int i = 0; i < genders.size(); i++) {
             if (personalInfomationResponse.getGender().equalsIgnoreCase(genders.get(i))) {
