@@ -412,7 +412,7 @@
     <!-- review deduction Tax Agents -->
     <string name="tax_agents">Tax Agents</string>
     <string name="review_tax_agents_ask">Did you pay any fee to tax agents for your last year  tax return?</string>
-    <string name="tax_agents_organization">ozganization</string>
+    <string name="tax_agents_organization">organization</string>
     <string name="organization_hint">Example: OZ Tax Return</string>
     <string name="review_donations_ask">Do you want to claim gifts of donations that you have given to charities?</string>
 
