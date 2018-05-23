@@ -73,6 +73,7 @@ public class ReviewLumpSumFragment extends BaseFragment implements View.OnClickL
     private String imgPath;
     private Calendar calendar = GregorianCalendar.getInstance();
     private FloatingActionButton fab;
+    private int countDown = 0;
 
     @Override
     protected int getLayout() {
@@ -302,7 +303,6 @@ public class ReviewLumpSumFragment extends BaseFragment implements View.OnClickL
     }
 
     private void uploadImage(final ArrayList<LumpSum> ds) {
-        int count = 0;
         for (final LumpSum dividend : ds
                 ) {
             dividend.setListUp(new ArrayList<Image>());
@@ -314,24 +314,22 @@ public class ReviewLumpSumFragment extends BaseFragment implements View.OnClickL
 
         for (LumpSum dividend1 : ds
                 ) {
-            if (dividend1.getListUp().size() > 0) count++;
+            if (dividend1.getListUp().size() > 0) countDown++;
         }
 
-        if (count == 0) doSaveReview();
+        if (countDown == 0) doSaveReview();
         else {
             for (final LumpSum d : ds
                     ) {
                 if (d.getListUp().size() > 0) {
-                    count--;
-                    final int finalCount = count;
-                    LogUtils.d(TAG, "doUploadImage count" + finalCount + lumpSums.toString());
+                    countDown--;
+                    LogUtils.d(TAG, "doUploadImage count" + countDown + lumpSums.toString());
                     ImageUtils.doUploadImage(getContext(), d.getListUp(), new ImageUtils.UpImagesListener() {
                         @Override
                         public void onSuccess(List<Attachment> responses) {
 //                            LogUtils.d(TAG, "doUploadImage" + finalCount + responses.toString());
                             d.getAttach().addAll(responses);
-                            LogUtils.d(TAG, "doUploadImage finalCount" + finalCount + lumpSums.toString());
-                            doSaveReview();
+                            if (countDown == 0) doSaveReview();
                         }
                     });
                 }
@@ -388,6 +386,11 @@ public class ReviewLumpSumFragment extends BaseFragment implements View.OnClickL
             @Override
             public void onResponse(Call<IncomeResponse> call, Response<IncomeResponse> response) {
                 ProgressDialogUtils.dismissProgressDialog();
+                for (LumpSum lumpSum : lumpSums
+                        ) {
+                    lumpSum.getAttach().clear();
+                    adapter.notifyDataSetChanged();
+                }
                 LogUtils.d(TAG, "doSaveReview code: " + response.code());
                 if (response.code() == Constants.HTTP_CODE_OK) {
                     LogUtils.d(TAG, "doSaveReview body: " + response.body().getLumpSums().toString());

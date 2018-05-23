@@ -65,6 +65,7 @@ public class ReviewAnnuitiesFragment extends BaseFragment implements View.OnClic
     private final String[] permissions = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
     private String imgPath;
     private FloatingActionButton fab;
+    private int countDown=0;
 
     @Override
     protected int getLayout() {
@@ -270,7 +271,6 @@ public class ReviewAnnuitiesFragment extends BaseFragment implements View.OnClic
     }
 
     private void uploadImage(final ArrayList<Annuity> ds) {
-        int count = 0;
         for (final Annuity dividend : ds
                 ) {
             dividend.setListUp(new ArrayList<Image>());
@@ -282,24 +282,23 @@ public class ReviewAnnuitiesFragment extends BaseFragment implements View.OnClic
 
         for (Annuity dividend1 : ds
                 ) {
-            if (dividend1.getListUp().size() > 0) count++;
+            if (dividend1.getListUp().size() > 0) countDown++;
         }
 
-        if (count == 0) doSaveReview();
+        if (countDown == 0) doSaveReview();
         else {
             for (final Annuity d : ds
                     ) {
                 if (d.getListUp().size() > 0) {
-                    count--;
-                    final int finalCount = count;
-                    LogUtils.d(TAG, "doUploadImage count" + finalCount + annuities.toString());
+                    countDown--;
+                    LogUtils.d(TAG, "doUploadImage count" + countDown + annuities.toString());
                     ImageUtils.doUploadImage(getContext(), d.getListUp(), new ImageUtils.UpImagesListener() {
                         @Override
                         public void onSuccess(List<Attachment> responses) {
 //                            LogUtils.d(TAG, "doUploadImage" + finalCount + responses.toString());
                             d.getAttach().addAll(responses);
-                            LogUtils.d(TAG, "doUploadImage finalCount" + finalCount + annuities.toString());
-                            doSaveReview();
+                            LogUtils.d(TAG, "doUploadImage finalCount" + countDown + annuities.toString());
+                            if (countDown == 0) doSaveReview();
                         }
                     });
                 }
@@ -356,6 +355,11 @@ public class ReviewAnnuitiesFragment extends BaseFragment implements View.OnClic
             @Override
             public void onResponse(Call<IncomeResponse> call, Response<IncomeResponse> response) {
                 ProgressDialogUtils.dismissProgressDialog();
+                for (Annuity annuity : annuities
+                        ) {
+                    annuity.getAttach().clear();
+                    adapter.notifyDataSetChanged();
+                }
                 LogUtils.d(TAG, "doSaveReview code: " + response.code());
                 if (response.code() == Constants.HTTP_CODE_OK) {
                     LogUtils.d(TAG, "doSaveReview body: " + response.body().getDividends().toString());

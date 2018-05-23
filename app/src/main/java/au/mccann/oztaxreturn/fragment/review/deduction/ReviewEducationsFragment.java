@@ -75,8 +75,6 @@ public class ReviewEducationsFragment extends BaseFragment implements View.OnCli
     @Override
     protected void initView() {
         fab = (FloatingActionButton) findViewById(R.id.fab);
-        if (isEditApp()) fab.setVisibility(View.VISIBLE);
-        else fab.setVisibility(View.GONE);
         ButtonCustom btnnext = (ButtonCustom) findViewById(R.id.btn_next);
         btnnext.setOnClickListener(this);
         recyclerView = (RecyclerView) findViewById(R.id.rcv_education);
@@ -88,7 +86,8 @@ public class ReviewEducationsFragment extends BaseFragment implements View.OnCli
     protected void initData() {
         getReviewProgress(getApplicationResponse());
         appID = getApplicationResponse().getId();
-        fab.setEnabled(isEditApp());
+        if (isEditApp()) fab.setVisibility(View.VISIBLE);
+        else fab.setVisibility(View.GONE);
         setTitle(getString(R.string.review_income_title));
         appBarVisibility(true, true, 1);
         getReviewDeduction();
@@ -360,6 +359,11 @@ public class ReviewEducationsFragment extends BaseFragment implements View.OnCli
             @Override
             public void onResponse(Call<DeductionResponse> call, Response<DeductionResponse> response) {
                 ProgressDialogUtils.dismissProgressDialog();
+                for (Education education : educations
+                        ) {
+                    education.getAttach().clear();
+                    adapter.notifyDataSetChanged();
+                }
                 LogUtils.d(TAG, "doSaveReview code: " + response.code());
                 if (response.code() == Constants.HTTP_CODE_OK) {
                     LogUtils.d(TAG, "doSaveReview body: " + response.body().getEducations().toString());

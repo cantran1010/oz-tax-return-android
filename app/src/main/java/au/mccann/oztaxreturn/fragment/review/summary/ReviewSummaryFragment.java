@@ -593,10 +593,10 @@ public class ReviewSummaryFragment extends BaseFragment implements View.OnClickL
                 expandableLayout(layoutTax, icTax);
                 break;
             case R.id.img_estimated:
-                Utils.showToolTip(getActivity(), imgNoteEstimated, getString(R.string.astimated_tax_refund_message));
+                Utils.showToolTip(getActivity(), imgNoteEstimated, getString(R.string.actual_tax_refund_message));
                 break;
             case R.id.img_actual:
-                Utils.showToolTip(getActivity(), imgTacRefund, getString(R.string.actual_tax_refund_message));
+                Utils.showToolTip(getActivity(), imgTacRefund, getString(R.string.astimated_tax_refund_message));
                 break;
         }
 

@@ -306,7 +306,7 @@
     <string name="etps_code">ETPs code</string>
 
     <!-- review rental   -->
-    <string name="rental_properties">Rental\nproperties</string>
+    <string name="rental_properties">Rental\nProperties</string>
     <string name="rental_ask">Did you receive any income from rental properties?</string>
     <string name="ownership_percentage">ownership percentage</string>
     <string name="first_earned_date">first earned date</string>
@@ -351,7 +351,7 @@
     <string name="hint_calculated">Example: $100</string>
 
     <!-- review deduction clothing -->
-    <string name="review_clothing">Work relate\nclothing</string>
+    <string name="review_clothing">Work Relate\nClothing</string>
     <string name="review_clothing_ask">Our accountant has review your information and suggest that you can claim for upto $1000 for work relate clothing and laundary deduction.\n\nDo you want to claim for this type?</string>
     <string name="deduction_type">Deduction type</string>
     <string name="unfranks_dividends">unfranks dividends</string>
@@ -367,7 +367,7 @@
     </string-array>
 
     <!-- review deduction education -->
-    <string name="review_education">Work relate\neducation</string>
+    <string name="review_education">Work Relate\nEducation</string>
     <string name="review_education_ask">This could relate to any spending on fees, books, travel and epuipment that heva a direct connection to your current work.\n\nDo you want to claim for this type?</string>
     <string name="education_type_hint">Example: tultion fees</string>
     <string name="course_and_institution">course and instutition</string>
