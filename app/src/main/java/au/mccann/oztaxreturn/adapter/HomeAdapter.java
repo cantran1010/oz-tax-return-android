@@ -79,7 +79,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> 
         });
         if (applicationResponse.getStatus().equals("init")) {
             holder.tvButton.setText(context.getString(R.string.start));
-            holder.tvButton.setTextColor(ContextCompat.getColor(context, R.color.black));
+            holder.tvButton.setTextColor(ContextCompat.getColor(context, R.color.black33));
             Utils.setViewBackground(holder.buttonLayout, ContextCompat.getDrawable(context, R.drawable.btn_selector));
             holder.tvButton.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.img_right_black, 0);
 

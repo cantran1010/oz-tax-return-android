@@ -22,7 +22,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
-import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -428,7 +427,8 @@ public class ReviewETPsFragment extends BaseFragment implements View.OnClickList
                                           final int monthOfYear, final int dayOfMonth) {
                         if (view.isShown()) {
                             calendar.set(year, monthOfYear, dayOfMonth);
-                            edtPaymentDate.setText(DateFormat.getDateInstance(DateFormat.SHORT).format(calendar.getTime()));
+//                            edtPaymentDate.setText(DateFormat.getDateInstance(DateFormat.SHORT).format(calendar.getTime()));
+                            edtPaymentDate.setText(DateTimeUtils.fromCalendarToView(calendar));
                         }
                     }
                 }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));

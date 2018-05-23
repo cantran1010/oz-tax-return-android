@@ -6,6 +6,7 @@ import android.content.Context;
 import au.mccann.oztaxreturn.R;
 import au.mccann.oztaxreturn.dialog.AlertDialogOk;
 import au.mccann.oztaxreturn.dialog.AlertDialogOkAndCancel;
+import au.mccann.oztaxreturn.dialog.AlertDialogOkNonTouch;
 
 /**
  * Created by LongBui on 4/4/2017.
@@ -51,6 +52,17 @@ public class DialogUtils {
             }
         }
         new AlertDialogOkAndCancel(context, context.getString(R.string.update_title), context.getString(R.string.update_content), context.getString(R.string.oke), context.getString(R.string.report_cancel), alertDialogListener);
+    }
+
+
+    public static void showOkDialogNonTouch(Context context, String title, String content, String submit, AlertDialogOkNonTouch.AlertDialogListener alertDialogListener) {
+        if (context == null) return;
+        if (context instanceof Activity) {
+            if (((Activity) context).isFinishing()) {
+                return;
+            }
+        }
+        new AlertDialogOkNonTouch(context, title, content, submit, alertDialogListener);
     }
 
 }

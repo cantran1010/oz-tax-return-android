@@ -7,6 +7,7 @@ import android.support.multidex.MultiDex;
 import com.crashlytics.android.Crashlytics;
 
 import au.mccann.oztaxreturn.database.RealmDbHelper;
+import au.mccann.oztaxreturn.utils.TypefaceContainer;
 import io.fabric.sdk.android.Fabric;
 import io.realm.Realm;
 
@@ -18,9 +19,9 @@ public class Application extends android.app.Application {
 //        //noinspection deprecation
         Realm.init(this);
         Realm.setDefaultConfiguration(RealmDbHelper.getRealmConfig(getApplicationContext()));
-//
-//        TypefaceContainer.init(getApplicationContext());
-//
+
+        TypefaceContainer.init(getApplicationContext());
+
         //fix bug capture image on s8
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(builder.build());

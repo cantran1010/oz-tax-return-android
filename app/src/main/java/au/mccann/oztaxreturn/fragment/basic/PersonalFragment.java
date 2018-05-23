@@ -10,7 +10,6 @@ import android.widget.Spinner;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -225,7 +224,7 @@ public class PersonalFragment extends BaseFragment implements View.OnClickListen
     }
 
     private void openDatePicker() {
-        LogUtils.d(TAG, "openDatePicker" + DateFormat.getDateInstance(DateFormat.SHORT).format(calendar.getTime()));
+//        LogUtils.d(TAG, "openDatePicker" + DateFormat.getDateInstance(DateFormat.SHORT).format(calendar.getTime()));
         @SuppressWarnings("deprecation") DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), AlertDialog.THEME_HOLO_LIGHT,
                 new DatePickerDialog.OnDateSetListener() {
                     @Override
@@ -233,7 +232,8 @@ public class PersonalFragment extends BaseFragment implements View.OnClickListen
                                           final int monthOfYear, final int dayOfMonth) {
                         if (view.isShown()) {
                             calendar.set(year, monthOfYear, dayOfMonth);
-                            edtBirthDay.setText(DateFormat.getDateInstance(DateFormat.SHORT).format(calendar.getTime()));
+//                            edtBirthDay.setText(DateFormat.getDateInstance(DateFormat.SHORT).format(calendar.getTime()));
+                            edtBirthDay.setText(DateTimeUtils.fromCalendarToView(calendar));
                         }
                     }
                 }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));

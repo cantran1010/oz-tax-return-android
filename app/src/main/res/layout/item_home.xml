@@ -59,7 +59,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:text="75%"
-                    android:textColor="@color/black"
+                    android:textColor="#333333"
                     android:textSize="11sp" />
 
             </RelativeLayout>
@@ -89,7 +89,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Bui Long"
-                android:textColor="@color/black"
+                android:textColor="#333333"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
@@ -99,7 +99,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="2016 - 2017"
-                android:textColor="@color/black"
+                android:textColor="#555555"
                 android:textSize="13sp" />
         </LinearLayout>
 

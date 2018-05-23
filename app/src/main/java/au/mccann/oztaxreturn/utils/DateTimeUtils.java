@@ -177,10 +177,10 @@ public class DateTimeUtils {
                 .format(date);
     }
 
-    public static String fromCalendarToDateNotification(final Calendar calendar) {
+    public static String fromCalendarToView(final Calendar calendar) {
         Date date = calendar.getTime();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
-        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+//        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
         return sdf
                 .format(date);
     }
