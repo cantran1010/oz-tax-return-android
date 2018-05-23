@@ -385,7 +385,6 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
             }
         });
 
-
     }
 
     private void logOut() {
@@ -617,6 +616,19 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
         });
     }
 
+    private void openExpandale(ExpandableLayout expan) {
+        if (expPersonalLayout.isExpanded() && expan != expPersonalLayout) {
+            expPersonalLayout.toggle();
+        } else if (expIncomesLayout.isExpanded() && expan != expIncomesLayout) {
+            expIncomesLayout.toggle();
+        } else if (expDeductionsLayout.isExpanded() && expan != expDeductionsLayout) {
+            expDeductionsLayout.toggle();
+        } else if (expFamilyLayout.isExpanded() && expan != expFamilyLayout) {
+            expFamilyLayout.toggle();
+        }
+        expan.toggle();
+    }
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -645,35 +657,19 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
                 break;
 
             case R.id.layout_personal:
-                if (expPersonalLayout.isExpanded()) {
-                    expPersonalLayout.setExpanded(false);
-                } else {
-                    expPersonalLayout.setExpanded(true);
-                }
+                openExpandale(expPersonalLayout);
                 break;
 
             case R.id.layout_incomes:
-                if (expIncomesLayout.isExpanded()) {
-                    expIncomesLayout.setExpanded(false);
-                } else {
-                    expIncomesLayout.setExpanded(true);
-                }
+                openExpandale(expIncomesLayout);
                 break;
 
             case R.id.layout_deductions:
-                if (expDeductionsLayout.isExpanded()) {
-                    expDeductionsLayout.setExpanded(false);
-                } else {
-                    expDeductionsLayout.setExpanded(true);
-                }
+                openExpandale(expDeductionsLayout);
                 break;
 
             case R.id.layout_family:
-                if (expFamilyLayout.isExpanded()) {
-                    expFamilyLayout.setExpanded(false);
-                } else {
-                    expFamilyLayout.setExpanded(true);
-                }
+                openExpandale(expFamilyLayout);
                 break;
 
             case R.id.tv_review_personal_name:
