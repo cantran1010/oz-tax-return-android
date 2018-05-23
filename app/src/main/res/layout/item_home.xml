@@ -92,7 +92,7 @@
                 android:maxLines="2"
                 android:text="Bui Long"
                 android:textColor="#333333"
-                android:textSize="18sp"
+                android:textSize="@dimen/size_nomal"
                 android:textStyle="bold" />
 
 
