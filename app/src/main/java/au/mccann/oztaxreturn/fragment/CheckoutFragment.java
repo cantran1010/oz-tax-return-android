@@ -17,6 +17,7 @@ import au.mccann.oztaxreturn.common.Constants;
 import au.mccann.oztaxreturn.database.UserManager;
 import au.mccann.oztaxreturn.dialog.AlertDialogOk;
 import au.mccann.oztaxreturn.dialog.AlertDialogOkAndCancel;
+import au.mccann.oztaxreturn.dialog.AlertDialogOkNonTouch;
 import au.mccann.oztaxreturn.model.APIError;
 import au.mccann.oztaxreturn.networking.ApiClient;
 import au.mccann.oztaxreturn.rest.response.FeeResponse;
@@ -161,8 +162,15 @@ public class CheckoutFragment extends BaseFragment implements View.OnClickListen
                 LogUtils.d(TAG, "doCheckout code : " + response.code());
 
                 if (response.code() == Constants.HTTP_CODE_NO_CONTENT) {
-                    Utils.showLongToast(getActivity(), getString(R.string.checkout_success), false, false);
-                    openFragment(R.id.layout_container, HomeFragment.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
+//                    Utils.showLongToast(getActivity(), getString(R.string.checkout_success), false, false);
+
+                    DialogUtils.showOkDialogNonTouch(getActivity(), getString(R.string.app_name), getString(R.string.checkout_success), getString(R.string.ok), new AlertDialogOkNonTouch.AlertDialogListener() {
+                        @Override
+                        public void onSubmit() {
+                            openFragment(R.id.layout_container, HomeFragment.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
+                        }
+                    });
+
                 } else {
                     APIError error = Utils.parseError(response);
                     LogUtils.d(TAG, "doCheckout error : " + error.message());
