@@ -33,12 +33,13 @@
         <au.mccann.oztaxreturn.view.TextViewCustom
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/income_ws_des1" />
+            android:text="@string/income_ws_des1"
+            android:textStyle="normal" />
 
         <au.mccann.oztaxreturn.view.TextViewCustom
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="2dp"
+            android:layout_marginLeft="3dp"
             android:text="@string/income_ws_des2"
             android:textStyle="bold" />
     </LinearLayout>
@@ -172,9 +173,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:drawableRight="@drawable/ic_down"
-                        android:drawableEnd="@drawable/ic_down"
                         android:layout_marginTop="5dp"
+                        android:drawableEnd="@drawable/ic_down"
+                        android:drawableRight="@drawable/ic_down"
                         android:focusable="false"
                         android:gravity="center_vertical"
                         android:inputType="date"

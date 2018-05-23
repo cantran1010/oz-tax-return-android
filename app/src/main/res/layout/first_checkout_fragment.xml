@@ -141,7 +141,8 @@
         android:layout_marginLeft="@dimen/left_right_margin_screen"
         android:layout_marginRight="@dimen/left_right_margin_screen"
         android:text="@string/next_des"
-        android:textSize="12sp" />
+        android:textSize="12sp"
+        android:visibility="gone" />
 
     <au.mccann.oztaxreturn.view.ButtonCustom
         android:id="@+id/btn_next"
