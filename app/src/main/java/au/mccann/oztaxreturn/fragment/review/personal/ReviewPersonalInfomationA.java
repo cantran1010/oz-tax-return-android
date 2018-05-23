@@ -83,6 +83,7 @@ public class ReviewPersonalInfomationA extends BaseFragment implements View.OnCl
         genders = Arrays.asList(getResources().getStringArray(R.array.string_array_gender));
         OzSpinnerAdapter dataNameAdapter = new OzSpinnerAdapter(getContext(), genders);
         spGender.setAdapter(dataNameAdapter);
+        spGender.setEnabled(false);
 
         setTitle(getString(R.string.infomation_a));
         appBarVisibility(true, true, 1);
@@ -263,6 +264,7 @@ public class ReviewPersonalInfomationA extends BaseFragment implements View.OnCl
         edtBirthDay.setEnabled(true);
         rbYes.setEnabled(true);
         rbNo.setEnabled(true);
+        spGender.setEnabled(true);
     }
 
     private void updatePersonalInfomation(PersonalInfomationResponse personalInfomationResponse) {
