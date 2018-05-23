@@ -3,18 +3,22 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:layout_marginTop="20dp"
+    android:background="@drawable/bg_item"
+    android:orientation="vertical"
+    android:padding="5dp">
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginTop="20dp"
-        android:background="@color/line_color" />
+    <ImageView
+        android:id="@+id/img_delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:layout_margin="2dp"
+        android:src="@drawable/ic_delete" />
 
     <au.mccann.oztaxreturn.view.TextViewCustom
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="25dp"
         android:text="@string/review_fhp_health"
         android:textAllCaps="true"
         android:textColor="@color/tv_gray"
@@ -32,7 +36,7 @@
     <au.mccann.oztaxreturn.view.TextViewCustom
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="20dp"
         android:text="@string/review_fhp_membership"
         android:textAllCaps="true"
         android:textColor="@color/tv_gray"
@@ -52,7 +56,7 @@
     <au.mccann.oztaxreturn.view.TextViewCustom
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="20dp"
         android:text="@string/review_fhp_premiums"
         android:textAllCaps="true"
         android:textColor="@color/tv_gray"
@@ -73,7 +77,7 @@
     <au.mccann.oztaxreturn.view.TextViewCustom
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="20dp"
         android:text="@string/review_fhp_government"
         android:textAllCaps="true"
         android:textColor="@color/tv_gray"
@@ -94,7 +98,7 @@
     <au.mccann.oztaxreturn.view.TextViewCustom
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="20dp"
         android:text="@string/review_fhp_day"
         android:textAllCaps="true"
         android:textColor="@color/tv_gray"

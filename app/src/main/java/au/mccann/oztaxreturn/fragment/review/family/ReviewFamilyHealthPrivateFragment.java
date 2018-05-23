@@ -108,6 +108,7 @@ public class ReviewFamilyHealthPrivateFragment extends BaseFragment implements V
         appBarVisibility(true, true, 1);
         if (isEditApp()) fab.setVisibility(View.VISIBLE);
         else fab.setVisibility(View.GONE);
+        fbAdd.setEnabled(false);
         cbYes.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
@@ -173,8 +174,25 @@ public class ReviewFamilyHealthPrivateFragment extends BaseFragment implements V
 
             }
         });
+        reviewFHPAdapter.setOnRemoveItem(new ReviewFHPAdapter.OnRemoveItem() {
+            @Override
+            public void onDelete(final int position) {
+                DialogUtils.showOkAndCancelDialog(getActivity(), getString(R.string.app_name), getString(R.string.remove), getString(R.string.Yes), getString(R.string.No), new AlertDialogOkAndCancel.AlertDialogListener() {
+                    @Override
+                    public void onSubmit() {
+                        reviewPrivateResponses.remove(position);
+                        reviewFHPAdapter.notifyDataSetChanged();
+                    }
 
-        if (isEditApp()) reviewFHPAdapter.setEdit(true);
+                    @Override
+                    public void onCancel() {
+
+                    }
+                });
+
+            }
+        });
+
     }
 
     private void checkPermissionImageAttach(int position) {
@@ -261,7 +279,6 @@ public class ReviewFamilyHealthPrivateFragment extends BaseFragment implements V
 
     private void doUploadImage() {
         countDown = reviewPrivateResponses.size();
-
         if (reviewPrivateResponses.size() == 0) {
             doNext();
         } else {

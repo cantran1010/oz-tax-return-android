@@ -75,6 +75,7 @@ public class ReviewEducationsFragment extends BaseFragment implements View.OnCli
     @Override
     protected void initView() {
         fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(this);
         ButtonCustom btnnext = (ButtonCustom) findViewById(R.id.btn_next);
         btnnext.setOnClickListener(this);
         recyclerView = (RecyclerView) findViewById(R.id.rcv_education);
@@ -148,6 +149,24 @@ public class ReviewEducationsFragment extends BaseFragment implements View.OnCli
             public void selected(int position, String type) {
                 educations.get(position).setType(type);
                 adapter.notifyItemChanged(position);
+            }
+        });
+        adapter.setOnRemoveItem(new EducationAdapter.OnRemoveItem() {
+            @Override
+            public void onDelete(final int position) {
+                DialogUtils.showOkAndCancelDialog(getActivity(), getString(R.string.app_name), getString(R.string.remove), getString(R.string.Yes), getString(R.string.No), new AlertDialogOkAndCancel.AlertDialogListener() {
+                    @Override
+                    public void onSubmit() {
+                        educations.remove(position);
+                        adapter.notifyDataSetChanged();
+                    }
+
+                    @Override
+                    public void onCancel() {
+
+                    }
+                });
+
             }
         });
     }

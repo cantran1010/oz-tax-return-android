@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import java.util.ArrayList;
@@ -44,10 +45,20 @@ public class DividendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         void onClick(int position, int n);
     }
 
+    public interface OnRemoveItem {
+        void onDelete(int position);
+    }
+
     private OnClickImageListener onClickImageListener;
+
+    private OnRemoveItem onRemoveItem;
 
     public void setOnClickImageListener(OnClickImageListener onClickImageListener) {
         this.onClickImageListener = onClickImageListener;
+    }
+
+    public void setOnRemoveItem(OnRemoveItem onRemoveItem) {
+        this.onRemoveItem = onRemoveItem;
     }
 
     public void setEdit(boolean edit) {
@@ -116,6 +127,7 @@ public class DividendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 itemViewHolder.edtFrankingCredits.setEnabled(true);
                 itemViewHolder.edtTaxWidthheld.setEnabled(true);
                 itemViewHolder.grImage.setEnabled(true);
+                itemViewHolder.imgDelete.setEnabled(true);
             } else {
                 itemViewHolder.edtCompanyName.setEnabled(false);
                 itemViewHolder.edtUnFrankDividends.setEnabled(false);
@@ -123,12 +135,19 @@ public class DividendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 itemViewHolder.edtFrankingCredits.setEnabled(false);
                 itemViewHolder.edtTaxWidthheld.setEnabled(false);
                 itemViewHolder.grImage.setEnabled(false);
+                itemViewHolder.imgDelete.setEnabled(false);
             }
             itemViewHolder.edtCompanyName.setText(dividend.getCompanyName());
             itemViewHolder.edtUnFrankDividends.setText(dividend.getUnfranked());
             itemViewHolder.edtFrankDividends.setText(dividend.getFranked());
             itemViewHolder.edtFrankingCredits.setText(dividend.getFrankingCredits());
             itemViewHolder.edtTaxWidthheld.setText(dividend.getTaxWithheld());
+            itemViewHolder.imgDelete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (onRemoveItem != null) onRemoveItem.onDelete(position - 1);
+                }
+            });
             if (dividend.getImages() == null || dividend.getImages().size() == 0) {
                 final Image image = new Image();
                 image.setId(0);
@@ -303,16 +322,19 @@ public class DividendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         final EditTextEasyMoney edtFrankingCredits;
         final EditTextEasyMoney edtTaxWidthheld;
         final MyGridView grImage;
+        final ImageView imgDelete;
 
         ItemViewHolder(View itemView) {
             super(itemView);
             expandableLayout = itemView.findViewById(R.id.expand_layout);
+            imgDelete = itemView.findViewById(R.id.img_delete);
             edtCompanyName = itemView.findViewById(R.id.edt_dividends_bank_name);
             edtUnFrankDividends = itemView.findViewById(R.id.edt_unfrank_dividends);
             edtFrankDividends = itemView.findViewById(R.id.edt_franked_dividends);
             edtFrankingCredits = itemView.findViewById(R.id.edt_franking_credits);
             edtTaxWidthheld = itemView.findViewById(R.id.edt_tax_widthheld);
             grImage = itemView.findViewById(R.id.gr_image);
+
         }
     }
 

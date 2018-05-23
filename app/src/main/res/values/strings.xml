@@ -51,7 +51,7 @@
     <string name="logout">Are you sure you want to logout?</string>
     <string name="required_all">All fields are required!</string>
     <string name="required_image">Attach images are required!</string>
-
+    <string name="remove">Are you sure you want to remove?</string>
     <!-- pick image dialog -->
     <string name="attach_img_title">Attach image</string>
     <string name="attach_img_source">Select source</string>
@@ -529,7 +529,7 @@
 
     <!--  manage account -->
     <string name="manage_account">Manage account</string>
-    <string name="update_information">Update personal\ninfomation</string>
+    <string name="update_information">Update Personal\nInfomation</string>
     <string name="manage_title">title</string>
     <string name="format_date">DD/MM/YYYY</string>
     <string name="username">username</string>
@@ -540,7 +540,7 @@
     <string name="vali_password_lenth">Please enter at least 5 characters</string>
     <string name="password_incorrect">password.incorrect</string>
     <string name="password_confirm">password.confirm</string>
-    <string name="update_login_details">Update login details</string>
+    <string name="update_login_details">Update Login Details</string>
     <string name="update_successful">Update successful!</string>
 
     <!--  screen splash -->

@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 
 import java.util.ArrayList;
 
@@ -37,10 +38,15 @@ public class ReviewFHPAdapter extends RecyclerView.Adapter<ReviewFHPAdapter.MyVi
     private boolean isEdit;
 
     public interface PickImageListener {
-        public void doPick(int position);
+        void doPick(int position);
+    }
+
+    public interface OnRemoveItem {
+        void onDelete(int position);
     }
 
     private PickImageListener pickImageListener;
+    private OnRemoveItem onRemoveItem;
 
     public ReviewFHPAdapter(ArrayList<ReviewPrivateResponse> reviewPrivateResponses, Context context) {
         this.reviewPrivateResponses = reviewPrivateResponses;
@@ -56,7 +62,7 @@ public class ReviewFHPAdapter extends RecyclerView.Adapter<ReviewFHPAdapter.MyVi
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int positionBig) {
-
+        LogUtils.d("onBindViewHolder", "edit" + isEdit());
 //        EdittextCustom edtHealth, edtMembership, edtPremiums, edtGovernment, edtDay;
 //        MyGridView myGridView;
 
@@ -74,13 +80,21 @@ public class ReviewFHPAdapter extends RecyclerView.Adapter<ReviewFHPAdapter.MyVi
             holder.edtPremiums.setEnabled(true);
             holder.edtGovernment.setEnabled(true);
             holder.edtDay.setEnabled(true);
+            holder.imgDelete.setEnabled(true);
         } else {
             holder.edtHealth.setEnabled(false);
             holder.edtMembership.setEnabled(false);
             holder.edtPremiums.setEnabled(false);
             holder.edtGovernment.setEnabled(false);
             holder.edtDay.setEnabled(false);
+            holder.imgDelete.setEnabled(false);
         }
+        holder.imgDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (onRemoveItem != null) onRemoveItem.onDelete(positionBig);
+            }
+        });
 
         holder.edtHealth.addTextChangedListener(new TextWatcher() {
             @Override
@@ -239,11 +253,13 @@ public class ReviewFHPAdapter extends RecyclerView.Adapter<ReviewFHPAdapter.MyVi
         EdittextCustom edtHealth, edtMembership, edtDay;
         private EditTextEasyMoney edtPremiums, edtGovernment;
         MyGridView myGridView;
+        ImageView imgDelete;
 
         public MyViewHolder(View itemView) {
             super(itemView);
             edtHealth = itemView.findViewById(R.id.edt_health);
             edtMembership = itemView.findViewById(R.id.edt_membership);
+            imgDelete = itemView.findViewById(R.id.img_delete);
             edtPremiums = itemView.findViewById(R.id.edt_premium);
             edtGovernment = itemView.findViewById(R.id.edt_government);
             edtDay = itemView.findViewById(R.id.edt_day);
@@ -266,5 +282,10 @@ public class ReviewFHPAdapter extends RecyclerView.Adapter<ReviewFHPAdapter.MyVi
     public void setPickImageListener(PickImageListener pickImageListener) {
         this.pickImageListener = pickImageListener;
     }
+
+    public void setOnRemoveItem(OnRemoveItem onRemoveItem) {
+        this.onRemoveItem = onRemoveItem;
+    }
+
 
 }

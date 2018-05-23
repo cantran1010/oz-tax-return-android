@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import java.util.ArrayList;
@@ -43,10 +44,20 @@ public class AnnuitiesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         void onClick(int position, int n);
     }
 
+    public interface OnRemoveItem {
+        void onDelete(int position);
+    }
+
     private OnClickImageListener onClickImageListener;
+
+    private OnRemoveItem onRemoveItem;
 
     public void setOnClickImageListener(OnClickImageListener onClickImageListener) {
         this.onClickImageListener = onClickImageListener;
+    }
+
+    public void setOnRemoveItem(OnRemoveItem onRemoveItem) {
+        this.onRemoveItem = onRemoveItem;
     }
 
     public void setEdit(boolean edit) {
@@ -113,6 +124,7 @@ public class AnnuitiesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 itemViewHolder.edtUnTaxed.setEnabled(true);
                 itemViewHolder.edtLumpTaxed.setEnabled(true);
                 itemViewHolder.edtLumpUnTaxed.setEnabled(true);
+                itemViewHolder.imgDelete.setEnabled(true);
                 itemViewHolder.grImage.setEnabled(true);
             } else {
                 itemViewHolder.edtEdtTaxWidthheld.setEnabled(false);
@@ -121,13 +133,19 @@ public class AnnuitiesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 itemViewHolder.edtLumpTaxed.setEnabled(false);
                 itemViewHolder.edtLumpUnTaxed.setEnabled(false);
                 itemViewHolder.grImage.setEnabled(false);
+                itemViewHolder.imgDelete.setEnabled(false);
             }
             itemViewHolder.edtEdtTaxWidthheld.setText(annuity.getTaxWithheld());
             itemViewHolder.edtTaxed.setText(annuity.getTaxableComTaxed());
             itemViewHolder.edtUnTaxed.setText(annuity.getTaxableComUntaxed());
             itemViewHolder.edtLumpTaxed.setText(annuity.getArrearsTaxed());
             itemViewHolder.edtLumpUnTaxed.setText(annuity.getArrearsUntaxed());
-
+            itemViewHolder.imgDelete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (onRemoveItem != null) onRemoveItem.onDelete(position - 1);
+                }
+            });
             if (annuity.getImages() == null || annuity.getImages().size() == 0) {
                 final Image image = new Image();
                 image.setId(0);
@@ -307,11 +325,13 @@ public class AnnuitiesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         final EditTextEasyMoney edtUnTaxed;
         final EditTextEasyMoney edtLumpTaxed;
         final EditTextEasyMoney edtLumpUnTaxed;
+        final ImageView imgDelete;
         final MyGridView grImage;
 
         ItemViewHolder(View itemView) {
             super(itemView);
             expandableLayout = itemView.findViewById(R.id.expand_layout);
+            imgDelete = itemView.findViewById(R.id.img_delete);
             edtEdtTaxWidthheld = itemView.findViewById(R.id.edt_tax);
             edtTaxed = itemView.findViewById(R.id.edt_taxed);
             edtUnTaxed = itemView.findViewById(R.id.edt_untaxed);

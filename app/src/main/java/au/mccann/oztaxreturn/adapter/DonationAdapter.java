@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import java.util.ArrayList;
@@ -44,10 +45,19 @@ public class DonationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         void onClick(int position, int n);
     }
 
+    public interface OnRemoveItem {
+        void onDelete(int position);
+    }
+
     private OnClickImageListener onClickImageListener;
+    private OnRemoveItem onRemoveItem;
 
     public void setOnClickImageListener(OnClickImageListener onClickImageListener) {
         this.onClickImageListener = onClickImageListener;
+    }
+
+    public void setOnRemoveItem(OnRemoveItem onRemoveItem) {
+        this.onRemoveItem = onRemoveItem;
     }
 
     public void setEdit(boolean edit) {
@@ -111,13 +121,21 @@ public class DonationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 itemViewHolder.edtOz.setEnabled(true);
                 itemViewHolder.edtAmount.setEnabled(true);
                 itemViewHolder.grImage.setEnabled(true);
+                itemViewHolder.imgDelete.setEnabled(true);
             } else {
                 itemViewHolder.edtOz.setEnabled(false);
                 itemViewHolder.edtAmount.setEnabled(false);
                 itemViewHolder.grImage.setEnabled(false);
+                itemViewHolder.imgDelete.setEnabled(false);
             }
             itemViewHolder.edtOz.setText(donation.getOrganization());
             itemViewHolder.edtAmount.setText(donation.getAmount());
+            itemViewHolder.imgDelete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (onRemoveItem != null) onRemoveItem.onDelete(position - 1);
+                }
+            });
             if (donation.getImages() == null || donation.getImages().size() == 0) {
                 final Image image = new Image();
                 image.setId(0);
@@ -242,10 +260,12 @@ public class DonationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         final EdittextCustom edtOz;
         final EditTextEasyMoney edtAmount;
         final MyGridView grImage;
+        final ImageView imgDelete;
 
         ItemViewHolder(View itemView) {
             super(itemView);
             expandableLayout = itemView.findViewById(R.id.expand_layout);
+            imgDelete = itemView.findViewById(R.id.img_delete);
             edtOz = itemView.findViewById(R.id.edt_donation_oz);
             edtAmount = itemView.findViewById(R.id.edt_education_amount);
             grImage = itemView.findViewById(R.id.gr_image);

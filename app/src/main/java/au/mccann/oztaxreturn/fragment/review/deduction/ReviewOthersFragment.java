@@ -152,6 +152,24 @@ public class ReviewOthersFragment extends BaseFragment implements View.OnClickLi
                 adapter.notifyItemChanged(position);
             }
         });
+        adapter.setOnRemoveItem(new OthersAdapter.OnRemoveItem() {
+            @Override
+            public void onDelete ( final int position){
+                DialogUtils.showOkAndCancelDialog(getActivity(), getString(R.string.app_name), getString(R.string.remove), getString(R.string.Yes), getString(R.string.No), new AlertDialogOkAndCancel.AlertDialogListener() {
+                    @Override
+                    public void onSubmit() {
+                        otherResponses.remove(position);
+                        adapter.notifyDataSetChanged();
+                    }
+
+                    @Override
+                    public void onCancel() {
+
+                    }
+                });
+
+            }
+        });
 
     }
 

@@ -146,6 +146,24 @@ public class ReviewDividendsFragment extends BaseFragment implements View.OnClic
                 }
             }
         });
+        adapter.setOnRemoveItem(new DividendAdapter.OnRemoveItem() {
+            @Override
+            public void onDelete(final int position) {
+                DialogUtils.showOkAndCancelDialog(getActivity(), getString(R.string.app_name), getString(R.string.remove), getString(R.string.Yes), getString(R.string.No), new AlertDialogOkAndCancel.AlertDialogListener() {
+                    @Override
+                    public void onSubmit() {
+                        dividends.remove(position);
+                        adapter.notifyDataSetChanged();
+                    }
+
+                    @Override
+                    public void onCancel() {
+
+                    }
+                });
+
+            }
+        });
 
     }
 

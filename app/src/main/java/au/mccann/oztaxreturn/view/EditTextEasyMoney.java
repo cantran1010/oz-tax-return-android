@@ -32,24 +32,21 @@ public class EditTextEasyMoney extends EdittextCustom {
     }
 
     @Override
-    protected void onFinishInflate ()
-    {
+    protected void onFinishInflate() {
         super.onFinishInflate();
         updateValue(getText().toString());
     }
 
-    private void initView(Context context, AttributeSet attrs)
-    {
+    private void initView(Context context, AttributeSet attrs) {
         // Setting Default Parameters
         _currencySymbol = Currency.getInstance(Locale.US).getSymbol();
         _showCurrency = true;
         _showCommas = true;
 
         // Check for the attributes
-        if (attrs != null)
-        {
+        if (attrs != null) {
             // Attribute initialization
-            final TypedArray attrArray = context.obtainStyledAttributes(attrs, R.styleable.EasyMoneyWidgets, 0,0);
+            final TypedArray attrArray = context.obtainStyledAttributes(attrs, R.styleable.EasyMoneyWidgets, 0, 0);
             try {
                 String currnecy = attrArray.getString(R.styleable.EasyMoneyWidgets_currency_symbol);
                 if (currnecy == null)
@@ -58,8 +55,7 @@ public class EditTextEasyMoney extends EdittextCustom {
 
                 _showCurrency = attrArray.getBoolean(R.styleable.EasyMoneyWidgets_show_currency, true);
                 _showCommas = attrArray.getBoolean(R.styleable.EasyMoneyWidgets_show_commas, true);
-            }
-            finally {
+            } finally {
                 attrArray.recycle();
             }
         }
@@ -68,8 +64,7 @@ public class EditTextEasyMoney extends EdittextCustom {
         initTextWatchers();
     }
 
-    private void initTextWatchers()
-    {
+    private void initTextWatchers() {
         this.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -101,25 +96,20 @@ public class EditTextEasyMoney extends EdittextCustom {
 
                     String valStr = getValueString();
 
-                    if (valStr.equals(""))
-                    {
+                    if (valStr.equals("")) {
                         long val = 0;
                         setText(getDecoratedStringFromNumber(val));
-                    }
-                    else {
+                    } else {
                         // Some decimal number
-                        if (valStr.contains("."))
-                        {
-                            if (valStr.indexOf(".") == valStr.length()-1)
-                            {
+                        if (valStr.contains(".")) {
+                            if (valStr.indexOf(".") == valStr.length() - 1) {
                                 // decimal has been currently put
-                                String front = getDecoratedStringFromNumber(Long.parseLong(valStr.substring(0, valStr.length()-1)));
+                                String front = getDecoratedStringFromNumber(Long.parseLong(valStr.substring(0, valStr.length() - 1)));
                                 setText(front + ".");
-                            }
-                            else {
+                            } else {
                                 String[] nums = getValueString().split("\\.");
                                 String front = getDecoratedStringFromNumber(Long.parseLong(nums[0]));
-                                setText(front+"."+nums[1]);
+                                setText(front + "." + nums[1]);
                             }
                         }
                     }
@@ -137,13 +127,11 @@ public class EditTextEasyMoney extends EdittextCustom {
         });
     }
 
-    private void updateValue(String text)
-    {
+    private void updateValue(String text) {
         setText(text);
     }
 
-    private String getDecoratedStringFromNumber(long number)
-    {
+    private String getDecoratedStringFromNumber(long number) {
         String numberPattern = "#,###,###,###";
         String decoStr = "";
 
@@ -154,8 +142,7 @@ public class EditTextEasyMoney extends EdittextCustom {
             formatter.applyPattern(_currencySymbol + " " + numberPattern);
         else if (!_showCommas && _showCurrency)
             formatter.applyPattern(_currencySymbol + " ");
-        else if (!_showCommas && !_showCurrency)
-        {
+        else if (!_showCommas && !_showCurrency) {
             decoStr = number + "";
             return decoStr;
         }
@@ -165,8 +152,7 @@ public class EditTextEasyMoney extends EdittextCustom {
         return decoStr;
     }
 
-    private void setShowCurrency(boolean value)
-    {
+    private void setShowCurrency(boolean value) {
         _showCurrency = value;
         updateValue(getText().toString());
     }
@@ -174,17 +160,18 @@ public class EditTextEasyMoney extends EdittextCustom {
     /**
      * Get the value of the text without any commas and currency.
      * For example, if the edit text value is $ 1,34,000.60 then this method will return 134000.60
+     *
      * @return A string of the raw value in the text field
      */
     public String getValueString() {
 
         String string = getText().toString();
 
-        if(string.contains(",")){
-            string = string.replace(",","");
+        if (string.contains(",")) {
+            string = string.replace(",", "");
         }
         if (string.contains(" ")) {
-            string = string.substring(string.indexOf(" ")+1, string.length());
+            string = string.substring(string.indexOf(" ") + 1, string.length());
         }
         return string;
     }
@@ -192,71 +179,68 @@ public class EditTextEasyMoney extends EdittextCustom {
     /**
      * Get the value of the text with formatted commas and currency.
      * For example, if the edit text value is $ 1,34,000.60 then this method will return exactly $ 1,34,000.60
+     *
      * @return A string of the text value in the text field
      */
-    public String getFormattedString()
-    {
+    public String getFormattedString() {
         return getText().toString();
     }
 
     /**
      * Set the currency symbol for the edit text. (Default is US Dollar $).
+     *
      * @param newSymbol the new symbol of currency in string
      */
-    public void setCurrency(String newSymbol)
-    {
+    public void setCurrency(String newSymbol) {
         _currencySymbol = newSymbol;
         updateValue(getText().toString());
     }
 
     /**
      * Set the currency symbol for the edit text. (Default is US Dollar $).
+     *
      * @param locale the locale of new symbol. (Defaul is Locale.US)
      */
-    public void setCurrency(Locale locale)
-    {
+    public void setCurrency(Locale locale) {
         setCurrency(Currency.getInstance(locale).getSymbol());
     }
 
     /**
      * Set the currency symbol for the edit text. (Default is US Dollar $).
+     *
      * @param currency the currency object of new symbol. (Defaul is Locale.US)
      */
-    public void setCurrency(Currency currency)
-    {
+    public void setCurrency(Currency currency) {
         setCurrency(currency.getSymbol());
     }
 
     /**
      * Whether currency is shown in the text or not. (Default is true)
+     *
      * @return true if the currency is shown otherwise false.
      */
-    public boolean isShowCurrency()
-    {
+    public boolean isShowCurrency() {
         return _showCurrency;
     }
 
     /**
      * Shows the currency in the text. (Default is shown).
      */
-    public void showCurrencySymbol()
-    {
+    public void showCurrencySymbol() {
         setShowCurrency(true);
     }
 
     /**
      * Hides the currency in the text. (Default is shown).
      */
-    public void hideCurrencySymbol()
-    {
+    public void hideCurrencySymbol() {
         setShowCurrency(false);
     }
 
     /**
      * Shows the commas in the text. (Default is shown).
      */
-    public void showCommas()
-    {
+    public void showCommas() {
         _showCommas = true;
         updateValue(getText().toString());
     }
@@ -264,8 +248,7 @@ public class EditTextEasyMoney extends EdittextCustom {
     /**
      * Hides the commas in the text. (Default is shown).
      */
-    public void hideCommas()
-    {
+    public void hideCommas() {
         _showCommas = false;
         updateValue(getText().toString());
     }
