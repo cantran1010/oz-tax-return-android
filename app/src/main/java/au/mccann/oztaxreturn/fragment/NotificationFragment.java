@@ -54,7 +54,7 @@ public class NotificationFragment extends BaseFragment {
         setTitle(getString(R.string.notification_title));
         appBarVisibility(true, false, 0);
 
-        getNotification(null,200);
+        getNotification(null,300);
     }
 
     @Override

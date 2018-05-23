@@ -64,8 +64,8 @@
 
     <!-- home screen -->
     <string name="home_title">Tax Return</string>
-    <string name="home_menu1">TaxReturn</string>
-    <string name="home_menu2">ContactAccountant</string>
+    <string name="home_menu1">Tax Return</string>
+    <string name="home_menu2">Contact Accountant</string>
     <string name="home_menu3">Notification</string>
     <string name="delete_application">Are you sure to delete this application?</string>
     <string name="delete_application_title">Delete Application</string>
@@ -523,7 +523,7 @@
     <string name="notification_block_user">your account has been block</string>
 
     <!-- connect accountant -->
-    <string name="connect_title">CONNECT ACCOUNTANT</string>
+    <string name="connect_title">CONTACT ACCOUNTANT</string>
     <string name="connect_language">My prefer language</string>
     <string name="connect_des">Lets connect to our accountant for\nthe consultation</string>
 
