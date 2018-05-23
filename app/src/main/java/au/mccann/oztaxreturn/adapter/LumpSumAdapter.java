@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import java.util.ArrayList;
@@ -49,8 +50,13 @@ public class LumpSumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         void onClick(int position);
     }
 
+    public interface OnRemoveItem {
+        void onDelete(int position);
+    }
+
     private OnClickImageListener onClickImageListener;
     private OnclickDateListener onclickDateListener;
+    private OnRemoveItem onRemoveItem;
 
     public void setOnClickImageListener(OnClickImageListener onClickImageListener) {
         this.onClickImageListener = onClickImageListener;
@@ -58,6 +64,10 @@ public class LumpSumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     public void setOnclickDateListener(OnclickDateListener onclickDateListener) {
         this.onclickDateListener = onclickDateListener;
+    }
+
+    public void setOnRemoveItem(OnRemoveItem onRemoveItem) {
+        this.onRemoveItem = onRemoveItem;
     }
 
     public void setEdit(boolean edit) {
@@ -124,6 +134,7 @@ public class LumpSumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 itemViewHolder.edtPayerAbn.setEnabled(true);
                 itemViewHolder.edtPaymenDate.setEnabled(true);
                 itemViewHolder.grImage.setEnabled(true);
+                itemViewHolder.imgDelete.setEnabled(true);
             } else {
                 itemViewHolder.edtEdtTaxWidthheld.setEnabled(false);
                 itemViewHolder.edtTaxed.setEnabled(false);
@@ -131,12 +142,19 @@ public class LumpSumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 itemViewHolder.edtPayerAbn.setEnabled(false);
                 itemViewHolder.edtPaymenDate.setEnabled(false);
                 itemViewHolder.grImage.setEnabled(false);
+                itemViewHolder.imgDelete.setEnabled(false);
             }
             itemViewHolder.edtEdtTaxWidthheld.setText(lumpSum.getTaxWithheld());
             itemViewHolder.edtTaxed.setText(lumpSum.getTaxableComTaxed());
             itemViewHolder.edtUnTaxed.setText(lumpSum.getTaxableComUntaxed());
             itemViewHolder.edtPayerAbn.setText(lumpSum.getPayerAbn());
             itemViewHolder.edtPaymenDate.setText(lumpSum.getPaymentDate());
+            itemViewHolder.imgDelete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (onRemoveItem != null) onRemoveItem.onDelete(position - 1);
+                }
+            });
             if (lumpSum.getPaymentDate() != null)
                 itemViewHolder.edtPaymenDate.setText(DateTimeUtils.getDateBirthDayFromIso(lumpSum.getPaymentDate()));
 
@@ -312,10 +330,12 @@ public class LumpSumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         final EdittextCustom edtPayerAbn;
         final EdittextCustom edtPaymenDate;
         final MyGridView grImage;
+        final ImageView imgDelete;
 
         ItemViewHolder(View itemView) {
             super(itemView);
             expandableLayout = itemView.findViewById(R.id.expand_layout);
+            imgDelete = itemView.findViewById(R.id.img_delete);
             edtEdtTaxWidthheld = itemView.findViewById(R.id.edt_tax_widthheld);
             edtTaxed = itemView.findViewById(R.id.edt_taxed);
             edtUnTaxed = itemView.findViewById(R.id.edt_untaxed);

@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 
@@ -52,8 +53,13 @@ public class OthersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         void selected(int position, String type);
     }
 
+    public interface OnRemoveItem {
+        void onDelete(int position);
+    }
+
     private OnClickImageListener onClickImageListener;
     private OnSelectedListener onSelectedListener;
+    private OnRemoveItem onRemoveItem;
 
     public void setOnClickImageListener(OnClickImageListener onClickImageListener) {
         this.onClickImageListener = onClickImageListener;
@@ -61,6 +67,10 @@ public class OthersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     public void setOnSelectedListener(OnSelectedListener onSelectedListener) {
         this.onSelectedListener = onSelectedListener;
+    }
+
+    public void setOnRemoveItem(OnRemoveItem onRemoveItem) {
+        this.onRemoveItem = onRemoveItem;
     }
 
     public void setEdit(boolean edit) {
@@ -126,14 +136,22 @@ public class OthersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 itemViewHolder.edtDes.setEnabled(true);
                 itemViewHolder.edtAmount.setEnabled(true);
                 itemViewHolder.grImage.setEnabled(true);
+                itemViewHolder.imgDelete.setEnabled(true);
             } else {
                 itemViewHolder.spType.setEnabled(false);
                 itemViewHolder.edtDes.setEnabled(false);
                 itemViewHolder.edtAmount.setEnabled(false);
                 itemViewHolder.grImage.setEnabled(false);
+                itemViewHolder.imgDelete.setEnabled(false);
             }
             itemViewHolder.edtDes.setText(otherResponse.getDescription());
             itemViewHolder.edtAmount.setText(otherResponse.getAmount());
+            itemViewHolder.imgDelete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (onRemoveItem != null) onRemoveItem.onDelete(position - 1);
+                }
+            });
             if (otherResponse.getImages() == null || otherResponse.getImages().size() == 0) {
                 final Image image = new Image();
                 image.setId(0);
@@ -278,10 +296,12 @@ public class OthersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         final EdittextCustom edtDes;
         final EditTextEasyMoney edtAmount;
         final MyGridView grImage;
+        final ImageView imgDelete;
 
         ItemViewHolder(View itemView) {
             super(itemView);
             expandableLayout = itemView.findViewById(R.id.expand_layout);
+            imgDelete = itemView.findViewById(R.id.img_delete);
             spType = itemView.findViewById(R.id.sp_type);
             edtDes = itemView.findViewById(R.id.edt_description);
             edtAmount = itemView.findViewById(R.id.edt_education_amount);

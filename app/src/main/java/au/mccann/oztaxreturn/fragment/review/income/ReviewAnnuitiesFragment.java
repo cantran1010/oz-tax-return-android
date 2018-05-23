@@ -65,7 +65,7 @@ public class ReviewAnnuitiesFragment extends BaseFragment implements View.OnClic
     private final String[] permissions = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
     private String imgPath;
     private FloatingActionButton fab;
-    private int countDown=0;
+    private int countDown = 0;
 
     @Override
     protected int getLayout() {
@@ -143,6 +143,24 @@ public class ReviewAnnuitiesFragment extends BaseFragment implements View.OnClic
                     intent.putExtra(Constants.EXTRA_IMAGE_PATH, images.get(position).getPath());
                     startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
                 }
+            }
+        });
+        adapter.setOnRemoveItem(new AnnuitiesAdapter.OnRemoveItem() {
+            @Override
+            public void onDelete(final int position) {
+                DialogUtils.showOkAndCancelDialog(getActivity(), getString(R.string.app_name), getString(R.string.remove), getString(R.string.Yes), getString(R.string.No), new AlertDialogOkAndCancel.AlertDialogListener() {
+                    @Override
+                    public void onSubmit() {
+                        annuities.remove(position);
+                        adapter.notifyDataSetChanged();
+                    }
+
+                    @Override
+                    public void onCancel() {
+
+                    }
+                });
+
             }
         });
 
@@ -428,11 +446,12 @@ public class ReviewAnnuitiesFragment extends BaseFragment implements View.OnClic
                 break;
             case R.id.btn_next:
                 if (isEditApp()) {
-                    if (adapter.isExpend())
-                        uploadImage(annuities);
-                    else {
-                        doSaveReview();
-                    }
+                    if (annuities.size() > 0)
+                        if (adapter.isExpend())
+                            uploadImage(annuities);
+                        else {
+                            doSaveReview();
+                        }
                 } else
                     openFragment(R.id.layout_container, ReviewLumpSumFragment.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
                 break;

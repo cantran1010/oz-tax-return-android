@@ -38,6 +38,7 @@ import au.mccann.oztaxreturn.model.APIError;
 import au.mccann.oztaxreturn.model.Attachment;
 import au.mccann.oztaxreturn.model.Image;
 import au.mccann.oztaxreturn.networking.ApiClient;
+import au.mccann.oztaxreturn.utils.DateTimeUtils;
 import au.mccann.oztaxreturn.utils.DialogUtils;
 import au.mccann.oztaxreturn.utils.FileUtils;
 import au.mccann.oztaxreturn.utils.ImageUtils;
@@ -381,7 +382,7 @@ public class ManageAccountActivity extends BaseActivity implements View.OnClickL
             salaryJson.put(Constants.PARAMETER_UPDATE_ACCOUNT_FIRST_NAME, edtFirstname.getText().toString().trim());
             salaryJson.put(Constants.PARAMETER_UPDATE_ACCOUNT_MIDDLE_NAME, edtMidname.getText().toString().trim());
             salaryJson.put(Constants.PARAMETER_UPDATE_ACCOUNT_LAST_NAME, edtLastName.getText().toString().trim());
-            salaryJson.put(Constants.PARAMETER_UPDATE_ACCOUNT_BIRTHDAY, edtBirthDay.getText().toString().trim());
+            salaryJson.put(Constants.PARAMETER_UPDATE_ACCOUNT_BIRTHDAY, DateTimeUtils.fromCalendarToBirthday(calendar));
             if (imgID != 0) salaryJson.put(Constants.PARAMETER_UPDATE_ACCOUNT_AVATAR, imgID);
             salaryJson.put(Constants.PARAMETER_UPDATE_ACCOUNT_GENDER, spGender.getSelectedItem().toString());
             salaryJson.put(Constants.PARAMETER_UPDATE_ACCOUNT_STREET, edtStreetNumber.getText().toString().trim());

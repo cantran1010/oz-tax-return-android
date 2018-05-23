@@ -14,13 +14,6 @@
         android:textColor="@color/title_color"
         android:textSize="@dimen/tv_size_xxxlager" />
 
-    <View
-        android:layout_width="21dp"
-        android:layout_height="3.5dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="15dp"
-        android:background="@color/app_bg" />
-
     <au.mccann.oztaxreturn.view.TextViewCustom
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -63,5 +56,6 @@
             android:textSize="@dimen/tv_size_xlager" />
 
     </RadioGroup>
+
 
 </LinearLayout>
