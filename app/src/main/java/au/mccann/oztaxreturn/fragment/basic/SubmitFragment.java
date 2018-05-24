@@ -249,7 +249,7 @@ public class SubmitFragment extends BaseFragment implements View.OnClickListener
                 LogUtils.d(TAG, "doSaveBasic code : " + countryCodeResponses.get(spCountryCode.getSelectedItemPosition()).getCode());
 
             } catch (NumberParseException e) {
-                System.err.println("NumberParseException was thrown: " + e.toString());
+                LogUtils.e(TAG, "doSaveBasic ERROR : " + e.toString());
             }
 
         } catch (JSONException e) {
