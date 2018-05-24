@@ -3,11 +3,20 @@ package au.mccann.oztaxreturn.fragment.review.personal;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.view.View;
+import android.widget.Spinner;
+
+import com.google.i18n.phonenumbers.NumberParseException;
+import com.google.i18n.phonenumbers.PhoneNumberUtil;
+import com.google.i18n.phonenumbers.Phonenumber;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import au.mccann.oztaxreturn.R;
+import au.mccann.oztaxreturn.adapter.OzSpinnerAdapter;
 import au.mccann.oztaxreturn.common.Constants;
 import au.mccann.oztaxreturn.database.UserManager;
 import au.mccann.oztaxreturn.dialog.AlertDialogOk;
@@ -15,6 +24,7 @@ import au.mccann.oztaxreturn.dialog.AlertDialogOkAndCancel;
 import au.mccann.oztaxreturn.fragment.BaseFragment;
 import au.mccann.oztaxreturn.model.APIError;
 import au.mccann.oztaxreturn.networking.ApiClient;
+import au.mccann.oztaxreturn.rest.response.CountryCodeResponse;
 import au.mccann.oztaxreturn.rest.response.PersonalInfomationResponse;
 import au.mccann.oztaxreturn.utils.DialogUtils;
 import au.mccann.oztaxreturn.utils.LogUtils;
@@ -42,7 +52,8 @@ public class ReviewPersonalInfomationB extends BaseFragment implements View.OnCl
     private ButtonCustom btnNext;
     private FloatingActionButton fab;
     private PersonalInfomationResponse personalInfomationResponse;
-
+    private Spinner spCountryCode;
+    private ArrayList<CountryCodeResponse> countryCodeResponses;
 
     @Override
     protected int getLayout() {
@@ -64,14 +75,16 @@ public class ReviewPersonalInfomationB extends BaseFragment implements View.OnCl
         btnNext.setOnClickListener(this);
         fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(this);
+        spCountryCode = (Spinner) findViewById(R.id.sp_country_code);
     }
 
     @Override
     protected void initData() {
+        spCountryCode.setEnabled(false);
         if (isEditApp()) fab.setVisibility(View.VISIBLE);
         else fab.setVisibility(View.GONE);
-        getReviewInformationB();
         getReviewProgress(getApplicationResponse());
+        getCountryCode();
     }
 
     @Override
@@ -84,6 +97,47 @@ public class ReviewPersonalInfomationB extends BaseFragment implements View.OnCl
 
     }
 
+    private void getCountryCode() {
+        ProgressDialogUtils.showProgressDialog(getActivity());
+        ApiClient.getApiService().getCountryCodeResponse(UserManager.getUserToken()).enqueue(new Callback<List<CountryCodeResponse>>() {
+            @Override
+            public void onResponse(Call<List<CountryCodeResponse>> call, Response<List<CountryCodeResponse>> response) {
+                LogUtils.d(TAG, "getCountryCode code : " + response.code());
+                if (response.code() == Constants.HTTP_CODE_OK) {
+                    LogUtils.d(TAG, "getCountryCode body : " + response.body().toString());
+                    countryCodeResponses = (ArrayList<CountryCodeResponse>) response.body();
+
+                    ArrayList<String> listCode = new ArrayList<>();
+                    for (CountryCodeResponse countryCodeResponse : countryCodeResponses) {
+                        listCode.add(countryCodeResponse.getDialCode());
+                    }
+
+                    OzSpinnerAdapter dataNameAdapter = new OzSpinnerAdapter(getContext(), listCode);
+                    spCountryCode.setAdapter(dataNameAdapter);
+
+                    getReviewInformationB();
+                } else {
+                    APIError error = Utils.parseError(response);
+                    if (error != null) {
+                        LogUtils.d(TAG, "getCountryCode error : " + error.message());
+                        DialogUtils.showOkDialog(getActivity(), getString(R.string.notification_title), error.message(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                            @Override
+                            public void onSubmit() {
+
+                            }
+                        });
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<CountryCodeResponse>> call, Throwable t) {
+
+            }
+        });
+    }
+
+
     private void doEdit() {
         edtBankName.setEnabled(true);
         edtBSB.setEnabled(true);
@@ -94,6 +148,7 @@ public class ReviewPersonalInfomationB extends BaseFragment implements View.OnCl
         edtPostCode.setEnabled(true);
         edtPhone.setEnabled(true);
         edtEmail.setEnabled(true);
+        spCountryCode.setEnabled(true);
     }
 
     private void updatePersonalInfo() {
@@ -104,8 +159,27 @@ public class ReviewPersonalInfomationB extends BaseFragment implements View.OnCl
         edtSuburb.setText(personalInfomationResponse.getSuburb());
         edtState.setText(personalInfomationResponse.getState());
         edtPostCode.setText(personalInfomationResponse.getPostcode());
-        edtPhone.setText(personalInfomationResponse.getPhone());
+//        edtPhone.setText(personalInfomationResponse.getPhone());
         edtEmail.setText(personalInfomationResponse.getEmail());
+
+        PhoneNumberUtil phoneUtil = PhoneNumberUtil.getInstance();
+        try {
+            Phonenumber.PhoneNumber phoneNumber = phoneUtil.parse(personalInfomationResponse.getPhone(), null);
+
+            int code = phoneNumber.getCountryCode();
+            LogUtils.d(TAG, "updateUI code : " + code);
+
+            for (int i = 0; i < countryCodeResponses.size(); i++) {
+                if (countryCodeResponses.get(i).getDialCode().equals(("+") + code)) {
+                    spCountryCode.setSelection(i);
+                    break;
+                }
+            }
+            edtPhone.setText(personalInfomationResponse.getPhone().substring(1 + String.valueOf(code).length()));
+
+        } catch (NumberParseException e) {
+            LogUtils.e(TAG, "updateUI was thrown: " + e.toString());
+        }
     }
 
     private void doNextB() {
@@ -160,8 +234,20 @@ public class ReviewPersonalInfomationB extends BaseFragment implements View.OnCl
             jsonRequest.put("suburb", edtSuburb.getText().toString().trim());
             jsonRequest.put("state", edtState.getText().toString().trim());
             jsonRequest.put("postcode", edtPostCode.getText().toString().trim());
-            jsonRequest.put("phone", Utils.formatPhoneNumber(edtPhone.getText().toString().trim()));
+//            jsonRequest.put("phone", Utils.formatPhoneNumber(edtPhone.getText().toString().trim()));
             jsonRequest.put("email", edtEmail.getText().toString().trim());
+
+            PhoneNumberUtil phoneUtil = PhoneNumberUtil.getInstance();
+            try {
+                Phonenumber.PhoneNumber phone = phoneUtil.parse(edtPhone.getText().toString().trim(), countryCodeResponses.get(spCountryCode.getSelectedItemPosition()).getCode());
+                String result = phoneUtil.format(phone, PhoneNumberUtil.PhoneNumberFormat.E164);
+                jsonRequest.put(Constants.PARAMETER_BASIC_INFO_PHONE, result);
+
+                LogUtils.d(TAG, "doNextB code : " + countryCodeResponses.get(spCountryCode.getSelectedItemPosition()).getCode());
+
+            } catch (NumberParseException e) {
+                LogUtils.e(TAG, "doNextB ERRROR : " + e.toString());
+            }
 
         } catch (JSONException e) {
             e.printStackTrace();

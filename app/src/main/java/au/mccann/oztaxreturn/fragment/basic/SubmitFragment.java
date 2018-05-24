@@ -9,12 +9,21 @@ import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
 import android.view.View;
+import android.widget.Spinner;
+
+import com.google.i18n.phonenumbers.NumberParseException;
+import com.google.i18n.phonenumbers.PhoneNumberUtil;
+import com.google.i18n.phonenumbers.Phonenumber;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import au.mccann.oztaxreturn.R;
 import au.mccann.oztaxreturn.activity.GeneralInfoActivity;
+import au.mccann.oztaxreturn.adapter.OzSpinnerAdapter;
 import au.mccann.oztaxreturn.common.Constants;
 import au.mccann.oztaxreturn.database.UserManager;
 import au.mccann.oztaxreturn.dialog.AlertDialogOk;
@@ -25,6 +34,7 @@ import au.mccann.oztaxreturn.model.APIError;
 import au.mccann.oztaxreturn.model.PersonalInformation;
 import au.mccann.oztaxreturn.model.ResponseBasicInformation;
 import au.mccann.oztaxreturn.networking.ApiClient;
+import au.mccann.oztaxreturn.rest.response.CountryCodeResponse;
 import au.mccann.oztaxreturn.utils.DialogUtils;
 import au.mccann.oztaxreturn.utils.LogUtils;
 import au.mccann.oztaxreturn.utils.ProgressDialogUtils;
@@ -39,7 +49,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static au.mccann.oztaxreturn.utils.Utils.formatPhoneNumber;
 import static au.mccann.oztaxreturn.utils.Utils.showToolTip;
 
 
@@ -51,7 +60,8 @@ public class SubmitFragment extends BaseFragment implements View.OnClickListener
     private EdittextCustom edtBankName, edtBSB, edtAccountNumber, edtStreetName, edtSuburb, edtState, edtPostCode, edtPhone, edtEmail;
     private ButtonCustom btnSubmit;
     private TextViewCustom tvNote;
-
+    private Spinner spCountryCode;
+    private ArrayList<CountryCodeResponse> countryCodeResponses;
 
     @Override
     protected int getLayout() {
@@ -72,14 +82,55 @@ public class SubmitFragment extends BaseFragment implements View.OnClickListener
         btnSubmit = (ButtonCustom) findViewById(R.id.btn_submit);
         tvNote = (TextViewCustom) findViewById(R.id.tv_note);
         btnSubmit.setOnClickListener(this);
+        spCountryCode = (Spinner) findViewById(R.id.sp_country_code);
     }
 
     @Override
     protected void initData() {
         setTitle(getString(R.string.personal_information_title));
         appBarVisibility(false, true, 0);
-        getBasicInformation();
+        getCountryCode();
 
+    }
+
+    private void getCountryCode() {
+        ProgressDialogUtils.showProgressDialog(getActivity());
+        ApiClient.getApiService().getCountryCodeResponse(UserManager.getUserToken()).enqueue(new Callback<List<CountryCodeResponse>>() {
+            @Override
+            public void onResponse(Call<List<CountryCodeResponse>> call, Response<List<CountryCodeResponse>> response) {
+                LogUtils.d(TAG, "getCountryCode code : " + response.code());
+                if (response.code() == Constants.HTTP_CODE_OK) {
+                    LogUtils.d(TAG, "getCountryCode body : " + response.body().toString());
+                    countryCodeResponses = (ArrayList<CountryCodeResponse>) response.body();
+
+                    ArrayList<String> listCode = new ArrayList<>();
+                    for (CountryCodeResponse countryCodeResponse : countryCodeResponses) {
+                        listCode.add(countryCodeResponse.getDialCode());
+                    }
+
+                    OzSpinnerAdapter dataNameAdapter = new OzSpinnerAdapter(getContext(), listCode);
+                    spCountryCode.setAdapter(dataNameAdapter);
+
+                    getBasicInformation();
+                } else {
+                    APIError error = Utils.parseError(response);
+                    if (error != null) {
+                        LogUtils.d(TAG, "getCountryCode error : " + error.message());
+                        DialogUtils.showOkDialog(getActivity(), getString(R.string.notification_title), error.message(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                            @Override
+                            public void onSubmit() {
+
+                            }
+                        });
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<CountryCodeResponse>> call, Throwable t) {
+
+            }
+        });
     }
 
     private void updateUI(PersonalInformation pf) {
@@ -88,16 +139,34 @@ public class SubmitFragment extends BaseFragment implements View.OnClickListener
         edtBSB.setText(pf.getBankAccountBsb());
         edtStreetName.setText(pf.getStreet());
         edtSuburb.setText(pf.getSuburb());
-        edtPhone.setText(pf.getPhone());
+//        edtPhone.setText(pf.getPhone());
         edtEmail.setText(pf.getEmail());
         edtPostCode.setText(pf.getPostcode());
         edtState.setText(pf.getState());
         setUnderLinePolicy(tvNote);
+
+        PhoneNumberUtil phoneUtil = PhoneNumberUtil.getInstance();
+        try {
+            Phonenumber.PhoneNumber phoneNumber = phoneUtil.parse(pf.getPhone(), null);
+
+            int code = phoneNumber.getCountryCode();
+            LogUtils.d(TAG, "updateUI code : " + code);
+
+            for (int i = 0; i < countryCodeResponses.size(); i++) {
+                if (countryCodeResponses.get(i).getDialCode().equals(("+") + code)) {
+                    spCountryCode.setSelection(i);
+                    break;
+                }
+            }
+            edtPhone.setText(pf.getPhone().substring(1 + String.valueOf(code).length()));
+
+        } catch (NumberParseException e) {
+            LogUtils.e(TAG, "updateUI was thrown: " + e.toString());
+        }
+
     }
 
     private void getBasicInformation() {
-        ProgressDialogUtils.showProgressDialog(getActivity());
-        LogUtils.d(TAG, "getBasicInformation code : " + getApplicationResponse().getId());
         ApiClient.getApiService().getBasicInformation(UserManager.getUserToken(), getApplicationResponse().getId()).enqueue(new Callback<ResponseBasicInformation>() {
             @Override
             public void onResponse(Call<ResponseBasicInformation> call, Response<ResponseBasicInformation> response) {
@@ -165,9 +234,24 @@ public class SubmitFragment extends BaseFragment implements View.OnClickListener
             salaryJson.put(Constants.PARAMETER_BASIC_INFO_SUBURB, edtSuburb.getText().toString().trim());
             salaryJson.put(Constants.PARAMETER_BASIC_INFO_STATE, edtState.getText().toString().trim());
             salaryJson.put(Constants.PARAMETER_BASIC_INFO_EMAIL, edtEmail.getText().toString().trim());
-            salaryJson.put(Constants.PARAMETER_BASIC_INFO_PHONE, formatPhoneNumber(edtPhone.getText().toString().trim()));
+//            salaryJson.put(Constants.PARAMETER_BASIC_INFO_PHONE, formatPhoneNumber(edtPhone.getText().toString().trim()));
             salaryJson.put(Constants.PARAMETER_BASIC_INFO_POST_CODE, edtPostCode.getText().toString().trim());
             jsonRequest.put(Constants.PARAMETER_BASIC_INFO, salaryJson);
+
+
+            PhoneNumberUtil phoneUtil = PhoneNumberUtil.getInstance();
+            try {
+                Phonenumber.PhoneNumber phone = phoneUtil.parse(edtPhone.getText().toString().trim(), countryCodeResponses.get(spCountryCode.getSelectedItemPosition()).getCode());
+                String result = phoneUtil.format(phone, PhoneNumberUtil.PhoneNumberFormat.E164);
+                salaryJson.put(Constants.PARAMETER_BASIC_INFO_PHONE, result);
+
+
+                LogUtils.d(TAG, "doSaveBasic code : " + countryCodeResponses.get(spCountryCode.getSelectedItemPosition()).getCode());
+
+            } catch (NumberParseException e) {
+                LogUtils.e(TAG, "doSaveBasic ERROR : " + e.toString());
+            }
+
         } catch (JSONException e) {
             e.printStackTrace();
         }

@@ -14,6 +14,7 @@ import au.mccann.oztaxreturn.model.Summary;
 import au.mccann.oztaxreturn.model.UpdateResponse;
 import au.mccann.oztaxreturn.model.UserReponse;
 import au.mccann.oztaxreturn.rest.response.ApplicationResponse;
+import au.mccann.oztaxreturn.rest.response.CountryCodeResponse;
 import au.mccann.oztaxreturn.rest.response.FeeResponse;
 import au.mccann.oztaxreturn.rest.response.Language;
 import au.mccann.oztaxreturn.rest.response.PersonalInfomationResponse;
@@ -146,4 +147,7 @@ public interface ApiInterface {
     @Streaming
     @GET
     Call<ResponseBody> downloadFileUrlAsync(@Url String fileUrl);
+
+    @GET("system/countrycodes")
+    Call<List<CountryCodeResponse>> getCountryCodeResponse(@Header("Authorization") String token);
 }
