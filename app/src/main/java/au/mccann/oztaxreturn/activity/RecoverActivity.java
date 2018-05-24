@@ -2,16 +2,27 @@ package au.mccann.oztaxreturn.activity;
 
 import android.os.Handler;
 import android.view.View;
+import android.widget.Spinner;
+
+import com.google.i18n.phonenumbers.NumberParseException;
+import com.google.i18n.phonenumbers.PhoneNumberUtil;
+import com.google.i18n.phonenumbers.Phonenumber;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import au.mccann.oztaxreturn.R;
+import au.mccann.oztaxreturn.adapter.OzSpinnerAdapter;
 import au.mccann.oztaxreturn.common.Constants;
+import au.mccann.oztaxreturn.database.UserManager;
 import au.mccann.oztaxreturn.dialog.AlertDialogOk;
 import au.mccann.oztaxreturn.dialog.AlertDialogOkAndCancel;
 import au.mccann.oztaxreturn.model.APIError;
 import au.mccann.oztaxreturn.networking.ApiClient;
+import au.mccann.oztaxreturn.rest.response.CountryCodeResponse;
 import au.mccann.oztaxreturn.utils.DialogUtils;
 import au.mccann.oztaxreturn.utils.LogUtils;
 import au.mccann.oztaxreturn.utils.ProgressDialogUtils;
@@ -28,6 +39,8 @@ public class RecoverActivity extends BaseActivity implements View.OnClickListene
     private static final String TAG = RegisterActivity.class.getSimpleName();
     private EdittextCustom edtEmail, edtPhone;
     private ButtonCustom btnSend;
+    private ArrayList<CountryCodeResponse> countryCodeResponses;
+    private Spinner spCountryCode;
 
     @Override
     protected int getLayout() {
@@ -39,6 +52,7 @@ public class RecoverActivity extends BaseActivity implements View.OnClickListene
         edtEmail = findViewById(R.id.edt_email);
         edtPhone = findViewById(R.id.edt_phone);
         btnSend = findViewById(R.id.btn_send);
+        spCountryCode = findViewById(R.id.sp_country_code);
         btnSend.setOnClickListener(this);
 
     }
@@ -50,7 +64,7 @@ public class RecoverActivity extends BaseActivity implements View.OnClickListene
 
     @Override
     protected void resumeData() {
-
+        getCountryCode();
     }
 
     private void doRecover() {
@@ -70,8 +84,18 @@ public class RecoverActivity extends BaseActivity implements View.OnClickListene
         try {
             if (edtEmail.length() > 0)
                 jsonRequest.put(Constants.PARAMETER_EMAIL, edtEmail.getText().toString().trim());
-            if (edtPhone.length() > 0)
-                jsonRequest.put(Constants.PARAMETER_MOBILE, edtPhone.getText().toString().trim());
+            if (edtPhone.length() > 0) {
+                PhoneNumberUtil phoneUtil = PhoneNumberUtil.getInstance();
+                try {
+                    Phonenumber.PhoneNumber phone = phoneUtil.parse(edtPhone.getText().toString().trim(), countryCodeResponses.get(spCountryCode.getSelectedItemPosition()).getCode());
+                    String result = phoneUtil.format(phone, PhoneNumberUtil.PhoneNumberFormat.E164);
+                    jsonRequest.put(Constants.PARAMETER_MOBILE, result);
+                    LogUtils.d(TAG, "doSaveBasic code : " + countryCodeResponses.get(spCountryCode.getSelectedItemPosition()).getCode());
+                } catch (NumberParseException e) {
+                    LogUtils.e(TAG, "doSaveBasic ERROR : " + e.toString());
+                }
+            }
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -123,6 +147,58 @@ public class RecoverActivity extends BaseActivity implements View.OnClickListene
             }
         });
 
+    }
+
+    private void getCountryCode() {
+        ProgressDialogUtils.showProgressDialog(this);
+        ApiClient.getApiService().getCountryCodeResponse(UserManager.getUserToken()).enqueue(new Callback<List<CountryCodeResponse>>() {
+            @Override
+            public void onResponse(Call<List<CountryCodeResponse>> call, Response<List<CountryCodeResponse>> response) {
+                ProgressDialogUtils.dismissProgressDialog();
+                LogUtils.d(TAG, "getCountryCode code : " + response.code());
+                if (response.code() == Constants.HTTP_CODE_OK) {
+                    LogUtils.d(TAG, "getCountryCode body : " + response.body().toString());
+                    countryCodeResponses = (ArrayList<CountryCodeResponse>) response.body();
+
+                    ArrayList<String> listCode = new ArrayList<>();
+                    for (CountryCodeResponse countryCodeResponse : countryCodeResponses) {
+                        listCode.add(countryCodeResponse.getDialCode());
+                    }
+
+                    OzSpinnerAdapter dataNameAdapter = new OzSpinnerAdapter(RecoverActivity.this, listCode);
+                    spCountryCode.setAdapter(dataNameAdapter);
+//                    getBasicInformation();
+                } else {
+                    APIError error = Utils.parseError(response);
+                    if (error != null) {
+                        LogUtils.d(TAG, "getCountryCode error : " + error.message());
+                        DialogUtils.showOkDialog(RecoverActivity.this, getString(R.string.notification_title), error.message(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                            @Override
+                            public void onSubmit() {
+
+                            }
+                        });
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<CountryCodeResponse>> call, Throwable t) {
+                LogUtils.e(TAG, "getBasicInformation onFailure : " + t.getMessage());
+                ProgressDialogUtils.dismissProgressDialog();
+                DialogUtils.showRetryDialog(RecoverActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
+                    @Override
+                    public void onSubmit() {
+                        getCountryCode();
+                    }
+
+                    @Override
+                    public void onCancel() {
+
+                    }
+                });
+            }
+        });
     }
 
     @Override
