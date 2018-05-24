@@ -490,6 +490,7 @@ public class ReviewFamilyHealthPrivateFragment extends BaseFragment implements V
         } else {
             ReviewPrivateResponse reviewPrivateResponse = new ReviewPrivateResponse();
             reviewPrivateResponses.add(reviewPrivateResponse);
+            reviewFHPAdapter.setEdit(true);
             reviewFHPAdapter.notifyDataSetChanged();
             LogUtils.d(TAG, "doAdd , reviewPrivateResponses size : " + reviewPrivateResponses.size());
             setUpList();

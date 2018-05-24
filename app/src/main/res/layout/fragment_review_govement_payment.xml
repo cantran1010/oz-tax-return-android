@@ -30,7 +30,7 @@
                 android:gravity="center"
                 android:text="@string/review_govement_payment"
                 android:textColor="@color/title_color"
-                android:textSize="@dimen/tv_size_xxxlager" />
+                android:textSize="26sp" />
 
             <View
                 android:id="@+id/line"
