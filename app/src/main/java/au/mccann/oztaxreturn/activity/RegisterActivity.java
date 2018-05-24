@@ -10,13 +10,21 @@ import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.widget.CompoundButton;
+import android.widget.Spinner;
 
 import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.i18n.phonenumbers.NumberParseException;
+import com.google.i18n.phonenumbers.PhoneNumberUtil;
+import com.google.i18n.phonenumbers.Phonenumber;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import au.mccann.oztaxreturn.R;
+import au.mccann.oztaxreturn.adapter.OzSpinnerAdapter;
 import au.mccann.oztaxreturn.common.Constants;
 import au.mccann.oztaxreturn.database.UserEntity;
 import au.mccann.oztaxreturn.database.UserManager;
@@ -25,6 +33,7 @@ import au.mccann.oztaxreturn.dialog.AlertDialogOkAndCancel;
 import au.mccann.oztaxreturn.model.APIError;
 import au.mccann.oztaxreturn.model.UserReponse;
 import au.mccann.oztaxreturn.networking.ApiClient;
+import au.mccann.oztaxreturn.rest.response.CountryCodeResponse;
 import au.mccann.oztaxreturn.utils.DialogUtils;
 import au.mccann.oztaxreturn.utils.LogUtils;
 import au.mccann.oztaxreturn.utils.ProgressDialogUtils;
@@ -40,8 +49,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static au.mccann.oztaxreturn.utils.Utils.formatPhoneNumber;
-import static au.mccann.oztaxreturn.utils.Utils.getCountryCode;
 import static au.mccann.oztaxreturn.utils.Utils.openGeneralInfoActivity;
 import static au.mccann.oztaxreturn.utils.Utils.showToolTip;
 
@@ -52,6 +59,8 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     private static final String TAG = RegisterActivity.class.getSimpleName();
     private EdittextCustom edtUsername, edtPassword, edtEmail, edtPhone, edtRePassword;
     private ButtonCustom btnRegister;
+    private ArrayList<CountryCodeResponse> countryCodeResponses;
+    private Spinner spCountryCode;
 
     @Override
     protected int getLayout() {
@@ -68,6 +77,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         edtRePassword = findViewById(R.id.edt_re_password);
         edtPassword = findViewById(R.id.edt_password);
         btnRegister = findViewById(R.id.btn_register);
+        spCountryCode = (Spinner) findViewById(R.id.sp_country_code);
         btnRegister.setOnClickListener(this);
         CheckBoxCustom checkBox = findViewById(R.id.cb_policy);
         checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -88,7 +98,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
 
     @Override
     protected void resumeData() {
-
+        getCountryCode();
     }
 
     private void validateInput() {
@@ -124,9 +134,18 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         try {
             jsonRequest.put(Constants.PARAMETER_USERNAME, edtUsername.getText().toString().trim());
             jsonRequest.put(Constants.PARAMETER_EMAIL, edtEmail.getText().toString().trim());
-            jsonRequest.put(Constants.PARAMETER_MOBILE, formatPhoneNumber(edtPhone.getText().toString().trim()));
+//            jsonRequest.put(Constants.PARAMETER_MOBILE, formatPhoneNumber(edtPhone.getText().toString().trim()));
             jsonRequest.put(Constants.PARAMETER_PASSWORD, edtPassword.getText().toString().trim());
             jsonRequest.put(Constants.PARAMETER_RE_PASSWORD, edtRePassword.getText().toString().trim());
+            PhoneNumberUtil phoneUtil = PhoneNumberUtil.getInstance();
+            try {
+                Phonenumber.PhoneNumber phone = phoneUtil.parse(edtPhone.getText().toString().trim(), countryCodeResponses.get(spCountryCode.getSelectedItemPosition()).getCode());
+                String result = phoneUtil.format(phone, PhoneNumberUtil.PhoneNumberFormat.E164);
+                jsonRequest.put(Constants.PARAMETER_MOBILE, result);
+                LogUtils.d(TAG, "doSaveBasic code : " + countryCodeResponses.get(spCountryCode.getSelectedItemPosition()).getCode());
+            } catch (NumberParseException e) {
+                LogUtils.e(TAG, "doSaveBasic ERROR : " + e.toString());
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -225,6 +244,59 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
 
     }
 
+
+    private void getCountryCode() {
+        ProgressDialogUtils.showProgressDialog(this);
+        ApiClient.getApiService().getCountryCodeResponse(UserManager.getUserToken()).enqueue(new Callback<List<CountryCodeResponse>>() {
+            @Override
+            public void onResponse(Call<List<CountryCodeResponse>> call, Response<List<CountryCodeResponse>> response) {
+                ProgressDialogUtils.dismissProgressDialog();
+                LogUtils.d(TAG, "getCountryCode code : " + response.code());
+                if (response.code() == Constants.HTTP_CODE_OK) {
+                    LogUtils.d(TAG, "getCountryCode body : " + response.body().toString());
+                    countryCodeResponses = (ArrayList<CountryCodeResponse>) response.body();
+
+                    ArrayList<String> listCode = new ArrayList<>();
+                    for (CountryCodeResponse countryCodeResponse : countryCodeResponses) {
+                        listCode.add(countryCodeResponse.getDialCode());
+                    }
+
+                    OzSpinnerAdapter dataNameAdapter = new OzSpinnerAdapter(RegisterActivity.this, listCode);
+                    spCountryCode.setAdapter(dataNameAdapter);
+//                    getBasicInformation();
+                } else {
+                    APIError error = Utils.parseError(response);
+                    if (error != null) {
+                        LogUtils.d(TAG, "getCountryCode error : " + error.message());
+                        DialogUtils.showOkDialog(RegisterActivity.this, getString(R.string.notification_title), error.message(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                            @Override
+                            public void onSubmit() {
+
+                            }
+                        });
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<CountryCodeResponse>> call, Throwable t) {
+                LogUtils.e(TAG, "getBasicInformation onFailure : " + t.getMessage());
+                ProgressDialogUtils.dismissProgressDialog();
+                DialogUtils.showRetryDialog(RegisterActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
+                    @Override
+                    public void onSubmit() {
+                        getCountryCode();
+                    }
+
+                    @Override
+                    public void onCancel() {
+
+                    }
+                });
+            }
+        });
+    }
+
     private void sendRegistrationToServer() {
         if (UserManager.checkLogin()) {
             final JSONObject jsonRequest = new JSONObject();
@@ -321,7 +393,6 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                 finish();
                 break;
             case R.id.btn_register:
-                LogUtils.d(TAG, "locale" + getCountryCode(this));
                 validateInput();
                 break;
         }

@@ -150,7 +150,7 @@ public class ReviewSummaryFragment extends BaseFragment implements View.OnClickL
     @Override
     protected void initData() {
         appID = getApplicationResponse().getId();
-        if (isEditApp()) btnNext.setText(getContext().getString(R.string.lodge));
+        if (isEditApp()) btnNext.setText(getContext().getString(R.string.btn_lodge));
         else btnNext.setText(getContext().getString(R.string.review));
         setTitle(getString(R.string.review_summary_title));
         appBarVisibility(true, true, 1);
