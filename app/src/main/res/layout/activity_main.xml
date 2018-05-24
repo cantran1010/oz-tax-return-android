@@ -18,15 +18,23 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="70dp"
             android:contentDescription="@string/app_name"
             android:scaleType="centerCrop"
-            android:src="@drawable/img_logo" />
+            android:src="@drawable/logo" />
+
+        <View
+            android:layout_width="30dp"
+            android:layout_height="1dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="25dp"
+            android:background="@color/white" />
 
         <au.mccann.oztaxreturn.view.TextViewCustom
+            android:id="@+id/tv_tax_return"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="25dp"
             android:gravity="center"
             android:text="@string/app_sologan"
             android:textColor="@color/white"
@@ -37,7 +45,7 @@
             style="@style/ButtonLogin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="70dp"
             android:text="@string/btn_login" />
 
         <au.mccann.oztaxreturn.view.ButtonCustom
