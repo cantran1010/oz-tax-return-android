@@ -3,9 +3,12 @@ package au.mccann.oztaxreturn.fragment.review.personal;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.view.View;
+import android.widget.Spinner;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 import au.mccann.oztaxreturn.R;
 import au.mccann.oztaxreturn.common.Constants;
@@ -15,6 +18,7 @@ import au.mccann.oztaxreturn.dialog.AlertDialogOkAndCancel;
 import au.mccann.oztaxreturn.fragment.BaseFragment;
 import au.mccann.oztaxreturn.model.APIError;
 import au.mccann.oztaxreturn.networking.ApiClient;
+import au.mccann.oztaxreturn.rest.response.CountryCodeResponse;
 import au.mccann.oztaxreturn.rest.response.PersonalInfomationResponse;
 import au.mccann.oztaxreturn.utils.DialogUtils;
 import au.mccann.oztaxreturn.utils.LogUtils;
@@ -42,7 +46,8 @@ public class ReviewPersonalInfomationB extends BaseFragment implements View.OnCl
     private ButtonCustom btnNext;
     private FloatingActionButton fab;
     private PersonalInfomationResponse personalInfomationResponse;
-
+    private Spinner spCountryCode;
+    private ArrayList<CountryCodeResponse> countryCodeResponses;
 
     @Override
     protected int getLayout() {
@@ -64,6 +69,7 @@ public class ReviewPersonalInfomationB extends BaseFragment implements View.OnCl
         btnNext.setOnClickListener(this);
         fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(this);
+        spCountryCode = (Spinner) findViewById(R.id.sp_country_code);
     }
 
     @Override
