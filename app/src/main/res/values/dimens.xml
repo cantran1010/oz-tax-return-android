@@ -24,6 +24,6 @@
     <dimen name="tooltip_radius">5dp</dimen>
     <dimen name="tooltip_size">15sp</dimen>
     <dimen name="left_menu_margin">20dp</dimen>
-    <dimen name="review_big_menu">20dp</dimen>
+    <dimen name="review_big_menu">16dp</dimen>
 
 </resources>

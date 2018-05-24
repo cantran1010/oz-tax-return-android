@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CompoundButton;
@@ -228,7 +229,8 @@ public class WagesSalaryFragment extends BaseFragment implements View.OnClickLis
             edtFirstName.setText(salary.getFirstName());
             edtMidName.setText(salary.getLastName());
             edtLastName.setText(salary.getLastName());
-            edtBirthday.setText(getDateBirthDayFromIso(salary.getBirthday()));
+            if (!TextUtils.isEmpty(salary.getBirthday()))
+                edtBirthday.setText(getDateBirthDayFromIso(salary.getBirthday()));
         }
 
     }

@@ -71,7 +71,8 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rcv_msg"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:scrollbars="vertical" />
 
     </RelativeLayout>
 
@@ -95,8 +96,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:src="@drawable/img_attachment"
-            android:contentDescription="TODO" />
+            android:contentDescription="TODO"
+            android:src="@drawable/img_attachment" />
 
         <ImageView
             android:id="@+id/img_send"
@@ -104,8 +105,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:src="@drawable/img_send"
-            android:contentDescription="TODO" />
+            android:contentDescription="TODO"
+            android:src="@drawable/img_send" />
 
         <au.mccann.oztaxreturn.view.EdittextCustom
             android:id="@+id/edt_msg"
