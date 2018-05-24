@@ -367,7 +367,6 @@ public class Utils {
 
                     // fix right orientation of image after capture
                     ExifInterface exif = new ExifInterface(fileIn.getPath());
-
                     int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
 
                     int angle = 0;

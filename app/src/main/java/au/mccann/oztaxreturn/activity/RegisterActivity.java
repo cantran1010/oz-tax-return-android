@@ -11,11 +11,15 @@ import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.widget.CompoundButton;
 
+import com.google.firebase.iid.FirebaseInstanceId;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import au.mccann.oztaxreturn.R;
 import au.mccann.oztaxreturn.common.Constants;
+import au.mccann.oztaxreturn.database.UserEntity;
+import au.mccann.oztaxreturn.database.UserManager;
 import au.mccann.oztaxreturn.dialog.AlertDialogOk;
 import au.mccann.oztaxreturn.dialog.AlertDialogOkAndCancel;
 import au.mccann.oztaxreturn.model.APIError;
@@ -134,9 +138,15 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                 ProgressDialogUtils.dismissProgressDialog();
                 LogUtils.d(TAG, "doRegister code: " + response.code());
                 if (response.code() == Constants.HTTP_CODE_OK) {
-                    LogUtils.d(TAG, "doRegister body: " + response.body().toString());
+                    LogUtils.d(TAG, "doLogin body : " + response.body().toString());
+                    UserEntity user = response.body().getUser();
+                    String tken = "Bearer " + response.body().getToken();
+                    user.setToken(tken);
+                    UserManager.insertUser(user);
+                    LogUtils.d(TAG, "doLogin code : " + UserManager.getUserEntity().getToken());
+                    sendRegistrationToServer();
+                    startActivity(new Intent(RegisterActivity.this, HomeActivity.class), TransitionScreen.RIGHT_TO_LEFT);
                     clearData();
-                    startActivity(new Intent(RegisterActivity.this, LoginActivity.class), TransitionScreen.RIGHT_TO_LEFT);
                 } else {
                     APIError error = Utils.parseError(response);
                     LogUtils.e(TAG, "doRegister onFailure : " + error.message());
@@ -213,6 +223,39 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
             }
         });
 
+    }
+
+    private void sendRegistrationToServer() {
+        if (UserManager.checkLogin()) {
+            final JSONObject jsonRequest = new JSONObject();
+            try {
+                jsonRequest.put("token", FirebaseInstanceId.getInstance().getToken());
+                jsonRequest.put("type", "android");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            LogUtils.d(TAG, "sendRegistrationToServer , FirebaseInstanceId token : " + FirebaseInstanceId.getInstance().getToken());
+            LogUtils.d(TAG, "sendRegistrationToServer , jsonRequest : " + jsonRequest.toString());
+            RequestBody body = RequestBody.create(MediaType.parse("application/json"), jsonRequest.toString());
+            ApiClient.getApiService().updatePushToken(UserManager.getUserToken(), body).enqueue(new Callback<Void>() {
+                @Override
+                public void onResponse(Call<Void> call, Response<Void> response) {
+                    LogUtils.d(TAG, "sendRegistrationToServer , code : " + response.code());
+                    if (response.code() == Constants.HTTP_CODE_OK) {
+                        LogUtils.d(TAG, "sendRegistrationToServer , body : " + response.body());
+                    } else {
+                        APIError error = Utils.parseError(response);
+                        LogUtils.d(TAG, "sendRegistrationToServer error : " + error.message());
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<Void> call, Throwable t) {
+                    LogUtils.e(TAG, "sendRegistrationToServer , onFailure : " + t.getMessage());
+                }
+            });
+        }
     }
 
     private void setUnderLinePolicy(TextViewCustom textViewCustom) {

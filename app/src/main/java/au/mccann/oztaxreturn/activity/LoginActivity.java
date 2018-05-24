@@ -1,7 +1,11 @@
 package au.mccann.oztaxreturn.activity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
 import android.text.style.UnderlineSpan;
 import android.view.View;
 
@@ -41,6 +45,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     private static final String TAG = LoginActivity.class.getSimpleName();
     private EdittextCustom edtUsername, edtPassword;
     private TextViewCustom tvForgotPassword;
+    private TextViewCustom tvTax;
 
     @Override
     protected int getLayout() {
@@ -53,6 +58,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         edtUsername = findViewById(R.id.edt_user_name);
         edtPassword = findViewById(R.id.edt_password);
         tvForgotPassword = findViewById(R.id.tv_forgot_passwort);
+        tvTax = findViewById(R.id.tv_tax_return);
         findViewById(R.id.btn_login).setOnClickListener(this);
         tvForgotPassword.setOnClickListener(this);
         underLineText(getString(R.string.forgot_password));
@@ -61,7 +67,20 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
     @Override
     protected void initData() {
+        setUnderLinePolicy(tvTax);
 
+    }
+
+    private void setUnderLinePolicy(TextViewCustom textViewCustom) {
+        String text = tvTax.getText().toString();
+        SpannableStringBuilder ssBuilder = new SpannableStringBuilder(text);
+        ssBuilder.setSpan(
+                new ForegroundColorSpan(Color.parseColor("#f7be32")), // Span to add
+                text.indexOf(getString(R.string.tax_return)), // Start of the span (inclusive)
+                text.indexOf(getString(R.string.tax_return)) + String.valueOf(getString(R.string.tax_return)).length(), // End of the span (exclusive)
+                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+        );
+        textViewCustom.setText(ssBuilder);
     }
 
     @Override
@@ -113,8 +132,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                     user.setToken(tken);
                     UserManager.insertUser(user);
                     LogUtils.d(TAG, "doLogin code : " + UserManager.getUserEntity().getToken());
-                    startActivity(new Intent(LoginActivity.this, HomeActivity.class), TransitionScreen.RIGHT_TO_LEFT);
                     sendRegistrationToServer();
+                    startActivity(new Intent(LoginActivity.this, HomeActivity.class), TransitionScreen.RIGHT_TO_LEFT);
                 } else {
                     APIError error = Utils.parseError(response);
                     if (error != null) {

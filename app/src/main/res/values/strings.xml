@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MAXIMYZ</string>
+    <string name="app_name">Maximyz Tax Return</string>
     <string name="action_settings">Settings</string>
     <string name="alert_dialog_yes">yes</string>
     <string name="alert_dialog_no">no</string>
@@ -30,7 +30,7 @@
     <string name="retry">Retry</string>
     <string name="report_cancel">cancel</string>
     <string name="btn_create_account">Create new account</string>
-    <string name="password_retrieval">Retrive login\ninfomation</string>
+    <string name="password_retrieval">Retrieve Login\nInformation</string>
     <string name="btn_send">send</string>
     <string name="hint_email">Your email address</string>
     <string name="hint_mobile">Your mobile</string>
@@ -367,6 +367,7 @@
     </string-array>
 
     <!-- review deduction education -->
+    <string name="review_deductions">review deductions</string>
     <string name="review_education">Work Relate\nEducation</string>
     <string name="review_education_ask">This could relate to any spending on fees, books, travel and epuipment that heva a direct connection to your current work.\n\nDo you want to claim for this type?</string>
     <string name="education_type_hint">Example: tultion fees</string>
@@ -457,29 +458,29 @@
 
     <!-- review summary -->
     <string name="summary_header">Estimate\ntax refund</string>
-    <string name="total_income">Total income</string>
-    <string name="government_payments">Government payments</string>
+    <string name="total_income">Total Income</string>
+    <string name="government_payments">Government Payments</string>
     <string name="interest">Interest</string>
     <string name="dividends">Dividends</string>
-    <string name="early_termination">Early termination</string>
-    <string name="super_income_stream">Super income stream</string>
-    <string name="super_lump_sum">Super lump sum</string>
+    <string name="early_termination">Early Termination</string>
+    <string name="super_income_stream">Super Income Stream</string>
+    <string name="super_lump_sum">Super Lump Sum</string>
     <string name="renta_income">Rental Income</string>
     <string name="other_income">Other income</string>
-    <string name="total_deduction">Total deduction</string>
+    <string name="total_deduction">Total Deduction</string>
     <string name="vehicles">Vehicles</string>
-    <string name="work_related_clothing">Work related clothing</string>
-    <string name="work_related_education">Work related education</string>
-    <string name="other_work_related_expenses">Other work related expenses</string>
+    <string name="work_related_clothing">Work Related Clothing</string>
+    <string name="work_related_education">Work Related Education</string>
+    <string name="other_work_related_expenses">Other Work Related Expenses</string>
     <string name="donations">Donations</string>
-    <string name="tax_agent_fees">Tax Agent fees</string>
-    <string name="bank_fees">Bank fees</string>
+    <string name="tax_agent_fees">Tax Agent Fees</string>
+    <string name="bank_fees">Bank Fees</string>
     <string name="tax_payable">Tax Liability</string>
-    <string name="tax_on">Tax on Taxable income</string>
+    <string name="tax_on">Tax On Taxable Income</string>
     <string name="medicare_levy">Medicare Levy</string>
     <string name="medicare_levy_surcharge">Medicare Levy Surcharge</string>
     <string name="repayment">HECS/HELP Repayment</string>
-    <string name="tax_offsets">Tax offsets</string>
+    <string name="tax_offsets">Tax Offsets</string>
     <string name="tax_credits">Tax Credits</string>
     <string name="offsets_credits"><![CDATA[Tax offset & Credits]]></string>
     <string name="tax_widthheld_summary">Tax Withheld</string>
@@ -542,6 +543,8 @@
     <string name="password_confirm">password.confirm</string>
     <string name="update_login_details">Update Login Details</string>
     <string name="update_successful">Update successful!</string>
+    <string name="unsaved">Unsaved changes</string>
+    <string name="unsaved_content">Do you want to save the changes?</string>
 
     <!--  screen splash -->
     <string name="update_title">Update Version</string>
@@ -554,7 +557,8 @@
     <string name="temporally_locked">your account is temporally locked.</string>
     <string name="block_title">notification</string>
     <string name="block_logout">Logout</string>
-    <string name="app_sologan">Lets optimize your tax return with our online accountants</string>
+    <string name="app_sologan">Lets optimize your tax return\nwith our online accountants</string>
+    <string name="tax_return">your tax return</string>
     <string name="no_app">Have No Application</string>
     <string name="max_3_add">Maximum 3 private healths are allowed!</string>
 

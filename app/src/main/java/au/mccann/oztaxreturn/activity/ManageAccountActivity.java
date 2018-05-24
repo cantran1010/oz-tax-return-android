@@ -145,7 +145,7 @@ public class ManageAccountActivity extends BaseActivity implements View.OnClickL
         for (int i = 0; i < genders.size(); i++) {
             if (body.getGender().equalsIgnoreCase(genders.get(i))) {
                 spGender.setSelection(i);
-                return;
+                break;
             }
         }
         edtFirstname.setText(body.getFirstName());
@@ -356,13 +356,6 @@ public class ManageAccountActivity extends BaseActivity implements View.OnClickL
             edtState.getParent().requestChildFocus(edtState, edtState);
             return;
         }
-//        if (edtOldPassWord.getText().toString().trim().isEmpty()) {
-//            showToolTip(this, edtOldPassWord, Gravity.TOP, getString(R.string.vali_all_empty),
-//                    ContextCompat.getColor(this, R.color.red));
-//            edtOldPassWord.requestFocus();
-//            edtOldPassWord.getParent().requestChildFocus(edtOldPassWord, edtOldPassWord);
-//            return;
-//        }
         if (0 < edtNewPassWordAgain.getText().toString().length() && edtOldPassWord.getText().toString().trim().length() < 5) {
             showToolTip(this, edtNewPassWordAgain, getString(R.string.vali_password_lenth));
             edtNewPassWordAgain.requestFocus();
@@ -392,7 +385,7 @@ public class ManageAccountActivity extends BaseActivity implements View.OnClickL
             salaryJson.put(Constants.PARAMETER_UPDATE_ACCOUNT_PASSWORD, edtOldPassWord.getText());
             if (edtNewPassWord.getText().toString().trim().length() > 0) {
                 salaryJson.put(Constants.PARAMETER_UPDATE_ACCOUNT_NEW_PASSWORD, edtNewPassWord.getText().toString().trim());
-                salaryJson.put(Constants.PARAMETER_UPDATE_ACCOUNT_NEW_PASSWORD, edtNewPassWordAgain.getText().toString().trim());
+                salaryJson.put(Constants.PARAMETER_UPDATE_ACCOUNT_RE_NEW_PASSWORD, edtNewPassWordAgain.getText().toString().trim());
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -466,7 +459,17 @@ public class ManageAccountActivity extends BaseActivity implements View.OnClickL
                 save();
                 break;
             case R.id.img_back:
-                finish();
+                DialogUtils.showOkAndCancelDialog(this, getString(R.string.unsaved), getString(R.string.unsaved_content), getString(R.string.ok), getString(R.string.No), new AlertDialogOkAndCancel.AlertDialogListener() {
+                    @Override
+                    public void onSubmit() {
+                        save();
+                    }
+
+                    @Override
+                    public void onCancel() {
+                        finish();
+                    }
+                });
                 break;
             case R.id.edt_birthday:
                 openDatePicker();

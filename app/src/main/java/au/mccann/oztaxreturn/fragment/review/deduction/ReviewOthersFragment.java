@@ -89,7 +89,7 @@ public class ReviewOthersFragment extends BaseFragment implements View.OnClickLi
         appID = getApplicationResponse().getId();
         if (isEditApp()) fab.setVisibility(View.VISIBLE);
         else fab.setVisibility(View.GONE);
-        setTitle(getString(R.string.review_income_title));
+        setTitle(getString(R.string.review_deductions));
         appBarVisibility(true, true, 1);
         getReviewDeduction();
     }
