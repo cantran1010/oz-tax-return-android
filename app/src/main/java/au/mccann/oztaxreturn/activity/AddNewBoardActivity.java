@@ -92,12 +92,12 @@ public class AddNewBoardActivity extends BaseActivity implements View.OnClickLis
         OzSpinnerAdapter dataNameAdapter = new OzSpinnerAdapter(this, listName);
         spName.setAdapter(dataNameAdapter);
 
-        List<String> listYear = new ArrayList<>();
-        for (ApplicationResponse applicationResponse : applicationResponses) {
-            if (!listYear.contains(applicationResponse.getFinancialYear()))
-                listYear.add(applicationResponse.getFinancialYear());
-        }
-        OzSpinnerAdapter dataYearAdapter = new OzSpinnerAdapter(this, listYear);
+//        List<String> listYear = new ArrayList<>();
+//        for (ApplicationResponse applicationResponse : applicationResponses) {
+//            if (!listYear.contains(applicationResponse.getFinancialYear()))
+//                listYear.add(applicationResponse.getFinancialYear());
+//        }
+        OzSpinnerAdapter dataYearAdapter = new OzSpinnerAdapter(this, Utils.getListYear());
         spYear.setAdapter(dataYearAdapter);
 
         OzSpinnerAdapter dataYearCreateAdapter = new OzSpinnerAdapter(this, Utils.getListYear());
