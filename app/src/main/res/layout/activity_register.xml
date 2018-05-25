@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -100,7 +101,8 @@
                     android:layout_marginRight="10dp"
                     android:layout_marginTop="10dp"
                     android:background="@drawable/bg_edittext"
-                    android:minHeight="45dp">
+                    android:minHeight="45dp"
+                    android:layout_marginEnd="10dp">
 
                     <Spinner
                         android:id="@+id/sp_country_code"
@@ -121,11 +123,11 @@
                         android:layout_alignParentEnd="true"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:contentDescription="ContentDescription"
                         android:paddingEnd="10dp"
                         android:paddingRight="10dp"
                         android:scaleType="centerInside"
-                        android:src="@drawable/ic_down" />
+                        android:src="@drawable/ic_down"
+                        tools:ignore="RtlSymmetry" />
 
                 </RelativeLayout>
 
@@ -139,7 +141,8 @@
                     android:imeOptions="actionNext"
                     android:inputType="phone"
                     android:textColor="@color/income_conten"
-                    android:textColorHint="@color/tv_gray" />
+                    android:textColorHint="@color/tv_gray"
+                    android:layout_marginStart="0dp" />
 
             </LinearLayout>
 

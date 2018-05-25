@@ -54,7 +54,8 @@
                 android:gravity="center"
                 android:paddingLeft="5dp"
                 android:paddingStart="5dp"
-                android:text="@string/duplicate_app_exit" />
+                android:text="@string/duplicate_app_exit"
+                tools:ignore="RtlSymmetry" />
 
             <LinearLayout
                 android:id="@+id/layout_duplicate"
@@ -71,7 +72,8 @@
                     android:layout_marginRight="10dp"
                     android:layout_weight="1"
                     android:background="@drawable/bg_edittext"
-                    android:minHeight="45dp">
+                    android:minHeight="45dp"
+                    android:layout_marginEnd="10dp">
 
                     <Spinner
                         android:id="@+id/sp_name"
@@ -98,7 +100,8 @@
                     android:layout_marginLeft="10dp"
                     android:layout_weight="1"
                     android:background="@drawable/bg_edittext"
-                    android:minHeight="45dp">
+                    android:minHeight="45dp"
+                    android:layout_marginStart="10dp">
 
                     <Spinner
                         android:id="@+id/sp_year"
@@ -131,7 +134,8 @@
                 android:gravity="center"
                 android:paddingLeft="5dp"
                 android:paddingStart="5dp"
-                android:text="@string/create_new_app" />
+                android:text="@string/create_new_app"
+                tools:ignore="RtlSymmetry" />
 
             <LinearLayout
                 android:id="@+id/layout_create_new"

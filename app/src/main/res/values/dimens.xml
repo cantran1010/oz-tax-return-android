@@ -15,6 +15,6 @@
 
     <!-- tooltip -->
     <dimen name="left_menu_margin">20dp</dimen>
-    <dimen name="review_big_menu">16dp</dimen>
+    <dimen name="review_big_menu">16sp</dimen>
 
 </resources>

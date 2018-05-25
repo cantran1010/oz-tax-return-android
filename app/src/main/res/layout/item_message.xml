@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="#f1f1f1"
@@ -13,7 +14,9 @@
         android:layout_marginLeft="@dimen/left_right_margin_screen"
         android:layout_marginRight="100dp"
         android:layout_marginTop="10dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_marginStart="@dimen/left_right_margin_screen"
+        android:layout_marginEnd="100dp">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/img_left_avata"
@@ -25,7 +28,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_marginStart="10dp">
 
             <au.mccann.oztaxreturn.view.TextViewCustom
                 android:id="@+id/tv_left_content"
@@ -33,20 +37,19 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/left_chat_bg"
                 android:padding="10dp"
-                android:text="abc asfdsa fá fá fá fsa fá fà fá fá fsaf safas "
                 android:textColor="#333333" />
 
             <ImageView
                 android:id="@+id/img_left"
                 android:layout_width="150dp"
                 android:layout_height="150dp"
-                android:src="@drawable/image_placeholder" />
+                android:src="@drawable/image_placeholder"
+                tools:ignore="ContentDescription" />
 
             <au.mccann.oztaxreturn.view.TextViewCustom
                 android:id="@+id/tv_left_time_ago"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="10 times ago"
                 android:textColor="#888888" />
 
         </LinearLayout>
@@ -57,13 +60,15 @@
         android:id="@+id/right_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="right"
+        android:layout_gravity="end"
         android:layout_marginBottom="10dp"
         android:layout_marginLeft="100dp"
         android:layout_marginRight="@dimen/left_right_margin_screen"
         android:layout_marginTop="10dp"
-        android:gravity="right"
-        android:orientation="vertical">
+        android:gravity="end"
+        android:orientation="vertical"
+        android:layout_marginStart="100dp"
+        android:layout_marginEnd="@dimen/left_right_margin_screen">
 
         <au.mccann.oztaxreturn.view.TextViewCustom
             android:id="@+id/tv_right_content"
@@ -71,20 +76,19 @@
             android:layout_height="wrap_content"
             android:background="@drawable/right_chat_bg"
             android:padding="10dp"
-            android:text="abc fasd fá fsda fá fà sadf à sa fasd fá fsad fasd fsad fasd fsa fsda fsad"
             android:textColor="@color/white" />
 
         <ImageView
             android:id="@+id/img_right"
             android:layout_width="150dp"
             android:layout_height="150dp"
-            android:src="@drawable/image_placeholder" />
+            android:src="@drawable/image_placeholder"
+            tools:ignore="ContentDescription" />
 
         <au.mccann.oztaxreturn.view.TextViewCustom
             android:id="@+id/tv_right_time_ago"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="10 times ago"
             android:textColor="#888888" />
 
     </LinearLayout>

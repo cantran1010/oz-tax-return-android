@@ -41,7 +41,6 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="15dp"
             android:layout_marginStart="15dp"
-            android:contentDescription="TODO"
             android:src="@drawable/ic_drop_down" />
     </RelativeLayout>
 

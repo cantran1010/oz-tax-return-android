@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
@@ -41,7 +42,8 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="3dp"
             android:text="@string/income_ws_des2"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:layout_marginStart="3dp" />
     </LinearLayout>
 
     <LinearLayout
@@ -59,7 +61,8 @@
             android:button="@drawable/checkbox_selector"
             android:paddingLeft="5dp"
             android:paddingStart="5dp"
-            android:text="@string/Yes" />
+            android:text="@string/Yes"
+            tools:ignore="RtlSymmetry" />
 
         <au.mccann.oztaxreturn.view.CheckBoxCustom
             android:id="@+id/cb_payg_no"
@@ -71,7 +74,8 @@
             android:button="@drawable/checkbox_selector"
             android:paddingLeft="5dp"
             android:paddingStart="5dp"
-            android:text="@string/No" />
+            android:text="@string/No"
+            tools:ignore="RtlSymmetry" />
 
     </LinearLayout>
 
@@ -181,7 +185,8 @@
                         android:inputType="date"
                         android:hint="@string/birthday_hint"
                         android:paddingLeft="16dp"
-                        android:paddingStart="16dp" />
+                        android:paddingStart="16dp"
+                        tools:ignore="RtlSymmetry" />
 
                 </LinearLayout>
 

@@ -59,7 +59,6 @@
                         android:layout_height="wrap_content"
                         android:layout_toEndOf="@+id/lb"
                         android:layout_toRightOf="@+id/lb"
-                        android:contentDescription="TODO"
                         android:padding="5dp"
                         android:src="@drawable/ic_exclamation" />
                 </RelativeLayout>
@@ -112,7 +111,6 @@
                         android:layout_height="wrap_content"
                         android:layout_toEndOf="@+id/lbac"
                         android:layout_toRightOf="@+id/lbac"
-                        android:contentDescription="TODO"
                         android:padding="5dp"
                         android:src="@drawable/ic_exclamation" />
                 </RelativeLayout>

@@ -20,14 +20,14 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Load failed" />
+           />
 
         <Button
             android:id="@+id/button_retry"
             android:layout_marginLeft="30dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Try Again" />
+            android:layout_marginStart="30dp" />
 
     </LinearLayout>
 
@@ -35,7 +35,6 @@
         android:id="@+id/text_no_more_item"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="No more item"
         android:gravity="center" />
 
 </RelativeLayout>

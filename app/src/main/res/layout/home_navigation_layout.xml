@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/layout_main"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clickable="false">
@@ -9,8 +10,7 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/navi_bg"
-        android:contentDescription="TODO" />
+        android:background="@drawable/navi_bg" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -37,7 +37,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="MR LONG"
                 android:textColor="@color/white"
                 android:textSize="25sp" />
 
@@ -58,7 +57,10 @@
                 android:paddingLeft="40dp"
                 android:text="@string/home_navi_about"
                 android:textColor="@color/white"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                tools:ignore="RtlSymmetry"
+                android:drawableStart="@drawable/navi_about_us"
+                android:paddingStart="40dp" />
 
             <au.mccann.oztaxreturn.view.TextViewCustom
                 android:id="@+id/tv_privacy"
@@ -71,7 +73,10 @@
                 android:paddingLeft="40dp"
                 android:text="@string/home_navi_privacy"
                 android:textColor="@color/white"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                tools:ignore="RtlSymmetry"
+                android:drawableStart="@drawable/navi_policy"
+                android:paddingStart="40dp" />
 
             <au.mccann.oztaxreturn.view.TextViewCustom
                 android:id="@+id/tv_terms"
@@ -84,7 +89,10 @@
                 android:paddingLeft="40dp"
                 android:text="@string/home_navi_terms"
                 android:textColor="@color/white"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                tools:ignore="RtlSymmetry"
+                android:drawableStart="@drawable/navi_terms"
+                android:paddingStart="40dp" />
 
             <au.mccann.oztaxreturn.view.TextViewCustom
                 android:id="@+id/tv_share"
@@ -97,7 +105,10 @@
                 android:paddingLeft="40dp"
                 android:text="@string/home_navi_share"
                 android:textColor="@color/white"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                tools:ignore="RtlSymmetry"
+                android:drawableStart="@drawable/navi_share"
+                android:paddingStart="40dp" />
 
             <LinearLayout
                 android:id="@+id/layout_rate"
@@ -112,8 +123,7 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/home_rate_star"
-                    android:contentDescription="TODO" />
+                    android:src="@drawable/home_rate_star" />
 
                 <au.mccann.oztaxreturn.view.TextViewCustom
                     android:layout_width="wrap_content"
@@ -144,7 +154,8 @@
                 android:layout_centerVertical="true"
                 android:text="@string/home_version"
                 android:textColor="@color/white"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                tools:ignore="RelativeOverlap" />
 
             <ImageView
                 android:id="@+id/img_logout"
@@ -153,7 +164,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:src="@drawable/img_logout"
-                android:contentDescription="TODO" />
+                android:layout_alignParentEnd="true" />
 
         </RelativeLayout>
     </RelativeLayout>
