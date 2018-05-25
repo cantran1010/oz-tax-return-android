@@ -138,8 +138,6 @@ public class ReviewFamilyHealthPrivateFragment extends BaseFragment implements V
                 }
             }
         });
-
-        setUpList();
         getReviewFamilyAndHealth();
     }
 
@@ -153,13 +151,14 @@ public class ReviewFamilyHealthPrivateFragment extends BaseFragment implements V
 
     }
 
-    private void setUpList() {
+    private void setUpList(boolean isEdit) {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setAutoMeasureEnabled(true);
         rcvList.setLayoutManager(layoutManager);
         rcvList.setNestedScrollingEnabled(false);
         rcvList.setHasFixedSize(true);
         reviewFHPAdapter = new ReviewFHPAdapter(reviewPrivateResponses, getActivity());
+        reviewFHPAdapter.setEdit(isEdit);
         rcvList.setAdapter(reviewFHPAdapter);
 
         reviewFHPAdapter.setPickImageListener(new ReviewFHPAdapter.PickImageListener() {
@@ -431,7 +430,7 @@ public class ReviewFamilyHealthPrivateFragment extends BaseFragment implements V
         } else {
             cbYes.setChecked(true);
             cbNo.setChecked(false);
-            setUpList();
+            setUpList(false);
         }
     }
 
@@ -490,10 +489,9 @@ public class ReviewFamilyHealthPrivateFragment extends BaseFragment implements V
         } else {
             ReviewPrivateResponse reviewPrivateResponse = new ReviewPrivateResponse();
             reviewPrivateResponses.add(reviewPrivateResponse);
-            reviewFHPAdapter.setEdit(true);
             reviewFHPAdapter.notifyDataSetChanged();
             LogUtils.d(TAG, "doAdd , reviewPrivateResponses size : " + reviewPrivateResponses.size());
-            setUpList();
+            setUpList(true);
         }
 
     }
