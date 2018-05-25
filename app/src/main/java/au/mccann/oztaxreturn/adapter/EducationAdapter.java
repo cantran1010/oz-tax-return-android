@@ -126,7 +126,7 @@ public class EducationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             }
         } else if (holder instanceof ItemViewHolder) {
 //            LogUtils.d("onBindViewHolder", educations.get(position - 1).getType() + "position" + position);
-            Education education = educations.get(position - 1);
+            final Education education = educations.get(position - 1);
             final ItemViewHolder itemViewHolder = (ItemViewHolder) holder;
             if (isExpend) {
                 itemViewHolder.expandableLayout.setExpanded(true);
@@ -135,13 +135,11 @@ public class EducationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 itemViewHolder.spType.setEnabled(true);
                 itemViewHolder.edtCourse.setEnabled(true);
                 itemViewHolder.edtAmount.setEnabled(true);
-                itemViewHolder.grImage.setEnabled(true);
                 itemViewHolder.imgDelete.setEnabled(true);
             } else {
                 itemViewHolder.spType.setEnabled(false);
                 itemViewHolder.edtCourse.setEnabled(false);
                 itemViewHolder.edtAmount.setEnabled(false);
-                itemViewHolder.grImage.setEnabled(false);
                 itemViewHolder.imgDelete.setEnabled(false);
             }
             itemViewHolder.edtCourse.setText(education.getCourse());
@@ -158,12 +156,13 @@ public class EducationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 image.setAdd(true);
                 education.getImages().add(image);
             }
-            ImageAdapter imageAdapter = new ImageAdapter(context, education.getImages());
+            final ImageAdapter imageAdapter = new ImageAdapter(context, education.getImages());
             itemViewHolder.grImage.setAdapter(imageAdapter);
             imageAdapter.setRemove(isEdit);
             itemViewHolder.grImage.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int n, long id) {
+                    if (education.getImages().get(n).isAdd && !imageAdapter.isRemove()) return;
                     if (onClickImageListener != null) onClickImageListener.onClick(position - 1, n);
                 }
             });

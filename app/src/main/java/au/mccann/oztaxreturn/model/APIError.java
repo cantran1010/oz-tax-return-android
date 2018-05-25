@@ -20,7 +20,9 @@ public class APIError {
     }
 
     public String message() {
-        return message.replace("."," ").replace("_"," ");
+        if (message != null)
+            return message.replace(".", " ").replace("_", " ");
+        else return "";
     }
 
     @Override

@@ -125,14 +125,12 @@ public class AnnuitiesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 itemViewHolder.edtLumpTaxed.setEnabled(true);
                 itemViewHolder.edtLumpUnTaxed.setEnabled(true);
                 itemViewHolder.imgDelete.setEnabled(true);
-                itemViewHolder.grImage.setEnabled(true);
             } else {
                 itemViewHolder.edtEdtTaxWidthheld.setEnabled(false);
                 itemViewHolder.edtTaxed.setEnabled(false);
                 itemViewHolder.edtUnTaxed.setEnabled(false);
                 itemViewHolder.edtLumpTaxed.setEnabled(false);
                 itemViewHolder.edtLumpUnTaxed.setEnabled(false);
-                itemViewHolder.grImage.setEnabled(false);
                 itemViewHolder.imgDelete.setEnabled(false);
             }
             itemViewHolder.edtEdtTaxWidthheld.setText(annuity.getTaxWithheld());
@@ -152,12 +150,13 @@ public class AnnuitiesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 image.setAdd(true);
                 annuity.getImages().add(image);
             }
-            ImageAdapter imageAdapter = new ImageAdapter(context, annuity.getImages());
+            final ImageAdapter imageAdapter = new ImageAdapter(context, annuity.getImages());
             itemViewHolder.grImage.setAdapter(imageAdapter);
             imageAdapter.setRemove(isEdit);
             itemViewHolder.grImage.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int n, long id) {
+                    if (annuity.getImages().get(n).isAdd && !imageAdapter.isRemove()) return;
                     if (onClickImageListener != null) onClickImageListener.onClick(position - 1, n);
                 }
             });

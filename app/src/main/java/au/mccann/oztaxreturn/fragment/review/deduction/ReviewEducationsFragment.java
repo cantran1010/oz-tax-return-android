@@ -139,7 +139,7 @@ public class ReviewEducationsFragment extends BaseFragment implements View.OnCli
                 } else {
                     LogUtils.d(TAG, "setOnClickImageListener 1");
                     Intent intent = new Intent(getActivity(), PreviewImageActivity.class);
-                    intent.putExtra(Constants.EXTRA_IMAGE_PATH, images.get(position).getPath());
+                    intent.putExtra(Constants.EXTRA_IMAGE_PATH, images.get(n).getPath());
                     startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
                 }
             }

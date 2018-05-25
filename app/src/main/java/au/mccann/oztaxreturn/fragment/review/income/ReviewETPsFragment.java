@@ -22,6 +22,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -116,7 +117,6 @@ public class ReviewETPsFragment extends BaseFragment implements View.OnClickList
         edtCode.setEnabled(false);
         edtCode.setOnClickListener(this);
         grImage = (MyGridView) findViewById(R.id.gr_image);
-        grImage.setEnabled(false);
         layout = (ExpandableLayout) findViewById(R.id.layout_expandable);
 
 
@@ -146,6 +146,7 @@ public class ReviewETPsFragment extends BaseFragment implements View.OnClickList
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (images.get(position).isAdd) {
+                    if (!imageAdapter.isRemove()) return;
                     if (images.size() >= 10) {
                         Utils.showLongToast(getActivity(), getString(R.string.max_image_attach_err, 9), true, false);
                     } else {
@@ -177,7 +178,11 @@ public class ReviewETPsFragment extends BaseFragment implements View.OnClickList
     private void updateUI(Etps e) {
         rbYes.setChecked(e.isHad());
         if (e.getPaymentDate() != null && !e.getPaymentDate().isEmpty())
-            edtPaymentDate.setText(DateTimeUtils.getDateBirthDayFromIso(e.getPaymentDate()));
+            try {
+                edtPaymentDate.setText(DateTimeUtils.fromCalendarToView(DateTimeUtils.toCalendarBirthday(e.getPaymentDate())));
+            } catch (ParseException e1) {
+                e1.printStackTrace();
+            }
         edtPayerAbn.setText(e.getPayerAbn());
         edtTaxWidthheld.setText(e.getTaxWithheld());
         edtTaxtableComponent.setText(e.getTaxableCom());
@@ -462,7 +467,6 @@ public class ReviewETPsFragment extends BaseFragment implements View.OnClickList
                 edtTaxtableComponent.setEnabled(true);
                 edtTaxWidthheld.setEnabled(true);
                 edtCode.setEnabled(true);
-                grImage.setEnabled(true);
                 imageAdapter.setRemove(isEditApp());
                 break;
             case R.id.edt_payment_date:

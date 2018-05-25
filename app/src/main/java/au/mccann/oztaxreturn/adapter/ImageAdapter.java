@@ -90,7 +90,7 @@ public class ImageAdapter extends ArrayAdapter<Image> {
             @Override
             public void onClick(View v) {
 
-                if(isRemove){
+                if (isRemove) {
                     images.remove(position);
                     notifyDataSetChanged();
                 }
