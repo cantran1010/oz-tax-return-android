@@ -43,7 +43,6 @@ import retrofit2.Response;
 public class HomeFragment extends BaseFragment {
     private static final String TAG = HomeFragment.class.getSimpleName();
     private RecyclerView recyclerView;
-    private HomeAdapter homeAdapter;
     private ArrayList<ApplicationResponse> applicationResponses;
     private TextViewCustom tvNoApp;
 
@@ -94,7 +93,7 @@ public class HomeFragment extends BaseFragment {
     private void updateList() {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(linearLayoutManager);
-        homeAdapter = new HomeAdapter(applicationResponses, getActivity());
+        HomeAdapter homeAdapter = new HomeAdapter(applicationResponses, getActivity());
         recyclerView.setAdapter(homeAdapter);
         homeAdapter.setOnClickListener(new HomeAdapter.OnClickListener() {
             @Override

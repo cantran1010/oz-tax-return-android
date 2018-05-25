@@ -61,12 +61,10 @@ public class ContactFragment extends BaseFragment implements View.OnClickListene
     private static final String TAG = ContactFragment.class.getSimpleName();
     private RecyclerView rcvMsg;
     private EdittextCustom edtMsg;
-    private ImageView imgAttach, imgSend;
     private ArrayList<Message> messages = new ArrayList<>();
     private MessageAdapter messageAdapter;
     private static final int LIMIT = 20;
     private String since;
-    private EndlessRecyclerViewScrollListener scrollListener;
     private final String[] permissions = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
     private String imgPath;
     private File fileAttach;
@@ -83,8 +81,8 @@ public class ContactFragment extends BaseFragment implements View.OnClickListene
     protected void initView() {
         rcvMsg = (RecyclerView) findViewById(R.id.rcv_msg);
         edtMsg = (EdittextCustom) findViewById(R.id.edt_msg);
-        imgAttach = (ImageView) findViewById(R.id.img_attach);
-        imgSend = (ImageView) findViewById(R.id.img_send);
+        ImageView imgAttach = (ImageView) findViewById(R.id.img_attach);
+        ImageView imgSend = (ImageView) findViewById(R.id.img_send);
 
         spLanguage = (Spinner) findViewById(R.id.sp_language);
 
@@ -122,7 +120,7 @@ public class ContactFragment extends BaseFragment implements View.OnClickListene
         rcvMsg.setLayoutManager(linearLayoutManager);
         rcvMsg.setAdapter(messageAdapter);
 
-        scrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
+        EndlessRecyclerViewScrollListener scrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
             @Override
             public void onLoadMore(int page) {
                 if (isLoadingMoreFromServer) getMsg(since, LIMIT);

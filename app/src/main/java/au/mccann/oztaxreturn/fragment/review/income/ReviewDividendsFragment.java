@@ -65,7 +65,6 @@ public class ReviewDividendsFragment extends BaseFragment implements View.OnClic
     private final String[] permissions = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
     private String imgPath;
     private FloatingActionButton fab;
-    private LinearLayoutManager linearLayoutManager;
     private int countdown = 0;
 
     @Override
@@ -122,7 +121,7 @@ public class ReviewDividendsFragment extends BaseFragment implements View.OnClic
     }
 
     private void updateList() {
-        linearLayoutManager = new LinearLayoutManager(getActivity());
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(linearLayoutManager);
         adapter = new DividendAdapter(getContext(), dividends);
         recyclerView.setAdapter(adapter);

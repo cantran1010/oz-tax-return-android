@@ -8,7 +8,8 @@
     android:paddingEnd="@dimen/left_right_margin_screen"
     android:paddingLeft="@dimen/left_right_margin_screen"
     android:paddingRight="@dimen/left_right_margin_screen"
-    android:paddingStart="@dimen/left_right_margin_screen">
+    android:paddingStart="@dimen/left_right_margin_screen"
+    tools:ignore="Overdraw">
 
     <ScrollView
         android:id="@+id/scrollView"

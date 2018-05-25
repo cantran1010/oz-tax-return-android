@@ -6,7 +6,8 @@
     android:background="@color/white"
     android:orientation="vertical"
     android:paddingLeft="@dimen/left_right_margin_screen"
-    android:paddingRight="@dimen/left_right_margin_screen">
+    android:paddingRight="@dimen/left_right_margin_screen"
+    tools:ignore="Overdraw">
 
     <au.mccann.oztaxreturn.view.TextViewCustom
         android:layout_width="wrap_content"

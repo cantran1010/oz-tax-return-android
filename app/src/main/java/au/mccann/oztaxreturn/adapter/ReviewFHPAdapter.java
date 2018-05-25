@@ -61,7 +61,7 @@ public class ReviewFHPAdapter extends RecyclerView.Adapter<ReviewFHPAdapter.MyVi
     }
 
     @Override
-    public void onBindViewHolder(final MyViewHolder holder, final int positionBig) {
+    public void onBindViewHolder(final MyViewHolder holder, int positionBig) {
         LogUtils.d("onBindViewHolder", "edit" + isEdit());
 //        EdittextCustom edtHealth, edtMembership, edtPremiums, edtGovernment, edtDay;
 //        MyGridView myGridView;
@@ -92,7 +92,7 @@ public class ReviewFHPAdapter extends RecyclerView.Adapter<ReviewFHPAdapter.MyVi
         holder.imgDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (onRemoveItem != null) onRemoveItem.onDelete(positionBig);
+                if (onRemoveItem != null) onRemoveItem.onDelete(holder.getAdapterPosition());
             }
         });
 
@@ -110,7 +110,7 @@ public class ReviewFHPAdapter extends RecyclerView.Adapter<ReviewFHPAdapter.MyVi
             @Override
             public void afterTextChanged(Editable editable) {
                 if (!editable.toString().trim().isEmpty())
-                    reviewPrivateResponses.get(positionBig).setInsurer(editable.toString().trim());
+                    reviewPrivateResponses.get(holder.getAdapterPosition()).setInsurer(editable.toString().trim());
             }
         });
 
@@ -128,7 +128,7 @@ public class ReviewFHPAdapter extends RecyclerView.Adapter<ReviewFHPAdapter.MyVi
             @Override
             public void afterTextChanged(Editable editable) {
                 if (!editable.toString().trim().isEmpty())
-                    reviewPrivateResponses.get(positionBig).setMembershipNo(editable.toString().trim());
+                    reviewPrivateResponses.get(holder.getAdapterPosition()).setMembershipNo(editable.toString().trim());
             }
         });
 
@@ -146,7 +146,7 @@ public class ReviewFHPAdapter extends RecyclerView.Adapter<ReviewFHPAdapter.MyVi
             @Override
             public void afterTextChanged(Editable editable) {
                 if (!editable.toString().trim().isEmpty())
-                    reviewPrivateResponses.get(positionBig).setPremiumsPaid(holder.edtPremiums.getValuesFloat());
+                    reviewPrivateResponses.get(holder.getAdapterPosition()).setPremiumsPaid(holder.edtPremiums.getValuesFloat());
             }
         });
 
@@ -163,7 +163,7 @@ public class ReviewFHPAdapter extends RecyclerView.Adapter<ReviewFHPAdapter.MyVi
 
             @Override
             public void afterTextChanged(Editable editable) {
-                reviewPrivateResponses.get(positionBig).setGovRebateReceived(holder.edtGovernment.getValuesFloat());
+                reviewPrivateResponses.get(holder.getAdapterPosition()).setGovRebateReceived(holder.edtGovernment.getValuesFloat());
             }
         });
 
@@ -181,7 +181,7 @@ public class ReviewFHPAdapter extends RecyclerView.Adapter<ReviewFHPAdapter.MyVi
             @Override
             public void afterTextChanged(Editable editable) {
                 if (!editable.toString().trim().isEmpty())
-                    reviewPrivateResponses.get(positionBig).setDaysCovered(Integer.valueOf(editable.toString().trim()));
+                    reviewPrivateResponses.get(holder.getAdapterPosition()).setDaysCovered(Integer.valueOf(editable.toString().trim()));
             }
         });
 
@@ -227,7 +227,7 @@ public class ReviewFHPAdapter extends RecyclerView.Adapter<ReviewFHPAdapter.MyVi
                             Utils.showLongToast(context, context.getString(R.string.max_image_attach_err, 9), true, false);
                         } else {
                             if (getPickImageListener() != null)
-                                getPickImageListener().doPick(positionBig);
+                                getPickImageListener().doPick(holder.getAdapterPosition());
                         }
                     }
                 } else {

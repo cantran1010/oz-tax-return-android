@@ -84,7 +84,6 @@ public class ReviewRentalFragment extends BaseFragment implements View.OnClickLi
     private ArrayList<Image> images;
     private final String[] permissions = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
     private String imgPath;
-    private ScrollView scrollView;
     private ExpandableLayout layout;
     private Rental rental = new Rental();
     private ArrayList<Attachment> attach;
@@ -124,7 +123,7 @@ public class ReviewRentalFragment extends BaseFragment implements View.OnClickLi
         edtRentalExpenses = (EditTextEasyMoney) findViewById(R.id.edt_rental_expenses);
         edtRentalExpenses.setEnabled(false);
         grImage = (MyGridView) findViewById(R.id.gr_image);
-        scrollView = (ScrollView) findViewById(R.id.scrollView);
+        ScrollView scrollView = (ScrollView) findViewById(R.id.scrollView);
         layout = (ExpandableLayout) findViewById(R.id.layout_expandable);
     }
 

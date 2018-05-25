@@ -5,7 +5,8 @@
     android:layout_height="55dp"
     android:background="#3f3f3f"
     android:baselineAligned="false"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    tools:ignore="Overdraw">
 
     <LinearLayout
         android:id="@+id/layout_home"

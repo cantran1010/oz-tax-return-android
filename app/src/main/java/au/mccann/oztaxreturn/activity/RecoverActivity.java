@@ -38,7 +38,6 @@ import retrofit2.Response;
 public class RecoverActivity extends BaseActivity implements View.OnClickListener {
     private static final String TAG = RegisterActivity.class.getSimpleName();
     private EdittextCustom edtEmail, edtPhone;
-    private ButtonCustom btnSend;
     private ArrayList<CountryCodeResponse> countryCodeResponses;
     private Spinner spCountryCode;
 
@@ -51,7 +50,7 @@ public class RecoverActivity extends BaseActivity implements View.OnClickListene
     protected void initView() {
         edtEmail = findViewById(R.id.edt_email);
         edtPhone = findViewById(R.id.edt_phone);
-        btnSend = findViewById(R.id.btn_send);
+        ButtonCustom btnSend = findViewById(R.id.btn_send);
         spCountryCode = findViewById(R.id.sp_country_code);
         btnSend.setOnClickListener(this);
 

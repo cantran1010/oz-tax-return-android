@@ -74,7 +74,6 @@ public class ReviewInterestsFragment extends BaseFragment implements View.OnClic
     private ArrayList<Image> images;
     private final String[] permissions = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
     private String imgPath;
-    private ScrollView scrollView;
     private ExpandableLayout layout;
     private Bank bank = new Bank();
     private ArrayList<Attachment> attach;
@@ -106,7 +105,7 @@ public class ReviewInterestsFragment extends BaseFragment implements View.OnClic
         edtBankFees = (EditTextEasyMoney) findViewById(R.id.edt_interest_bank_fees);
         edtBankFees.setEnabled(false);
         grImage = (MyGridView) findViewById(R.id.gr_image);
-        scrollView = (ScrollView) findViewById(R.id.scrollView);
+        ScrollView scrollView = (ScrollView) findViewById(R.id.scrollView);
         layout = (ExpandableLayout) findViewById(R.id.layout_expandable);
 
     }

@@ -22,7 +22,7 @@
     <string name="retry_title">No internet connection</string>
     <string name="retry_content">Please check your internet connection and try again</string>
     <string name="retry">Retry</string>
-    <string name="report_cancel">cancel</string>
+    <string name="report_cancel">@android:string/cancel</string>
     <string name="btn_create_account">Create new account</string>
     <string name="password_retrieval">Retrieve Login\nInformation</string>
     <string name="btn_send">send</string>
@@ -125,7 +125,7 @@
     </string-array>
 
     <!-- personal information submit -->
-    <string name="submit_bank_account">Your tax refund will be transfered to your bank account.</string>
+    <string name="submit_bank_account">Your tax refund will be transferred to your bank account.</string>
     <string name="bank_account_name">bank account name</string>
     <string name="bsb">bsb</string>
     <string name="account_number">account number</string>
@@ -318,7 +318,7 @@
 
     <!-- review deduction clothing -->
     <string name="review_clothing">Work Relate\nClothing</string>
-    <string name="review_clothing_ask">Our accountant has review your information and suggest that you can claim for upto $1000 for work relate clothing and laundary deduction.\n\nDo you want to claim for this type?</string>
+    <string name="review_clothing_ask">Our accountant has review your information and suggest that you can claim for up to $1000 for work relate clothing and laundary deduction.\n\nDo you want to claim for this type?</string>
     <string name="deduction_type">Deduction type</string>
     <string-array name="string_array_deduction_type">
         <item>Laundary</item>
@@ -446,7 +446,7 @@
     <string name="app_term_conditions">Term and conditions</string>
     <string name="lodge">Lodged</string>
     <string name="btn_lodge">Lodge</string>
-    <string name="review_summary_note">Your application has been lodged. You can review it but no changes can be made at this state. You will be notified for any update of your aplication </string>
+    <string name="review_summary_note">Your application has been lodged. You can review it but no changes can be made at this state. You will be notified for any update of your application </string>
     <string name="positive_tax_refund">Your application has been successfully completed. your tax refund has been transferred to your nominated bank account. You can download your tax return report here.</string>
     <string name="negative_tax_refund">Your application has been successfully completed. You are required to pay</string>
     <string name="negative_tax_refund_end">to ATO. Please download your tax return report. You can also contact us if you wish to discuss about payment plans.</string>
@@ -486,7 +486,7 @@
 
     <!--  manage account -->
     <string name="manage_account">Manage account</string>
-    <string name="update_information">Update Personal\nInfomation</string>
+    <string name="update_information">Update Personal\nInformation</string>
     <string name="manage_title">title</string>
     <string name="format_date">DD/MM/YYYY</string>
     <string name="username">username</string>

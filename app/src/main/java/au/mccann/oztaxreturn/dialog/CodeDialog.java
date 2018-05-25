@@ -35,8 +35,6 @@ public class CodeDialog extends BaseDialogFullScreenAnimDownUp implements View.O
         this.values = values;
     }
 
-    private RadioButtonCustom rbR, rbO, rbD, rbM, rbS, rbP, rbN;
-
     public CodeDialog(@NonNull Context context) {
         super(context);
     }
@@ -48,19 +46,19 @@ public class CodeDialog extends BaseDialogFullScreenAnimDownUp implements View.O
 
     @Override
     protected void initData() {
-        rbR = findViewById(R.id.rb_r);
+        RadioButtonCustom rbR = findViewById(R.id.rb_r);
         rbR.setOnClickListener(this);
-        rbO = findViewById(R.id.rb_o);
+        RadioButtonCustom rbO = findViewById(R.id.rb_o);
         rbO.setOnClickListener(this);
-        rbD = findViewById(R.id.rb_d);
+        RadioButtonCustom rbD = findViewById(R.id.rb_d);
         rbD.setOnClickListener(this);
-        rbM = findViewById(R.id.rb_m);
+        RadioButtonCustom rbM = findViewById(R.id.rb_m);
         rbM.setOnClickListener(this);
-        rbS = findViewById(R.id.rb_s);
+        RadioButtonCustom rbS = findViewById(R.id.rb_s);
         rbS.setOnClickListener(this);
-        rbP = findViewById(R.id.rb_p);
+        RadioButtonCustom rbP = findViewById(R.id.rb_p);
         rbP.setOnClickListener(this);
-        rbN = findViewById(R.id.rb_n);
+        RadioButtonCustom rbN = findViewById(R.id.rb_n);
         rbN.setOnClickListener(this);
         rbR.setChecked(false);
         rbO.setChecked(false);

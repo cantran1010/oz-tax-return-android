@@ -42,7 +42,6 @@ public class CheckoutFragment extends BaseFragment implements View.OnClickListen
 
     private static final String TAG = CheckoutFragment.class.getSimpleName();
     private FeeResponse feeResponse;
-    private ButtonCustom btnCheckout;
     protected static final String PUBLISH_KEY = "pk_test_G2whU73GFsa4omTXcT54gQoY";
     private EdittextCustom edtName, edtNumber, edtMonth, edtYear, edtCvm;
 
@@ -53,7 +52,7 @@ public class CheckoutFragment extends BaseFragment implements View.OnClickListen
 
     @Override
     protected void initView() {
-        btnCheckout = (ButtonCustom) findViewById(R.id.btn_checkout);
+        ButtonCustom btnCheckout = (ButtonCustom) findViewById(R.id.btn_checkout);
         btnCheckout.setOnClickListener(this);
 
         edtName = (EdittextCustom) findViewById(R.id.edt_name);

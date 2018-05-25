@@ -44,7 +44,6 @@ public class AddNewBoardActivity extends BaseActivity implements View.OnClickLis
     private LinearLayout layoutDuplicate, layoutCreateNew;
     private CheckBoxCustom cbDuplicate, cbCreateNew;
     private Spinner spYear, spName, spYearCreate;
-    private ButtonCustom btnAdd;
     private EditText edtTaxPayer;
     private ArrayList<ApplicationResponse> applicationResponses;
 
@@ -64,7 +63,7 @@ public class AddNewBoardActivity extends BaseActivity implements View.OnClickLis
         spName = findViewById(R.id.sp_name);
         spYear = findViewById(R.id.sp_year);
 
-        btnAdd = findViewById(R.id.btn_add);
+        ButtonCustom btnAdd = findViewById(R.id.btn_add);
         btnAdd.setOnClickListener(this);
 
         spYearCreate = findViewById(R.id.sp_year_create);

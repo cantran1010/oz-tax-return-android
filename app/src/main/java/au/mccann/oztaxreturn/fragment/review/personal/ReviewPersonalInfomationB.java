@@ -49,7 +49,6 @@ public class ReviewPersonalInfomationB extends BaseFragment implements View.OnCl
 
     private static final String TAG = ReviewPersonalInfomationB.class.getSimpleName();
     private EdittextCustom edtBankName, edtBSB, edtAccountNumber, edtStreetName, edtSuburb, edtState, edtPostCode, edtPhone, edtEmail;
-    private ButtonCustom btnNext;
     private FloatingActionButton fab;
     private PersonalInfomationResponse personalInfomationResponse;
     private Spinner spCountryCode;
@@ -71,7 +70,7 @@ public class ReviewPersonalInfomationB extends BaseFragment implements View.OnCl
         edtPostCode = (EdittextCustom) findViewById(R.id.edt_post_code);
         edtPhone = (EdittextCustom) findViewById(R.id.edt_phone);
         edtEmail = (EdittextCustom) findViewById(R.id.edt_email);
-        btnNext = (ButtonCustom) findViewById(R.id.btn_next);
+        ButtonCustom btnNext = (ButtonCustom) findViewById(R.id.btn_next);
         btnNext.setOnClickListener(this);
         fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(this);

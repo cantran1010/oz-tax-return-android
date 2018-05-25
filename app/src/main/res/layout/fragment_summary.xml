@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/summary_bg"
@@ -8,7 +9,8 @@
     android:paddingEnd="@dimen/left_right_margin_screen"
     android:paddingLeft="@dimen/left_right_margin_screen"
     android:paddingRight="@dimen/left_right_margin_screen"
-    android:paddingStart="@dimen/left_right_margin_screen">
+    android:paddingStart="@dimen/left_right_margin_screen"
+    tools:ignore="Overdraw">
 
     <au.mccann.oztaxreturn.view.ButtonCustom
         android:id="@+id/btn_review"
@@ -60,7 +62,8 @@
                         android:layout_toEndOf="@+id/lb"
                         android:layout_toRightOf="@+id/lb"
                         android:padding="5dp"
-                        android:src="@drawable/ic_exclamation" />
+                        android:src="@drawable/ic_exclamation"
+                        tools:ignore="ContentDescription" />
                 </RelativeLayout>
 
 
@@ -112,7 +115,8 @@
                         android:layout_toEndOf="@+id/lbac"
                         android:layout_toRightOf="@+id/lbac"
                         android:padding="5dp"
-                        android:src="@drawable/ic_exclamation" />
+                        android:src="@drawable/ic_exclamation"
+                        tools:ignore="ContentDescription" />
                 </RelativeLayout>
 
 

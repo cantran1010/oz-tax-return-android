@@ -106,7 +106,7 @@
                     android:layout_marginTop="20dp"
                     android:src="@drawable/img_promotion_ok"
                     android:visibility="gone"
-                    />
+                    card_view:ignore="ContentDescription" />
 
                 <au.mccann.oztaxreturn.view.TextViewCustom
                     android:layout_width="wrap_content"

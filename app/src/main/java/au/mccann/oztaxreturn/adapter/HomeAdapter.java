@@ -64,7 +64,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> 
     }
 
     @Override
-    public void onBindViewHolder(MyViewHolder holder, final int position) {
+    public void onBindViewHolder(final MyViewHolder holder, int position) {
 
         final ApplicationResponse applicationResponse = applicationResponses.get(position);
 
@@ -74,7 +74,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> 
         holder.buttonLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (onClickListener != null) onClickListener.onClick(position);
+                if (onClickListener != null) onClickListener.onClick(holder.getAdapterPosition());
             }
         });
         if (applicationResponse.getStatus().equals("init")) {
@@ -158,7 +158,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> 
                 DialogUtils.showOkAndCancelDialog(context, context.getString(R.string.delete_application_title), context.getString(R.string.delete_application), context.getString(R.string.Yes), context.getString(R.string.No), new AlertDialogOkAndCancel.AlertDialogListener() {
                     @Override
                     public void onSubmit() {
-                        doDeleteApplication(position);
+                        doDeleteApplication(holder.getAdapterPosition());
                     }
 
                     @Override
