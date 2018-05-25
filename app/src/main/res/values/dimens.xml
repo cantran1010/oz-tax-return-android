@@ -1,18 +1,12 @@
 <resources>
-    <dimen name="fab_margin">16dp</dimen>
     <dimen name="alert_dialog_width">300dp</dimen>
     <dimen name="size_small">12sp</dimen>
-    <dimen name="size_xxsmall">13sp</dimen>
     <dimen name="size_nomal">15sp</dimen>
     <dimen name="tv_size_lager">17sp</dimen>
     <dimen name="tv_size_xlager">18sp</dimen>
     <dimen name="tv_size_xxlager">20sp</dimen>
     <dimen name="tv_size_xxxlager">30sp</dimen>
     <!-- Default screen margins, per the Android Design guidelines. -->
-    <dimen name="activity_horizontal_margin">16dp</dimen>
-    <dimen name="activity_vertical_margin">16dp</dimen>
-    <dimen name="nav_header_vertical_spacing">8dp</dimen>
-    <dimen name="nav_header_height">176dp</dimen>
     <dimen name="left_right_margin_screen">20dp</dimen>
 
     <dimen name="text_size_gigatic">15sp</dimen>
@@ -20,9 +14,6 @@
     <dimen name="icon_size_gigatic2">20dp</dimen>
 
     <!-- tooltip -->
-    <dimen name="tooltip_padding">5dp</dimen>
-    <dimen name="tooltip_radius">5dp</dimen>
-    <dimen name="tooltip_size">15sp</dimen>
     <dimen name="left_menu_margin">20dp</dimen>
     <dimen name="review_big_menu">16dp</dimen>
 

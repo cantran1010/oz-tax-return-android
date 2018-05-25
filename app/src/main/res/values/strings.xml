@@ -1,15 +1,9 @@
 <resources>
     <string name="app_name">Maximyz Tax Return</string>
-    <string name="action_settings">Settings</string>
     <string name="alert_dialog_yes">yes</string>
     <string name="alert_dialog_no">no</string>
     <string name="alert_dialog_title">notification</string>
     <string name="title_activity_home">HomeActivity</string>
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Android Studio</string>
-    <string name="nav_header_subtitle">android.studio@android.com</string>
-    <string name="nav_header_desc">Navigation header</string>
     <string name="hint_User_name">Username</string>
     <string name="hint_pass_word">Password</string>
 
@@ -50,7 +44,6 @@
     <string name="error_must_one">You must select at least one option!</string>
     <string name="logout">Are you sure you want to logout?</string>
     <string name="required_all">All fields are required!</string>
-    <string name="required_image">Attach images are required!</string>
     <string name="remove">Are you sure you want to remove?</string>
     <!-- pick image dialog -->
     <string name="attach_img_title">Attach image</string>
@@ -74,7 +67,6 @@
     <string name="submitted">Submitted</string>
     <string name="completed">Completed</string>
     <string name="auditing">Auditing</string>
-    <string name="percent">%1$d %</string>
 
     <!-- add new board -->
     <string name="add_new_board_title">NEW TAX RETURN APPLICATION</string>
@@ -82,7 +74,6 @@
     <string name="duplicate_app_exit">Duplicate an existing application</string>
     <string name="create_new_app">Create a new application</string>
     <string name="tax_payer_hint">Tax payer</string>
-    <string name="financial_year_hint">Financial year</string>
 
     <!-- income wages salary -->
     <string name="income_ws_title">Income</string>
@@ -100,21 +91,12 @@
     <string name="next">NEXT</string>
     <string name="gallery">Gallery</string>
     <string name="your_birthday">Your Birthday</string>
-    <string name="valid_tfn">please enter a valid TFN</string>
-    <string name="valid_title">Enter title</string>
-    <string name="valid_first_name">Enter first name</string>
-    <string name="valid_mid_name">Enter mid name</string>
-    <string name="valid_last_name">Enter last name</string>
-    <string name="valid_birth_day">Enter your birthday</string>
 
 
     <!-- income other -->
-    <string name="income_other_title">Income</string>
-    <string name="income_other_resource">Other resource</string>
     <string name="income_other_content">These sources of income may include government suport, investment, business, dividends, rental properties and foreign income. Please select Yes if you are not sure, our account will process your case from our end to make sure everything is right for your application</string>
     <string name="income_other_hint">Example: Retail properties, investment</string>
     <string name="income_other_img">payg image</string>
-    <string name="valid_income_content">Enter income content</string>
     <string name="income_other_ask">Do you have other sources of income?</string>
     <string name="lable_income">Please provide some information about your other sources of income</string>
 
@@ -122,7 +104,6 @@
     <string name="income_deduction_hint">Example: Labourer, Restaurant worl</string>
     <string name="deduction_title">deductions</string>
     <string name="deduction_content">Please let our accountants know what you do at work so that we can help in putting your deduction claims.</string>
-    <string name="valid_deduction_content">Enter deduction content</string>
     <string name="valid_deduction_image">please choose at least a photo</string>
 
     <!-- estimate -->
@@ -142,7 +123,6 @@
         <item>Female</item>
         <item>Unknown</item>
     </string-array>
-    <string name="valid_personal_title">Enter your title</string>
 
     <!-- personal information submit -->
     <string name="submit_bank_account">Your tax refund will be transfered to your bank account.</string>
@@ -177,7 +157,6 @@
     <string name="promotion_hint">Promotion code</string>
     <string name="promotion_des">User can enter promotion code\nto get discount</string>
     <string name="next_des">* please click next to process to the checkout</string>
-    <string name="currency">$ %1$d</string>
     <string name="back_to_exit">Press back button again to exit</string>
     <string name="promotion_error">Promotion is not correct,do you want to continue?</string>
 
@@ -196,14 +175,10 @@
     <!-- review personal infomation a -->
     <string name="infomation_a">REVIEW</string>
     <string name="infomation_a_name">Personal\nInformation</string>
-    <string name="infomation_a_title">Title</string>
-    <string name="infomation_a_title_hint">Mr</string>
 
     <!-- review begin c -->
     <string name="infomation_c_des">Do you have any remaining student loan schem debt such as HECS/HELP? </string>
     <string name="infomation_c_remain">REMAINING</string>
-    <string name="USD">$</string>
-    <string name="USD2">$ %1$s</string>
 
     <!-- navigation menu review -->
     <string name="menu_personal">Personal Information</string>
@@ -270,9 +245,6 @@
     <string name="interest_total">Total interests</string>
     <string name="interest_tax_widthheld">Tax widthheld</string>
     <string name="interest_bank_fees">bank fees</string>
-    <string name="valid_bank_tax">Enter your tax withheld</string>
-    <string name="valid_bank_total">Enter your total interests</string>
-    <string name="valid_bank_fees">Enter bank fees</string>
 
     <!-- review dividends   -->
     <string name="review_income_dividends">Dividends</string>
@@ -298,10 +270,6 @@
     <string name="radio_payment_d">D: Death benefit termination payment paid to a dependant.</string>
     <string name="radio_payment_n">N: Death benefit termination payment paid to a non-dependant</string>
     <string name="radio_payment_m">M:Multiple</string>
-    <string name="valid_payment_date">Enter payment date</string>
-    <string name="valid_payment_abn">Enter payment abn</string>
-    <string name="valid_table_component">Enter table component</string>
-    <string name="valid_code">Please select ETPs code</string>
     <string name="early_termination_payment_code">Seclect ETPs code</string>
     <string name="etps_code">ETPs code</string>
 
@@ -328,8 +296,6 @@
     <string name="checkout_name">NAME ON CARD</string>
     <string name="checkout_number">CARD NUMBER</string>
     <string name="checkout_date">EXPIRATION DATE</string>
-    <string name="checkout_month">Month</string>
-    <string name="checkout_year">Year</string>
     <string name="checkout_cvm">CVM</string>
     <string name="checkout_cvm_hint">369</string>
     <string name="checkout_btn">CHECK OUT</string>
@@ -354,9 +320,6 @@
     <string name="review_clothing">Work Relate\nClothing</string>
     <string name="review_clothing_ask">Our accountant has review your information and suggest that you can claim for upto $1000 for work relate clothing and laundary deduction.\n\nDo you want to claim for this type?</string>
     <string name="deduction_type">Deduction type</string>
-    <string name="unfranks_dividends">unfranks dividends</string>
-    <string name="unfranks_dividends_hint">$ 100</string>
-    <string name="deduction_type_hint">Deduction type</string>
     <string-array name="string_array_deduction_type">
         <item>Laundary</item>
         <item>Dry Cleaning</item>
@@ -370,7 +333,6 @@
     <string name="review_deductions">review deductions</string>
     <string name="review_education">Work Relate\nEducation</string>
     <string name="review_education_ask">This could relate to any spending on fees, books, travel and epuipment that heva a direct connection to your current work.\n\nDo you want to claim for this type?</string>
-    <string name="education_type_hint">Example: tultion fees</string>
     <string name="course_and_institution">course and instutition</string>
     <string name="course_hint">Example: food safety certificate from ABC TAPE</string>
     <string name="ed_amount">amount</string>
@@ -387,7 +349,6 @@
     <string name="review_other_work">Other Work\nRelated Expenses</string>
     <string name="review_ohter_work_ask">This could relate to union fees, home office expenses and other expenses.\n\nDo you want to claim for this type?</string>
     <string name="description">description</string>
-    <string name="other_work_type_hint">Example: telephone</string>
     <string name="description_hint">Example: Phone call to Customers</string>
     <string-array name="string_array_other_type">
         <item>Union fees</item>
@@ -422,7 +383,6 @@
     <string name="review_fhd_dependants">Dependants</string>
     <string name="review_fhd_des">Do you have any dependants or children?</string>
     <string name="review_fhd_number">Number of dependants</string>
-    <string name="valid_number">Input Number</string>
 
     <!-- review family and health medicare examption -->
     <string name="review_fhm_title">Medicare Levy\nExemption</string>
@@ -431,7 +391,6 @@
     <!-- review family and health private -->
     <string name="review_fhp_title">Private\nHealth</string>
     <string name="review_fhp_des">Did you have private health cover anytime during the financial year?</string>
-    <string name="review_fhp_add">ADD NEW PRIVATE HEALTH</string>
     <string name="review_fhp_health">Health Insurer</string>
     <string name="review_fhp_health_hint">Medibank</string>
     <string name="review_fhp_membership">Membership Number</string>
@@ -442,7 +401,6 @@
     <string name="review_fhp_government_hint">$1000</string>
     <string name="review_fhp_day">How many days your private hospital is covered?</string>
     <string name="review_fhp_day_hint">30</string>
-    <string name="review_fhp_add_new">ADD NEW PRIVATE HEALTH</string>
 
     <!-- review family and health private -->
     <string name="review_fhs_title">Spouse</string>
@@ -466,7 +424,6 @@
     <string name="super_income_stream">Super Income Stream</string>
     <string name="super_lump_sum">Super Lump Sum</string>
     <string name="renta_income">Rental Income</string>
-    <string name="other_income">Other income</string>
     <string name="total_deduction">Total Deduction</string>
     <string name="vehicles">Vehicles</string>
     <string name="work_related_clothing">Work Related Clothing</string>
@@ -482,11 +439,8 @@
     <string name="repayment">HECS/HELP Repayment</string>
     <string name="tax_offsets">Tax Offsets</string>
     <string name="tax_credits">Tax Credits</string>
-    <string name="offsets_credits"><![CDATA[Tax offset & Credits]]></string>
     <string name="tax_widthheld_summary">Tax Withheld</string>
-    <string name="condition">Conditions</string>
     <string name="app_privacy_policy">Privacy policy</string>
-    <string name="dolla">$</string>
     <string name="review_summary_title">review summary</string>
     <string name="lodged_successfully">The application is lodged successfully.</string>
     <string name="app_term_conditions">Term and conditions</string>
@@ -506,7 +460,6 @@
 
     <!-- notification screen -->
     <string name="notification_title">NOTIFICATION</string>
-    <string name="notification_day_ago">%1$d day ago</string>
     <string name="just_now">just now</string>
     <string name="minute_ago">1 minute ago</string>
     <string name="minutes_ago">minute ago</string>
@@ -545,7 +498,6 @@
     <string name="password_incorrect">password.incorrect</string>
     <string name="password_confirm">password.confirm</string>
     <string name="update_login_details">Update Login Details</string>
-    <string name="update_successful">Update successful!</string>
     <string name="unsaved">Unsaved changes</string>
     <string name="unsaved_content">Do you want to save the changes?</string>
 

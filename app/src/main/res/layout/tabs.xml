@@ -4,98 +4,90 @@
     android:layout_width="match_parent"
     android:layout_height="55dp"
     android:background="#3f3f3f"
-    android:orientation="vertical">
+    android:baselineAligned="false"
+    android:orientation="horizontal">
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:id="@+id/layout_home"
+        android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:baselineAligned="false"
-        android:orientation="horizontal">
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:clickable="true"
+        android:focusable="true"
+        android:gravity="center"
+        android:orientation="vertical">
 
-        <LinearLayout
-            android:id="@+id/layout_home"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:clickable="true"
-            android:focusable="true"
-            android:gravity="center"
-            android:orientation="vertical">
+        <ImageView
+            android:id="@+id/img_home_menu1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/home_coin_on"
+            tools:ignore="ContentDescription" />
 
-            <ImageView
-                android:id="@+id/img_home_menu1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/home_coin_on"
-                tools:ignore="ContentDescription" />
-
-            <au.mccann.oztaxreturn.view.TextViewCustom
-                android:id="@+id/tv_home_menu1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/home_menu1"
-                android:textColor="@color/app_bg"
-                android:textSize="12sp" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/layout_contact"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:clickable="true"
-            android:focusable="true"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <ImageView
-                android:id="@+id/img_home_menu2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/home_contact_off"
-                tools:ignore="ContentDescription" />
-
-            <au.mccann.oztaxreturn.view.TextViewCustom
-                android:id="@+id/tv_home_menu2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/home_menu2"
-                android:textColor="@color/white"
-                android:textSize="12sp" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/layout_notification"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:clickable="true"
-            android:focusable="true"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <ImageView
-                android:id="@+id/img_home_menu3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/home_notification_off"
-                tools:ignore="ContentDescription" />
-
-            <au.mccann.oztaxreturn.view.TextViewCustom
-                android:id="@+id/tv_home_menu3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/home_menu3"
-                android:textColor="@color/white"
-                android:textSize="12sp" />
-
-        </LinearLayout>
+        <au.mccann.oztaxreturn.view.TextViewCustom
+            android:id="@+id/tv_home_menu1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/home_menu1"
+            android:textColor="@color/app_bg"
+            android:textSize="12sp" />
 
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/layout_contact"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:clickable="true"
+        android:focusable="true"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/img_home_menu2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/home_contact_off"
+            tools:ignore="ContentDescription" />
+
+        <au.mccann.oztaxreturn.view.TextViewCustom
+            android:id="@+id/tv_home_menu2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/home_menu2"
+            android:textColor="@color/white"
+            android:textSize="12sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_notification"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:clickable="true"
+        android:focusable="true"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/img_home_menu3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/home_notification_off"
+            tools:ignore="ContentDescription" />
+
+        <au.mccann.oztaxreturn.view.TextViewCustom
+            android:id="@+id/tv_home_menu3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/home_menu3"
+            android:textColor="@color/white"
+            android:textSize="12sp" />
+
+    </LinearLayout>
 </LinearLayout>

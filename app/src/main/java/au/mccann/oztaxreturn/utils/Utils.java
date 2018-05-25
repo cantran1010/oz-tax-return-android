@@ -449,8 +449,7 @@ public class Utils {
 //    }
 
     static public String displayCurrency(String aFloat) {
-        Float aFloat1 = Float.parseFloat(aFloat.replace(",", "").replace("$", ""));
-        Float currencyAmount = new Float(aFloat);
+        Float currencyAmount = Float.valueOf(aFloat);
         NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance(Locale.US);
         return currencyFormatter.format(currencyAmount);
     }

@@ -154,7 +154,6 @@
                 android:textSize="@dimen/size_small" />
 
             <RelativeLayout
-                android:id="@+id/layout_gender"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
