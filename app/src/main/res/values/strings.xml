@@ -522,8 +522,9 @@
     <string name="notification_auditing_ato">Application has been audited by ATO</string>
     <string name="notification_completed">Application has been completed</string>
     <string name="notification_active_user">Your account has been activated</string>
-    <string name="notification_deactivate_user">your account has been deactive</string>
-    <string name="notification_block_user">your account has been block</string>
+    <string name="notification_deactivate_user">Your account has been deactive</string>
+    <string name="notification_block_user">Your account has been block</string>
+    <string name="notification_account_created">Your account has been registered successfully!</string>
 
     <!-- connect accountant -->
     <string name="connect_title">CONTACT ACCOUNTANT</string>

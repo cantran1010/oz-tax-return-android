@@ -503,6 +503,8 @@ public class Utils {
             result = context.getString(R.string.notification_block_user);
         } else if (notification.getEvent().equals("message_received")) {
             result = notification.getContent();
+        } else if (notification.getEvent().equals("account_created")) {
+            result = context.getString(R.string.notification_account_created);
         } else
             result = notification.getContent();
 
