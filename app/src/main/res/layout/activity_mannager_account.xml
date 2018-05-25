@@ -335,7 +335,7 @@
         android:background="@drawable/btn_selector"
         android:layout_marginEnd="@dimen/left_right_margin_screen"
         android:layout_marginLeft="@dimen/left_right_margin_screen"
-        android:layout_marginStart= "@dimen/left_right_margin_screen"
+        android:layout_marginStart="@dimen/left_right_margin_screen"
         android:layout_marginRight="@dimen/left_right_margin_screen"
         android:text="@string/save" />
 </RelativeLayout>

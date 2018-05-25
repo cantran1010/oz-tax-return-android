@@ -43,7 +43,8 @@
                     android:layout_centerVertical="true"
                     android:textColor="@color/white"
                     android:textSize="15sp"
-                    android:layout_alignParentEnd="true" />
+                    android:layout_alignParentEnd="true"
+                    tools:ignore="RelativeOverlap" />
 
             </RelativeLayout>
 
