@@ -705,8 +705,9 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
             // do not remove,must have
             case R.id.img_user_avatar:
             case R.id.tv_user_name:
+                if (drawer.isDrawerOpen(GravityCompat.END))
+                    drawer.closeDrawer(GravityCompat.END);
                 startActivity(new Intent(this, ManageAccountActivity.class), TransitionScreen.RIGHT_TO_LEFT);
-
                 break;
 
             // do not remove,must have
