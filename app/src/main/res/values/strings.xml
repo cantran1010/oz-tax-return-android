@@ -516,13 +516,15 @@
     <string name="days_ago">day ago</string>
     <string name="month_ago">month ago</string>
     <string name="no_data">No Data</string>
+    <string name="no_notification">Have no notification</string>
     <string name="notification_reviewed">Application has been reviewed by Accountant</string>
     <string name="notification_lodged_ato">Application has been lodged to ATO</string>
     <string name="notification_auditing_ato">Application has been audited by ATO</string>
     <string name="notification_completed">Application has been completed</string>
     <string name="notification_active_user">Your account has been activated</string>
-    <string name="notification_deactivate_user">your account has been deactive</string>
-    <string name="notification_block_user">your account has been block</string>
+    <string name="notification_deactivate_user">Your account has been deactive</string>
+    <string name="notification_block_user">Your account has been block</string>
+    <string name="notification_account_created">Your account has been registered successfully!</string>
 
     <!-- connect accountant -->
     <string name="connect_title">CONTACT ACCOUNTANT</string>
@@ -560,7 +562,7 @@
     <string name="block_logout">Logout</string>
     <string name="app_sologan">Lets optimize your tax return\nwith our online accountants</string>
     <string name="tax_return">your tax return</string>
-    <string name="no_app">Have No Application</string>
+    <string name="no_app">Press + to\ncreate new application!</string>
     <string name="max_3_add">Maximum 3 private healths are allowed!</string>
 
     <string name="promotion_ok">Promotion is correct,do you want to continue?</string>
