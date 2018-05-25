@@ -41,12 +41,12 @@
                 <ProgressBar
                     android:id="@+id/progress_bar"
                     style="?android:attr/progressBarStyleHorizontal"
-                    android:layout_width="55dp"
-                    android:layout_height="55dp"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
                     android:layout_centerInParent="true"
                     android:layout_margin="5dp"
                     android:max="100"
-                    android:padding="5dp"
+                    android:padding="0dp"
                     android:progress="75"
                     android:progressDrawable="@drawable/progress_circular"
                     android:secondaryProgress="100" />
@@ -69,21 +69,21 @@
             android:layout_height="match_parent"
             android:layout_marginBottom="20dp"
             android:layout_marginTop="20dp"
+            android:layout_toEndOf="@id/layout_left"
             android:layout_toRightOf="@id/layout_left"
-            android:background="#cdcdcc"
-            android:layout_toEndOf="@id/layout_left" />
+            android:background="#cdcdcc" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="15dp"
+            android:layout_marginStart="15dp"
+            android:layout_toEndOf="@id/v"
             android:layout_toLeftOf="@id/layout_right"
             android:layout_toRightOf="@id/v"
-            android:orientation="vertical"
-            android:layout_marginStart="15dp"
             android:layout_toStartOf="@id/layout_right"
-            android:layout_toEndOf="@id/v">
+            android:orientation="vertical">
 
             <au.mccann.oztaxreturn.view.TextViewCustom
                 android:id="@+id/tv_app_name"
@@ -111,9 +111,9 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
+            android:layout_marginEnd="10dp"
             android:layout_marginRight="10dp"
-            android:background="@drawable/btn_blue_selector"
-            android:layout_marginEnd="10dp">
+            android:background="@drawable/btn_blue_selector">
 
             <au.mccann.oztaxreturn.view.TextViewCustom
                 android:id="@+id/tv_button"
