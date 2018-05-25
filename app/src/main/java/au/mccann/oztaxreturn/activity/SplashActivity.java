@@ -223,7 +223,7 @@ public class SplashActivity extends BaseActivity {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 LogUtils.d(TAG, "logOut , code : " + response.code());
-                if (response.code() == Constants.HTTP_CODE_OK) {
+                if (response.code() == Constants.HTTP_CODE_NO_CONTENT) {
                     Realm realm = Realm.getDefaultInstance();
                     realm.beginTransaction();
                     realm.deleteAll();
@@ -233,7 +233,7 @@ public class SplashActivity extends BaseActivity {
                     startActivity(intent);
                 } else {
                     APIError error = Utils.parseError(response);
-                    if (error != null) {
+                    if (error != null && error.message() != null) {
                         LogUtils.d(TAG, "logOut error : " + error.message());
                         DialogUtils.showOkDialog(SplashActivity.this, getString(R.string.error), error.message(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
                             @Override

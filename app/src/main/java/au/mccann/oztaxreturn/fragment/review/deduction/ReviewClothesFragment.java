@@ -100,7 +100,6 @@ public class ReviewClothesFragment extends BaseFragment implements View.OnClickL
         edtAmount = (EditTextEasyMoney) findViewById(R.id.edt_amount);
         edtAmount.setEnabled(false);
         grImage = (MyGridView) findViewById(R.id.gr_image);
-        grImage.setEnabled(false);
         layout = (ExpandableLayout) findViewById(R.id.layout_expandable);
         spType = (Spinner) findViewById(R.id.sp_type);
         spType.setEnabled(false);
@@ -131,7 +130,9 @@ public class ReviewClothesFragment extends BaseFragment implements View.OnClickL
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (images.get(position).isAdd) {
+                    if (!imageAdapter.isRemove()) return;
                     if (images.size() >= 10) {
+                        if (!imageAdapter.isRemove()) return;
                         Utils.showLongToast(getActivity(), getString(R.string.max_image_attach_err, 9), true, false);
                     } else {
                         checkPermissionImageAttach();
@@ -413,7 +414,6 @@ public class ReviewClothesFragment extends BaseFragment implements View.OnClickL
                 edtAmount.setEnabled(true);
                 edtAmount.requestFocus();
                 edtAmount.setSelection(edtAmount.length());
-                grImage.setEnabled(true);
                 imageAdapter.setRemove(isEditApp());
                 break;
             case R.id.btn_next:

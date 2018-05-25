@@ -115,6 +115,7 @@ public class ReviewFamilyHealthMedicareFragment extends BaseFragment implements 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (images.get(position).isAdd) {
+                    if (!imageAdapter.isRemove())return;
                     if (images.size() >= 10) {
                         Utils.showLongToast(getActivity(), getString(R.string.max_image_attach_err, 9), true, false);
                     } else {

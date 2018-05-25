@@ -133,7 +133,6 @@ public class LumpSumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 itemViewHolder.edtUnTaxed.setEnabled(true);
                 itemViewHolder.edtPayerAbn.setEnabled(true);
                 itemViewHolder.edtPaymenDate.setEnabled(true);
-                itemViewHolder.grImage.setEnabled(true);
                 itemViewHolder.imgDelete.setEnabled(true);
             } else {
                 itemViewHolder.edtEdtTaxWidthheld.setEnabled(false);
@@ -141,22 +140,20 @@ public class LumpSumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 itemViewHolder.edtUnTaxed.setEnabled(false);
                 itemViewHolder.edtPayerAbn.setEnabled(false);
                 itemViewHolder.edtPaymenDate.setEnabled(false);
-                itemViewHolder.grImage.setEnabled(false);
                 itemViewHolder.imgDelete.setEnabled(false);
             }
             itemViewHolder.edtEdtTaxWidthheld.setText(lumpSum.getTaxWithheld());
             itemViewHolder.edtTaxed.setText(lumpSum.getTaxableComTaxed());
             itemViewHolder.edtUnTaxed.setText(lumpSum.getTaxableComUntaxed());
             itemViewHolder.edtPayerAbn.setText(lumpSum.getPayerAbn());
-            itemViewHolder.edtPaymenDate.setText(lumpSum.getPaymentDate());
+            if (lumpSum.getPaymentDate() != null)
+                itemViewHolder.edtPaymenDate.setText(DateTimeUtils.getDateBirthDayFromIso(lumpSum.getPaymentDate()));
             itemViewHolder.imgDelete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     if (onRemoveItem != null) onRemoveItem.onDelete(position - 1);
                 }
             });
-            if (lumpSum.getPaymentDate() != null)
-                itemViewHolder.edtPaymenDate.setText(DateTimeUtils.getDateBirthDayFromIso(lumpSum.getPaymentDate()));
 
             if (lumpSum.getImages() == null || lumpSum.getImages().size() == 0) {
                 final Image image = new Image();
@@ -164,12 +161,13 @@ public class LumpSumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 image.setAdd(true);
                 lumpSum.getImages().add(image);
             }
-            ImageAdapter imageAdapter = new ImageAdapter(context, lumpSum.getImages());
+            final ImageAdapter imageAdapter = new ImageAdapter(context, lumpSum.getImages());
             itemViewHolder.grImage.setAdapter(imageAdapter);
             imageAdapter.setRemove(isEdit);
             itemViewHolder.grImage.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int n, long id) {
+                    if (lumpSum.getImages().get(n).isAdd && !imageAdapter.isRemove()) return;
                     if (onClickImageListener != null) onClickImageListener.onClick(position - 1, n);
                 }
             });

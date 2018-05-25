@@ -126,7 +126,7 @@ public class OthersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             }
         } else if (holder instanceof ItemViewHolder) {
             LogUtils.d("onBindViewHolder", otherResponses.toString() + "position" + position);
-            OtherResponse otherResponse = otherResponses.get(position - 1);
+            final OtherResponse otherResponse = otherResponses.get(position - 1);
             final ItemViewHolder itemViewHolder = (ItemViewHolder) holder;
             if (isExpend) {
                 itemViewHolder.expandableLayout.setExpanded(true);
@@ -135,13 +135,11 @@ public class OthersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 itemViewHolder.spType.setEnabled(true);
                 itemViewHolder.edtDes.setEnabled(true);
                 itemViewHolder.edtAmount.setEnabled(true);
-                itemViewHolder.grImage.setEnabled(true);
                 itemViewHolder.imgDelete.setEnabled(true);
             } else {
                 itemViewHolder.spType.setEnabled(false);
                 itemViewHolder.edtDes.setEnabled(false);
                 itemViewHolder.edtAmount.setEnabled(false);
-                itemViewHolder.grImage.setEnabled(false);
                 itemViewHolder.imgDelete.setEnabled(false);
             }
             itemViewHolder.edtDes.setText(otherResponse.getDescription());
@@ -158,12 +156,13 @@ public class OthersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 image.setAdd(true);
                 otherResponse.getImages().add(image);
             }
-            ImageAdapter imageAdapter = new ImageAdapter(context, otherResponse.getImages());
+            final ImageAdapter imageAdapter = new ImageAdapter(context, otherResponse.getImages());
             itemViewHolder.grImage.setAdapter(imageAdapter);
             imageAdapter.setRemove(isEdit);
             itemViewHolder.grImage.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int n, long id) {
+                    if (otherResponse.getImages().get(n).isAdd && !imageAdapter.isRemove()) return;
                     if (onClickImageListener != null) onClickImageListener.onClick(position - 1, n);
                 }
             });

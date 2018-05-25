@@ -115,7 +115,7 @@ public class DividendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             }
         } else if (holder instanceof ItemViewHolder) {
             LogUtils.d("onBindViewHolder", dividends.toString() + "position" + position);
-            Dividend dividend = dividends.get(position - 1);
+            final Dividend dividend = dividends.get(position - 1);
             final ItemViewHolder itemViewHolder = (ItemViewHolder) holder;
             if (isExpend) {
                 itemViewHolder.expandableLayout.setExpanded(true);
@@ -126,7 +126,6 @@ public class DividendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 itemViewHolder.edtFrankDividends.setEnabled(true);
                 itemViewHolder.edtFrankingCredits.setEnabled(true);
                 itemViewHolder.edtTaxWidthheld.setEnabled(true);
-                itemViewHolder.grImage.setEnabled(true);
                 itemViewHolder.imgDelete.setEnabled(true);
             } else {
                 itemViewHolder.edtCompanyName.setEnabled(false);
@@ -134,7 +133,6 @@ public class DividendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 itemViewHolder.edtFrankDividends.setEnabled(false);
                 itemViewHolder.edtFrankingCredits.setEnabled(false);
                 itemViewHolder.edtTaxWidthheld.setEnabled(false);
-                itemViewHolder.grImage.setEnabled(false);
                 itemViewHolder.imgDelete.setEnabled(false);
             }
             itemViewHolder.edtCompanyName.setText(dividend.getCompanyName());
@@ -154,12 +152,13 @@ public class DividendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 image.setAdd(true);
                 dividend.getImages().add(image);
             }
-            ImageAdapter imageAdapter = new ImageAdapter(context, dividend.getImages());
+            final ImageAdapter imageAdapter = new ImageAdapter(context, dividend.getImages());
             itemViewHolder.grImage.setAdapter(imageAdapter);
             imageAdapter.setRemove(isEdit);
             itemViewHolder.grImage.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int n, long id) {
+                    if (dividend.getImages().get(n).isAdd && !imageAdapter.isRemove()) return;
                     if (onClickImageListener != null) onClickImageListener.onClick(position - 1, n);
                 }
             });

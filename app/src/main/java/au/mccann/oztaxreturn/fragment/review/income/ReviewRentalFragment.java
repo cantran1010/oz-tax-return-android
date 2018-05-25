@@ -1,7 +1,6 @@
 package au.mccann.oztaxreturn.fragment.review.income;
 
 import android.Manifest;
-import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
@@ -24,6 +23,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -124,7 +124,6 @@ public class ReviewRentalFragment extends BaseFragment implements View.OnClickLi
         edtRentalExpenses = (EditTextEasyMoney) findViewById(R.id.edt_rental_expenses);
         edtRentalExpenses.setEnabled(false);
         grImage = (MyGridView) findViewById(R.id.gr_image);
-        grImage.setEnabled(false);
         scrollView = (ScrollView) findViewById(R.id.scrollView);
         layout = (ExpandableLayout) findViewById(R.id.layout_expandable);
     }
@@ -153,6 +152,7 @@ public class ReviewRentalFragment extends BaseFragment implements View.OnClickLi
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (images.get(position).isAdd) {
+                    if (!imageAdapter.isRemove()) return;
                     if (images.size() >= 10) {
                         Utils.showLongToast(getActivity(), getString(R.string.max_image_attach_err, 9), true, false);
                     } else {
@@ -183,12 +183,16 @@ public class ReviewRentalFragment extends BaseFragment implements View.OnClickLi
 
     private void updateUI(Rental r) {
         rbYes.setChecked(r.isHad());
-        edtOwnerShip.setText(r.getOwnership());
+        if (Integer.parseInt(r.getOwnership()) > 0) edtOwnerShip.setText(r.getOwnership());
         edtStreet.setText(r.getStreet());
         edtSuburb.setText(r.getSuburb());
-        edtFirstDate.setText(r.getFirstEarned());
+        try {
+            edtFirstDate.setText(DateTimeUtils.fromCalendarToView(DateTimeUtils.toCalendarBirthday(r.getFirstEarned())));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         edtState.setText(r.getState());
-        edtPostCode.setText(r.getPostcode());
+        if (Integer.parseInt(r.getPostcode()) > 0) edtPostCode.setText(r.getPostcode());
         edtRentalIncome.setText(r.getIncome());
         edtRentalExpenses.setText(r.getExpenses());
         showImage(r.getAttachments(), images, imageAdapter);
@@ -269,14 +273,6 @@ public class ReviewRentalFragment extends BaseFragment implements View.OnClickLi
 
     private String getImagePath() {
         return imgPath;
-    }
-
-    private void scollLayout() {
-        int[] coords = {0, 0};
-        scrollView.getLocationOnScreen(coords);
-        int absoluteBottom = coords[1] + scrollView.getHeight();
-        ObjectAnimator objectAnimator = ObjectAnimator.ofInt(scrollView, "scrollY", absoluteBottom).setDuration(1500);
-        objectAnimator.start();
     }
 
     @Override
@@ -370,7 +366,7 @@ public class ReviewRentalFragment extends BaseFragment implements View.OnClickLi
                 govJson.put(Constants.PARAMETER_REVIEW_INCOME_RENTAL_SUBURB, edtSuburb.getText().toString().trim());
                 govJson.put(Constants.PARAMETER_REVIEW_INCOME_RENTAL_STARTE, edtState.getText().toString().trim());
                 govJson.put(Constants.PARAMETER_REVIEW_INCOME_RENTAL_POST_CODE, edtPostCode.getText().toString().trim());
-                govJson.put(Constants.PARAMETER_REVIEW_INCOME_RENTAL_FIRST_DATE, edtFirstDate.getText().toString().trim());
+                govJson.put(Constants.PARAMETER_REVIEW_INCOME_RENTAL_FIRST_DATE, DateTimeUtils.fromCalendarToBirthday(calendar));
                 govJson.put(Constants.PARAMETER_REVIEW_INCOME_RENTAL_INCOME, edtRentalIncome.getValuesFloat());
                 govJson.put(Constants.PARAMETER_REVIEW_INCOME_RENTAL_EXPENSES, edtRentalExpenses.getValuesFloat());
                 if (images.size() > 1) {
@@ -446,7 +442,8 @@ public class ReviewRentalFragment extends BaseFragment implements View.OnClickLi
                                           final int monthOfYear, final int dayOfMonth) {
                         if (view.isShown()) {
                             calendar.set(year, monthOfYear, dayOfMonth);
-                            edtFirstDate.setText(DateTimeUtils.fromCalendarToBirthday(calendar));
+//                            edtFirstDate.setText(DateTimeUtils.fromCalendarToBirthday(calendar));
+                            edtFirstDate.setText(DateTimeUtils.fromCalendarToView(calendar));
                         }
                     }
                 }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
@@ -471,7 +468,6 @@ public class ReviewRentalFragment extends BaseFragment implements View.OnClickLi
                 edtPostCode.setEnabled(true);
                 edtRentalIncome.setEnabled(true);
                 edtRentalExpenses.setEnabled(true);
-                grImage.setEnabled(true);
                 imageAdapter.setRemove(isEditApp());
                 break;
             case R.id.edt_first_date:

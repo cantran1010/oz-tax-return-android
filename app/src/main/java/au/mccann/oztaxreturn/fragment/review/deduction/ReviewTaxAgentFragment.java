@@ -102,7 +102,6 @@ public class ReviewTaxAgentFragment extends BaseFragment implements View.OnClick
         edtAmount = (EditTextEasyMoney) findViewById(R.id.edt_amount);
         edtAmount.setEnabled(false);
         grImage = (MyGridView) findViewById(R.id.gr_image);
-        grImage.setEnabled(false);
         scrollView = (ScrollView) findViewById(R.id.scrollView);
         layout = (ExpandableLayout) findViewById(R.id.layout_expandable);
     }
@@ -131,6 +130,7 @@ public class ReviewTaxAgentFragment extends BaseFragment implements View.OnClick
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (images.get(position).isAdd) {
+                    if (!imageAdapter.isRemove()) return;
                     if (images.size() >= 10) {
                         Utils.showLongToast(getActivity(), getString(R.string.max_image_attach_err, 9), true, false);
                     } else {
@@ -405,7 +405,6 @@ public class ReviewTaxAgentFragment extends BaseFragment implements View.OnClick
                 edtOrgan.requestFocus();
                 edtOrgan.setSelection(edtOrgan.length());
                 edtAmount.setEnabled(true);
-                grImage.setEnabled(true);
                 imageAdapter.setRemove(isEditApp());
 //               if (rbYes.isChecked())Utils.showSoftKeyboard(getContext(), edtHow);
                 break;

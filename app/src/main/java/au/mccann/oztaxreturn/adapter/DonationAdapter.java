@@ -112,7 +112,7 @@ public class DonationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             }
         } else if (holder instanceof ItemViewHolder) {
             LogUtils.d("onBindViewHolder", donations.toString() + "position" + position);
-            Donation donation = donations.get(position - 1);
+            final Donation donation = donations.get(position - 1);
             final ItemViewHolder itemViewHolder = (ItemViewHolder) holder;
             if (isExpend) {
                 itemViewHolder.expandableLayout.setExpanded(true);
@@ -120,12 +120,10 @@ public class DonationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             if (isEdit) {
                 itemViewHolder.edtOz.setEnabled(true);
                 itemViewHolder.edtAmount.setEnabled(true);
-                itemViewHolder.grImage.setEnabled(true);
                 itemViewHolder.imgDelete.setEnabled(true);
             } else {
                 itemViewHolder.edtOz.setEnabled(false);
                 itemViewHolder.edtAmount.setEnabled(false);
-                itemViewHolder.grImage.setEnabled(false);
                 itemViewHolder.imgDelete.setEnabled(false);
             }
             itemViewHolder.edtOz.setText(donation.getOrganization());
@@ -142,13 +140,15 @@ public class DonationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 image.setAdd(true);
                 donation.getImages().add(image);
             }
-            ImageAdapter imageAdapter = new ImageAdapter(context, donation.getImages());
+            final ImageAdapter imageAdapter = new ImageAdapter(context, donation.getImages());
             itemViewHolder.grImage.setAdapter(imageAdapter);
             imageAdapter.setRemove(isEdit);
             itemViewHolder.grImage.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int n, long id) {
-                    if (onClickImageListener != null) onClickImageListener.onClick(position - 1, n);
+                    if (donation.getImages().get(n).isAdd && !imageAdapter.isRemove()) return;
+                    if (onClickImageListener != null)
+                        onClickImageListener.onClick(position - 1, n);
                 }
             });
 
