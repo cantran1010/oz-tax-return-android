@@ -16,7 +16,7 @@
             android:id="@+id/img_back"
             android:layout_width="?android:attr/actionBarSize"
             android:layout_height="?android:attr/actionBarSize"
-            android:background="?attr/selectableItemBackgroundBorderless"
+            android:background="@drawable/btn_selector"
             android:focusable="true"
             android:scaleType="centerInside"
             android:src="@drawable/ic_back"
