@@ -192,7 +192,7 @@ public class Constants {
 
     public static final String COUNT_IMAGE_ATTACH_EXTRA = "extra_count_image";
 
-    public static final String DB_NAME = "hozo";
+    public static final String DB_NAME = "maximyz";
     public static final String KEY_ENCRYPTION_DEFAULT = "abcdefghabcdefghabcdefghabcdefghabcdefghabcdefghabcdefghabcdefgh";
 
 

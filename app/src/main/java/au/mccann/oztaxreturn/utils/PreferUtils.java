@@ -11,7 +11,7 @@ import au.mccann.oztaxreturn.common.Constants;
  */
 public class PreferUtils {
 
-    private static final String PREFER_NAME = "hozo";
+    private static final String PREFER_NAME = "maximy";
 
     private static final String PREFER_USER_ID = "user_id";
     private static final String PREFER_HOME_LIST = "home_list";

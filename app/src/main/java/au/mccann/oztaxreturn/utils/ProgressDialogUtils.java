@@ -62,31 +62,4 @@ public class ProgressDialogUtils {
 
     }
 
-    public static void showHozoProgressDialog(Context context) {
-
-        if (context instanceof Activity) {
-            if (((Activity) context).isFinishing()) {
-                return;
-            }
-        }
-
-        if (context == null) return;
-
-        try {
-            if (progressDialog != null) {
-                if (!progressDialog.isShowing()) {
-                    progressDialog.show();
-                }
-            } else {
-                progressDialog = new CustomProgressDialog(context);
-                progressDialog.show();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            progressDialog = null;
-            showHozoProgressDialog(context);
-        }
-    }
-
-
 }

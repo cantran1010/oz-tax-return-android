@@ -252,12 +252,12 @@ public class Utils {
         }
     }
 
-    public static void hideSoftKeyboard(Context context, View EdittextHozo) {
-        if (EdittextHozo == null)
+    public static void hideSoftKeyboard(Context context, View view) {
+        if (view == null)
             return;
 
         InputMethodManager imm = (InputMethodManager) context.getSystemService(Service.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(EdittextHozo.getWindowToken(), 0);
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
 
