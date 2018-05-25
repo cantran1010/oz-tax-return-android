@@ -9,7 +9,7 @@ import au.mccann.oztaxreturn.rest.response.ApplicationResponse;
 /**
  * Created by LongBui on 5/8/18.
  */
-public class Notification implements Serializable{
+public class Notification implements Serializable {
     private int id;
     private String content;
     private String event;
@@ -17,6 +17,26 @@ public class Notification implements Serializable{
     private String createdAt;
     @SerializedName("app")
     private ApplicationResponse application;
+    @SerializedName("manager_id")
+    private String managerId;
+    @SerializedName("manager_avatar")
+    private String managerAvatar;
+
+    public String getManagerAvatar() {
+        return managerAvatar;
+    }
+
+    public void setManagerAvatar(String managerAvatar) {
+        this.managerAvatar = managerAvatar;
+    }
+
+    public String getManagerId() {
+        return managerId;
+    }
+
+    public void setManagerId(String managerId) {
+        this.managerId = managerId;
+    }
 
     public int getId() {
         return id;
@@ -66,6 +86,8 @@ public class Notification implements Serializable{
                 ", event='" + event + '\'' +
                 ", createdAt='" + createdAt + '\'' +
                 ", application=" + application +
+                ", managerId='" + managerId + '\'' +
+                ", managerAvatar='" + managerAvatar + '\'' +
                 '}';
     }
 

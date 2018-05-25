@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 
 import au.mccann.oztaxreturn.R;
-import au.mccann.oztaxreturn.database.UserManager;
 import au.mccann.oztaxreturn.model.Notification;
 import au.mccann.oztaxreturn.utils.DateTimeUtils;
 import au.mccann.oztaxreturn.utils.Utils;
@@ -57,11 +56,10 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 
         final Notification notification = notifications.get(position);
 
-        if(UserManager.getUserEntity().getAvatar() != null && UserManager.getUserEntity().getAvatar().getUrl() != null)
-        Utils.displayImageAvatar(context,holder.imgAvata, UserManager.getUserEntity().getAvatar().getUrl());
+        Utils.displayImageAvatar(context, holder.imgAvata, notification.getManagerAvatar());
 
-        holder.tvContent.setText(Utils.getContentNotification(context,notification));
-        holder.tvTimeAgo.setText(DateTimeUtils.getTimeAgo(notification.getCreatedAt(),context));
+        holder.tvContent.setText(Utils.getContentNotification(context, notification));
+        holder.tvTimeAgo.setText(DateTimeUtils.getTimeAgo(notification.getCreatedAt(), context));
 
     }
 
