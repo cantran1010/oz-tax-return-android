@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/layout_main"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clickable="false">
@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/navi_bg"
-        android:contentDescription="TODO" />
+        tools:ignore="ContentDescription" />
 
     <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -21,8 +21,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="20dp"
-            android:paddingLeft="20dp">
+            android:padding="20dp">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -33,7 +32,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:text="Mr Justin"
                     android:textColor="@color/white"
                     android:textSize="25sp" />
 
@@ -43,9 +41,10 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:text="2017-2018"
                     android:textColor="@color/white"
-                    android:textSize="15sp" />
+                    android:textSize="15sp"
+                    android:layout_alignParentEnd="true"
+                    tools:ignore="RelativeOverlap" />
 
             </RelativeLayout>
 
@@ -62,7 +61,6 @@
                     android:id="@+id/tv_progress"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="%"
                     android:textColor="@color/white"
                     android:textSize="15sp" />
 
@@ -72,14 +70,16 @@
                     android:layout_width="match_parent"
                     android:layout_height="8dp"
                     android:layout_marginLeft="20dp"
-                    android:progressDrawable="@drawable/menu_progress" />
+                    android:progressDrawable="@drawable/menu_progress"
+                    android:layout_marginStart="20dp" />
             </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="2px"
                 android:layout_marginTop="10dp"
-                android:background="@color/line_color" />
+                android:background="@color/line_color"
+                tools:ignore="PxUsage" />
 
             <LinearLayout
                 android:id="@+id/layout_personal"
@@ -94,7 +94,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
                     android:src="@drawable/menu_up"
-                    android:contentDescription="TODO" />
+                    tools:ignore="ContentDescription" />
 
                 <au.mccann.oztaxreturn.view.TextViewCustom
                     android:layout_width="wrap_content"
@@ -104,7 +104,8 @@
                     android:text="@string/menu_personal"
                     android:textColor="@color/white"
                     android:textSize="@dimen/review_big_menu"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:layout_marginStart="10dp" />
 
             </LinearLayout>
 
@@ -124,7 +125,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/left_menu_margin"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:layout_marginStart="@dimen/left_menu_margin">
 
                     <au.mccann.oztaxreturn.view.TextViewCustom
                         android:id="@+id/tv_review_personal_name"
@@ -135,7 +137,8 @@
                         android:gravity="center_vertical"
                         android:text="@string/menu_personal_name"
                         android:textColor="@color/white"
-                        android:textSize="16sp" />
+                        android:textSize="16sp"
+                        android:drawableEnd="@drawable/img_check_review" />
 
                     <au.mccann.oztaxreturn.view.TextViewCustom
                         android:id="@+id/tv_review_personal_bank"
@@ -145,7 +148,8 @@
                         android:drawableRight="@drawable/img_check_review"
                         android:text="@string/menu_personal_bank"
                         android:textColor="@color/white"
-                        android:textSize="16sp" />
+                        android:textSize="16sp"
+                        android:drawableEnd="@drawable/img_check_review" />
 
                     <au.mccann.oztaxreturn.view.TextViewCustom
                         android:id="@+id/tv_review_personal_education"
@@ -156,7 +160,8 @@
                         android:drawableRight="@drawable/img_check_review"
                         android:text="@string/menu_personal_education"
                         android:textColor="@color/white"
-                        android:textSize="16sp" />
+                        android:textSize="16sp"
+                        android:drawableEnd="@drawable/img_check_review" />
 
                 </LinearLayout>
 
@@ -180,7 +185,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
                     android:src="@drawable/menu_up"
-                    android:contentDescription="TODO" />
+                    tools:ignore="ContentDescription" />
 
                 <au.mccann.oztaxreturn.view.TextViewCustom
                     android:layout_width="wrap_content"
@@ -190,7 +195,8 @@
                     android:text="@string/menu_incomes"
                     android:textColor="@color/white"
                     android:textSize="@dimen/review_big_menu"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:layout_marginStart="10dp" />
 
             </LinearLayout>
 
@@ -210,7 +216,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/left_menu_margin"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:layout_marginStart="@dimen/left_menu_margin">
 
                     <au.mccann.oztaxreturn.view.TextViewCustom
                         android:id="@+id/tv_wages_salary"
@@ -308,7 +315,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
                     android:src="@drawable/menu_up"
-                    android:contentDescription="TODO" />
+                    tools:ignore="ContentDescription" />
 
                 <au.mccann.oztaxreturn.view.TextViewCustom
                     android:layout_width="wrap_content"
@@ -318,7 +325,8 @@
                     android:text="@string/menu_deductions"
                     android:textColor="@color/white"
                     android:textSize="@dimen/review_big_menu"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:layout_marginStart="10dp" />
 
             </LinearLayout>
 
@@ -338,7 +346,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/left_menu_margin"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:layout_marginStart="@dimen/left_menu_margin">
 
                     <au.mccann.oztaxreturn.view.TextViewCustom
                         android:id="@+id/tv_deduction_vehicles"
@@ -418,7 +427,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
                     android:src="@drawable/menu_up"
-                    android:contentDescription="TODO" />
+                    tools:ignore="ContentDescription" />
 
                 <au.mccann.oztaxreturn.view.TextViewCustom
                     android:layout_width="wrap_content"
@@ -428,14 +437,16 @@
                     android:text="@string/menu_family_health"
                     android:textColor="@color/white"
                     android:textSize="@dimen/review_big_menu"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:layout_marginStart="10dp" />
 
             </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="2px"
-                android:background="@color/line_color" />
+                android:background="@color/line_color"
+                tools:ignore="PxUsage" />
 
             <au.mccann.oztaxreturn.view.ExpandableLayout
                 android:id="@+id/layout_expandable_family_health"
@@ -448,7 +459,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/left_menu_margin"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:layout_marginStart="@dimen/left_menu_margin">
 
                     <au.mccann.oztaxreturn.view.TextViewCustom
                         android:id="@+id/tv_review_family_health_dependants"

@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:ignore="Overdraw">
 
     <RelativeLayout
         android:id="@+id/layout_header"
@@ -334,7 +335,7 @@
         android:background="@drawable/btn_selector"
         android:layout_marginEnd="@dimen/left_right_margin_screen"
         android:layout_marginLeft="@dimen/left_right_margin_screen"
-        android:layout_marginStart= "@dimen/left_right_margin_screen"
+        android:layout_marginStart="@dimen/left_right_margin_screen"
         android:layout_marginRight="@dimen/left_right_margin_screen"
         android:text="@string/save" />
 </RelativeLayout>

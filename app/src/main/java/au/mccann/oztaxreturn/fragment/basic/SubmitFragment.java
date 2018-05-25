@@ -58,7 +58,6 @@ import static au.mccann.oztaxreturn.utils.Utils.showToolTip;
 public class SubmitFragment extends BaseFragment implements View.OnClickListener {
     private static final String TAG = SubmitFragment.class.getSimpleName();
     private EdittextCustom edtBankName, edtBSB, edtAccountNumber, edtStreetName, edtSuburb, edtState, edtPostCode, edtPhone, edtEmail;
-    private ButtonCustom btnSubmit;
     private TextViewCustom tvNote;
     private Spinner spCountryCode;
     private ArrayList<CountryCodeResponse> countryCodeResponses;
@@ -79,7 +78,7 @@ public class SubmitFragment extends BaseFragment implements View.OnClickListener
         edtPostCode = (EdittextCustom) findViewById(R.id.edt_post_code);
         edtPhone = (EdittextCustom) findViewById(R.id.edt_phone);
         edtEmail = (EdittextCustom) findViewById(R.id.edt_email);
-        btnSubmit = (ButtonCustom) findViewById(R.id.btn_submit);
+        ButtonCustom btnSubmit = (ButtonCustom) findViewById(R.id.btn_submit);
         tvNote = (TextViewCustom) findViewById(R.id.tv_note);
         btnSubmit.setOnClickListener(this);
         spCountryCode = (Spinner) findViewById(R.id.sp_country_code);

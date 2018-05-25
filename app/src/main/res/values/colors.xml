@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
     <color name="transparent">#00000000</color>
     <color name="black">#000000</color>
     <color name="black33">#333333</color>
@@ -15,7 +12,6 @@
     <color name="label_edt_register">#ababab</color>
     <color name="cb_color">#000033</color>
     <color name="red">#FF0000</color>
-    <color name="blue">#0000FF</color>
     <color name="line_color">#cdcdcd</color>
     <color name="tv_gray">#ababab</color>
     <color name="income_conten">#555555</color>
@@ -28,7 +24,6 @@
     <color name="summary_bg">#f1f1f1</color>
     <color name="summary_deduction">#7cc576</color>
     <color name="summary_tax">#f7941d</color>
-    <color name="summary_offset">#c6107b</color>
     <color name="summary_tax_widthheld">#577bb5</color>
     <color name="lodge">#7cc576</color>
     <color name="tool_tip">#fc3876</color>

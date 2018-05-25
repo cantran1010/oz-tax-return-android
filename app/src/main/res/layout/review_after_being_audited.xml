@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/summary_bg"
@@ -7,7 +8,8 @@
     android:paddingEnd="@dimen/left_right_margin_screen"
     android:paddingLeft="@dimen/left_right_margin_screen"
     android:paddingRight="@dimen/left_right_margin_screen"
-    android:paddingStart="@dimen/left_right_margin_screen">
+    android:paddingStart="@dimen/left_right_margin_screen"
+    tools:ignore="Overdraw">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -24,7 +26,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="50dp"
-                android:src="@drawable/img_auditing" />
+                android:src="@drawable/img_auditing"
+                tools:ignore="ContentDescription" />
 
             <au.mccann.oztaxreturn.view.TextViewCustom
                 android:id="@+id/tv_content"

@@ -34,7 +34,6 @@ public class NotificationFragment extends BaseFragment {
     private static final String TAG = NotificationFragment.class.getSimpleName();
     private RecyclerView rcvList;
     private ArrayList<Notification> notifications = new ArrayList<>();
-    private NotificationAdapter notificationAdapter;
     private TextViewCustom tvNoData;
 
     @Override
@@ -69,7 +68,7 @@ public class NotificationFragment extends BaseFragment {
     private void updateList() {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         rcvList.setLayoutManager(linearLayoutManager);
-        notificationAdapter = new NotificationAdapter(notifications, getActivity());
+        NotificationAdapter notificationAdapter = new NotificationAdapter(notifications, getActivity());
         rcvList.setAdapter(notificationAdapter);
     }
 

@@ -33,7 +33,6 @@
         android:id="@+id/tv_yes"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/selectableItemBackground"
         android:focusable="true"
         android:gravity="center"
         android:minHeight="40dp"

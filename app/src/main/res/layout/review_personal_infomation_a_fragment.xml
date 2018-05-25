@@ -154,7 +154,6 @@
                 android:textSize="@dimen/size_small" />
 
             <RelativeLayout
-                android:id="@+id/layout_gender"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -184,7 +183,7 @@
                     android:paddingRight="10dp"
                     android:scaleType="centerInside"
                     android:src="@drawable/ic_down"
-                    tools:ignore="ContentDescription" />
+                    tools:ignore="ContentDescription,RtlSymmetry" />
 
             </RelativeLayout>
 
@@ -214,7 +213,8 @@
                     android:paddingLeft="10dp"
                     android:paddingStart="10dp"
                     android:text="@string/Yes"
-                    android:textSize="@dimen/tv_size_xlager" />
+                    android:textSize="@dimen/tv_size_xlager"
+                    tools:ignore="RtlSymmetry" />
 
                 <au.mccann.oztaxreturn.view.RadioButtonCustom
                     android:id="@+id/rb_no"
@@ -228,7 +228,8 @@
                     android:paddingLeft="10dp"
                     android:paddingStart="10dp"
                     android:text="@string/No"
-                    android:textSize="@dimen/tv_size_xlager" />
+                    android:textSize="@dimen/tv_size_xlager"
+                    tools:ignore="RtlSymmetry" />
             </RadioGroup>
 
         </LinearLayout>

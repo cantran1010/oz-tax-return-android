@@ -252,12 +252,12 @@ public class Utils {
         }
     }
 
-    public static void hideSoftKeyboard(Context context, View EdittextHozo) {
-        if (EdittextHozo == null)
+    public static void hideSoftKeyboard(Context context, View view) {
+        if (view == null)
             return;
 
         InputMethodManager imm = (InputMethodManager) context.getSystemService(Service.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(EdittextHozo.getWindowToken(), 0);
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
 
@@ -449,8 +449,7 @@ public class Utils {
 //    }
 
     static public String displayCurrency(String aFloat) {
-        Float aFloat1 = Float.parseFloat(aFloat.replace(",", "").replace("$", ""));
-        Float currencyAmount = new Float(aFloat);
+        Float currencyAmount = Float.valueOf(aFloat);
         NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance(Locale.US);
         return currencyFormatter.format(currencyAmount);
     }

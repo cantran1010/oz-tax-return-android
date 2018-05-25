@@ -39,7 +39,7 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.MyViewHolder> {
 
 
     @Override
-    public void onBindViewHolder(final MyViewHolder holder, final int position) {
+    public void onBindViewHolder(final MyViewHolder holder, int position) {
         final Job job = jobs.get(position);
         holder.tvJob.setText(context.getString(R.string.job) + (position));
         holder.edtGroos.setText(job.getTotalGrossIncom());
@@ -86,7 +86,7 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.MyViewHolder> {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                jobs.get(position).setTotalGrossIncom(holder.edtGroos.getValuesFloat());
+                jobs.get(holder.getAdapterPosition()).setTotalGrossIncom(holder.edtGroos.getValuesFloat());
             }
         });
         holder.edtTax.addTextChangedListener(new TextWatcher() {
@@ -102,7 +102,7 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.MyViewHolder> {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                jobs.get(position).setTotalTaxWidthheld(holder.edtTax.getValuesFloat());
+                jobs.get(holder.getAdapterPosition()).setTotalTaxWidthheld(holder.edtTax.getValuesFloat());
             }
         });
         holder.edtAllow.addTextChangedListener(new TextWatcher() {
@@ -118,7 +118,7 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.MyViewHolder> {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                jobs.get(position).setAllowances(holder.edtAllow.getValuesFloat());
+                jobs.get(holder.getAdapterPosition()).setAllowances(holder.edtAllow.getValuesFloat());
             }
         });
         holder.edtFringer.addTextChangedListener(new TextWatcher() {
@@ -134,7 +134,7 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.MyViewHolder> {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                jobs.get(position).setReporTableFringerBenefits(holder.edtFringer.getValuesFloat());
+                jobs.get(holder.getAdapterPosition()).setReporTableFringerBenefits(holder.edtFringer.getValuesFloat());
             }
         });
         holder.edtEmployer.addTextChangedListener(new TextWatcher() {
@@ -150,7 +150,7 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.MyViewHolder> {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                jobs.get(position).setReporTableEmployerSupper(holder.edtEmployer.getValuesFloat());
+                jobs.get(holder.getAdapterPosition()).setReporTableEmployerSupper(holder.edtEmployer.getValuesFloat());
             }
         });
         holder.edtCompanyName.addTextChangedListener(new TextWatcher() {
@@ -166,7 +166,7 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.MyViewHolder> {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                jobs.get(position).setCompanyName(editable.toString().trim());
+                jobs.get(holder.getAdapterPosition()).setCompanyName(editable.toString().trim());
             }
         });
         holder.edtCompanyAbn.addTextChangedListener(new TextWatcher() {
@@ -182,7 +182,7 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.MyViewHolder> {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                jobs.get(position).setCompanyAbn(editable.toString().trim());
+                jobs.get(holder.getAdapterPosition()).setCompanyAbn(editable.toString().trim());
             }
         });
         holder.edtCompanyContact.addTextChangedListener(new TextWatcher() {
@@ -198,7 +198,7 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.MyViewHolder> {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                jobs.get(position).setCompanyContact(editable.toString().trim());
+                jobs.get(holder.getAdapterPosition()).setCompanyContact(editable.toString().trim());
             }
         });
     }

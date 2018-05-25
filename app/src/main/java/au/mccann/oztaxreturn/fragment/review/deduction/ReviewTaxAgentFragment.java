@@ -76,7 +76,6 @@ public class ReviewTaxAgentFragment extends BaseFragment implements View.OnClick
     private ArrayList<Image> images;
     private final String[] permissions = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
     private String imgPath;
-    private ScrollView scrollView;
     private ExpandableLayout layout;
     private TaxAgents taxAgents = new TaxAgents();
     private ArrayList<Attachment> attach;
@@ -102,7 +101,7 @@ public class ReviewTaxAgentFragment extends BaseFragment implements View.OnClick
         edtAmount = (EditTextEasyMoney) findViewById(R.id.edt_amount);
         edtAmount.setEnabled(false);
         grImage = (MyGridView) findViewById(R.id.gr_image);
-        scrollView = (ScrollView) findViewById(R.id.scrollView);
+        ScrollView scrollView = (ScrollView) findViewById(R.id.scrollView);
         layout = (ExpandableLayout) findViewById(R.id.layout_expandable);
     }
 

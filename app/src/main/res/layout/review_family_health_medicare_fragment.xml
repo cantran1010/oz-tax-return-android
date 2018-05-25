@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginLeft="@dimen/left_right_margin_screen"
@@ -57,7 +58,8 @@
                     android:enabled="false"
                     android:paddingLeft="5dp"
                     android:paddingStart="5dp"
-                    android:text="@string/Yes" />
+                    android:text="@string/Yes"
+                    tools:ignore="RtlSymmetry" />
 
                 <au.mccann.oztaxreturn.view.CheckBoxCustom
                     android:id="@+id/cb_no"
@@ -69,7 +71,9 @@
                     android:enabled="false"
                     android:paddingLeft="5dp"
                     android:paddingStart="5dp"
-                    android:text="@string/No" />
+                    android:text="@string/No"
+                    tools:ignore="RtlSymmetry"
+                    android:layout_marginStart="50dp" />
 
             </LinearLayout>
 

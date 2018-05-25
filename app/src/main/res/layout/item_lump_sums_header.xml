@@ -22,7 +22,6 @@
         android:background="@color/app_bg" />
 
     <au.mccann.oztaxreturn.view.TextViewCustom
-        android:id="@+id/dividend_ask"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="25dp"

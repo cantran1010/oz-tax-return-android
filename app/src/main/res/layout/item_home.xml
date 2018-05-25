@@ -29,7 +29,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:text="Complete"
                 android:textColor="@color/black"
                 android:textSize="12sp"
                 android:visibility="gone" />
@@ -46,7 +45,6 @@
                     android:layout_height="55dp"
                     android:layout_centerInParent="true"
                     android:layout_margin="5dp"
-                    android:indeterminateTint="@color/red"
                     android:max="100"
                     android:padding="5dp"
                     android:progress="75"
@@ -58,9 +56,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:text="75%"
                     android:textColor="#333333"
-                    android:textSize="11sp" />
+                    android:textSize="12sp" />
 
             </RelativeLayout>
 
@@ -73,7 +70,8 @@
             android:layout_marginBottom="20dp"
             android:layout_marginTop="20dp"
             android:layout_toRightOf="@id/layout_left"
-            android:background="#cdcdcc" />
+            android:background="#cdcdcc"
+            android:layout_toEndOf="@id/layout_left" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -82,7 +80,10 @@
             android:layout_marginLeft="15dp"
             android:layout_toLeftOf="@id/layout_right"
             android:layout_toRightOf="@id/v"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_marginStart="15dp"
+            android:layout_toStartOf="@id/layout_right"
+            android:layout_toEndOf="@id/v">
 
             <au.mccann.oztaxreturn.view.TextViewCustom
                 android:id="@+id/tv_app_name"
@@ -90,7 +91,6 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:maxLines="2"
-                android:text="Bui Long"
                 android:textColor="#333333"
                 android:textSize="@dimen/size_nomal"
                 android:textStyle="bold" />
@@ -100,7 +100,6 @@
                 android:id="@+id/tv_year"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="2016 - 2017"
                 android:textColor="#555555"
                 android:textSize="13sp" />
         </LinearLayout>
@@ -113,7 +112,8 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="10dp"
-            android:background="@drawable/btn_blue_selector">
+            android:background="@drawable/btn_blue_selector"
+            android:layout_marginEnd="10dp">
 
             <au.mccann.oztaxreturn.view.TextViewCustom
                 android:id="@+id/tv_button"
@@ -121,7 +121,6 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:drawablePadding="5dp"
-                android:text="REVIEW"
                 android:textColor="@color/white"
                 android:textSize="12sp"
                 android:textStyle="bold" />

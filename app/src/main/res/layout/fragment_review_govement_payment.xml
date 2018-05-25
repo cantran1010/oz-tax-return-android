@@ -137,8 +137,7 @@
                         android:inputType="numberDecimal"
                         android:textColor="@color/income_conten"
                         android:textColorHint="@color/tv_gray"
-                        app:currency_symbol="$"
-                        />
+                        app:currency_symbol="$" />
 
                     <au.mccann.oztaxreturn.view.TextViewCustom
                         android:layout_width="wrap_content"
@@ -158,8 +157,7 @@
                         android:textColor="@color/income_conten"
                         android:textColorHint="@color/tv_gray"
                         android:inputType="numberDecimal"
-                        app:currency_symbol="$"
-                      />
+                        app:currency_symbol="$" />
 
                     <au.mccann.oztaxreturn.view.TextViewCustom
                         android:layout_width="wrap_content"

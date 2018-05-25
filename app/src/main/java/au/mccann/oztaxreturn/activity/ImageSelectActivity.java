@@ -33,7 +33,6 @@ public class ImageSelectActivity extends BaseActivity implements View.OnClickLis
     private final String[] projection = new String[]{MediaStore.Images.Media._ID, MediaStore.Images.Media.DISPLAY_NAME, MediaStore.Images.Media.DATA};
     private TextViewCustom tvAlbumName;
     private boolean isOnlyImage = false;
-    private boolean isCropProfile = false;
     private int countImageAttach = 0;
 
     @Override
@@ -60,6 +59,7 @@ public class ImageSelectActivity extends BaseActivity implements View.OnClickLis
         if (intent != null && intent.hasExtra(Constants.EXTRA_ONLY_IMAGE))
             isOnlyImage = intent.getBooleanExtra(Constants.EXTRA_ONLY_IMAGE, false);
 
+        boolean isCropProfile = false;
         if (intent != null && intent.hasExtra(Constants.EXTRA_IS_CROP_PROFILE))
             isCropProfile = intent.getBooleanExtra(Constants.EXTRA_IS_CROP_PROFILE, false);
 

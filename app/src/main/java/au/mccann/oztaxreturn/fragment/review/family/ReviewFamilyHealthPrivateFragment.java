@@ -65,7 +65,6 @@ public class ReviewFamilyHealthPrivateFragment extends BaseFragment implements V
     private static final String TAG = ReviewFamilyHealthPrivateFragment.class.getSimpleName();
     private FloatingActionButton fab, fbAdd;
     private CheckBoxCustom cbYes, cbNo;
-    private LinearLayout layoutYes;
     private EdittextCustom edtNumber;
     private ReviewFamilyHealthResponse reviewFamilyHealthResponse;
     private ArrayList<ReviewPrivateResponse> reviewPrivateResponses = new ArrayList<>();
@@ -90,7 +89,7 @@ public class ReviewFamilyHealthPrivateFragment extends BaseFragment implements V
         cbYes = (CheckBoxCustom) findViewById(R.id.cb_yes);
         cbNo = (CheckBoxCustom) findViewById(R.id.cb_no);
 
-        layoutYes = (LinearLayout) findViewById(R.id.layout_yes);
+        LinearLayout layoutYes = (LinearLayout) findViewById(R.id.layout_yes);
 
         fbAdd = (FloatingActionButton) findViewById(R.id.add);
 
