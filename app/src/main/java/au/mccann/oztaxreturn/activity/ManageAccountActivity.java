@@ -465,7 +465,7 @@ public class ManageAccountActivity extends BaseActivity implements View.OnClickL
                 save();
                 break;
             case R.id.img_back:
-                DialogUtils.showOkAndCancelDialog(this, getString(R.string.unsaved), getString(R.string.unsaved_content), getString(R.string.ok), getString(R.string.No), new AlertDialogOkAndCancel.AlertDialogListener() {
+                DialogUtils.showOkAndCancelDialog(this, getString(R.string.app_name), getString(R.string.unsaved_content), getString(R.string.ok), getString(R.string.No), new AlertDialogOkAndCancel.AlertDialogListener() {
                     @Override
                     public void onSubmit() {
                         save();
