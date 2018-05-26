@@ -107,7 +107,7 @@ public class ManageAccountActivity extends BaseActivity implements View.OnClickL
     @Override
     protected void initData() {
         genders = Arrays.asList(getResources().getStringArray(R.array.string_array_gender));
-        OzSpinnerAdapter dataNameAdapter = new OzSpinnerAdapter(this, genders);
+        OzSpinnerAdapter dataNameAdapter = new OzSpinnerAdapter(this, genders,0);
         spGender.setAdapter(dataNameAdapter);
         updateUI(UserManager.getUserEntity());
         getUserInformation();

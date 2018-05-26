@@ -329,8 +329,6 @@ public class ReviewFamilyHealthPrivateFragment extends BaseFragment implements V
 
                     if (TextUtils.isEmpty(reviewPrivateResponse.getInsurer())
                             || TextUtils.isEmpty(reviewPrivateResponse.getMembershipNo())
-                            || Float.parseFloat(reviewPrivateResponse.getPremiumsPaid()) == 0
-                            || Float.parseFloat(reviewPrivateResponse.getGovRebateReceived()) == 0
                             || reviewPrivateResponse.getDaysCovered() == 0
                             ) {
 
@@ -429,8 +427,8 @@ public class ReviewFamilyHealthPrivateFragment extends BaseFragment implements V
         } else {
             cbYes.setChecked(true);
             cbNo.setChecked(false);
-            setUpList(false);
         }
+        setUpList(false);
     }
 
     private void getReviewFamilyAndHealth() {

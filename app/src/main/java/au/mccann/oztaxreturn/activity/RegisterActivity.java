@@ -261,7 +261,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                         listCode.add(countryCodeResponse.getDialCode());
                     }
 
-                    OzSpinnerAdapter dataNameAdapter = new OzSpinnerAdapter(RegisterActivity.this, listCode);
+                    OzSpinnerAdapter dataNameAdapter = new OzSpinnerAdapter(RegisterActivity.this, listCode,0);
                     spCountryCode.setAdapter(dataNameAdapter);
 //                    getBasicInformation();
                 } else {

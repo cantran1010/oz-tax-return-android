@@ -111,7 +111,7 @@ public class ReviewPersonalInfomationB extends BaseFragment implements View.OnCl
                         listCode.add(countryCodeResponse.getDialCode());
                     }
 
-                    OzSpinnerAdapter dataNameAdapter = new OzSpinnerAdapter(getContext(), listCode);
+                    OzSpinnerAdapter dataNameAdapter = new OzSpinnerAdapter(getContext(), listCode,0);
                     spCountryCode.setAdapter(dataNameAdapter);
 
                     getReviewInformationB();

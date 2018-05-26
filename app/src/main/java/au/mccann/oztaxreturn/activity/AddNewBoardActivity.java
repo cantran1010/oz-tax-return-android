@@ -88,7 +88,7 @@ public class AddNewBoardActivity extends BaseActivity implements View.OnClickLis
 //            if (!listName.contains(applicationResponse.getPayerName()))
             listName.add(applicationResponse.getPayerName());
         }
-        OzSpinnerAdapter dataNameAdapter = new OzSpinnerAdapter(this, listName);
+        OzSpinnerAdapter dataNameAdapter = new OzSpinnerAdapter(this, listName,0);
         spName.setAdapter(dataNameAdapter);
 
 //        List<String> listYear = new ArrayList<>();
@@ -96,10 +96,10 @@ public class AddNewBoardActivity extends BaseActivity implements View.OnClickLis
 //            if (!listYear.contains(applicationResponse.getFinancialYear()))
 //                listYear.add(applicationResponse.getFinancialYear());
 //        }
-        OzSpinnerAdapter dataYearAdapter = new OzSpinnerAdapter(this, Utils.getListYear());
+        OzSpinnerAdapter dataYearAdapter = new OzSpinnerAdapter(this, Utils.getListYear(),0);
         spYear.setAdapter(dataYearAdapter);
 
-        OzSpinnerAdapter dataYearCreateAdapter = new OzSpinnerAdapter(this, Utils.getListYear());
+        OzSpinnerAdapter dataYearCreateAdapter = new OzSpinnerAdapter(this, Utils.getListYear(),0);
         spYearCreate.setAdapter(dataYearCreateAdapter);
 
         cbDuplicate.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
