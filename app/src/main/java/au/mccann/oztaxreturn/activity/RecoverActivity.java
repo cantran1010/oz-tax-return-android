@@ -1,6 +1,5 @@
 package au.mccann.oztaxreturn.activity;
 
-import android.os.Handler;
 import android.view.View;
 import android.widget.Spinner;
 
@@ -105,13 +104,12 @@ public class RecoverActivity extends BaseActivity implements View.OnClickListene
                 ProgressDialogUtils.dismissProgressDialog();
                 LogUtils.d(TAG, "doRecover code" + response.code());
                 if (response.code() == Constants.HTTP_CODE_NO_CONTENT) {
-                    Utils.showLongToast(RecoverActivity.this, getString(R.string.send_successfully), false, true);
-                    new Handler().postDelayed(new Runnable() {
+                    DialogUtils.showOkDialog(RecoverActivity.this, getString(R.string.app_name), getString(R.string.send_successfully), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
                         @Override
-                        public void run() {
+                        public void onSubmit() {
                             finish();
                         }
-                    }, 1000);
+                    });
 
                 } else {
                     APIError error = Utils.parseError(response);
@@ -164,7 +162,7 @@ public class RecoverActivity extends BaseActivity implements View.OnClickListene
                         listCode.add(countryCodeResponse.getDialCode());
                     }
 
-                    OzSpinnerAdapter dataNameAdapter = new OzSpinnerAdapter(RecoverActivity.this, listCode);
+                    OzSpinnerAdapter dataNameAdapter = new OzSpinnerAdapter(RecoverActivity.this, listCode, 1);
                     spCountryCode.setAdapter(dataNameAdapter);
 //                    getBasicInformation();
                 } else {

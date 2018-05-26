@@ -82,7 +82,7 @@ public class PersonalFragment extends BaseFragment implements View.OnClickListen
         setTitle(getString(R.string.personal_information_title));
         appBarVisibility(false, true, 0);
         genders = Arrays.asList(getResources().getStringArray(R.array.string_array_gender));
-        OzSpinnerAdapter dataNameAdapter = new OzSpinnerAdapter(getContext(), genders);
+        OzSpinnerAdapter dataNameAdapter = new OzSpinnerAdapter(getContext(), genders,0);
         spGender.setAdapter(dataNameAdapter);
         findViewById(R.id.btn_next).setOnClickListener(this);
         getBasicInformation();

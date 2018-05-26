@@ -166,7 +166,7 @@ public class EducationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     if (onClickImageListener != null) onClickImageListener.onClick(position - 1, n);
                 }
             });
-            OzSpinnerAdapter dataNameAdapter = new OzSpinnerAdapter(context, types);
+            OzSpinnerAdapter dataNameAdapter = new OzSpinnerAdapter(context, types,0);
             itemViewHolder.spType.setAdapter(dataNameAdapter);
             itemViewHolder.spType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override

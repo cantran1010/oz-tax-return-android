@@ -81,7 +81,7 @@ public class ReviewPersonalInfomationA extends BaseFragment implements View.OnCl
     protected void initData() {
 
         genders = Arrays.asList(getResources().getStringArray(R.array.string_array_gender));
-        OzSpinnerAdapter dataNameAdapter = new OzSpinnerAdapter(getContext(), genders);
+        OzSpinnerAdapter dataNameAdapter = new OzSpinnerAdapter(getContext(), genders,0);
         spGender.setAdapter(dataNameAdapter);
         spGender.setEnabled(false);
 

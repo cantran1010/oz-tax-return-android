@@ -145,7 +145,7 @@ public class ReviewClothesFragment extends BaseFragment implements View.OnClickL
             }
         });
         types = Arrays.asList(getResources().getStringArray(R.array.string_array_deduction_type));
-        OzSpinnerAdapter dataNameAdapter = new OzSpinnerAdapter(getActivity(), types);
+        OzSpinnerAdapter dataNameAdapter = new OzSpinnerAdapter(getActivity(), types, 0);
         spType.setAdapter(dataNameAdapter);
         rbYes.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override

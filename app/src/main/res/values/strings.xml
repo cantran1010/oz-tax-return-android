@@ -29,13 +29,13 @@
     <string name="hint_email">Your email address</string>
     <string name="hint_mobile">Your mobile</string>
     <string name="or">or</string>
-    <string name="error_empty">Please Enter content.</string>
+    <string name="error_empty">Please Enter Your email or mobile number.</string>
 
     <!-- login -->
     <string name="btn_login">login</string>
     <string name="forgot_password">Forgot password?</string>
     <string name="valid_password">Password of at least 5 characters.</string>
-    <string name="send_successfully">send request successfully.</string>
+    <string name="send_successfully">Your login information has been sent to your provided email or mobile number.</string>
     <string name="vali_re_password">password is not matching.</string>
 
     <!-- common -->

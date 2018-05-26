@@ -12,6 +12,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 
 import org.json.JSONArray;
@@ -451,6 +452,20 @@ public class ReviewEducationsFragment extends BaseFragment implements View.OnCli
                 break;
             case R.id.btn_next:
                 if (isEditApp()) {
+                    for (Education o : educations) {
+                        if (TextUtils.isEmpty(o.getCourse())
+                                || (o.getAttach().size() == 0 && o.getImages().size() < 2)
+                                ) {
+                            DialogUtils.showOkDialog(getActivity(), getString(R.string.error), getString(R.string.required_all), getString(R.string.Yes), new AlertDialogOk.AlertDialogListener() {
+                                @Override
+                                public void onSubmit() {
+
+                                }
+                            });
+                            return;
+                        }
+
+                    }
                     if (adapter.isExpend())
                         uploadImage(educations);
                     else {

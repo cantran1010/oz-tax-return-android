@@ -444,12 +444,22 @@ public class ReviewAnnuitiesFragment extends BaseFragment implements View.OnClic
                 adapter.notifyDataSetChanged();
                 break;
             case R.id.btn_next:
-                LogUtils.d(TAG, "onClick :" + adapter.isExpend() + isEditApp());
                 if (isEditApp()) {
+                    for (Annuity o : annuities) {
+                        if ((o.getAttach().size() == 0 && o.getImages().size() < 2)
+                                ) {
+                            DialogUtils.showOkDialog(getActivity(), getString(R.string.error), getString(R.string.required_all), getString(R.string.Yes), new AlertDialogOk.AlertDialogListener() {
+                                @Override
+                                public void onSubmit() {
+
+                                }
+                            });
+                            return;
+                        }
+                    }
                     if (adapter.isExpend())
                         uploadImage(annuities);
                     else {
-                        LogUtils.d(TAG, "onClick 1:");
                         doSaveReview();
                     }
                 } else
