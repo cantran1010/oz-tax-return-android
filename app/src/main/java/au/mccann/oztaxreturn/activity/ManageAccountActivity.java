@@ -356,6 +356,12 @@ public class ManageAccountActivity extends BaseActivity implements View.OnClickL
             edtState.getParent().requestChildFocus(edtState, edtState);
             return;
         }
+        if (edtOldPassWord.getText().toString().trim().isEmpty()) {
+            showToolTip(this, edtOldPassWord, getString(R.string.vali_all_empty));
+            edtOldPassWord.requestFocus();
+            edtOldPassWord.getParent().requestChildFocus(edtOldPassWord, edtOldPassWord);
+            return;
+        }
         if (0 < edtNewPassWordAgain.getText().toString().length() && edtOldPassWord.getText().toString().trim().length() < 5) {
             showToolTip(this, edtNewPassWordAgain, getString(R.string.vali_password_lenth));
             edtNewPassWordAgain.requestFocus();
