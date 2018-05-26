@@ -10,6 +10,7 @@
         android:layout_marginTop="30dp"
         android:gravity="center"
         android:text="@string/update_login_details"
+        android:textAllCaps="true"
         android:textColor="@color/black"
         android:textSize="25sp"
         android:textStyle="bold" />
@@ -36,6 +37,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
+        android:focusable="false"
         android:inputType="text" />
 
     <au.mccann.oztaxreturn.view.TextViewCustom
