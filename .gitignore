@@ -57,5 +57,4 @@ freeline_project_description.json
 app/build
 
 #keystore
-keystore_debug/
 keystore_release/
