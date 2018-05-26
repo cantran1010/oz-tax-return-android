@@ -36,6 +36,8 @@ public class Application extends android.app.Application {
 //                Crashlytics.setInt("user_id", UserManager.getMyUser().getId());
 //        }
 
+        //test
+
     }
 
     @Override
