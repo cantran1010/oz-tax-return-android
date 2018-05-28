@@ -583,6 +583,10 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
                         tvProgress.setText(reviewProgressResponse.getPercent() + "%");
                         progressBar.setProgress(reviewProgressResponse.getPercent());
                     }
+                }else if (response.code() == Constants.HTTP_CODE_BLOCK) {
+                    Intent intent = new Intent(HomeActivity.this, SplashActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
                 } else {
                     APIError error = Utils.parseError(response);
                     if (error != null) {

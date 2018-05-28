@@ -1,5 +1,6 @@
 package au.mccann.oztaxreturn.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -9,6 +10,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import au.mccann.oztaxreturn.R;
+import au.mccann.oztaxreturn.activity.SplashActivity;
 import au.mccann.oztaxreturn.common.Constants;
 import au.mccann.oztaxreturn.database.UserManager;
 import au.mccann.oztaxreturn.dialog.AlertDialogOk;
@@ -116,7 +118,11 @@ public class FirstCheckoutFragment extends BaseFragment implements View.OnClickL
                         }
                     });
 
-                } else {
+                } else if (response.code() == Constants.HTTP_CODE_BLOCK) {
+                    Intent intent = new Intent(getContext(), SplashActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                }else {
                     APIError error = Utils.parseError(response);
                     LogUtils.d(TAG, "checkPromotionCode error : " + error.message());
                     if (error != null) {
@@ -170,6 +176,10 @@ public class FirstCheckoutFragment extends BaseFragment implements View.OnClickL
                     feeResponse = response.body();
                     tvServiceFee.setText(Utils.displayCurrency(String.valueOf(feeResponse.getAmount())));
                     tvTotalFee.setText(Utils.displayCurrency(String.valueOf(feeResponse.getAmountAfter())));
+                }else if (response.code() == Constants.HTTP_CODE_BLOCK) {
+                    Intent intent = new Intent(getContext(), SplashActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
                 } else {
                     APIError error = Utils.parseError(response);
                     LogUtils.d(TAG, "getPromotionFee error : " + error.message());

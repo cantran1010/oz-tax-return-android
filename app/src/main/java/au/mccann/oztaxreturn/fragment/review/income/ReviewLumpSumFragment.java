@@ -32,6 +32,7 @@ import java.util.List;
 import au.mccann.oztaxreturn.R;
 import au.mccann.oztaxreturn.activity.AlbumActivity;
 import au.mccann.oztaxreturn.activity.PreviewImageActivity;
+import au.mccann.oztaxreturn.activity.SplashActivity;
 import au.mccann.oztaxreturn.adapter.LumpSumAdapter;
 import au.mccann.oztaxreturn.common.Constants;
 import au.mccann.oztaxreturn.database.UserManager;
@@ -287,6 +288,10 @@ public class ReviewLumpSumFragment extends BaseFragment implements View.OnClickL
                 if (response.code() == Constants.HTTP_CODE_OK) {
                     LogUtils.d(TAG, "getReviewIncome body : " + response.body().getLumpSums().toString());
                     updateUI(response.body().getLumpSums());
+                } else if (response.code() == Constants.HTTP_CODE_BLOCK) {
+                    Intent intent = new Intent(getContext(), SplashActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
                 } else {
                     APIError error = Utils.parseError(response);
                     if (error != null) {
@@ -414,6 +419,10 @@ public class ReviewLumpSumFragment extends BaseFragment implements View.OnClickL
                     LogUtils.d(TAG, "doSaveReview body: " + response.body().getLumpSums().toString());
                     LogUtils.d(TAG, " dividends image " + lumpSums.toString());
                     openFragment(R.id.layout_container, ReviewRentalFragment.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
+                } else if (response.code() == Constants.HTTP_CODE_BLOCK) {
+                    Intent intent = new Intent(getContext(), SplashActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
                 } else {
                     APIError error = Utils.parseError(response);
                     LogUtils.e(TAG, "doSaveReview error : " + error.message());
@@ -478,23 +487,23 @@ public class ReviewLumpSumFragment extends BaseFragment implements View.OnClickL
                 break;
             case R.id.btn_next:
                 if (isEditApp()) {
-                    for (LumpSum o : lumpSums) {
-                        if (TextUtils.isEmpty(o.getPayerAbn()) || TextUtils.isEmpty(o.getPaymentDate())
-                                || (o.getAttach().size() == 0 && o.getImages().size() < 2)
-                                ) {
-                            DialogUtils.showOkDialog(getActivity(), getString(R.string.error), getString(R.string.required_all), getString(R.string.Yes), new AlertDialogOk.AlertDialogListener() {
-                                @Override
-                                public void onSubmit() {
+                    if (adapter.isExpend()) {
+                        for (LumpSum o : lumpSums) {
+                            if (TextUtils.isEmpty(o.getPayerAbn()) || TextUtils.isEmpty(o.getPaymentDate())
+                                    || (o.getAttach().size() == 0 && o.getImages().size() < 2)
+                                    ) {
+                                DialogUtils.showOkDialog(getActivity(), getString(R.string.error), getString(R.string.required_all), getString(R.string.Yes), new AlertDialogOk.AlertDialogListener() {
+                                    @Override
+                                    public void onSubmit() {
 
-                                }
-                            });
-                            return;
+                                    }
+                                });
+                                return;
+                            }
+
                         }
-
-                    }
-                    if (adapter.isExpend())
                         uploadImage(lumpSums);
-                    else {
+                    } else {
                         doSaveReview();
                     }
                 } else

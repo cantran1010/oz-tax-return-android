@@ -26,6 +26,7 @@ import java.util.List;
 import au.mccann.oztaxreturn.R;
 import au.mccann.oztaxreturn.activity.AlbumActivity;
 import au.mccann.oztaxreturn.activity.PreviewImageActivity;
+import au.mccann.oztaxreturn.activity.SplashActivity;
 import au.mccann.oztaxreturn.adapter.DividendAdapter;
 import au.mccann.oztaxreturn.common.Constants;
 import au.mccann.oztaxreturn.database.UserManager;
@@ -255,6 +256,10 @@ public class ReviewDividendsFragment extends BaseFragment implements View.OnClic
                 if (response.code() == Constants.HTTP_CODE_OK) {
                     LogUtils.d(TAG, "getReviewIncome body : " + response.body().getDividends().toString());
                     updateUI(response.body().getDividends());
+                } else if (response.code() == Constants.HTTP_CODE_BLOCK) {
+                    Intent intent = new Intent(getContext(), SplashActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
                 } else {
                     APIError error = Utils.parseError(response);
                     if (error != null) {
@@ -382,6 +387,10 @@ public class ReviewDividendsFragment extends BaseFragment implements View.OnClic
                     LogUtils.d(TAG, "doSaveReview body: " + response.body().getDividends().toString());
                     LogUtils.d(TAG, " dividends image " + dividends.toString());
                     openFragment(R.id.layout_container, ReviewETPsFragment.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
+                } else if (response.code() == Constants.HTTP_CODE_BLOCK) {
+                    Intent intent = new Intent(getContext(), SplashActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
                 } else {
                     APIError error = Utils.parseError(response);
                     LogUtils.e(TAG, "doSaveReview error : " + error.message());
@@ -461,23 +470,23 @@ public class ReviewDividendsFragment extends BaseFragment implements View.OnClic
                 break;
             case R.id.btn_next:
                 if (isEditApp()) {
-                    for (Dividend o : dividends) {
-                        if (TextUtils.isEmpty(o.getCompanyName())
-                                || (o.getAttach().size() == 0 && o.getImages().size() < 2)
-                                ) {
-                            DialogUtils.showOkDialog(getActivity(), getString(R.string.error), getString(R.string.required_all), getString(R.string.Yes), new AlertDialogOk.AlertDialogListener() {
-                                @Override
-                                public void onSubmit() {
+                    if (adapter.isExpend()) {
+                        for (Dividend o : dividends) {
+                            if (TextUtils.isEmpty(o.getCompanyName())
+                                    || (o.getAttach().size() == 0 && o.getImages().size() < 2)
+                                    ) {
+                                DialogUtils.showOkDialog(getActivity(), getString(R.string.error), getString(R.string.required_all), getString(R.string.Yes), new AlertDialogOk.AlertDialogListener() {
+                                    @Override
+                                    public void onSubmit() {
 
-                                }
-                            });
-                            return;
+                                    }
+                                });
+                                return;
+                            }
+
                         }
-
-                    }
-                    if (adapter.isExpend())
                         uploadImage(dividends);
-                    else {
+                    } else {
                         doSaveReview();
                     }
                 } else

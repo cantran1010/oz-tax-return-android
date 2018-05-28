@@ -27,6 +27,7 @@ import java.util.List;
 
 import au.mccann.oztaxreturn.R;
 import au.mccann.oztaxreturn.activity.AlbumActivity;
+import au.mccann.oztaxreturn.activity.SplashActivity;
 import au.mccann.oztaxreturn.adapter.LanguageSpinnerAdapter;
 import au.mccann.oztaxreturn.adapter.MessageAdapter;
 import au.mccann.oztaxreturn.common.Constants;
@@ -148,6 +149,10 @@ public class ContactFragment extends BaseFragment implements View.OnClickListene
                     } else
                         isLoadingMoreFromServer = false;
 
+                }else if (response.code() == Constants.HTTP_CODE_BLOCK) {
+                    Intent intent = new Intent(getContext(), SplashActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
                 } else {
                     APIError error = Utils.parseError(response);
                     if (error != null) {
@@ -211,7 +216,11 @@ public class ContactFragment extends BaseFragment implements View.OnClickListene
                     messages.add(0, response.body());
                     messageAdapter.notifyDataSetChanged();
                     rcvMsg.smoothScrollToPosition(0);
-                } else {
+                } else if (response.code() == Constants.HTTP_CODE_BLOCK) {
+                    Intent intent = new Intent(getContext(), SplashActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                }else {
                     APIError error = Utils.parseError(response);
                     LogUtils.d(TAG, "doSend error : " + error.message());
                     if (error != null) {
@@ -337,6 +346,10 @@ public class ContactFragment extends BaseFragment implements View.OnClickListene
                     spLanguage.setAdapter(languageSpinnerAdapter);
 
                     getUserInformation();
+                }else if (response.code() == Constants.HTTP_CODE_BLOCK) {
+                    Intent intent = new Intent(getContext(), SplashActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
                 } else {
                     APIError error = Utils.parseError(response);
                     if (error != null) {
@@ -386,6 +399,10 @@ public class ContactFragment extends BaseFragment implements View.OnClickListene
                 LogUtils.d(TAG, "doUpdateLanguage code: " + response.code());
                 if (response.code() == Constants.HTTP_CODE_OK) {
                     LogUtils.d(TAG, "doUpdateLanguage boddy : " + response.body());
+                }else if (response.code() == Constants.HTTP_CODE_BLOCK) {
+                    Intent intent = new Intent(getContext(), SplashActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
                 } else {
                     APIError error = Utils.parseError(response);
                     LogUtils.d(TAG, "doUpdateLanguage error : " + error.toString());
@@ -441,6 +458,10 @@ public class ContactFragment extends BaseFragment implements View.OnClickListene
                     });
 
 
+                }else if (response.code() == Constants.HTTP_CODE_BLOCK) {
+                    Intent intent = new Intent(getContext(), SplashActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
                 } else {
                     APIError error = Utils.parseError(response);
                     if (error != null) {

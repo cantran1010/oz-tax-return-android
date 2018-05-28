@@ -136,8 +136,12 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                     startActivity(new Intent(LoginActivity.this, HomeActivity.class), TransitionScreen.RIGHT_TO_LEFT);
                 } else {
                     APIError error = Utils.parseError(response);
+                    LogUtils.d(TAG, "doLogin error : " + error.status());
                     if (error != null) {
-                        DialogUtils.showOkDialog(LoginActivity.this, getString(R.string.error), error.message(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                        String content = error.message();
+                        if (error.status().equalsIgnoreCase("user.inactive"))
+                            content = content.replace("  ", ", ").replace("Y", "y");
+                        DialogUtils.showOkDialog(LoginActivity.this, getString(R.string.error), content, getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
                             @Override
                             public void onSubmit() {
 
