@@ -1,5 +1,6 @@
 package au.mccann.oztaxreturn.fragment.review.income;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,6 +14,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 import au.mccann.oztaxreturn.R;
+import au.mccann.oztaxreturn.activity.SplashActivity;
 import au.mccann.oztaxreturn.adapter.JobAdapter;
 import au.mccann.oztaxreturn.common.Constants;
 import au.mccann.oztaxreturn.database.UserManager;
@@ -100,6 +102,10 @@ public class ReviewWagesSalaryFragment extends BaseFragment implements View.OnCl
                     jobAdapter.notifyDataSetChanged();
                     if (jobs.size() > 0) tvNoData.setVisibility(View.GONE);
                     else tvNoData.setVisibility(View.VISIBLE);
+                } else if (response.code() == Constants.HTTP_CODE_BLOCK) {
+                    Intent intent = new Intent(getContext(), SplashActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
                 } else {
                     APIError error = Utils.parseError(response);
                     if (error != null) {
@@ -167,6 +173,10 @@ public class ReviewWagesSalaryFragment extends BaseFragment implements View.OnCl
                 if (response.code() == Constants.HTTP_CODE_OK) {
                     LogUtils.d(TAG, "doSaveReview code: " + response.body().getJobs().toString());
                     openFragment(R.id.layout_container, ReviewGovementFragment.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
+                } else if (response.code() == Constants.HTTP_CODE_BLOCK) {
+                    Intent intent = new Intent(getContext(), SplashActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
                 } else {
                     APIError error = Utils.parseError(response);
                     LogUtils.e(TAG, "doSaveReview error : " + error.message());

@@ -1,5 +1,6 @@
 package au.mccann.oztaxreturn.activity;
 
+import android.content.Intent;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.CompoundButton;
@@ -88,7 +89,7 @@ public class AddNewBoardActivity extends BaseActivity implements View.OnClickLis
 //            if (!listName.contains(applicationResponse.getPayerName()))
             listName.add(applicationResponse.getPayerName());
         }
-        OzSpinnerAdapter dataNameAdapter = new OzSpinnerAdapter(this, listName,0);
+        OzSpinnerAdapter dataNameAdapter = new OzSpinnerAdapter(this, listName, 0);
         spName.setAdapter(dataNameAdapter);
 
 //        List<String> listYear = new ArrayList<>();
@@ -96,10 +97,10 @@ public class AddNewBoardActivity extends BaseActivity implements View.OnClickLis
 //            if (!listYear.contains(applicationResponse.getFinancialYear()))
 //                listYear.add(applicationResponse.getFinancialYear());
 //        }
-        OzSpinnerAdapter dataYearAdapter = new OzSpinnerAdapter(this, Utils.getListYear(),0);
+        OzSpinnerAdapter dataYearAdapter = new OzSpinnerAdapter(this, Utils.getListYear(), 0);
         spYear.setAdapter(dataYearAdapter);
 
-        OzSpinnerAdapter dataYearCreateAdapter = new OzSpinnerAdapter(this, Utils.getListYear(),0);
+        OzSpinnerAdapter dataYearCreateAdapter = new OzSpinnerAdapter(this, Utils.getListYear(), 0);
         spYearCreate.setAdapter(dataYearCreateAdapter);
 
         cbDuplicate.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -167,6 +168,10 @@ public class AddNewBoardActivity extends BaseActivity implements View.OnClickLis
                     LogUtils.d(TAG, "doCreateApplication body : " + response.body().toString());
                     setResult(Constants.CREATE_APP_RESULT_CODE);
                     finish();
+                } else if (response.code() == Constants.HTTP_CODE_BLOCK) {
+                    Intent intent = new Intent(AddNewBoardActivity.this, SplashActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
                 } else {
                     APIError error = Utils.parseError(response);
                     LogUtils.d(TAG, "doCreateApplication error : " + error.message());
@@ -225,6 +230,10 @@ public class AddNewBoardActivity extends BaseActivity implements View.OnClickLis
                     LogUtils.d(TAG, "doDuplicateApplication body : " + response.body().toString());
                     setResult(Constants.CREATE_APP_RESULT_CODE);
                     finish();
+                }else if (response.code() == Constants.HTTP_CODE_BLOCK) {
+                    Intent intent = new Intent(AddNewBoardActivity.this, SplashActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
                 } else {
                     APIError error = Utils.parseError(response);
                     LogUtils.d(TAG, "doDuplicateApplication error : " + error.message());

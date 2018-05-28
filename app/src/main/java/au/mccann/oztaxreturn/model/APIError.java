@@ -21,7 +21,7 @@ public class APIError {
 
     public String message() {
         if (message != null)
-            return message.replace(".", " ").replace("_", " ");
+            return message.replace(".", " ").replace("_", " ").replace("  ", " ");
         else return "";
     }
 

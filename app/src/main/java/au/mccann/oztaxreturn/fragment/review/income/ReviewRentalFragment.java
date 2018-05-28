@@ -33,6 +33,7 @@ import java.util.List;
 import au.mccann.oztaxreturn.R;
 import au.mccann.oztaxreturn.activity.AlbumActivity;
 import au.mccann.oztaxreturn.activity.PreviewImageActivity;
+import au.mccann.oztaxreturn.activity.SplashActivity;
 import au.mccann.oztaxreturn.adapter.ImageAdapter;
 import au.mccann.oztaxreturn.common.Constants;
 import au.mccann.oztaxreturn.database.UserManager;
@@ -296,6 +297,10 @@ public class ReviewRentalFragment extends BaseFragment implements View.OnClickLi
                     LogUtils.d(TAG, "getReviewIncome body : " + response.body().getRental());
                     rental = response.body().getRental();
                     if (rental != null) updateUI(rental);
+                } else if (response.code() == Constants.HTTP_CODE_BLOCK) {
+                    Intent intent = new Intent(getContext(), SplashActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
                 } else {
                     APIError error = Utils.parseError(response);
                     if (error != null) {
@@ -399,6 +404,10 @@ public class ReviewRentalFragment extends BaseFragment implements View.OnClickLi
                 if (response.code() == Constants.HTTP_CODE_OK) {
                     LogUtils.d(TAG, "doSaveReview code: " + response.body().getJobs().toString());
                     openFragment(R.id.layout_container, ReviewVehicleFragment.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
+                } else if (response.code() == Constants.HTTP_CODE_BLOCK) {
+                    Intent intent = new Intent(getContext(), SplashActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
                 } else {
                     APIError error = Utils.parseError(response);
                     LogUtils.e(TAG, "doSaveReview error : " + error.message());

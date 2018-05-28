@@ -1,5 +1,6 @@
 package au.mccann.oztaxreturn.fragment.review.personal;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.view.View;
@@ -16,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import au.mccann.oztaxreturn.R;
+import au.mccann.oztaxreturn.activity.SplashActivity;
 import au.mccann.oztaxreturn.adapter.OzSpinnerAdapter;
 import au.mccann.oztaxreturn.common.Constants;
 import au.mccann.oztaxreturn.database.UserManager;
@@ -263,6 +265,10 @@ public class ReviewPersonalInfomationB extends BaseFragment implements View.OnCl
                     LogUtils.d(TAG, "doNextB body : " + response.body().toString());
 //                    bundle.putSerializable(Constants.PERSONNAL_INFO_EXTRA, response.body());
                     openFragment(R.id.layout_container, ReviewPersonalInfomationC.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
+                }else if (response.code() == Constants.HTTP_CODE_BLOCK) {
+                    Intent intent = new Intent(getContext(), SplashActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
                 } else {
                     APIError error = Utils.parseError(response);
                     LogUtils.d(TAG, "doNextB error : " + error.message());
@@ -312,6 +318,10 @@ public class ReviewPersonalInfomationB extends BaseFragment implements View.OnCl
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
+                }else if (response.code() == Constants.HTTP_CODE_BLOCK) {
+                    Intent intent = new Intent(getContext(), SplashActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
                 } else {
                     APIError error = Utils.parseError(response);
                     LogUtils.d(TAG, "getReviewInformationB error : " + error.message());

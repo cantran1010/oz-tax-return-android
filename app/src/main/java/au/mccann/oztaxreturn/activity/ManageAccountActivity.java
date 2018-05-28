@@ -174,6 +174,10 @@ public class ManageAccountActivity extends BaseActivity implements View.OnClickL
                     UserManager.insertUser(user);
                     LogUtils.d(TAG, "getUserInformation body : " + UserManager.getUserEntity().toString());
                     updateUI(UserManager.getUserEntity());
+                }else if (response.code() == Constants.HTTP_CODE_BLOCK) {
+                    Intent intent = new Intent(ManageAccountActivity.this, SplashActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
                 } else {
                     APIError error = Utils.parseError(response);
                     if (error != null) {
@@ -408,6 +412,10 @@ public class ManageAccountActivity extends BaseActivity implements View.OnClickL
                     user.setToken(UserManager.getUserToken());
                     UserManager.insertUser(user);
                     finish();
+                }else if (response.code() == Constants.HTTP_CODE_BLOCK) {
+                    Intent intent = new Intent(ManageAccountActivity.this, SplashActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
                 } else {
                     APIError error = Utils.parseError(response);
                     LogUtils.e(TAG, "updateUserInformation error : " + error.message());

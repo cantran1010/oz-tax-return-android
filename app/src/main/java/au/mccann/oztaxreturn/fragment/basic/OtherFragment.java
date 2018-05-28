@@ -24,6 +24,7 @@ import java.util.List;
 import au.mccann.oztaxreturn.R;
 import au.mccann.oztaxreturn.activity.AlbumActivity;
 import au.mccann.oztaxreturn.activity.PreviewImageActivity;
+import au.mccann.oztaxreturn.activity.SplashActivity;
 import au.mccann.oztaxreturn.adapter.ImageAdapter;
 import au.mccann.oztaxreturn.common.Constants;
 import au.mccann.oztaxreturn.database.UserManager;
@@ -167,6 +168,10 @@ public class OtherFragment extends BaseFragment implements View.OnClickListener 
                     LogUtils.d(TAG, "getBasicInformation body : " + response.body().toString());
                     if (response.body().getOther() != null)
                         updateUI(response.body().getOther());
+                }else if (response.code() == Constants.HTTP_CODE_BLOCK) {
+                    Intent intent = new Intent(getContext(), SplashActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
                 } else {
                     APIError error = Utils.parseError(response);
                     if (error != null) {
@@ -317,6 +322,10 @@ public class OtherFragment extends BaseFragment implements View.OnClickListener 
                 LogUtils.d(TAG, "doSaveBasic code: " + response.code());
                 if (response.code() == Constants.HTTP_CODE_OK) {
                     openFragment(R.id.layout_container, DeductionFragment.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
+                }else if (response.code() == Constants.HTTP_CODE_BLOCK) {
+                    Intent intent = new Intent(getContext(), SplashActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
                 } else {
                     APIError error = Utils.parseError(response);
                     LogUtils.e(TAG, "doSaveBasic error : " + error.message());
