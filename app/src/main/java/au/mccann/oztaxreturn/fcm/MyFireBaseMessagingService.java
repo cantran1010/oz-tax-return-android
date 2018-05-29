@@ -107,6 +107,12 @@ public class MyFireBaseMessagingService extends FirebaseMessagingService {
 
         notificationManager.notify((int) System.currentTimeMillis(), notificationBuilder.build());
 
+        if(notification.getEvent().equals("message_received")){
+            Intent intentPushCount = new Intent();
+            intentPushCount.setAction(Constants.BROAD_CAST_PUSH_CHAT);
+            sendBroadcast(intentPushCount);
+        }
+
     }
 
 }
