@@ -25,16 +25,17 @@
                 android:layout_gravity="center_vertical"
                 android:drawablePadding="10dp"
                 android:text="@string/connect_language"
-                android:textSize="12sp" />
+                android:textSize="12sp"
+                android:visibility="gone" />
 
             <RelativeLayout
                 android:layout_width="150dp"
                 android:layout_height="40dp"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"
                 android:background="@drawable/bg_language"
-                android:minHeight="45dp"
-                android:layout_marginStart="10dp">
+                android:minHeight="45dp">
 
                 <Spinner
                     android:id="@+id/sp_language"
@@ -103,10 +104,10 @@
             android:id="@+id/img_send"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:src="@drawable/img_send"
-            android:layout_alignParentEnd="true"
             tools:ignore="ContentDescription" />
 
         <au.mccann.oztaxreturn.view.EdittextCustom
@@ -116,14 +117,15 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
+            android:layout_toEndOf="@id/img_attach"
             android:layout_toLeftOf="@id/img_send"
             android:layout_toRightOf="@id/img_attach"
+            android:layout_toStartOf="@id/img_send"
             android:background="@null"
             android:gravity="bottom"
+            android:hint="@string/connect_hint"
             android:minHeight="50dp"
-            android:paddingBottom="12dp"
-            android:layout_toStartOf="@id/img_send"
-            android:layout_toEndOf="@id/img_attach" />
+            android:paddingBottom="12dp" />
 
     </RelativeLayout>
 

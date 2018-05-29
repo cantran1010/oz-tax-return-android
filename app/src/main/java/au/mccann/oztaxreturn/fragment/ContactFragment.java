@@ -3,7 +3,10 @@ package au.mccann.oztaxreturn.fragment;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.provider.MediaStore;
@@ -104,7 +107,17 @@ public class ContactFragment extends BaseFragment implements View.OnClickListene
 
     @Override
     protected void resumeData() {
+        getActivity().registerReceiver(newMessagePush, new IntentFilter(Constants.BROAD_CAST_PUSH_CHAT));
+    }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+        try {
+            getActivity().unregisterReceiver(newMessagePush);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void onRefresh() {
@@ -131,7 +144,7 @@ public class ContactFragment extends BaseFragment implements View.OnClickListene
     }
 
     private void getMsg(final String s, final int limmit) {
-        ProgressDialogUtils.showProgressDialog(getActivity());
+//        ProgressDialogUtils.showProgressDialog(getActivity());
         ApiClient.getApiService().getMsg(UserManager.getUserToken(), s, limmit).enqueue(new Callback<List<Message>>() {
             @Override
             public void onResponse(Call<List<Message>> call, Response<List<Message>> response) {
@@ -142,6 +155,8 @@ public class ContactFragment extends BaseFragment implements View.OnClickListene
                     messages.addAll(response.body());
                     messageAdapter.notifyDataSetChanged();
 
+                    LogUtils.d(TAG, "getMsg messages all : " + messages.toString());
+
                     if (response.body().size() >= 1) {
                         since = response.body().get(response.body().size() - 1).getCreatedAt();
 
@@ -149,7 +164,7 @@ public class ContactFragment extends BaseFragment implements View.OnClickListene
                     } else
                         isLoadingMoreFromServer = false;
 
-                }else if (response.code() == Constants.HTTP_CODE_BLOCK) {
+                } else if (response.code() == Constants.HTTP_CODE_BLOCK) {
                     Intent intent = new Intent(getContext(), SplashActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
@@ -165,7 +180,7 @@ public class ContactFragment extends BaseFragment implements View.OnClickListene
                         });
                     }
                 }
-                ProgressDialogUtils.dismissProgressDialog();
+//                ProgressDialogUtils.dismissProgressDialog();
             }
 
             @Override
@@ -182,7 +197,7 @@ public class ContactFragment extends BaseFragment implements View.OnClickListene
 
                     }
                 });
-                ProgressDialogUtils.dismissProgressDialog();
+//                ProgressDialogUtils.dismissProgressDialog();
             }
         });
     }
@@ -220,7 +235,7 @@ public class ContactFragment extends BaseFragment implements View.OnClickListene
                     Intent intent = new Intent(getContext(), SplashActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
-                }else {
+                } else {
                     APIError error = Utils.parseError(response);
                     LogUtils.d(TAG, "doSend error : " + error.message());
                     if (error != null) {
@@ -346,7 +361,7 @@ public class ContactFragment extends BaseFragment implements View.OnClickListene
                     spLanguage.setAdapter(languageSpinnerAdapter);
 
                     getUserInformation();
-                }else if (response.code() == Constants.HTTP_CODE_BLOCK) {
+                } else if (response.code() == Constants.HTTP_CODE_BLOCK) {
                     Intent intent = new Intent(getContext(), SplashActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
@@ -399,7 +414,7 @@ public class ContactFragment extends BaseFragment implements View.OnClickListene
                 LogUtils.d(TAG, "doUpdateLanguage code: " + response.code());
                 if (response.code() == Constants.HTTP_CODE_OK) {
                     LogUtils.d(TAG, "doUpdateLanguage boddy : " + response.body());
-                }else if (response.code() == Constants.HTTP_CODE_BLOCK) {
+                } else if (response.code() == Constants.HTTP_CODE_BLOCK) {
                     Intent intent = new Intent(getContext(), SplashActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
@@ -458,7 +473,7 @@ public class ContactFragment extends BaseFragment implements View.OnClickListene
                     });
 
 
-                }else if (response.code() == Constants.HTTP_CODE_BLOCK) {
+                } else if (response.code() == Constants.HTTP_CODE_BLOCK) {
                     Intent intent = new Intent(getContext(), SplashActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
@@ -494,6 +509,20 @@ public class ContactFragment extends BaseFragment implements View.OnClickListene
             }
         });
     }
+
+    private final BroadcastReceiver newMessagePush = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            LogUtils.d(TAG, "Contact Fragment reload data");
+            try {
+                messages.clear();
+                isLoadingMoreFromServer = true;
+                getMsg(null, LIMIT);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    };
 
     @Override
     public void onClick(View v) {

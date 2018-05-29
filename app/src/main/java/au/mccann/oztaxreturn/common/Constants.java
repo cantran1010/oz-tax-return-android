@@ -207,5 +207,5 @@ public class Constants {
     public static final int CREATE_APP_REQUEST_CODE = 258;
     public static final int CREATE_APP_RESULT_CODE = 852;
 
-
+    public static String BROAD_CAST_PUSH_CHAT = "push_chat_filter";
 }
