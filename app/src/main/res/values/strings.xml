@@ -4,7 +4,7 @@
     <string name="alert_dialog_no">no</string>
     <string name="alert_dialog_title">notification</string>
     <string name="title_activity_home">HomeActivity</string>
-    <string name="hint_User_name">Username</string>
+    <string name="hint_User_name">Phone or Email or Username</string>
     <string name="hint_pass_word">Password</string>
 
     <!-- register  -->
@@ -37,6 +37,7 @@
     <string name="valid_password">Password of at least 5 characters.</string>
     <string name="send_successfully">Your login information has been sent to your provided email or mobile number.</string>
     <string name="vali_re_password">password is not matching.</string>
+    <string name="user_wrong">Incorrect Username or Password</string>
 
     <!-- common -->
 
@@ -45,6 +46,8 @@
     <string name="logout">Are you sure you want to logout?</string>
     <string name="required_all">All fields are required!</string>
     <string name="remove">Are you sure you want to remove?</string>
+    <string name="attach_photo">Please attach supporting photos</string>
+
     <!-- pick image dialog -->
     <string name="attach_img_title">Attach image</string>
     <string name="attach_img_source">Select source</string>
@@ -78,25 +81,25 @@
     <!-- income wages salary -->
     <string name="income_ws_title">Income</string>
     <string name="wages_salary">Wages/Salary</string>
-    <string name="income_ws_des1">Do you have</string>
+    <string name="income_ws_des1">Do you have a</string>
     <string name="income_ws_des2">PAYG payment summary?</string>
     <string name="Yes">Yes</string>
     <string name="No">No</string>
     <string name="tfn_hint">Enter your TFN</string>
     <string name="your_name">YOUR NAME</string>
     <string name="first_name_hint">First name</string>
-    <string name="middle_name_hint">Mid name</string>
+    <string name="middle_name_hint">Middle name</string>
     <string name="last_name_hint">Last Name</string>
-    <string name="birthday">YOUR BIRTHDAY</string>
+    <string name="birthday">Date of Birth</string>
     <string name="next">NEXT</string>
     <string name="gallery">Gallery</string>
     <string name="your_birthday">Your Birthday</string>
+    <string name="attach_photo_payg">Please attach photos of your PAYG</string>
 
 
     <!-- income other -->
     <string name="income_other_content">These sources of income may include government suport, investment, business, dividends, rental properties and foreign income. Please select Yes if you are not sure, our account will process your case from our end to make sure everything is right for your application</string>
     <string name="income_other_hint">Example: Retail properties, investment</string>
-    <string name="income_other_img">payg image</string>
     <string name="income_other_ask">Do you have other sources of income?</string>
     <string name="lable_income">Please provide some information about your other sources of income</string>
 
@@ -107,8 +110,8 @@
     <string name="valid_deduction_image">please choose at least a photo</string>
 
     <!-- estimate -->
-    <string name="estimate_title">estimate tax refund</string>
-    <string name="estimate_content">Our accountant will process your applicaition and fill in other information using our expertise to help you get the best possible tax refund.   You will be notified to review the final application and provide extra information if required before we loge it to ATO.</string>
+    <string name="estimate_title">Application Ready</string>
+    <string name="estimate_content">Our accountant will process your application and fill in other information using our expertise to help you get the best possible tax refund.   You will be notified to review the final application and provide extra information if required before we loge it to ATO.</string>
     <string name="estimate_note">* Please click Next to provide your personal information</string>
 
     <!-- personal information -->
@@ -122,6 +125,11 @@
         <item>Male</item>
         <item>Female</item>
         <item>Unknown</item>
+    </string-array>
+    <string-array name="string_array_title">
+        <item>Mr</item>
+        <item>Mrs</item>
+        <item>Ms</item>
     </string-array>
 
     <!-- personal information submit -->

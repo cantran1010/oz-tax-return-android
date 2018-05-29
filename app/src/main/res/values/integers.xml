@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <integer name="AnimTime">200</integer>
+    <integer name="AnimTime">300</integer>
     <integer name="expand">500</integer>
 </resources>

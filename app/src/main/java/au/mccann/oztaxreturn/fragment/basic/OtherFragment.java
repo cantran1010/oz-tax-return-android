@@ -146,14 +146,11 @@ public class OtherFragment extends BaseFragment implements View.OnClickListener 
     }
 
     private void updateUI(Other other) {
-        boolean check = other.getContent() != null || (other.getAttachments() != null && other.getAttachments().size() > 0);
-        LogUtils.d(TAG, "update" + check);
-        if (check) {
-            layout.setExpanded(true);
-            edtResource.setText(other.getContent());
-            showImage(other.getAttachments(), images, imageAdapter);
-        }
-        rbYes.setChecked(check);
+        boolean check = other.getContent().isEmpty() || other.getContent() == null;
+        rbYes.setChecked(!check);
+        layout.setExpanded(!check);
+        edtResource.setText(other.getContent());
+        showImage(other.getAttachments(), images, imageAdapter);
     }
 
     private void getBasicInformation() {
@@ -165,10 +162,10 @@ public class OtherFragment extends BaseFragment implements View.OnClickListener 
                 ProgressDialogUtils.dismissProgressDialog();
                 LogUtils.d(TAG, "getBasicInformation code : " + response.code());
                 if (response.code() == Constants.HTTP_CODE_OK) {
-                    LogUtils.d(TAG, "getBasicInformation body : " + response.body().toString());
+                    LogUtils.d(TAG, "getBasicInformation body : " + response.body().getOther().toString());
                     if (response.body().getOther() != null)
                         updateUI(response.body().getOther());
-                }else if (response.code() == Constants.HTTP_CODE_BLOCK) {
+                } else if (response.code() == Constants.HTTP_CODE_BLOCK) {
                     Intent intent = new Intent(getContext(), SplashActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
@@ -291,24 +288,24 @@ public class OtherFragment extends BaseFragment implements View.OnClickListener 
         JSONObject jsonRequest = new JSONObject();
         try {
             JSONObject salaryJson = new JSONObject();
-            for (Image image : images
-                    ) {
-                if (image.getId() > 0) {
-                    Attachment attachment = new Attachment();
-                    attachment.setId((int) image.getId());
-                    attachment.setUrl(image.getPath());
-                    attach.add(attachment);
+            if (rbYes.isChecked()) {
+                for (Image image : images
+                        ) {
+                    if (image.getId() > 0) {
+                        Attachment attachment = new Attachment();
+                        attachment.setId((int) image.getId());
+                        attachment.setUrl(image.getPath());
+                        attach.add(attachment);
+                    }
                 }
+                JSONArray jsonArray = new JSONArray();
+                for (Attachment mId : attach)
+                    jsonArray.put(mId.getId());
+                salaryJson.put("attachments", jsonArray);
+                salaryJson.put(Constants.PARAMETER_BASIC_CONTENT, edtResource.getText().toString().trim());
             }
-            JSONArray jsonArray = new JSONArray();
-            for (Attachment mId : attach)
-                jsonArray.put(mId.getId());
-            salaryJson.put("attachments", jsonArray);
-            salaryJson.put(Constants.PARAMETER_BASIC_CONTENT, edtResource.getText().toString().trim());
-            if (rbYes.isChecked())
-                jsonRequest.put(Constants.PARAMETER_BASIC_INCOME_OTHER, salaryJson);
-            else
-                jsonRequest.put(Constants.PARAMETER_BASIC_INCOME_OTHER, new JSONObject());
+            salaryJson.put(Constants.PARAMETER_REVIEW_HAD, rbYes.isChecked());
+            jsonRequest.put(Constants.PARAMETER_BASIC_INCOME_OTHER, salaryJson);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -322,12 +319,13 @@ public class OtherFragment extends BaseFragment implements View.OnClickListener 
                 LogUtils.d(TAG, "doSaveBasic code: " + response.code());
                 if (response.code() == Constants.HTTP_CODE_OK) {
                     openFragment(R.id.layout_container, DeductionFragment.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
-                }else if (response.code() == Constants.HTTP_CODE_BLOCK) {
+                } else if (response.code() == Constants.HTTP_CODE_BLOCK) {
                     Intent intent = new Intent(getContext(), SplashActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
                 } else {
                     APIError error = Utils.parseError(response);
+                    LogUtils.e(TAG, "doSaveBasic error status: " + error.status());
                     LogUtils.e(TAG, "doSaveBasic error : " + error.message());
                     if (error != null) {
                         DialogUtils.showOkDialog(getContext(), getString(R.string.error), error.message(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
@@ -389,10 +387,6 @@ public class OtherFragment extends BaseFragment implements View.OnClickListener 
                 if (rbYes.isChecked()) {
                     if (edtResource.getText().toString().trim().isEmpty()) {
                         showToolTip(getContext(), edtResource, getString(R.string.vali_all_empty));
-                        return;
-                    }
-                    if (images.size() < 2) {
-                        showToolTip(getContext(), grImage, getString(R.string.vali_all_empty));
                         return;
                     }
                     uploadImage();

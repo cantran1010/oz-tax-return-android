@@ -15,24 +15,24 @@
 
         <au.mccann.oztaxreturn.view.TextViewCustom
             android:id="@+id/tv_title"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
             android:layout_marginTop="15dp"
+            android:gravity="center"
             android:text="@string/alert_dialog_title"
             android:textColor="@color/black"
             android:textSize="20sp" />
 
         <au.mccann.oztaxreturn.view.TextViewCustom
             android:id="@+id/tv_content"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="24dp"
             android:layout_marginRight="24dp"
             android:layout_marginTop="5dp"
             android:gravity="center"
             android:textColor="@color/tv_gray"
-            android:textSize="16sp" />
+            android:textSize="@dimen/size_nomal" />
 
         <au.mccann.oztaxreturn.view.TextViewCustom
             android:id="@+id/tv_yes"

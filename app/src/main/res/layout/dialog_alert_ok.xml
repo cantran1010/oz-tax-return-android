@@ -7,10 +7,10 @@
 
     <au.mccann.oztaxreturn.view.TextViewCustom
         android:id="@+id/tv_title"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
         android:layout_marginTop="5dp"
+        android:gravity="center"
         android:text="@string/alert_dialog_title"
         android:textColor="@android:color/black"
         android:textSize="@dimen/tv_size_xlager"
@@ -22,7 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
         android:gravity="center"
-        android:textSize="16sp" />
+        android:textSize="@dimen/size_nomal" />
 
     <View
         android:layout_width="match_parent"

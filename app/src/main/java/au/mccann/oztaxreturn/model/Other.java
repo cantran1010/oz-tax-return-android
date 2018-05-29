@@ -9,9 +9,18 @@ import java.util.List;
  * Created by CanTran on 4/26/18.
  */
 public class Other implements Serializable {
+    private boolean had;
     @SerializedName("content")
     private String content;
     private List<Attachment> attachments;
+
+    public boolean isHad() {
+        return had;
+    }
+
+    public void setHad(boolean had) {
+        this.had = had;
+    }
 
     public String getContent() {
         return content;
@@ -32,7 +41,8 @@ public class Other implements Serializable {
     @Override
     public String toString() {
         return "Other{" +
-                "content='" + content + '\'' +
+                "had=" + had +
+                ", content='" + content + '\'' +
                 ", attachments=" + attachments +
                 '}';
     }

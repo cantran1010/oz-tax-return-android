@@ -51,12 +51,13 @@ import retrofit2.Response;
 public class ReviewPersonalInfomationA extends BaseFragment implements View.OnClickListener {
 
     private static final String TAG = ReviewPersonalInfomationA.class.getSimpleName();
-    private EdittextCustom edtTitle, edtFirstName, edtMidName, edtLastName, edtBirthDay;
+    private EdittextCustom  edtFirstName, edtMidName, edtLastName, edtBirthDay;
     private RadioButtonCustom rbYes, rbNo;
     private Calendar calendar = GregorianCalendar.getInstance();
     private FloatingActionButton fab;
-    private Spinner spGender;
+    private Spinner spGender,spTitle;
     private List<String> genders = new ArrayList<>();
+    private List<String> titles = new ArrayList<>();
 
     @Override
     protected int getLayout() {
@@ -65,7 +66,7 @@ public class ReviewPersonalInfomationA extends BaseFragment implements View.OnCl
 
     @Override
     protected void initView() {
-        edtTitle = (EdittextCustom) findViewById(R.id.edt_title);
+        spTitle = (Spinner) findViewById(R.id.sp_title);
         edtFirstName = (EdittextCustom) findViewById(R.id.edt_first_name);
         edtMidName = (EdittextCustom) findViewById(R.id.edt_middle_name);
         edtLastName = (EdittextCustom) findViewById(R.id.edt_last_name);
@@ -83,10 +84,13 @@ public class ReviewPersonalInfomationA extends BaseFragment implements View.OnCl
     protected void initData() {
 
         genders = Arrays.asList(getResources().getStringArray(R.array.string_array_gender));
+        titles = Arrays.asList(getResources().getStringArray(R.array.string_array_title));
         OzSpinnerAdapter dataNameAdapter = new OzSpinnerAdapter(getContext(), genders,0);
+        OzSpinnerAdapter dataTitleAdapter = new OzSpinnerAdapter(getContext(), titles, 0);
         spGender.setAdapter(dataNameAdapter);
+        spTitle.setAdapter(dataTitleAdapter);
         spGender.setEnabled(false);
-
+        spTitle.setEnabled(false);
         setTitle(getString(R.string.infomation_a));
         appBarVisibility(true, true, 1);
         if (isEditApp()) fab.setVisibility(View.VISIBLE);
@@ -178,11 +182,6 @@ public class ReviewPersonalInfomationA extends BaseFragment implements View.OnCl
 
     private void donext() {
 
-        if (edtTitle.getText().toString().trim().isEmpty()) {
-            Utils.showToolTip(getActivity(), edtTitle, getString(R.string.vali_all_empty));
-            return;
-        }
-
         if (edtFirstName.getText().toString().trim().isEmpty()) {
             Utils.showToolTip(getActivity(), edtFirstName, getString(R.string.vali_all_empty));
             return;
@@ -206,7 +205,7 @@ public class ReviewPersonalInfomationA extends BaseFragment implements View.OnCl
         ProgressDialogUtils.showProgressDialog(getActivity());
         JSONObject jsonRequest = new JSONObject();
         try {
-            jsonRequest.put("title", edtTitle.getText().toString().trim());
+            jsonRequest.put("title", spTitle.getSelectedItem().toString());
             jsonRequest.put("first_name", edtFirstName.getText().toString().trim());
             jsonRequest.put("middle_name", edtMidName.getText().toString().trim());
             jsonRequest.put("last_name", edtLastName.getText().toString().trim());
@@ -267,7 +266,7 @@ public class ReviewPersonalInfomationA extends BaseFragment implements View.OnCl
     }
 
     private void doEdit() {
-        edtTitle.setEnabled(true);
+        spTitle.setEnabled(true);
         edtFirstName.setEnabled(true);
         edtMidName.setEnabled(true);
         edtLastName.setEnabled(true);
@@ -278,7 +277,12 @@ public class ReviewPersonalInfomationA extends BaseFragment implements View.OnCl
     }
 
     private void updatePersonalInfomation(PersonalInfomationResponse personalInfomationResponse) {
-        edtTitle.setText(personalInfomationResponse.getTitle());
+        for (int i = 0; i < titles.size(); i++) {
+            if (personalInfomationResponse.getTitle().equalsIgnoreCase(titles.get(i))) {
+                spTitle.setSelection(i);
+                break;
+            }
+        }
         edtFirstName.setText(personalInfomationResponse.getFirstName());
         edtMidName.setText(personalInfomationResponse.getMiddleName());
         edtLastName.setText(personalInfomationResponse.getLastName());

@@ -49,24 +49,16 @@ public class OthersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         void onClick(int position, int n);
     }
 
-    public interface OnSelectedListener {
-        void selected(int position, String type);
-    }
 
     public interface OnRemoveItem {
         void onDelete(int position);
     }
 
     private OnClickImageListener onClickImageListener;
-    private OnSelectedListener onSelectedListener;
     private OnRemoveItem onRemoveItem;
 
     public void setOnClickImageListener(OnClickImageListener onClickImageListener) {
         this.onClickImageListener = onClickImageListener;
-    }
-
-    public void setOnSelectedListener(OnSelectedListener onSelectedListener) {
-        this.onSelectedListener = onSelectedListener;
     }
 
     public void setOnRemoveItem(OnRemoveItem onRemoveItem) {
@@ -167,13 +159,12 @@ public class OthersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 }
             });
 
-            OzSpinnerAdapter dataNameAdapter = new OzSpinnerAdapter(context, types,0);
+            OzSpinnerAdapter dataNameAdapter = new OzSpinnerAdapter(context, types, 0);
             itemViewHolder.spType.setAdapter(dataNameAdapter);
             itemViewHolder.spType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                    if (onSelectedListener != null)
-                        onSelectedListener.selected(position - 1, types.get(i));
+                    otherResponses.get(position - 1).setType(types.get(i));
                 }
 
                 @Override

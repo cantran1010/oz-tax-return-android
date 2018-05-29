@@ -137,7 +137,7 @@ public class DeductionFragment extends BaseFragment implements View.OnClickListe
                     LogUtils.d(TAG, "getBasicInformation body : " + response.body().toString());
                     if (response.body().getDeduction() != null)
                         updateUI(response.body().getDeduction());
-                }else if (response.code() == Constants.HTTP_CODE_BLOCK) {
+                } else if (response.code() == Constants.HTTP_CODE_BLOCK) {
                     Intent intent = new Intent(getContext(), SplashActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
@@ -297,7 +297,7 @@ public class DeductionFragment extends BaseFragment implements View.OnClickListe
                 LogUtils.d(TAG, "doSaveBasic code: " + response.code());
                 if (response.code() == Constants.HTTP_CODE_OK) {
                     openFragment(R.id.layout_container, EstimateFragment.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
-                }else if (response.code() == Constants.HTTP_CODE_BLOCK) {
+                } else if (response.code() == Constants.HTTP_CODE_BLOCK) {
                     Intent intent = new Intent(getContext(), SplashActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
@@ -363,10 +363,6 @@ public class DeductionFragment extends BaseFragment implements View.OnClickListe
             case R.id.btn_next:
                 if (edtDeduction.getText().toString().trim().isEmpty()) {
                     showToolTip(getContext(), edtDeduction, getString(R.string.vali_all_empty));
-                    return;
-                }
-                if (images.size() < 2) {
-                    showToolTip(getContext(), grImage, getString(R.string.err_pick_image));
                     return;
                 }
                 uploadImage();
