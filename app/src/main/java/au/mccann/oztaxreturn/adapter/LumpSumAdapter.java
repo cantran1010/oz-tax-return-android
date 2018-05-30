@@ -38,7 +38,7 @@ public class LumpSumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private static final int TYPE_FOOTER = 1;
     private final ArrayList<LumpSum> lumpSums;
     private final Context context;
-    private boolean isEdit;
+    private boolean edit;
     private boolean isExpend;
     private boolean onBind;
 
@@ -70,17 +70,14 @@ public class LumpSumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         this.onRemoveItem = onRemoveItem;
     }
 
-    public void setEdit(boolean edit) {
-        isEdit = edit;
-    }
-
     public boolean isExpend() {
         return isExpend;
     }
 
-    public LumpSumAdapter(Context context, ArrayList<LumpSum> lumpSums) {
+    public LumpSumAdapter(Context context, ArrayList<LumpSum> lumpSums, boolean edit) {
         this.context = context;
         this.lumpSums = lumpSums;
+        this.edit = edit;
         if (lumpSums != null && lumpSums.size() > 0) isExpend = true;
     }
 
@@ -113,35 +110,19 @@ public class LumpSumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             HeaderViewHolder headerViewHolder = (HeaderViewHolder) holder;
             onBind = true;
             headerViewHolder.rbYes.setChecked(isExpend);
-            if (isEdit) {
-                headerViewHolder.rbYes.setEnabled(true);
-                headerViewHolder.rbNo.setEnabled(true);
-            } else {
-                headerViewHolder.rbYes.setEnabled(false);
-                headerViewHolder.rbNo.setEnabled(false);
-            }
+            headerViewHolder.rbYes.setEnabled(edit);
+            headerViewHolder.rbNo.setEnabled(edit);
         } else if (holder instanceof ItemViewHolder) {
             LogUtils.d("onBindViewHolder", lumpSums.toString() + "position" + position);
             final LumpSum lumpSum = lumpSums.get(position - 1);
             ItemViewHolder itemViewHolder = (ItemViewHolder) holder;
-            if (isExpend) {
-                itemViewHolder.expandableLayout.setExpanded(true);
-            } else itemViewHolder.expandableLayout.setExpanded(false);
-            if (isEdit) {
-                itemViewHolder.edtEdtTaxWidthheld.setEnabled(true);
-                itemViewHolder.edtTaxed.setEnabled(true);
-                itemViewHolder.edtUnTaxed.setEnabled(true);
-                itemViewHolder.edtPayerAbn.setEnabled(true);
-                itemViewHolder.edtPaymenDate.setEnabled(true);
-                itemViewHolder.imgDelete.setEnabled(true);
-            } else {
-                itemViewHolder.edtEdtTaxWidthheld.setEnabled(false);
-                itemViewHolder.edtTaxed.setEnabled(false);
-                itemViewHolder.edtUnTaxed.setEnabled(false);
-                itemViewHolder.edtPayerAbn.setEnabled(false);
-                itemViewHolder.edtPaymenDate.setEnabled(false);
-                itemViewHolder.imgDelete.setEnabled(false);
-            }
+            itemViewHolder.expandableLayout.setExpanded(isExpend);
+            itemViewHolder.edtEdtTaxWidthheld.setEnabled(edit);
+            itemViewHolder.edtTaxed.setEnabled(edit);
+            itemViewHolder.edtUnTaxed.setEnabled(edit);
+            itemViewHolder.edtPayerAbn.setEnabled(edit);
+            itemViewHolder.edtPaymenDate.setEnabled(edit);
+            itemViewHolder.imgDelete.setEnabled(edit);
             itemViewHolder.edtEdtTaxWidthheld.setText(lumpSum.getTaxWithheld());
             itemViewHolder.edtTaxed.setText(lumpSum.getTaxableComTaxed());
             itemViewHolder.edtUnTaxed.setText(lumpSum.getTaxableComUntaxed());
@@ -163,7 +144,7 @@ public class LumpSumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             }
             final ImageAdapter imageAdapter = new ImageAdapter(context, lumpSum.getImages());
             itemViewHolder.grImage.setAdapter(imageAdapter);
-            imageAdapter.setRemove(isEdit);
+            imageAdapter.setRemove(edit);
             itemViewHolder.grImage.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int n, long id) {
@@ -247,10 +228,7 @@ public class LumpSumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             FooterViewHolder itemViewHolder = (FooterViewHolder) holder;
             if (isExpend) {
                 itemViewHolder.footerLayout.setVisibility(View.VISIBLE);
-                if (isEdit) itemViewHolder.flAdd.setEnabled(true);
-                else {
-                    itemViewHolder.flAdd.setEnabled(false);
-                }
+                itemViewHolder.flAdd.setEnabled(edit);
                 itemViewHolder.flAdd.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {

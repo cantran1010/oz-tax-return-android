@@ -2,7 +2,6 @@ package au.mccann.oztaxreturn.fragment.review.family;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
@@ -43,7 +42,6 @@ import retrofit2.Response;
 public class ReviewFamilyHealthDependantsFragment extends BaseFragment implements View.OnClickListener {
 
     private static final String TAG = ReviewFamilyHealthDependantsFragment.class.getSimpleName();
-    private FloatingActionButton fab;
     private CheckBoxCustom cbYes, cbNo;
     private LinearLayout layoutYes;
     private EdittextCustom edtNumber;
@@ -56,25 +54,19 @@ public class ReviewFamilyHealthDependantsFragment extends BaseFragment implement
 
     @Override
     protected void initView() {
-        fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(this);
-
         cbYes = (CheckBoxCustom) findViewById(R.id.cb_yes);
         cbNo = (CheckBoxCustom) findViewById(R.id.cb_no);
-
         layoutYes = (LinearLayout) findViewById(R.id.layout_yes);
         edtNumber = (EdittextCustom) findViewById(R.id.edt_number_dependants);
-
         findViewById(R.id.btn_next).setOnClickListener(this);
     }
 
     @Override
     protected void initData() {
+        doEdit();
         getReviewProgress(getApplicationResponse());
         setTitle(getString(R.string.review_fhd_title));
         appBarVisibility(true, true, 1);
-        if (isEditApp()) fab.setVisibility(View.VISIBLE);
-        else fab.setVisibility(View.GONE);
         cbYes.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
@@ -94,7 +86,6 @@ public class ReviewFamilyHealthDependantsFragment extends BaseFragment implement
                 }
             }
         });
-
         getReviewFamilyAndHealth();
     }
 
@@ -135,7 +126,7 @@ public class ReviewFamilyHealthDependantsFragment extends BaseFragment implement
                     LogUtils.d(TAG, "getReviewFamilyAndHealth body : " + response.body().toString());
                     reviewFamilyHealthResponse = response.body();
                     updateUI();
-                }else if (response.code() == Constants.HTTP_CODE_BLOCK) {
+                } else if (response.code() == Constants.HTTP_CODE_BLOCK) {
                     Intent intent = new Intent(getContext(), SplashActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
@@ -209,7 +200,7 @@ public class ReviewFamilyHealthDependantsFragment extends BaseFragment implement
                 if (response.code() == Constants.HTTP_CODE_OK) {
                     LogUtils.d(TAG, "doNext body : " + response.body().toString());
                     openFragment(R.id.layout_container, ReviewFamilyHealthMedicareFragment.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
-                }else if (response.code() == Constants.HTTP_CODE_BLOCK) {
+                } else if (response.code() == Constants.HTTP_CODE_BLOCK) {
                     Intent intent = new Intent(getContext(), SplashActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
@@ -248,9 +239,9 @@ public class ReviewFamilyHealthDependantsFragment extends BaseFragment implement
     }
 
     private void doEdit() {
-        cbYes.setEnabled(true);
-        cbNo.setEnabled(true);
-        edtNumber.setEnabled(true);
+        cbYes.setEnabled(isEditApp());
+        cbNo.setEnabled(isEditApp());
+        edtNumber.setEnabled(isEditApp());
     }
 
     @Override
@@ -260,10 +251,6 @@ public class ReviewFamilyHealthDependantsFragment extends BaseFragment implement
                 if (isEditApp()) doNext();
                 else
                     openFragment(R.id.layout_container, ReviewFamilyHealthMedicareFragment.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
-                break;
-
-            case R.id.fab:
-                doEdit();
                 break;
 
         }

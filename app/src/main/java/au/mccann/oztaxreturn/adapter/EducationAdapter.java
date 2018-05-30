@@ -40,7 +40,7 @@ public class EducationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private static final int TYPE_FOOTER = 1;
     private final ArrayList<Education> educations;
     private final Context context;
-    private boolean isEdit;
+    private boolean edit;
     private boolean isExpend;
     private boolean onBind;
     private List<String> types = new ArrayList<>();
@@ -65,17 +65,14 @@ public class EducationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         this.onRemoveItem = onRemoveItem;
     }
 
-    public void setEdit(boolean edit) {
-        isEdit = edit;
-    }
-
     public boolean isExpend() {
         return isExpend;
     }
 
-    public EducationAdapter(Context context, ArrayList<Education> educations) {
+    public EducationAdapter(Context context, ArrayList<Education> educations, boolean edit) {
         this.context = context;
         this.educations = educations;
+        this.edit = edit;
         if (educations != null && educations.size() > 0) isExpend = true;
         types = Arrays.asList(context.getResources().getStringArray(R.array.string_array_education_type));
     }
@@ -109,31 +106,17 @@ public class EducationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             HeaderViewHolder headerViewHolder = (HeaderViewHolder) holder;
             onBind = true;
             headerViewHolder.rbYes.setChecked(isExpend);
-            if (isEdit) {
-                headerViewHolder.rbYes.setEnabled(true);
-                headerViewHolder.rbNo.setEnabled(true);
-            } else {
-                headerViewHolder.rbYes.setEnabled(false);
-                headerViewHolder.rbNo.setEnabled(false);
-            }
+            headerViewHolder.rbYes.setEnabled(edit);
+            headerViewHolder.rbNo.setEnabled(edit);
         } else if (holder instanceof ItemViewHolder) {
             LogUtils.d("onBindViewHolder", educations.get(position - 1).getType() + "e" + isExpend());
             final Education education = educations.get(position - 1);
             final ItemViewHolder itemViewHolder = (ItemViewHolder) holder;
-            if (isExpend) {
-                itemViewHolder.expandableLayout.setExpanded(true);
-            } else itemViewHolder.expandableLayout.setExpanded(false);
-            if (isEdit) {
-                itemViewHolder.spType.setEnabled(true);
-                itemViewHolder.edtCourse.setEnabled(true);
-                itemViewHolder.edtAmount.setEnabled(true);
-                itemViewHolder.imgDelete.setEnabled(true);
-            } else {
-                itemViewHolder.spType.setEnabled(false);
-                itemViewHolder.edtCourse.setEnabled(false);
-                itemViewHolder.edtAmount.setEnabled(false);
-                itemViewHolder.imgDelete.setEnabled(false);
-            }
+            itemViewHolder.expandableLayout.setExpanded(isExpend);
+            itemViewHolder.spType.setEnabled(edit);
+            itemViewHolder.edtCourse.setEnabled(edit);
+            itemViewHolder.edtAmount.setEnabled(edit);
+            itemViewHolder.imgDelete.setEnabled(edit);
             itemViewHolder.edtCourse.setText(education.getCourse());
             itemViewHolder.edtAmount.setText(education.getAmount());
             itemViewHolder.imgDelete.setOnClickListener(new View.OnClickListener() {
@@ -150,7 +133,7 @@ public class EducationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             }
             final ImageAdapter imageAdapter = new ImageAdapter(context, education.getImages());
             itemViewHolder.grImage.setAdapter(imageAdapter);
-            imageAdapter.setRemove(isEdit);
+            imageAdapter.setRemove(edit);
             itemViewHolder.grImage.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int n, long id) {
@@ -214,10 +197,7 @@ public class EducationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             FooterViewHolder itemViewHolder = (FooterViewHolder) holder;
             if (isExpend) {
                 itemViewHolder.footerLayout.setVisibility(View.VISIBLE);
-                if (isEdit) itemViewHolder.flAdd.setEnabled(true);
-                else {
-                    itemViewHolder.flAdd.setEnabled(false);
-                }
+                itemViewHolder.flAdd.setEnabled(edit);
                 itemViewHolder.flAdd.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {

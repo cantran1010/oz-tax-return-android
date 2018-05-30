@@ -2,7 +2,6 @@ package au.mccann.oztaxreturn.fragment.review.personal;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
@@ -47,7 +46,6 @@ public class ReviewPersonalInfomationC extends BaseFragment implements View.OnCl
     private LinearLayout layoutRemain;
     private PersonalInfomationResponse personalInfomationResponse;
     private EditTextEasyMoney edtLoan;
-    private FloatingActionButton fab;
 
     @Override
     protected int getLayout() {
@@ -61,14 +59,11 @@ public class ReviewPersonalInfomationC extends BaseFragment implements View.OnCl
         findViewById(R.id.btn_next).setOnClickListener(this);
         layoutRemain = (LinearLayout) findViewById(R.id.remain_layout);
         edtLoan = (EditTextEasyMoney) findViewById(R.id.edt_loan);
-        fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(this);
     }
 
     @Override
     protected void initData() {
-        if (isEditApp()) fab.setVisibility(View.VISIBLE);
-        else fab.setVisibility(View.GONE);
+        doEdit();
         getReviewInformationC();
         getReviewProgress(getApplicationResponse());
     }
@@ -145,7 +140,7 @@ public class ReviewPersonalInfomationC extends BaseFragment implements View.OnCl
                     LogUtils.d(TAG, "doNextC body : " + response.body().toString());
 //                    bundle.putSerializable(Constants.PERSONNAL_INFO_EXTRA, response.body());
                     openFragment(R.id.layout_container, ReviewWagesSalaryFragment.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
-                }else if (response.code() == Constants.HTTP_CODE_BLOCK) {
+                } else if (response.code() == Constants.HTTP_CODE_BLOCK) {
                     Intent intent = new Intent(getContext(), SplashActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
@@ -184,9 +179,9 @@ public class ReviewPersonalInfomationC extends BaseFragment implements View.OnCl
     }
 
     private void doEdit() {
-        rbYes.setEnabled(true);
-        rbNo.setEnabled(true);
-        edtLoan.setEnabled(true);
+        rbYes.setEnabled(isEditApp());
+        rbNo.setEnabled(isEditApp());
+        edtLoan.setEnabled(isEditApp());
     }
 
     private void getReviewInformationC() {
@@ -204,7 +199,7 @@ public class ReviewPersonalInfomationC extends BaseFragment implements View.OnCl
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-                }else if (response.code() == Constants.HTTP_CODE_BLOCK) {
+                } else if (response.code() == Constants.HTTP_CODE_BLOCK) {
                     Intent intent = new Intent(getContext(), SplashActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
@@ -246,18 +241,11 @@ public class ReviewPersonalInfomationC extends BaseFragment implements View.OnCl
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-
             case R.id.btn_next:
                 if (isEditApp()) doNextC();
                 else
                     openFragment(R.id.layout_container, ReviewWagesSalaryFragment.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
                 break;
-
-            case R.id.fab:
-                doEdit();
-                break;
-
-
         }
     }
 }

@@ -12,7 +12,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="20dp"
-        android:text="@string/job_1"
         android:textColor="@color/title_color"
         android:textSize="@dimen/tv_size_xxlager" />
 

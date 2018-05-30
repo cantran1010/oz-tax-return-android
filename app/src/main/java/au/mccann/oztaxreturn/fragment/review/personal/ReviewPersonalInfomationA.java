@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.Spinner;
@@ -51,11 +50,10 @@ import retrofit2.Response;
 public class ReviewPersonalInfomationA extends BaseFragment implements View.OnClickListener {
 
     private static final String TAG = ReviewPersonalInfomationA.class.getSimpleName();
-    private EdittextCustom  edtFirstName, edtMidName, edtLastName, edtBirthDay;
+    private EdittextCustom edtFirstName, edtMidName, edtLastName, edtBirthDay;
     private RadioButtonCustom rbYes, rbNo;
     private Calendar calendar = GregorianCalendar.getInstance();
-    private FloatingActionButton fab;
-    private Spinner spGender,spTitle;
+    private Spinner spGender, spTitle;
     private List<String> genders = new ArrayList<>();
     private List<String> titles = new ArrayList<>();
 
@@ -74,27 +72,21 @@ public class ReviewPersonalInfomationA extends BaseFragment implements View.OnCl
         rbYes = (RadioButtonCustom) findViewById(R.id.rb_yes);
         rbNo = (RadioButtonCustom) findViewById(R.id.rb_no);
         edtBirthDay.setOnClickListener(this);
-        fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(this);
         findViewById(R.id.btn_next).setOnClickListener(this);
         spGender = (Spinner) findViewById(R.id.sp_gender);
     }
 
     @Override
     protected void initData() {
-
+        doEdit();
         genders = Arrays.asList(getResources().getStringArray(R.array.string_array_gender));
         titles = Arrays.asList(getResources().getStringArray(R.array.string_array_title));
-        OzSpinnerAdapter dataNameAdapter = new OzSpinnerAdapter(getContext(), genders,0);
+        OzSpinnerAdapter dataNameAdapter = new OzSpinnerAdapter(getContext(), genders, 0);
         OzSpinnerAdapter dataTitleAdapter = new OzSpinnerAdapter(getContext(), titles, 0);
         spGender.setAdapter(dataNameAdapter);
         spTitle.setAdapter(dataTitleAdapter);
-        spGender.setEnabled(false);
-        spTitle.setEnabled(false);
         setTitle(getString(R.string.infomation_a));
         appBarVisibility(true, true, 1);
-        if (isEditApp()) fab.setVisibility(View.VISIBLE);
-        else fab.setVisibility(View.GONE);
         getReviewInformation();
         getReviewProgress(getApplicationResponse());
     }
@@ -141,7 +133,7 @@ public class ReviewPersonalInfomationA extends BaseFragment implements View.OnCl
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-                }else if (response.code() == Constants.HTTP_CODE_BLOCK) {
+                } else if (response.code() == Constants.HTTP_CODE_BLOCK) {
                     Intent intent = new Intent(getContext(), SplashActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
@@ -227,7 +219,7 @@ public class ReviewPersonalInfomationA extends BaseFragment implements View.OnCl
                     LogUtils.d(TAG, "donext body : " + response.body().toString());
 //                    bundle.putSerializable(Constants.PERSONNAL_INFO_EXTRA, response.body());
                     openFragment(R.id.layout_container, ReviewPersonalInfomationB.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
-                }else if (response.code() == Constants.HTTP_CODE_BLOCK) {
+                } else if (response.code() == Constants.HTTP_CODE_BLOCK) {
                     Intent intent = new Intent(getContext(), SplashActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
@@ -266,14 +258,15 @@ public class ReviewPersonalInfomationA extends BaseFragment implements View.OnCl
     }
 
     private void doEdit() {
-        spTitle.setEnabled(true);
-        edtFirstName.setEnabled(true);
-        edtMidName.setEnabled(true);
-        edtLastName.setEnabled(true);
-        edtBirthDay.setEnabled(true);
-        rbYes.setEnabled(true);
-        rbNo.setEnabled(true);
-        spGender.setEnabled(true);
+        spTitle.setEnabled(isEditApp());
+        edtFirstName.setEnabled(isEditApp());
+        edtMidName.setEnabled(isEditApp());
+        edtLastName.setEnabled(isEditApp());
+        edtBirthDay.setEnabled(isEditApp());
+        rbYes.setEnabled(isEditApp());
+        rbNo.setEnabled(isEditApp());
+        spGender.setEnabled(isEditApp());
+        spTitle.setEnabled(isEditApp());
     }
 
     private void updatePersonalInfomation(PersonalInfomationResponse personalInfomationResponse) {
@@ -315,9 +308,6 @@ public class ReviewPersonalInfomationA extends BaseFragment implements View.OnCl
                 if (isEditApp()) donext();
                 else
                     openFragment(R.id.layout_container, ReviewPersonalInfomationB.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
-                break;
-            case R.id.fab:
-                doEdit();
                 break;
         }
     }

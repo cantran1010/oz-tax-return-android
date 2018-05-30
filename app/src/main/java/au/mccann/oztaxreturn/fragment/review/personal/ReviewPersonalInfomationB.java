@@ -2,7 +2,6 @@ package au.mccann.oztaxreturn.fragment.review.personal;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.view.View;
 import android.widget.Spinner;
 
@@ -48,10 +47,8 @@ import static au.mccann.oztaxreturn.utils.Utils.showToolTip;
  */
 
 public class ReviewPersonalInfomationB extends BaseFragment implements View.OnClickListener {
-
     private static final String TAG = ReviewPersonalInfomationB.class.getSimpleName();
     private EdittextCustom edtBankName, edtBSB, edtAccountNumber, edtStreetName, edtSuburb, edtState, edtPostCode, edtPhone, edtEmail;
-    private FloatingActionButton fab;
     private PersonalInfomationResponse personalInfomationResponse;
     private Spinner spCountryCode;
     private ArrayList<CountryCodeResponse> countryCodeResponses;
@@ -74,16 +71,12 @@ public class ReviewPersonalInfomationB extends BaseFragment implements View.OnCl
         edtEmail = (EdittextCustom) findViewById(R.id.edt_email);
         ButtonCustom btnNext = (ButtonCustom) findViewById(R.id.btn_next);
         btnNext.setOnClickListener(this);
-        fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(this);
         spCountryCode = (Spinner) findViewById(R.id.sp_country_code);
     }
 
     @Override
     protected void initData() {
-        spCountryCode.setEnabled(false);
-        if (isEditApp()) fab.setVisibility(View.VISIBLE);
-        else fab.setVisibility(View.GONE);
+        doEdit();
         getReviewProgress(getApplicationResponse());
         getCountryCode();
     }
@@ -113,7 +106,7 @@ public class ReviewPersonalInfomationB extends BaseFragment implements View.OnCl
                         listCode.add(countryCodeResponse.getDialCode());
                     }
 
-                    OzSpinnerAdapter dataNameAdapter = new OzSpinnerAdapter(getContext(), listCode,0);
+                    OzSpinnerAdapter dataNameAdapter = new OzSpinnerAdapter(getContext(), listCode, 0);
                     spCountryCode.setAdapter(dataNameAdapter);
 
                     getReviewInformationB();
@@ -140,16 +133,16 @@ public class ReviewPersonalInfomationB extends BaseFragment implements View.OnCl
 
 
     private void doEdit() {
-        edtBankName.setEnabled(true);
-        edtBSB.setEnabled(true);
-        edtAccountNumber.setEnabled(true);
-        edtStreetName.setEnabled(true);
-        edtSuburb.setEnabled(true);
-        edtState.setEnabled(true);
-        edtPostCode.setEnabled(true);
-        edtPhone.setEnabled(true);
-        edtEmail.setEnabled(true);
-        spCountryCode.setEnabled(true);
+        edtBankName.setEnabled(isEditApp());
+        edtBSB.setEnabled(isEditApp());
+        edtAccountNumber.setEnabled(isEditApp());
+        edtStreetName.setEnabled(isEditApp());
+        edtSuburb.setEnabled(isEditApp());
+        edtState.setEnabled(isEditApp());
+        edtPostCode.setEnabled(isEditApp());
+        edtPhone.setEnabled(isEditApp());
+        edtEmail.setEnabled(isEditApp());
+        spCountryCode.setEnabled(isEditApp());
     }
 
     private void updatePersonalInfo() {
@@ -265,7 +258,7 @@ public class ReviewPersonalInfomationB extends BaseFragment implements View.OnCl
                     LogUtils.d(TAG, "doNextB body : " + response.body().toString());
 //                    bundle.putSerializable(Constants.PERSONNAL_INFO_EXTRA, response.body());
                     openFragment(R.id.layout_container, ReviewPersonalInfomationC.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
-                }else if (response.code() == Constants.HTTP_CODE_BLOCK) {
+                } else if (response.code() == Constants.HTTP_CODE_BLOCK) {
                     Intent intent = new Intent(getContext(), SplashActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
@@ -318,7 +311,7 @@ public class ReviewPersonalInfomationB extends BaseFragment implements View.OnCl
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-                }else if (response.code() == Constants.HTTP_CODE_BLOCK) {
+                } else if (response.code() == Constants.HTTP_CODE_BLOCK) {
                     Intent intent = new Intent(getContext(), SplashActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
@@ -360,10 +353,6 @@ public class ReviewPersonalInfomationB extends BaseFragment implements View.OnCl
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.fab:
-                doEdit();
-                break;
-
             case R.id.btn_next:
                 if (isEditApp())
                     doNextB();

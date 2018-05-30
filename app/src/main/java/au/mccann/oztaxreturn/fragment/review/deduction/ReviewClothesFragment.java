@@ -8,7 +8,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.AdapterView;
@@ -81,7 +80,6 @@ public class ReviewClothesFragment extends BaseFragment implements View.OnClickL
     private Clothes clothes = new Clothes();
     private ArrayList<Attachment> attach;
     private int appID;
-    private FloatingActionButton fab;
     private List<String> types = new ArrayList<>();
 
     @Override
@@ -91,29 +89,29 @@ public class ReviewClothesFragment extends BaseFragment implements View.OnClickL
 
     @Override
     protected void initView() {
-        fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(this);
         findViewById(R.id.btn_next).setOnClickListener(this);
         rbYes = (RadioButtonCustom) findViewById(R.id.rb_yes);
-        rbYes.setEnabled(false);
+
         rbNo = (RadioButtonCustom) findViewById(R.id.rb_no);
-        rbNo.setEnabled(false);
+
         edtAmount = (EditTextEasyMoney) findViewById(R.id.edt_amount);
-        edtAmount.setEnabled(false);
+
         grImage = (MyGridView) findViewById(R.id.gr_image);
         layout = (ExpandableLayout) findViewById(R.id.layout_expandable);
         spType = (Spinner) findViewById(R.id.sp_type);
-        spType.setEnabled(false);
+
     }
 
     @Override
     protected void initData() {
+        rbYes.setEnabled(isEditApp());
+        rbNo.setEnabled(isEditApp());
+        edtAmount.setEnabled(isEditApp());
+        spType.setEnabled(isEditApp());
         getReviewProgress(getApplicationResponse());
         images = new ArrayList<>();
         attach = new ArrayList<>();
         appID = getApplicationResponse().getId();
-        if (isEditApp()) fab.setVisibility(View.VISIBLE);
-        else fab.setVisibility(View.GONE);
         setTitle(getString(R.string.review_deductions));
         appBarVisibility(true, true, 1);
         //images
@@ -125,8 +123,7 @@ public class ReviewClothesFragment extends BaseFragment implements View.OnClickL
         }
         imageAdapter = new ImageAdapter(getActivity(), images);
         grImage.setAdapter(imageAdapter);
-        imageAdapter.setRemove(false);
-
+        imageAdapter.setRemove(isEditApp());
         grImage.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -275,7 +272,7 @@ public class ReviewClothesFragment extends BaseFragment implements View.OnClickL
                     clothes = response.body().getClothes();
                     if (clothes != null) updateUI(clothes);
                     LogUtils.d(TAG, "getReviewDeduction code : " + response.body().getClothes().toString());
-                }else if (response.code() == Constants.HTTP_CODE_BLOCK) {
+                } else if (response.code() == Constants.HTTP_CODE_BLOCK) {
                     Intent intent = new Intent(getContext(), SplashActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
@@ -375,7 +372,7 @@ public class ReviewClothesFragment extends BaseFragment implements View.OnClickL
                 LogUtils.d(TAG, "doSaveReview code: " + response.code());
                 if (response.code() == Constants.HTTP_CODE_OK) {
                     openFragment(R.id.layout_container, ReviewEducationsFragment.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
-                }else if (response.code() == Constants.HTTP_CODE_BLOCK) {
+                } else if (response.code() == Constants.HTTP_CODE_BLOCK) {
                     Intent intent = new Intent(getContext(), SplashActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
@@ -416,15 +413,6 @@ public class ReviewClothesFragment extends BaseFragment implements View.OnClickL
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.fab:
-                rbYes.setEnabled(true);
-                rbNo.setEnabled(true);
-                spType.setEnabled(true);
-                edtAmount.setEnabled(true);
-                edtAmount.requestFocus();
-                edtAmount.setSelection(edtAmount.length());
-                imageAdapter.setRemove(isEditApp());
-                break;
             case R.id.btn_next:
                 if (isEditApp()) {
                     if (rbYes.isChecked()) {

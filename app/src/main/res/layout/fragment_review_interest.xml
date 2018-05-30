@@ -37,8 +37,8 @@
 
             <View
                 android:id="@+id/line"
-                android:layout_width="21dp"
-                android:layout_height="3.5dp"
+                android:layout_width="30dp"
+                android:layout_height="3dp"
                 android:layout_gravity="center"
                 android:layout_marginTop="15dp"
                 android:background="@color/app_bg" />
@@ -222,14 +222,6 @@
             </au.mccann.oztaxreturn.view.ExpandableLayout>
         </LinearLayout>
     </ScrollView>
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
-        style="@style/FloatingActionButton"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:src="@drawable/ic_write"
-        app:fabSize="mini" />
 
     <au.mccann.oztaxreturn.view.ButtonCustom
         android:id="@+id/btn_next"

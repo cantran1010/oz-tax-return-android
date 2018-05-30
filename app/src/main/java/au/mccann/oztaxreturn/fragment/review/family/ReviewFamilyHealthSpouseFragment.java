@@ -9,7 +9,6 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
@@ -74,7 +73,6 @@ import retrofit2.Response;
 public class ReviewFamilyHealthSpouseFragment extends BaseFragment implements View.OnClickListener {
 
     private static final String TAG = ReviewFamilyHealthSpouseFragment.class.getSimpleName();
-    private FloatingActionButton fab;
     private CheckBoxCustom cbYes, cbNo;
     private LinearLayout layoutYes;
     private ReviewFamilyHealthResponse reviewFamilyHealthResponse;
@@ -99,38 +97,27 @@ public class ReviewFamilyHealthSpouseFragment extends BaseFragment implements Vi
     protected void initView() {
 
         grImage = (MyGridView) findViewById(R.id.gr_image);
-
-        fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(this);
-
         cbYes = (CheckBoxCustom) findViewById(R.id.cb_yes);
         cbNo = (CheckBoxCustom) findViewById(R.id.cb_no);
-
         layoutYes = (LinearLayout) findViewById(R.id.yes_layout);
-
         edtFirstName = (EdittextCustom) findViewById(R.id.edt_first_name);
         edtMiddleName = (EdittextCustom) findViewById(R.id.edt_middle_name);
         edtLastName = (EdittextCustom) findViewById(R.id.edt_last_name);
         edtTaxAble = (EditTextEasyMoney) findViewById(R.id.edt_taxable);
-
         tvBirth = (TextViewCustom) findViewById(R.id.tv_birthday);
         tvBirth.setOnClickListener(this);
-
         findViewById(R.id.btn_next).setOnClickListener(this);
     }
 
     @Override
     protected void initData() {
+        doEdit();
         getReviewProgress(getApplicationResponse());
         setTitle(getString(R.string.review_fhd_title));
         appBarVisibility(true, true, 1);
-        if (isEditApp()) fab.setVisibility(View.VISIBLE);
-        else fab.setVisibility(View.GONE);
         getReviewFamilyAndHealth();
-
         images = new ArrayList<>();
         attach = new ArrayList<>();
-
         //images
         if (images.size() == 0) {
             final Image image = new Image();
@@ -140,8 +127,7 @@ public class ReviewFamilyHealthSpouseFragment extends BaseFragment implements Vi
         }
         imageAdapter = new ImageAdapter(getActivity(), images);
         grImage.setAdapter(imageAdapter);
-        imageAdapter.setRemove(false);
-
+        imageAdapter.setRemove(isEditApp());
         grImage.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -293,7 +279,7 @@ public class ReviewFamilyHealthSpouseFragment extends BaseFragment implements Vi
                         openFragment(R.id.layout_container, ReviewSummaryFragment.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
                     else
                         openFragment(R.id.layout_container, HomeFragment.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
-                }else if (response.code() == Constants.HTTP_CODE_BLOCK) {
+                } else if (response.code() == Constants.HTTP_CODE_BLOCK) {
                     Intent intent = new Intent(getContext(), SplashActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
@@ -332,18 +318,16 @@ public class ReviewFamilyHealthSpouseFragment extends BaseFragment implements Vi
     }
 
     private void doEdit() {
-        cbYes.setEnabled(true);
-        cbNo.setEnabled(true);
-        edtFirstName.setEnabled(true);
-        edtMiddleName.setEnabled(true);
-        edtLastName.setEnabled(true);
-        edtTaxAble.setEnabled(true);
-        tvBirth.setEnabled(true);
-        imageAdapter.setRemove(true);
+        cbYes.setEnabled(isEditApp());
+        cbNo.setEnabled(isEditApp());
+        edtFirstName.setEnabled(isEditApp());
+        edtMiddleName.setEnabled(isEditApp());
+        edtLastName.setEnabled(isEditApp());
+        edtTaxAble.setEnabled(isEditApp());
+        tvBirth.setEnabled(isEditApp());
     }
 
     private void doNext() {
-
         if (cbYes.isChecked()) {
             final ArrayList<Image> listUp = new ArrayList<>();
             for (Image image : images) {
@@ -487,7 +471,7 @@ public class ReviewFamilyHealthSpouseFragment extends BaseFragment implements Vi
                     Intent intent = new Intent(getContext(), SplashActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
-                }else {
+                } else {
                     APIError error = Utils.parseError(response);
                     if (error != null) {
                         LogUtils.d(TAG, "getReviewFamilyAndHealth error : " + error.message());
@@ -525,17 +509,11 @@ public class ReviewFamilyHealthSpouseFragment extends BaseFragment implements Vi
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-
             case R.id.btn_next:
                 if (isEditApp()) doNext();
                 else
                     openFragment(R.id.layout_container, HomeFragment.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
                 break;
-
-            case R.id.fab:
-                doEdit();
-                break;
-
             case R.id.tv_birthday:
                 openDatePicker();
                 break;

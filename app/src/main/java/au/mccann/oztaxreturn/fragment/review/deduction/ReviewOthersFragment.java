@@ -8,7 +8,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -67,7 +66,6 @@ public class ReviewOthersFragment extends BaseFragment implements View.OnClickLi
     private final String[] permissions = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
     private String imgPath;
     private int countDown = 0;
-    private FloatingActionButton fab;
 
     @Override
     protected int getLayout() {
@@ -76,8 +74,6 @@ public class ReviewOthersFragment extends BaseFragment implements View.OnClickLi
 
     @Override
     protected void initView() {
-        fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(this);
         ButtonCustom btnnext = (ButtonCustom) findViewById(R.id.btn_next);
         btnnext.setOnClickListener(this);
         recyclerView = (RecyclerView) findViewById(R.id.rcv_education);
@@ -89,8 +85,6 @@ public class ReviewOthersFragment extends BaseFragment implements View.OnClickLi
     protected void initData() {
         getReviewProgress(getApplicationResponse());
         appID = getApplicationResponse().getId();
-        if (isEditApp()) fab.setVisibility(View.VISIBLE);
-        else fab.setVisibility(View.GONE);
         setTitle(getString(R.string.review_deductions));
         appBarVisibility(true, true, 1);
         getReviewDeduction();
@@ -125,7 +119,7 @@ public class ReviewOthersFragment extends BaseFragment implements View.OnClickLi
     private void updateList() {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(linearLayoutManager);
-        adapter = new OthersAdapter(getContext(), otherResponses);
+        adapter = new OthersAdapter(getContext(), otherResponses, isEditApp());
         recyclerView.setAdapter(adapter);
         adapter.setOnClickImageListener(new OthersAdapter.OnClickImageListener() {
             @Override
@@ -445,10 +439,6 @@ public class ReviewOthersFragment extends BaseFragment implements View.OnClickLi
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.fab:
-                adapter.setEdit(true);
-                adapter.notifyDataSetChanged();
-                break;
             case R.id.btn_next:
                 if (isEditApp()) {
                     if (adapter.isExpend()) {

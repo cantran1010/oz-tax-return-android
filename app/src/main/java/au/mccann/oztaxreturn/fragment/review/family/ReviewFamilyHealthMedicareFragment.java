@@ -7,7 +7,6 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
@@ -60,7 +59,6 @@ import retrofit2.Response;
 public class ReviewFamilyHealthMedicareFragment extends BaseFragment implements View.OnClickListener {
 
     private static final String TAG = ReviewFamilyHealthMedicareFragment.class.getSimpleName();
-    private FloatingActionButton fab;
     private CheckBoxCustom cbYes, cbNo;
     private ReviewFamilyHealthResponse reviewFamilyHealthResponse;
 
@@ -78,25 +76,18 @@ public class ReviewFamilyHealthMedicareFragment extends BaseFragment implements 
 
     @Override
     protected void initView() {
-
         grImage = (MyGridView) findViewById(R.id.gr_image);
-
-        fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(this);
-
         cbYes = (CheckBoxCustom) findViewById(R.id.cb_yes);
         cbNo = (CheckBoxCustom) findViewById(R.id.cb_no);
-
         findViewById(R.id.btn_next).setOnClickListener(this);
     }
 
     @Override
     protected void initData() {
+        doEdit();
         getReviewProgress(getApplicationResponse());
         setTitle(getString(R.string.review_fhd_title));
         appBarVisibility(true, true, 1);
-        if (isEditApp()) fab.setVisibility(View.VISIBLE);
-        else fab.setVisibility(View.GONE);
         getReviewFamilyAndHealth();
         images = new ArrayList<>();
         attach = new ArrayList<>();
@@ -110,13 +101,12 @@ public class ReviewFamilyHealthMedicareFragment extends BaseFragment implements 
         }
         imageAdapter = new ImageAdapter(getActivity(), images);
         grImage.setAdapter(imageAdapter);
-        imageAdapter.setRemove(false);
-
+        imageAdapter.setRemove(isEditApp());
         grImage.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (images.get(position).isAdd) {
-                    if (!imageAdapter.isRemove())return;
+                    if (!imageAdapter.isRemove()) return;
                     if (images.size() >= 10) {
                         Utils.showLongToast(getActivity(), getString(R.string.max_image_attach_err, 9), true, false);
                     } else {
@@ -204,7 +194,7 @@ public class ReviewFamilyHealthMedicareFragment extends BaseFragment implements 
                 if (response.code() == Constants.HTTP_CODE_OK) {
                     LogUtils.d(TAG, "doUpdate body : " + response.body().toString());
                     openFragment(R.id.layout_container, ReviewFamilyHealthPrivateFragment.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
-                }else if (response.code() == Constants.HTTP_CODE_BLOCK) {
+                } else if (response.code() == Constants.HTTP_CODE_BLOCK) {
                     Intent intent = new Intent(getContext(), SplashActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
@@ -243,9 +233,8 @@ public class ReviewFamilyHealthMedicareFragment extends BaseFragment implements 
     }
 
     private void doEdit() {
-        cbYes.setEnabled(true);
-        cbNo.setEnabled(true);
-        imageAdapter.setRemove(true);
+        cbYes.setEnabled(isEditApp());
+        cbNo.setEnabled(isEditApp());
     }
 
     private void doNext() {
@@ -382,7 +371,7 @@ public class ReviewFamilyHealthMedicareFragment extends BaseFragment implements 
                     LogUtils.d(TAG, "getReviewFamilyAndHealth body : " + response.body().toString());
                     reviewFamilyHealthResponse = response.body();
                     updateUI();
-                }else if (response.code() == Constants.HTTP_CODE_BLOCK) {
+                } else if (response.code() == Constants.HTTP_CODE_BLOCK) {
                     Intent intent = new Intent(getContext(), SplashActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
@@ -430,11 +419,6 @@ public class ReviewFamilyHealthMedicareFragment extends BaseFragment implements 
                 else
                     openFragment(R.id.layout_container, ReviewFamilyHealthPrivateFragment.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
                 break;
-
-            case R.id.fab:
-                doEdit();
-                break;
-
         }
     }
 }

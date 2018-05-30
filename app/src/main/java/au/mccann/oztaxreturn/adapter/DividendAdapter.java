@@ -37,9 +37,9 @@ public class DividendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private static final int TYPE_FOOTER = 1;
     private final ArrayList<Dividend> dividends;
     private final Context context;
-    private boolean isEdit;
     private boolean isExpend;
     private boolean onBind;
+    private boolean edit;
 
     public interface OnClickImageListener {
         void onClick(int position, int n);
@@ -61,17 +61,14 @@ public class DividendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         this.onRemoveItem = onRemoveItem;
     }
 
-    public void setEdit(boolean edit) {
-        isEdit = edit;
-    }
-
     public boolean isExpend() {
         return isExpend;
     }
 
-    public DividendAdapter(Context context, ArrayList<Dividend> dividends) {
+    public DividendAdapter(Context context, ArrayList<Dividend> dividends, boolean edit) {
         this.context = context;
         this.dividends = dividends;
+        this.edit = edit;
         if (dividends != null && dividends.size() > 0) isExpend = true;
 
     }
@@ -106,35 +103,20 @@ public class DividendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             onBind = true;
             headerViewHolder.rbYes.setChecked(isExpend);
             onBind = false;
-            if (isEdit) {
-                headerViewHolder.rbYes.setEnabled(true);
-                headerViewHolder.rbNo.setEnabled(true);
-            } else {
-                headerViewHolder.rbYes.setEnabled(false);
-                headerViewHolder.rbNo.setEnabled(false);
-            }
+            headerViewHolder.rbYes.setEnabled(edit);
+            headerViewHolder.rbNo.setEnabled(edit);
         } else if (holder instanceof ItemViewHolder) {
             LogUtils.d("onBindViewHolder", dividends.toString() + "position" + position);
             final Dividend dividend = dividends.get(position - 1);
             final ItemViewHolder itemViewHolder = (ItemViewHolder) holder;
-            if (isExpend) {
-                itemViewHolder.expandableLayout.setExpanded(true);
-            } else itemViewHolder.expandableLayout.setExpanded(false);
-            if (isEdit) {
-                itemViewHolder.edtCompanyName.setEnabled(true);
-                itemViewHolder.edtUnFrankDividends.setEnabled(true);
-                itemViewHolder.edtFrankDividends.setEnabled(true);
-                itemViewHolder.edtFrankingCredits.setEnabled(true);
-                itemViewHolder.edtTaxWidthheld.setEnabled(true);
-                itemViewHolder.imgDelete.setEnabled(true);
-            } else {
-                itemViewHolder.edtCompanyName.setEnabled(false);
-                itemViewHolder.edtUnFrankDividends.setEnabled(false);
-                itemViewHolder.edtFrankDividends.setEnabled(false);
-                itemViewHolder.edtFrankingCredits.setEnabled(false);
-                itemViewHolder.edtTaxWidthheld.setEnabled(false);
-                itemViewHolder.imgDelete.setEnabled(false);
-            }
+            itemViewHolder.expandableLayout.setExpanded(isExpend);
+            itemViewHolder.edtCompanyName.setEnabled(edit);
+            itemViewHolder.edtUnFrankDividends.setEnabled(edit);
+            itemViewHolder.edtFrankDividends.setEnabled(edit);
+            itemViewHolder.edtFrankingCredits.setEnabled(edit);
+            itemViewHolder.edtTaxWidthheld.setEnabled(edit);
+            itemViewHolder.imgDelete.setEnabled(edit);
+
             itemViewHolder.edtCompanyName.setText(dividend.getCompanyName());
             itemViewHolder.edtUnFrankDividends.setText(dividend.getUnfranked());
             itemViewHolder.edtFrankDividends.setText(dividend.getFranked());
@@ -156,7 +138,7 @@ public class DividendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             }
             final ImageAdapter imageAdapter = new ImageAdapter(context, dividend.getImages());
             itemViewHolder.grImage.setAdapter(imageAdapter);
-            imageAdapter.setRemove(isEdit);
+            imageAdapter.setRemove(edit);
             itemViewHolder.grImage.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int n, long id) {
@@ -249,10 +231,7 @@ public class DividendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             FooterViewHolder itemViewHolder = (FooterViewHolder) holder;
             if (isExpend) {
                 itemViewHolder.footerLayout.setVisibility(View.VISIBLE);
-                if (isEdit) itemViewHolder.flAdd.setEnabled(true);
-                else {
-                    itemViewHolder.flAdd.setEnabled(false);
-                }
+                itemViewHolder.flAdd.setEnabled(edit);
                 itemViewHolder.flAdd.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {

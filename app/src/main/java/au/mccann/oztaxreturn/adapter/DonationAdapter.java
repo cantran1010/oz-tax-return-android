@@ -37,7 +37,7 @@ public class DonationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private static final int TYPE_FOOTER = 1;
     private final ArrayList<Donation> donations;
     private final Context context;
-    private boolean isEdit;
+    private boolean edit;
     private boolean isExpend;
     private boolean onBind;
 
@@ -60,17 +60,14 @@ public class DonationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         this.onRemoveItem = onRemoveItem;
     }
 
-    public void setEdit(boolean edit) {
-        isEdit = edit;
-    }
-
     public boolean isExpend() {
         return isExpend;
     }
 
-    public DonationAdapter(Context context, ArrayList<Donation> donations) {
+    public DonationAdapter(Context context, ArrayList<Donation> donations, boolean edit) {
         this.context = context;
         this.donations = donations;
+        this.edit = edit;
         if (donations != null && donations.size() > 0) isExpend = true;
     }
 
@@ -103,29 +100,19 @@ public class DonationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             HeaderViewHolder headerViewHolder = (HeaderViewHolder) holder;
             onBind = true;
             headerViewHolder.rbYes.setChecked(isExpend);
-            if (isEdit) {
-                headerViewHolder.rbYes.setEnabled(true);
-                headerViewHolder.rbNo.setEnabled(true);
-            } else {
-                headerViewHolder.rbYes.setEnabled(false);
-                headerViewHolder.rbNo.setEnabled(false);
-            }
+
+            headerViewHolder.rbYes.setEnabled(edit);
+            headerViewHolder.rbNo.setEnabled(edit);
+
         } else if (holder instanceof ItemViewHolder) {
             LogUtils.d("onBindViewHolder", donations.toString() + "position" + position);
             final Donation donation = donations.get(position - 1);
             final ItemViewHolder itemViewHolder = (ItemViewHolder) holder;
-            if (isExpend) {
-                itemViewHolder.expandableLayout.setExpanded(true);
-            } else itemViewHolder.expandableLayout.setExpanded(false);
-            if (isEdit) {
-                itemViewHolder.edtOz.setEnabled(true);
-                itemViewHolder.edtAmount.setEnabled(true);
-                itemViewHolder.imgDelete.setEnabled(true);
-            } else {
-                itemViewHolder.edtOz.setEnabled(false);
-                itemViewHolder.edtAmount.setEnabled(false);
-                itemViewHolder.imgDelete.setEnabled(false);
-            }
+            itemViewHolder.expandableLayout.setExpanded(isExpend);
+            itemViewHolder.edtOz.setEnabled(edit);
+            itemViewHolder.edtAmount.setEnabled(edit);
+            itemViewHolder.imgDelete.setEnabled(edit);
+
             itemViewHolder.edtOz.setText(donation.getOrganization());
             itemViewHolder.edtAmount.setText(donation.getAmount());
             itemViewHolder.imgDelete.setOnClickListener(new View.OnClickListener() {
@@ -142,7 +129,7 @@ public class DonationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             }
             final ImageAdapter imageAdapter = new ImageAdapter(context, donation.getImages());
             itemViewHolder.grImage.setAdapter(imageAdapter);
-            imageAdapter.setRemove(isEdit);
+            imageAdapter.setRemove(edit);
             itemViewHolder.grImage.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int n, long id) {
@@ -188,10 +175,7 @@ public class DonationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             FooterViewHolder itemViewHolder = (FooterViewHolder) holder;
             if (isExpend) {
                 itemViewHolder.footerLayout.setVisibility(View.VISIBLE);
-                if (isEdit) itemViewHolder.flAdd.setEnabled(true);
-                else {
-                    itemViewHolder.flAdd.setEnabled(false);
-                }
+                itemViewHolder.flAdd.setEnabled(edit);
                 itemViewHolder.flAdd.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {

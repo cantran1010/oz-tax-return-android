@@ -23,7 +23,6 @@ public class Job {
     private String companyAbn;
     @SerializedName("company_contact")
     private String companyContact;
-    private boolean edit;
 
 
     public int getId() {
@@ -98,14 +97,7 @@ public class Job {
         this.companyContact = companyContact;
     }
 
-    public boolean isEdit() {
-        return edit;
-    }
 
-    public void setEdit(boolean edit) {
-        this.edit = edit;
-    }
-    
     @Override
     public String toString() {
         return "Job{" +
@@ -118,7 +110,6 @@ public class Job {
                 ", companyName='" + companyName + '\'' +
                 ", companyAbn='" + companyAbn + '\'' +
                 ", companyContact='" + companyContact + '\'' +
-                ", edit=" + edit +
                 '}';
     }
 }
