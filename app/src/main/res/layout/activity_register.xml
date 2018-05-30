@@ -58,7 +58,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="25dp"
-                android:text="@string/hint_User_name" />
+                android:text="@string/hint_user_name" />
 
             <au.mccann.oztaxreturn.view.EdittextCustom
                 android:id="@+id/edt_user_name"

@@ -24,10 +24,12 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.MyViewHolder> {
     private static final String TAG = JobAdapter.class.getName();
     private ArrayList<Job> jobs;
     private Context context;
+    private boolean edit;
 
-    public JobAdapter(ArrayList<Job> jobs, Context context) {
+    public JobAdapter(ArrayList<Job> jobs, Context context, boolean edit) {
         this.jobs = jobs;
         this.context = context;
+        this.edit = edit;
     }
 
     @Override
@@ -50,28 +52,16 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.MyViewHolder> {
         holder.edtCompanyName.setText(job.getCompanyName());
         holder.edtCompanyAbn.setText(job.getCompanyAbn());
         holder.edtCompanyContact.setText(job.getCompanyContact());
-        if (job.isEdit()) {
-            holder.edtGroos.setEnabled(true);
-            holder.edtGroos.requestFocus();
-            holder.edtGroos.setSelection(holder.edtGroos.length());
-            holder.edtTax.setEnabled(true);
-            holder.edtAllow.setEnabled(true);
-            holder.edtFringer.setEnabled(true);
-            holder.edtEmployer.setEnabled(true);
-            holder.edtCompanyName.setEnabled(true);
-            holder.edtCompanyAbn.setEnabled(true);
-            holder.edtCompanyContact.setEnabled(true);
-        } else {
-            holder.tvJob.setEnabled(false);
-            holder.edtGroos.setEnabled(false);
-            holder.edtTax.setEnabled(false);
-            holder.edtAllow.setEnabled(false);
-            holder.edtFringer.setEnabled(false);
-            holder.edtEmployer.setEnabled(false);
-            holder.edtCompanyName.setEnabled(false);
-            holder.edtCompanyAbn.setEnabled(false);
-            holder.edtCompanyContact.setEnabled(false);
-        }
+        holder.edtGroos.requestFocus();
+        holder.edtGroos.setSelection(holder.edtGroos.length());
+        holder.edtGroos.setEnabled(edit);
+        holder.edtTax.setEnabled(edit);
+        holder.edtAllow.setEnabled(edit);
+        holder.edtFringer.setEnabled(edit);
+        holder.edtEmployer.setEnabled(edit);
+        holder.edtCompanyName.setEnabled(edit);
+        holder.edtCompanyAbn.setEnabled(edit);
+        holder.edtCompanyContact.setEnabled(edit);
 
         holder.edtGroos.addTextChangedListener(new TextWatcher() {
             @Override

@@ -166,6 +166,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                     sendRegistrationToServer();
                     startActivity(new Intent(RegisterActivity.this, HomeActivity.class), TransitionScreen.RIGHT_TO_LEFT);
                     clearData();
+                    finish();
                 } else {
                     APIError error = Utils.parseError(response);
                     LogUtils.e(TAG, "doRegister onFailure : " + error.message());
@@ -261,7 +262,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                         listCode.add(countryCodeResponse.getDialCode());
                     }
 
-                    OzSpinnerAdapter dataNameAdapter = new OzSpinnerAdapter(RegisterActivity.this, listCode,0);
+                    OzSpinnerAdapter dataNameAdapter = new OzSpinnerAdapter(RegisterActivity.this, listCode, 0);
                     spCountryCode.setAdapter(dataNameAdapter);
 //                    getBasicInformation();
                 } else {

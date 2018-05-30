@@ -67,13 +67,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="50dp"
+                    android:layout_marginStart="50dp"
                     android:button="@drawable/checkbox_selector"
                     android:enabled="false"
                     android:paddingLeft="5dp"
                     android:paddingStart="5dp"
                     android:text="@string/No"
-                    tools:ignore="RtlSymmetry"
-                    android:layout_marginStart="50dp" />
+                    tools:ignore="RtlSymmetry" />
 
             </LinearLayout>
 
@@ -198,14 +198,6 @@
         </LinearLayout>
 
     </ScrollView>
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
-        style="@style/FloatingActionButton"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:src="@drawable/ic_write"
-        app:fabSize="mini" />
 
     <au.mccann.oztaxreturn.view.ButtonCustom
         android:id="@+id/btn_next"

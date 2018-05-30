@@ -53,7 +53,7 @@
             android:drawablePadding="15dp"
             android:drawableStart="@drawable/ic_user_name"
             android:ellipsize="end"
-            android:hint="@string/hint_User_name"
+            android:hint="@string/hint_login"
             android:inputType="text"
             android:maxLines="1" />
 

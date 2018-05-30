@@ -36,9 +36,9 @@ public class AnnuitiesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private static final int TYPE_FOOTER = 1;
     private final ArrayList<Annuity> annuities;
     private final Context context;
-    private boolean isEdit;
     private boolean isExpend;
     private boolean onBind;
+    private boolean edit;
 
     public interface OnClickImageListener {
         void onClick(int position, int n);
@@ -60,17 +60,15 @@ public class AnnuitiesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         this.onRemoveItem = onRemoveItem;
     }
 
-    public void setEdit(boolean edit) {
-        isEdit = edit;
-    }
 
     public boolean isExpend() {
         return isExpend;
     }
 
-    public AnnuitiesAdapter(Context context, ArrayList<Annuity> annuities) {
+    public AnnuitiesAdapter(Context context, ArrayList<Annuity> annuities, boolean edit) {
         this.context = context;
         this.annuities = annuities;
+        this.edit = edit;
         if (annuities != null && annuities.size() > 0) isExpend = true;
     }
 
@@ -104,35 +102,21 @@ public class AnnuitiesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             onBind = true;
             headerViewHolder.rbYes.setChecked(isExpend);
             onBind = false;
-            if (isEdit) {
-                headerViewHolder.rbYes.setEnabled(true);
-                headerViewHolder.rbNo.setEnabled(true);
-            } else {
-                headerViewHolder.rbYes.setEnabled(false);
-                headerViewHolder.rbNo.setEnabled(false);
-            }
+            headerViewHolder.rbYes.setEnabled(edit);
+            headerViewHolder.rbNo.setEnabled(edit);
+
         } else if (holder instanceof ItemViewHolder) {
             LogUtils.d("onBindViewHolder", annuities.toString() + "position" + position);
             final Annuity annuity = annuities.get(position - 1);
             final ItemViewHolder itemViewHolder = (ItemViewHolder) holder;
-            if (isExpend) {
-                itemViewHolder.expandableLayout.setExpanded(true);
-            } else itemViewHolder.expandableLayout.setExpanded(false);
-            if (isEdit) {
-                itemViewHolder.edtEdtTaxWidthheld.setEnabled(true);
-                itemViewHolder.edtTaxed.setEnabled(true);
-                itemViewHolder.edtUnTaxed.setEnabled(true);
-                itemViewHolder.edtLumpTaxed.setEnabled(true);
-                itemViewHolder.edtLumpUnTaxed.setEnabled(true);
-                itemViewHolder.imgDelete.setEnabled(true);
-            } else {
-                itemViewHolder.edtEdtTaxWidthheld.setEnabled(false);
-                itemViewHolder.edtTaxed.setEnabled(false);
-                itemViewHolder.edtUnTaxed.setEnabled(false);
-                itemViewHolder.edtLumpTaxed.setEnabled(false);
-                itemViewHolder.edtLumpUnTaxed.setEnabled(false);
-                itemViewHolder.imgDelete.setEnabled(false);
-            }
+            itemViewHolder.expandableLayout.setExpanded(isExpend);
+            itemViewHolder.edtEdtTaxWidthheld.setEnabled(edit);
+            itemViewHolder.edtTaxed.setEnabled(edit);
+            itemViewHolder.edtUnTaxed.setEnabled(edit);
+            itemViewHolder.edtLumpTaxed.setEnabled(edit);
+            itemViewHolder.edtLumpUnTaxed.setEnabled(edit);
+            itemViewHolder.imgDelete.setEnabled(edit);
+
             itemViewHolder.edtEdtTaxWidthheld.setText(annuity.getTaxWithheld());
             itemViewHolder.edtTaxed.setText(annuity.getTaxableComTaxed());
             itemViewHolder.edtUnTaxed.setText(annuity.getTaxableComUntaxed());
@@ -152,7 +136,7 @@ public class AnnuitiesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             }
             final ImageAdapter imageAdapter = new ImageAdapter(context, annuity.getImages());
             itemViewHolder.grImage.setAdapter(imageAdapter);
-            imageAdapter.setRemove(isEdit);
+            imageAdapter.setRemove(edit);
             itemViewHolder.grImage.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int n, long id) {
@@ -245,10 +229,7 @@ public class AnnuitiesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             FooterViewHolder itemViewHolder = (FooterViewHolder) holder;
             if (isExpend) {
                 itemViewHolder.footerLayout.setVisibility(View.VISIBLE);
-                if (isEdit) itemViewHolder.flAdd.setEnabled(true);
-                else {
-                    itemViewHolder.flAdd.setEnabled(false);
-                }
+                itemViewHolder.flAdd.setEnabled(edit);
                 itemViewHolder.flAdd.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {

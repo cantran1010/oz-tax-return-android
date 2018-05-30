@@ -25,9 +25,9 @@
                 android:id="@+id/tv_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:layout_marginTop="20dp"
                 android:gravity="center"
-                android:layout_gravity="center"
                 android:text="@string/early_termination_payment"
                 android:textColor="@color/title_color"
                 android:textSize="26sp" />
@@ -215,14 +215,6 @@
             </au.mccann.oztaxreturn.view.ExpandableLayout>
         </LinearLayout>
     </ScrollView>
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
-        style="@style/FloatingActionButton"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:src="@drawable/ic_write"
-        app:fabSize="mini" />
 
     <au.mccann.oztaxreturn.view.ButtonCustom
         android:id="@+id/btn_next"

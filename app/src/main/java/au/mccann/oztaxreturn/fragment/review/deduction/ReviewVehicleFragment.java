@@ -8,14 +8,12 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CompoundButton;
-import android.widget.ScrollView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -82,7 +80,6 @@ public class ReviewVehicleFragment extends BaseFragment implements View.OnClickL
     private Vehicles vehicles = new Vehicles();
     private ArrayList<Attachment> attach;
     private int appID;
-    private FloatingActionButton fab;
     private Float value = 0.0f;
 
 
@@ -93,36 +90,31 @@ public class ReviewVehicleFragment extends BaseFragment implements View.OnClickL
 
     @Override
     protected void initView() {
-        fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(this);
         findViewById(R.id.btn_next).setOnClickListener(this);
         rbYes = (RadioButtonCustom) findViewById(R.id.rb_yes);
-        rbYes.setEnabled(false);
         rbNo = (RadioButtonCustom) findViewById(R.id.rb_no);
-        rbNo.setEnabled(false);
         edtHow = (EdittextCustom) findViewById(R.id.edt_how);
-        edtHow.setEnabled(false);
         edtType = (EdittextCustom) findViewById(R.id.edt_type);
-        edtType.setEnabled(false);
         edtKm = (EdittextCustom) findViewById(R.id.edt_km);
-        edtKm.setEnabled(false);
         edtReg = (EdittextCustom) findViewById(R.id.edt_registration_number);
-        edtReg.setEnabled(false);
         edtAmount = (TextViewCustom) findViewById(R.id.edt_calculated_amuont);
-        edtAmount.setEnabled(false);
         grImage = (MyGridView) findViewById(R.id.gr_image);
-        ScrollView scrollView = (ScrollView) findViewById(R.id.scrollView);
         layout = (ExpandableLayout) findViewById(R.id.layout_expandable);
     }
 
     @Override
     protected void initData() {
+        rbYes.setEnabled(isEditApp());
+        rbNo.setEnabled(isEditApp());
+        edtHow.setEnabled(isEditApp());
+        edtType.setEnabled(isEditApp());
+        edtKm.setEnabled(isEditApp());
+        edtReg.setEnabled(isEditApp());
+        edtAmount.setEnabled(isEditApp());
         getReviewProgress(getApplicationResponse());
         images = new ArrayList<>();
         attach = new ArrayList<>();
         appID = getApplicationResponse().getId();
-        if (isEditApp()) fab.setVisibility(View.VISIBLE);
-        else fab.setVisibility(View.GONE);
         setTitle(getString(R.string.review_deductions));
         appBarVisibility(true, true, 1);
         //images
@@ -134,7 +126,7 @@ public class ReviewVehicleFragment extends BaseFragment implements View.OnClickL
         }
         imageAdapter = new ImageAdapter(getActivity(), images);
         grImage.setAdapter(imageAdapter);
-        imageAdapter.setRemove(false);
+        imageAdapter.setRemove(isEditApp());
         grImage.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -300,7 +292,7 @@ public class ReviewVehicleFragment extends BaseFragment implements View.OnClickL
                     Intent intent = new Intent(getContext(), SplashActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
-                }else {
+                } else {
                     APIError error = Utils.parseError(response);
                     if (error != null) {
                         LogUtils.d(TAG, "getReviewDeduction error : " + error.message());
@@ -400,7 +392,7 @@ public class ReviewVehicleFragment extends BaseFragment implements View.OnClickL
                 if (response.code() == Constants.HTTP_CODE_OK) {
 //                    LogUtils.d(TAG, "doSaveReview code: " + response.body().getClothes().toString());
                     openFragment(R.id.layout_container, ReviewClothesFragment.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
-                }else if (response.code() == Constants.HTTP_CODE_BLOCK) {
+                } else if (response.code() == Constants.HTTP_CODE_BLOCK) {
                     Intent intent = new Intent(getContext(), SplashActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
@@ -441,19 +433,6 @@ public class ReviewVehicleFragment extends BaseFragment implements View.OnClickL
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.fab:
-                rbYes.setEnabled(true);
-                rbNo.setEnabled(true);
-                edtHow.setEnabled(true);
-                edtHow.requestFocus();
-                edtHow.setSelection(edtHow.length());
-                edtKm.setEnabled(true);
-                edtType.setEnabled(true);
-                edtReg.setEnabled(true);
-                edtAmount.setEnabled(true);
-                imageAdapter.setRemove(isEditApp());
-//               if (rbYes.isChecked())Utils.showSoftKeyboard(getContext(), edtHow);
-                break;
             case R.id.btn_next:
                 if (isEditApp()) {
                     if (rbYes.isChecked()) {

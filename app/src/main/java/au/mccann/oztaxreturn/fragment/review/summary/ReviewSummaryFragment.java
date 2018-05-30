@@ -36,6 +36,7 @@ import au.mccann.oztaxreturn.common.Constants;
 import au.mccann.oztaxreturn.database.UserManager;
 import au.mccann.oztaxreturn.dialog.AlertDialogOk;
 import au.mccann.oztaxreturn.dialog.AlertDialogOkAndCancel;
+import au.mccann.oztaxreturn.dialog.AlertDialogOkNonTouch;
 import au.mccann.oztaxreturn.fragment.BaseFragment;
 import au.mccann.oztaxreturn.fragment.HomeFragment;
 import au.mccann.oztaxreturn.fragment.review.personal.ReviewPersonalInfomationA;
@@ -252,7 +253,7 @@ public class ReviewSummaryFragment extends BaseFragment implements View.OnClickL
                     if (response.body() != null) {
                         updateUI(response.body());
                     }
-                }else if (response.code() == Constants.HTTP_CODE_BLOCK) {
+                } else if (response.code() == Constants.HTTP_CODE_BLOCK) {
                     Intent intent = new Intent(getContext(), SplashActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
@@ -299,13 +300,14 @@ public class ReviewSummaryFragment extends BaseFragment implements View.OnClickL
                 LogUtils.d(TAG, "doSaveReview code: " + response.code());
                 if (response.code() == Constants.HTTP_CODE_OK) {
                     LogUtils.d(TAG, "doSaveReview code: " + response.body().toString());
-                    DialogUtils.showOkDialog(getContext(), getString(R.string.notification_title), getContext().getString(R.string.lodged_successfully), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                    DialogUtils.showOkDialogNonTouch(getActivity(), getString(R.string.app_name), getString(R.string.lodged_successfully), getString(R.string.ok), new AlertDialogOkNonTouch.AlertDialogListener() {
                         @Override
                         public void onSubmit() {
                             openFragment(R.id.layout_container, HomeFragment.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
+
                         }
                     });
-                }else if (response.code() == Constants.HTTP_CODE_BLOCK) {
+                } else if (response.code() == Constants.HTTP_CODE_BLOCK) {
                     Intent intent = new Intent(getContext(), SplashActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);

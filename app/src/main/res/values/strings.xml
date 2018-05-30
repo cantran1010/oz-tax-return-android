@@ -4,7 +4,7 @@
     <string name="alert_dialog_no">no</string>
     <string name="alert_dialog_title">notification</string>
     <string name="title_activity_home">HomeActivity</string>
-    <string name="hint_User_name">Phone or Email or Username</string>
+    <string name="hint_login">Phone or Email or Username</string>
     <string name="hint_pass_word">Password</string>
 
     <!-- register  -->
@@ -13,9 +13,9 @@
     <string name="label_mobile">mobile phone</string>
     <string name="label_password">password</string>
     <string name="label_re_password">re-password</string>
-    <string name="policy">I agree with Term and Privacy policy</string>
-    <string name="term">Term</string>
-    <string name="register_privacy_policy">Privacy policy</string>
+    <string name="policy">I agree with Terms and Privacy Policy</string>
+    <string name="term">Terms</string>
+    <string name="register_privacy_policy">Privacy Policy</string>
     <string name="btn_register">register</string>
     <string name="ok">OK</string>
     <string name="error">Error!</string>
@@ -30,6 +30,7 @@
     <string name="hint_mobile">Your mobile</string>
     <string name="or">or</string>
     <string name="error_empty">Please enter your email or mobile number.</string>
+    <string name="hint_user_name">Username</string>
 
     <!-- login -->
     <string name="btn_login">login</string>
@@ -145,7 +146,7 @@
     <string name="phone_number">phone number</string>
     <string name="email_address">email address</string>
     <string name="submit">submit</string>
-    <string name="privacy_policy">* By clicking on the button below. You agree with Privacy policy and Term and conditions.</string>
+    <string name="privacy_policy">* By clicking on the button below, you agree with our Privacy Policy and Terms and Conditions.</string>
     <string name="valid_app_bank_name">Enter bank account name</string>
     <string name="valid_app_bsb">Enter BSB</string>
     <string name="valid_app_account_number">Enter account number</string>
@@ -160,9 +161,9 @@
 
     <!-- first checkout -->
     <string name="first_checkout_title">CHECK OUT</string>
-    <string name="service_fee">Our services fee</string>
+    <string name="service_fee">Our service fee</string>
     <string name="total_fee">Total payable fee</string>
-    <string name="promotion_hint">Promotion code</string>
+    <string name="promotion_hint">Enter promotion code if any</string>
     <string name="promotion_des">User can enter promotion code\nto get discount</string>
     <string name="next_des">* please click next to process to the checkout</string>
     <string name="back_to_exit">Press back button again to exit</string>
@@ -171,13 +172,13 @@
     <!-- review begin a -->
     <string name="review_begin_a">Review your application</string>
     <string name="review_begin_a_title">Thanks you for submitting your tax return application with us.</string>
-    <string name="review_begin_a_content">Our accountants are looking at your applications and you
-    will be notice once the process has been complete. Meanwhile you can contact our accountants for
+    <string name="review_begin_a_content">Our accountants are looking at your application and you
+    will be notified once the process has been completed. Meanwhile you can contact our accountants for
     any enquiries.
     </string>
 
     <!-- review begin b -->
-    <string name="review_begin_b_content">Your application has been process and prefilled with information we gathered from your end. Please carefully review your application again and make changes if necessary.</string>
+    <string name="review_begin_b_content">Your application has been processed and prefilled with relevant information. Please carefully review your application again and make changes if necessary.</string>
     <string name="review_begin_b_review">Review</string>
 
     <!-- review personal infomation a -->
@@ -235,11 +236,11 @@
     <string name="company_name">company name</string>
     <string name="company_abn">company ABN</string>
     <string name="company_contact">company contact</string>
-    <string name="job">Job</string>
+    <string name="job">Your PAYG #</string>
 
     <!-- review govement payment -->
     <string name="review_govement_payment">Government\nPayments</string>
-    <string name="review_govement_payment_ask">Do you receive government such as Newstart, Youth Allowance or Parenting payment</string>
+    <string name="review_govement_payment_ask">Did you receive any government payment such as New Start, Youth Allowance or Parenting Payment?</string>
     <string name="income_type">income type</string>
     <string name="gross_payment">gross payment</string>
     <string name="tax_widthheld">Tax withheld</string>
@@ -256,7 +257,7 @@
 
     <!-- review dividends   -->
     <string name="review_income_dividends">Dividends</string>
-    <string name="review_income_dividends_ask">Do you receive any dividends from any sources?</string>
+    <string name="review_income_dividends_ask">Did you receive any dividends?</string>
     <string name="dividends_company_name">company name</string>
     <string name="unfrank_dividends">unfranks dividends</string>
     <string name="franking_credits">franking credits</string>
@@ -275,8 +276,8 @@
     <string name="radio_payment_s">S: Excluded life benefit termination payment that is part of an excluded or non-excluded payment made in an earlier income year for the same termination of employment.</string>
     <string name="radio_payment_o">O: Non-excluded life benefit termination payment for golden handshake, gratuity, payment in lieu of notice, payment for unused sick leave, payment for unused rostered days off.</string>
     <string name="radio_payment_p">P: Non-excluded life benefit termination payment that is a part of an excluded or non-excluded payment or transitional termination payment made in an earlier income year for the same termination of employment.</string>
-    <string name="radio_payment_d">D: Death benefit termination payment paid to a dependant.</string>
-    <string name="radio_payment_n">N: Death benefit termination payment paid to a non-dependant</string>
+    <string name="radio_payment_d">D: Death benefit termination payment paid to a dependent.</string>
+    <string name="radio_payment_n">N: Death benefit termination payment paid to a non-dependent</string>
     <string name="radio_payment_m">M:Multiple</string>
     <string name="early_termination_payment_code">Seclect ETPs code</string>
     <string name="etps_code">ETPs code</string>
@@ -300,11 +301,11 @@
     <string name="lump_untaxed">lump sum in arrear(untaxed)</string>
 
     <!-- checkout -->
-    <string name="checkout_des">Please provide your payment info</string>
+    <string name="checkout_des">Please provide your payment information</string>
     <string name="checkout_name">NAME ON CARD</string>
     <string name="checkout_number">CARD NUMBER</string>
-    <string name="checkout_date">EXPIRATION DATE</string>
-    <string name="checkout_cvm">CVM</string>
+    <string name="checkout_date">Expiration date</string>
+    <string name="checkout_cvm">CVM (Three digits at the back of your card)</string>
     <string name="checkout_cvm_hint">369</string>
     <string name="checkout_btn">CHECK OUT</string>
     <string name="checkout_success">Check out successfully!</string>
@@ -312,7 +313,7 @@
 
     <!-- review deduction vehicle -->
     <string name="review_vehicle">Vehicle</string>
-    <string name="review_vehicle_ask">Our accountant has review your information and suggest that you may be eligible to claim up to 5000 KM for vehicle deduction.\n\n Do you want to claim for verhicle deduction?</string>
+    <string name="review_vehicle_ask">Our accountant has reviewed your information and suggested that you may be eligible to claim up to 5000 KM for vehicle deduction.\n\n Do you want to claim for vehicle deduction?</string>
     <string name="how_your_vehicle">how your vehicle is related to your work?</string>
     <string name="your_work_hint">Example:  Delivery</string>
     <string name="km_vehicle">km\'s travelled</string>
@@ -326,7 +327,7 @@
 
     <!-- review deduction clothing -->
     <string name="review_clothing">Work Relate\nClothing</string>
-    <string name="review_clothing_ask">Our accountant has review your information and suggest that you can claim for up to $1000 for work relate clothing and laundary deduction.\n\nDo you want to claim for this type?</string>
+    <string name="review_clothing_ask">Our accountant has reviewed your information and suggested that you can claim for up to $1000 for work related clothing and laundary deduction.\n\nDo you want to claim for this type?</string>
     <string name="deduction_type">Deduction type</string>
     <string-array name="string_array_deduction_type">
         <item>Laundary</item>
@@ -448,10 +449,10 @@
     <string name="tax_offsets">Tax Offsets</string>
     <string name="tax_credits">Tax Credits</string>
     <string name="tax_widthheld_summary">Tax Withheld</string>
-    <string name="app_privacy_policy">Privacy policy</string>
+    <string name="app_privacy_policy">Privacy Policy</string>
     <string name="review_summary_title">review summary</string>
     <string name="lodged_successfully">The application is lodged successfully.</string>
-    <string name="app_term_conditions">Term and conditions</string>
+    <string name="app_term_conditions">Terms and Conditions</string>
     <string name="lodge">Lodged</string>
     <string name="btn_lodge">Lodge</string>
     <string name="review_summary_note">Your application has been lodged. You can review it but no changes can be made at this state. You will be notified for any update of your application </string>

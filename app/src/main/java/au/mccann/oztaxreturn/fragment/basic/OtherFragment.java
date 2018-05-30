@@ -146,7 +146,7 @@ public class OtherFragment extends BaseFragment implements View.OnClickListener 
     }
 
     private void updateUI(Other other) {
-        boolean check = other.getContent().isEmpty() || other.getContent() == null;
+        boolean check = other.getContent() == null || other.getContent().isEmpty();
         rbYes.setChecked(!check);
         layout.setExpanded(!check);
         edtResource.setText(other.getContent());

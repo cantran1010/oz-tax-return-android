@@ -124,14 +124,4 @@
         android:layout_marginBottom="20dp"
         android:background="@drawable/btn_selector"
         android:text="@string/next" />
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
-        style="@style/FloatingActionButton"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:src="@drawable/ic_write"
-        app:fabSize="mini" />
-
-
 </RelativeLayout>

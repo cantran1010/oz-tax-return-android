@@ -17,10 +17,10 @@
             android:orientation="vertical">
 
             <au.mccann.oztaxreturn.view.TextViewCustom
-                style="@style/TextViewRegister"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
+                android:textColor="@color/sumitted"
                 android:text="@string/checkout_des" />
 
             <au.mccann.oztaxreturn.view.TextViewCustom
@@ -95,6 +95,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="25dp"
+                android:textAllCaps="false"
                 android:text="@string/checkout_cvm" />
 
             <au.mccann.oztaxreturn.view.EdittextCustom

@@ -2,7 +2,6 @@ package au.mccann.oztaxreturn.fragment.review.income;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -47,7 +46,6 @@ public class ReviewWagesSalaryFragment extends BaseFragment implements View.OnCl
     private ArrayList<Job> jobs = new ArrayList<>();
     private RecyclerView recyclerView;
     private int appID;
-    private FloatingActionButton fab;
     private TextViewCustom tvNoData;
 
     @Override
@@ -57,8 +55,7 @@ public class ReviewWagesSalaryFragment extends BaseFragment implements View.OnCl
 
     @Override
     protected void initView() {
-        fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(this);
+
         ButtonCustom btnnext = (ButtonCustom) findViewById(R.id.btn_next);
         btnnext.setOnClickListener(this);
         recyclerView = (RecyclerView) findViewById(R.id.rcv_job);
@@ -70,8 +67,6 @@ public class ReviewWagesSalaryFragment extends BaseFragment implements View.OnCl
     @Override
     protected void initData() {
         appID = getApplicationResponse().getId();
-        if (isEditApp()) fab.setVisibility(View.VISIBLE);
-        else fab.setVisibility(View.GONE);
         setTitle(getString(R.string.review_income_title));
         appBarVisibility(true, true, 1);
         getReviewIncome();
@@ -83,7 +78,7 @@ public class ReviewWagesSalaryFragment extends BaseFragment implements View.OnCl
     private void updateList() {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(linearLayoutManager);
-        jobAdapter = new JobAdapter(jobs, getActivity());
+        jobAdapter = new JobAdapter(jobs, getActivity(), isEditApp());
         recyclerView.setAdapter(jobAdapter);
     }
 
@@ -225,13 +220,6 @@ public class ReviewWagesSalaryFragment extends BaseFragment implements View.OnCl
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.fab:
-                for (Job job : jobs
-                        ) {
-                    job.setEdit(true);
-                }
-                jobAdapter.notifyDataSetChanged();
-                break;
             case R.id.btn_next:
                 if (isEditApp())
                     doSaveReview();

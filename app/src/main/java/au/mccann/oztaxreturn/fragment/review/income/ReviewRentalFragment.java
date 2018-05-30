@@ -10,7 +10,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.AdapterView;
@@ -90,7 +89,6 @@ public class ReviewRentalFragment extends BaseFragment implements View.OnClickLi
     private ArrayList<Attachment> attach;
     private int appID;
     private final Calendar calendar = GregorianCalendar.getInstance();
-    private FloatingActionButton fab;
 
     @Override
     protected int getLayout() {
@@ -99,30 +97,27 @@ public class ReviewRentalFragment extends BaseFragment implements View.OnClickLi
 
     @Override
     protected void initView() {
-        fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(this);
         findViewById(R.id.btn_next).setOnClickListener(this);
         rbYes = (RadioButtonCustom) findViewById(R.id.rb_yes);
-        rbYes.setEnabled(false);
         rbNo = (RadioButtonCustom) findViewById(R.id.rb_no);
-        rbNo.setEnabled(false);
+
         edtOwnerShip = (EdittextCustom) findViewById(R.id.edt_owership);
-        edtOwnerShip.setEnabled(false);
+
         edtStreet = (EdittextCustom) findViewById(R.id.edt_street_name);
-        edtStreet.setEnabled(false);
+
         edtSuburb = (EdittextCustom) findViewById(R.id.edt_suburb);
-        edtSuburb.setEnabled(false);
+
         edtState = (EdittextCustom) findViewById(R.id.edt_state);
-        edtState.setEnabled(false);
+
         edtPostCode = (EdittextCustom) findViewById(R.id.edt_post_code);
-        edtPostCode.setEnabled(false);
+
         edtFirstDate = (EdittextCustom) findViewById(R.id.edt_first_date);
-        edtFirstDate.setEnabled(false);
+
         edtFirstDate.setOnClickListener(this);
         edtRentalIncome = (EditTextEasyMoney) findViewById(R.id.edt_rental_income);
-        edtRentalIncome.setEnabled(false);
+
         edtRentalExpenses = (EditTextEasyMoney) findViewById(R.id.edt_rental_expenses);
-        edtRentalExpenses.setEnabled(false);
+
         grImage = (MyGridView) findViewById(R.id.gr_image);
         ScrollView scrollView = (ScrollView) findViewById(R.id.scrollView);
         layout = (ExpandableLayout) findViewById(R.id.layout_expandable);
@@ -130,12 +125,20 @@ public class ReviewRentalFragment extends BaseFragment implements View.OnClickLi
 
     @Override
     protected void initData() {
+        edtSuburb.setEnabled(isEditApp());
+        rbNo.setEnabled(isEditApp());
+        edtOwnerShip.setEnabled(isEditApp());
+        edtStreet.setEnabled(isEditApp());
+        rbYes.setEnabled(isEditApp());
+        edtState.setEnabled(isEditApp());
+        edtPostCode.setEnabled(isEditApp());
+        edtFirstDate.setEnabled(isEditApp());
+        edtRentalIncome.setEnabled(isEditApp());
+        edtRentalExpenses.setEnabled(isEditApp());
         getReviewProgress(getApplicationResponse());
         images = new ArrayList<>();
         attach = new ArrayList<>();
         appID = getApplicationResponse().getId();
-        if (isEditApp()) fab.setVisibility(View.VISIBLE);
-        else fab.setVisibility(View.GONE);
         setTitle(getString(R.string.review_income_title));
         appBarVisibility(true, true, 1);
         //images
@@ -147,7 +150,7 @@ public class ReviewRentalFragment extends BaseFragment implements View.OnClickLi
         }
         imageAdapter = new ImageAdapter(getActivity(), images);
         grImage.setAdapter(imageAdapter);
-        imageAdapter.setRemove(false);
+        imageAdapter.setRemove(isEditApp());
         grImage.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -463,21 +466,6 @@ public class ReviewRentalFragment extends BaseFragment implements View.OnClickLi
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.fab:
-                rbYes.setEnabled(true);
-                rbNo.setEnabled(true);
-                edtOwnerShip.setEnabled(true);
-                edtOwnerShip.requestFocus();
-                edtOwnerShip.setSelection(edtOwnerShip.length());
-                edtStreet.setEnabled(true);
-                edtSuburb.setEnabled(true);
-                edtFirstDate.setEnabled(true);
-                edtState.setEnabled(true);
-                edtPostCode.setEnabled(true);
-                edtRentalIncome.setEnabled(true);
-                edtRentalExpenses.setEnabled(true);
-                imageAdapter.setRemove(isEditApp());
-                break;
             case R.id.edt_first_date:
                 openDatePicker();
                 break;

@@ -8,12 +8,10 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CompoundButton;
-import android.widget.ScrollView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -81,7 +79,6 @@ public class ReviewTaxAgentFragment extends BaseFragment implements View.OnClick
     private TaxAgents taxAgents = new TaxAgents();
     private ArrayList<Attachment> attach;
     private int appID;
-    private FloatingActionButton fab;
 
     @Override
     protected int getLayout() {
@@ -90,30 +87,25 @@ public class ReviewTaxAgentFragment extends BaseFragment implements View.OnClick
 
     @Override
     protected void initView() {
-        fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(this);
         findViewById(R.id.btn_next).setOnClickListener(this);
         rbYes = (RadioButtonCustom) findViewById(R.id.rb_yes);
-        rbYes.setEnabled(false);
         rbNo = (RadioButtonCustom) findViewById(R.id.rb_no);
-        rbNo.setEnabled(false);
         edtOrgan = (EdittextCustom) findViewById(R.id.edt_organization);
-        edtOrgan.setEnabled(false);
         edtAmount = (EditTextEasyMoney) findViewById(R.id.edt_amount);
-        edtAmount.setEnabled(false);
         grImage = (MyGridView) findViewById(R.id.gr_image);
-        ScrollView scrollView = (ScrollView) findViewById(R.id.scrollView);
         layout = (ExpandableLayout) findViewById(R.id.layout_expandable);
     }
 
     @Override
     protected void initData() {
+        rbYes.setEnabled(isEditApp());
+        rbNo.setEnabled(isEditApp());
+        edtOrgan.setEnabled(isEditApp());
+        edtAmount.setEnabled(isEditApp());
         getReviewProgress(getApplicationResponse());
         images = new ArrayList<>();
         attach = new ArrayList<>();
         appID = getApplicationResponse().getId();
-        if (isEditApp()) fab.setVisibility(View.VISIBLE);
-        else fab.setVisibility(View.GONE);
         setTitle(getString(R.string.review_deductions));
         appBarVisibility(true, true, 1);
         //images
@@ -125,7 +117,7 @@ public class ReviewTaxAgentFragment extends BaseFragment implements View.OnClick
         }
         imageAdapter = new ImageAdapter(getActivity(), images);
         grImage.setAdapter(imageAdapter);
-        imageAdapter.setRemove(false);
+        imageAdapter.setRemove(isEditApp());
         grImage.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -265,7 +257,7 @@ public class ReviewTaxAgentFragment extends BaseFragment implements View.OnClick
                     taxAgents = response.body().getTaxAgents();
                     LogUtils.d(TAG, "getReviewDeduction code : " + response.body().getTaxAgents().toString());
                     if (taxAgents != null) updateUI(taxAgents);
-                }else if (response.code() == Constants.HTTP_CODE_BLOCK) {
+                } else if (response.code() == Constants.HTTP_CODE_BLOCK) {
                     Intent intent = new Intent(getContext(), SplashActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
@@ -365,7 +357,7 @@ public class ReviewTaxAgentFragment extends BaseFragment implements View.OnClick
                 LogUtils.d(TAG, "doSaveReview code: " + response.code());
                 if (response.code() == Constants.HTTP_CODE_OK) {
                     openFragment(R.id.layout_container, ReviewFamilyHealthDependantsFragment.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
-                }else if (response.code() == Constants.HTTP_CODE_BLOCK) {
+                } else if (response.code() == Constants.HTTP_CODE_BLOCK) {
                     Intent intent = new Intent(getContext(), SplashActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
@@ -406,16 +398,6 @@ public class ReviewTaxAgentFragment extends BaseFragment implements View.OnClick
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.fab:
-                rbYes.setEnabled(true);
-                rbNo.setEnabled(true);
-                edtOrgan.setEnabled(true);
-                edtOrgan.requestFocus();
-                edtOrgan.setSelection(edtOrgan.length());
-                edtAmount.setEnabled(true);
-                imageAdapter.setRemove(isEditApp());
-//               if (rbYes.isChecked())Utils.showSoftKeyboard(getContext(), edtHow);
-                break;
             case R.id.btn_next:
                 if (isEditApp()) {
                     if (rbYes.isChecked()) {

@@ -10,7 +10,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.AdapterView;
@@ -89,7 +88,6 @@ public class ReviewETPsFragment extends BaseFragment implements View.OnClickList
     private ArrayList<Attachment> attach;
     private int appID;
     private final Calendar calendar = GregorianCalendar.getInstance();
-    private FloatingActionButton fab;
 
     @Override
     protected int getLayout() {
@@ -98,24 +96,15 @@ public class ReviewETPsFragment extends BaseFragment implements View.OnClickList
 
     @Override
     protected void initView() {
-        fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(this);
         findViewById(R.id.btn_next).setOnClickListener(this);
         rbYes = (RadioButtonCustom) findViewById(R.id.rb_yes);
-        rbYes.setEnabled(false);
         rbNo = (RadioButtonCustom) findViewById(R.id.rb_no);
-        rbNo.setEnabled(false);
         edtPaymentDate = (EdittextCustom) findViewById(R.id.edt_payment_date);
-        edtPaymentDate.setEnabled(false);
         edtPaymentDate.setOnClickListener(this);
         edtPayerAbn = (EdittextCustom) findViewById(R.id.edt_payer_abn);
-        edtPayerAbn.setEnabled(false);
         edtTaxWidthheld = (EditTextEasyMoney) findViewById(R.id.edt_tax_widthheld);
-        edtTaxWidthheld.setEnabled(false);
         edtTaxtableComponent = (EditTextEasyMoney) findViewById(R.id.edt_taxtable_component);
-        edtTaxtableComponent.setEnabled(false);
         edtCode = (EdittextCustom) findViewById(R.id.edt_code);
-        edtCode.setEnabled(false);
         edtCode.setOnClickListener(this);
         grImage = (MyGridView) findViewById(R.id.gr_image);
         layout = (ExpandableLayout) findViewById(R.id.layout_expandable);
@@ -125,12 +114,17 @@ public class ReviewETPsFragment extends BaseFragment implements View.OnClickList
 
     @Override
     protected void initData() {
+        rbYes.setEnabled(isEditApp());
+        rbNo.setEnabled(isEditApp());
+        edtPaymentDate.setEnabled(isEditApp());
+        edtPayerAbn.setEnabled(isEditApp());
+        edtTaxWidthheld.setEnabled(isEditApp());
+        edtTaxtableComponent.setEnabled(isEditApp());
+        edtCode.setEnabled(isEditApp());
         getReviewProgress(getApplicationResponse());
         images = new ArrayList<>();
         attach = new ArrayList<>();
         appID = getApplicationResponse().getId();
-        if (isEditApp()) fab.setVisibility(View.VISIBLE);
-        else fab.setVisibility(View.GONE);
         setTitle(getString(R.string.review_income_title));
         appBarVisibility(true, true, 1);
         //images
@@ -142,7 +136,7 @@ public class ReviewETPsFragment extends BaseFragment implements View.OnClickList
         }
         imageAdapter = new ImageAdapter(getActivity(), images);
         grImage.setAdapter(imageAdapter);
-        imageAdapter.setRemove(false);
+        imageAdapter.setRemove(isEditApp());
         grImage.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -290,7 +284,7 @@ public class ReviewETPsFragment extends BaseFragment implements View.OnClickList
                     LogUtils.d(TAG, "getReviewIncome code : " + response.body().getEtps().toString());
                     etps = response.body().getEtps();
                     if (etps != null) updateUI(etps);
-                }else if (response.code() == Constants.HTTP_CODE_BLOCK) {
+                } else if (response.code() == Constants.HTTP_CODE_BLOCK) {
                     Intent intent = new Intent(getContext(), SplashActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
@@ -395,7 +389,7 @@ public class ReviewETPsFragment extends BaseFragment implements View.OnClickList
                 if (response.code() == Constants.HTTP_CODE_OK) {
                     LogUtils.d(TAG, "doSaveReview code: " + response.body().getJobs().toString());
                     openFragment(R.id.layout_container, ReviewAnnuitiesFragment.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
-                }else if (response.code() == Constants.HTTP_CODE_BLOCK) {
+                } else if (response.code() == Constants.HTTP_CODE_BLOCK) {
                     Intent intent = new Intent(getContext(), SplashActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
@@ -466,18 +460,6 @@ public class ReviewETPsFragment extends BaseFragment implements View.OnClickList
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.fab:
-                rbYes.setEnabled(true);
-                rbNo.setEnabled(true);
-                edtPayerAbn.setEnabled(true);
-                edtPayerAbn.requestFocus();
-                edtPayerAbn.setSelection(edtPayerAbn.length());
-                edtPaymentDate.setEnabled(true);
-                edtTaxtableComponent.setEnabled(true);
-                edtTaxWidthheld.setEnabled(true);
-                edtCode.setEnabled(true);
-                imageAdapter.setRemove(isEditApp());
-                break;
             case R.id.edt_payment_date:
                 openDatePicker();
                 break;

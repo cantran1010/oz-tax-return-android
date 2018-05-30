@@ -253,14 +253,6 @@
         </LinearLayout>
     </ScrollView>
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
-        style="@style/FloatingActionButton"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:src="@drawable/ic_write"
-        app:fabSize="mini" />
-
     <au.mccann.oztaxreturn.view.ButtonCustom
         android:id="@+id/btn_next"
         style="@style/Button"

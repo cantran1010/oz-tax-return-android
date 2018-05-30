@@ -134,6 +134,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                     LogUtils.d(TAG, "doLogin code : " + UserManager.getUserEntity().getToken());
                     sendRegistrationToServer();
                     startActivity(new Intent(LoginActivity.this, HomeActivity.class), TransitionScreen.RIGHT_TO_LEFT);
+                    finish();
                 } else {
                     APIError error = Utils.parseError(response);
                     LogUtils.d(TAG, "doLogin error : " + error.status());

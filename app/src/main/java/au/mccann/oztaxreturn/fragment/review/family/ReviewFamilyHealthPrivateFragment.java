@@ -15,7 +15,6 @@ import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.CompoundButton;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import org.json.JSONArray;
@@ -50,7 +49,6 @@ import au.mccann.oztaxreturn.utils.ProgressDialogUtils;
 import au.mccann.oztaxreturn.utils.TransitionScreen;
 import au.mccann.oztaxreturn.utils.Utils;
 import au.mccann.oztaxreturn.view.CheckBoxCustom;
-import au.mccann.oztaxreturn.view.EdittextCustom;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
 import retrofit2.Call;
@@ -64,9 +62,8 @@ import retrofit2.Response;
 public class ReviewFamilyHealthPrivateFragment extends BaseFragment implements View.OnClickListener {
 
     private static final String TAG = ReviewFamilyHealthPrivateFragment.class.getSimpleName();
-    private FloatingActionButton fab, fbAdd;
+    private FloatingActionButton fbAdd;
     private CheckBoxCustom cbYes, cbNo;
-    private EdittextCustom edtNumber;
     private ReviewFamilyHealthResponse reviewFamilyHealthResponse;
     private ArrayList<ReviewPrivateResponse> reviewPrivateResponses = new ArrayList<>();
     private RecyclerView rcvList;
@@ -84,31 +81,22 @@ public class ReviewFamilyHealthPrivateFragment extends BaseFragment implements V
 
     @Override
     protected void initView() {
-        fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(this);
-
         cbYes = (CheckBoxCustom) findViewById(R.id.cb_yes);
         cbNo = (CheckBoxCustom) findViewById(R.id.cb_no);
-
-        LinearLayout layoutYes = (LinearLayout) findViewById(R.id.layout_yes);
-
         fbAdd = (FloatingActionButton) findViewById(R.id.add);
-
         findViewById(R.id.btn_next).setOnClickListener(this);
         fbAdd.setOnClickListener(this);
         rcvList = (RecyclerView) findViewById(R.id.rcv);
-
         layoutAdd = (RelativeLayout) findViewById(R.id.layout_add);
     }
 
     @Override
     protected void initData() {
+        doEdit();
         getReviewProgress(getApplicationResponse());
         setTitle(getString(R.string.review_fhd_title));
         appBarVisibility(true, true, 1);
-        if (isEditApp()) fab.setVisibility(View.VISIBLE);
-        else fab.setVisibility(View.GONE);
-        fbAdd.setEnabled(false);
+        fbAdd.setEnabled(isEditApp());
         cbYes.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
@@ -151,20 +139,18 @@ public class ReviewFamilyHealthPrivateFragment extends BaseFragment implements V
 
     }
 
-    private void setUpList(boolean isEdit) {
+    private void setUpList() {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setAutoMeasureEnabled(true);
         rcvList.setLayoutManager(layoutManager);
         rcvList.setNestedScrollingEnabled(false);
         rcvList.setHasFixedSize(true);
         reviewFHPAdapter = new ReviewFHPAdapter(reviewPrivateResponses, getActivity());
-        reviewFHPAdapter.setEdit(isEdit);
+        reviewFHPAdapter.setEdit(isEditApp());
         rcvList.setAdapter(reviewFHPAdapter);
-
         reviewFHPAdapter.setPickImageListener(new ReviewFHPAdapter.PickImageListener() {
             @Override
             public void doPick(int position) {
-
                 if (isEditApp()) {
                     LogUtils.d(TAG, "doPick , position : " + position);
                     positionPickImage = position;
@@ -379,7 +365,7 @@ public class ReviewFamilyHealthPrivateFragment extends BaseFragment implements V
                 if (response.code() == Constants.HTTP_CODE_OK) {
                     LogUtils.d(TAG, "doNext body : " + response.body().toString());
                     openFragment(R.id.layout_container, ReviewFamilyHealthSpouseFragment.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
-                }else if (response.code() == Constants.HTTP_CODE_BLOCK) {
+                } else if (response.code() == Constants.HTTP_CODE_BLOCK) {
                     Intent intent = new Intent(getContext(), SplashActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
@@ -418,11 +404,9 @@ public class ReviewFamilyHealthPrivateFragment extends BaseFragment implements V
     }
 
     private void doEdit() {
-        cbYes.setEnabled(true);
-        cbNo.setEnabled(true);
-        reviewFHPAdapter.setEdit(true);
-        reviewFHPAdapter.notifyDataSetChanged();
-        fbAdd.setEnabled(true);
+        cbYes.setEnabled(isEditApp());
+        cbNo.setEnabled(isEditApp());
+        fbAdd.setEnabled(isEditApp());
     }
 
     private void updateUI() {
@@ -433,7 +417,7 @@ public class ReviewFamilyHealthPrivateFragment extends BaseFragment implements V
             cbYes.setChecked(true);
             cbNo.setChecked(false);
         }
-        setUpList(false);
+        setUpList();
     }
 
     private void getReviewFamilyAndHealth() {
@@ -450,7 +434,7 @@ public class ReviewFamilyHealthPrivateFragment extends BaseFragment implements V
                     reviewFamilyHealthResponse = response.body();
                     reviewPrivateResponses = (ArrayList<ReviewPrivateResponse>) reviewFamilyHealthResponse.getPrivates();
                     updateUI();
-                }else if (response.code() == Constants.HTTP_CODE_BLOCK) {
+                } else if (response.code() == Constants.HTTP_CODE_BLOCK) {
                     Intent intent = new Intent(getContext(), SplashActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
@@ -489,7 +473,6 @@ public class ReviewFamilyHealthPrivateFragment extends BaseFragment implements V
     }
 
     private void doAdd() {
-
         if (reviewPrivateResponses.size() >= 3) {
             Utils.showLongToast(getActivity(), getString(R.string.max_3_add), true, false);
         } else {
@@ -497,7 +480,7 @@ public class ReviewFamilyHealthPrivateFragment extends BaseFragment implements V
             reviewPrivateResponses.add(reviewPrivateResponse);
             reviewFHPAdapter.notifyDataSetChanged();
             LogUtils.d(TAG, "doAdd , reviewPrivateResponses size : " + reviewPrivateResponses.size());
-            setUpList(true);
+            setUpList();
         }
 
     }
