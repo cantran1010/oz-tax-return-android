@@ -49,10 +49,10 @@
     </style>
 
     <style name="EditTextLogin">
-        <item name="android:textSize">@dimen/tv_size_xlager</item>
+        <item name="android:textSize">@dimen/tv_size_lager</item>
         <item name="android:minHeight">45dp</item>
         <item name="android:textColor">@color/white</item>
-        <item name="android:textColorHint">@color/white</item>
+        <item name="android:textColorHint">@color/line_color</item>
         <item name="android:padding">15dp</item>
 
     </style>

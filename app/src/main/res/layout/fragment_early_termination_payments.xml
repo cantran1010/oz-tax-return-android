@@ -34,8 +34,8 @@
 
             <View
                 android:id="@+id/line"
-                android:layout_width="21dp"
-                android:layout_height="3.5dp"
+                android:layout_width="30dp"
+                android:layout_height="3dp"
                 android:layout_gravity="center"
                 android:layout_marginTop="15dp"
                 android:background="@color/app_bg" />

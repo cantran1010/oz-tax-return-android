@@ -31,16 +31,35 @@
                 android:textColor="@color/tv_gray"
                 android:textSize="@dimen/size_small" />
 
-            <au.mccann.oztaxreturn.view.EdittextCustom
-                android:id="@+id/edt_title"
-                style="@style/EditText"
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:hint="@string/your_title"
-                android:inputType="textPersonName"
-                android:textColor="@color/income_conten"
-                android:textColorHint="@color/tv_gray" />
+                android:background="@drawable/bg_edittext"
+                android:minHeight="45dp">
+
+                <Spinner
+                    android:id="@+id/sp_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_centerInParent="true"
+                    android:background="@null"
+                    android:gravity="center_vertical"
+                    android:prompt="@string/gender" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:paddingEnd="10dp"
+                    android:paddingRight="10dp"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/ic_down"
+                    tools:ignore="ContentDescription,RtlSymmetry" />
+
+            </RelativeLayout>
 
             <au.mccann.oztaxreturn.view.TextViewCustom
                 android:layout_width="wrap_content"
@@ -146,10 +165,6 @@
                     android:layout_centerInParent="true"
                     android:background="@null"
                     android:gravity="center_vertical"
-                    android:paddingEnd="16dp"
-                    android:paddingLeft="16dp"
-                    android:paddingRight="16dp"
-                    android:paddingStart="16dp"
                     android:prompt="@string/gender" />
 
                 <ImageView
@@ -188,8 +203,8 @@
                     android:button="@drawable/checkbox_selector"
                     android:checked="false"
                     android:paddingLeft="10dp"
-                    android:text="@string/Yes"
                     android:paddingStart="10dp"
+                    android:text="@string/Yes"
                     android:textSize="@dimen/tv_size_xlager"
                     tools:ignore="RtlSymmetry" />
 

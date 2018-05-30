@@ -5,8 +5,7 @@
     android:id="@+id/expand_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:el_duration="@integer/expand"
-    app:el_expanded="true">
+    app:el_expanded="false">
 
     <LinearLayout
         android:layout_width="match_parent"

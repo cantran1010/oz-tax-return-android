@@ -53,11 +53,12 @@ import static au.mccann.oztaxreturn.utils.Utils.showToolTip;
  */
 public class PersonalFragment extends BaseFragment implements View.OnClickListener {
     private static final String TAG = PersonalFragment.class.getSimpleName();
-    private EdittextCustom edtTitle, edtFirstName, edtMidName, edtLastName, edtBirthDay;
-    private Spinner spGender;
+    private EdittextCustom edtFirstName, edtMidName, edtLastName, edtBirthDay;
+    private Spinner spGender,spTitle;
     private RadioButtonCustom rbYes, rbNo;
     private Calendar calendar = GregorianCalendar.getInstance();
     private List<String> genders = new ArrayList<>();
+    private List<String> titles = new ArrayList<>();
 
     @Override
     protected int getLayout() {
@@ -66,12 +67,12 @@ public class PersonalFragment extends BaseFragment implements View.OnClickListen
 
     @Override
     protected void initView() {
-        edtTitle = (EdittextCustom) findViewById(R.id.edt_title);
         edtFirstName = (EdittextCustom) findViewById(R.id.edt_first_name);
         edtMidName = (EdittextCustom) findViewById(R.id.edt_middle_name);
         edtLastName = (EdittextCustom) findViewById(R.id.edt_last_name);
         edtBirthDay = (EdittextCustom) findViewById(R.id.tv_birthday);
         spGender = (Spinner) findViewById(R.id.sp_gender);
+        spTitle = (Spinner) findViewById(R.id.sp_title);
         rbYes = (RadioButtonCustom) findViewById(R.id.rb_yes);
         rbNo = (RadioButtonCustom) findViewById(R.id.rb_no);
         edtBirthDay.setOnClickListener(this);
@@ -84,19 +85,26 @@ public class PersonalFragment extends BaseFragment implements View.OnClickListen
         setTitle(getString(R.string.personal_information_title));
         appBarVisibility(false, true, 0);
         genders = Arrays.asList(getResources().getStringArray(R.array.string_array_gender));
-        OzSpinnerAdapter dataNameAdapter = new OzSpinnerAdapter(getContext(), genders,0);
+        titles = Arrays.asList(getResources().getStringArray(R.array.string_array_title));
+        OzSpinnerAdapter dataNameAdapter = new OzSpinnerAdapter(getContext(), genders, 0);
+        OzSpinnerAdapter dataTitleAdapter = new OzSpinnerAdapter(getContext(), titles, 0);
+        spTitle.setAdapter(dataTitleAdapter);
         spGender.setAdapter(dataNameAdapter);
         findViewById(R.id.btn_next).setOnClickListener(this);
         getBasicInformation();
     }
 
     private void updateUI(PersonalInformation pf) {
-        edtTitle.setText(pf.getTitle());
+        for (int i = 0; i < titles.size(); i++) {
+            if (pf.getTitle().equalsIgnoreCase(titles.get(i))) {
+                spTitle.setSelection(i);
+                break;
+            }
+        }
         edtFirstName.setText(pf.getFirstName());
         edtMidName.setText(pf.getMiddleName());
         edtLastName.setText(pf.getLastName());
         if (pf.getBirthday() != null) edtBirthDay.setText(getDateBirthDayFromIso(pf.getBirthday()));
-        edtTitle.setText(pf.getTitle());
         for (int i = 0; i < genders.size(); i++) {
             if (pf.getGender().equalsIgnoreCase(genders.get(i))) {
                 spGender.setSelection(i);
@@ -122,7 +130,7 @@ public class PersonalFragment extends BaseFragment implements View.OnClickListen
                     LogUtils.d(TAG, "getBasicInformation body : " + response.body().toString());
                     if (response.body().getPersonalInformation() != null)
                         updateUI(response.body().getPersonalInformation());
-                }else if (response.code() == Constants.HTTP_CODE_BLOCK) {
+                } else if (response.code() == Constants.HTTP_CODE_BLOCK) {
                     Intent intent = new Intent(getContext(), SplashActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
@@ -175,7 +183,7 @@ public class PersonalFragment extends BaseFragment implements View.OnClickListen
         JSONObject jsonRequest = new JSONObject();
         try {
             JSONObject salaryJson = new JSONObject();
-            salaryJson.put(Constants.PARAMETER_BASIC_INFO_TITLE, edtTitle.getText().toString().trim());
+            salaryJson.put(Constants.PARAMETER_BASIC_INFO_TITLE, spTitle.getSelectedItem().toString());
             salaryJson.put(Constants.PARAMETER_BASIC_INFO_FIRST_NAME, edtFirstName.getText().toString().trim());
             salaryJson.put(Constants.PARAMETER_BASIC_INFO_MIDDLE_NAME, edtMidName.getText().toString().trim());
             salaryJson.put(Constants.PARAMETER_BASIC_INFO_LAST_NAME, edtLastName.getText().toString().trim());
@@ -195,7 +203,7 @@ public class PersonalFragment extends BaseFragment implements View.OnClickListen
                 LogUtils.d(TAG, "doSaveBasic code: " + response.code());
                 if (response.code() == Constants.HTTP_CODE_OK) {
                     openFragment(R.id.layout_container, SubmitFragment.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
-                }else if (response.code() == Constants.HTTP_CODE_BLOCK) {
+                } else if (response.code() == Constants.HTTP_CODE_BLOCK) {
                     Intent intent = new Intent(getContext(), SplashActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
@@ -252,11 +260,6 @@ public class PersonalFragment extends BaseFragment implements View.OnClickListen
     }
 
     private void donext() {
-        if (edtTitle.getText().toString().trim().isEmpty()) {
-            edtTitle.requestFocus();
-            showToolTip(getContext(), edtTitle, getString(R.string.vali_all_empty));
-            return;
-        }
         if (edtFirstName.getText().toString().trim().isEmpty()) {
             edtFirstName.requestFocus();
             showToolTip(getContext(), edtFirstName, getString(R.string.vali_all_empty));

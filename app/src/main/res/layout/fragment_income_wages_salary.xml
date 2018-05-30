@@ -42,9 +42,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="3dp"
+            android:layout_marginStart="3dp"
             android:text="@string/income_ws_des2"
-            android:textStyle="bold"
-            android:layout_marginStart="3dp" />
+            android:textStyle="bold" />
     </LinearLayout>
 
     <LinearLayout
@@ -122,7 +122,9 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="20dp"
                         android:text="@string/your_name"
-                        android:textColor="@color/tv_gray" />
+                        android:textAllCaps="true"
+                        android:textColor="@color/tv_gray"
+                        android:textSize="@dimen/size_small" />
 
                     <au.mccann.oztaxreturn.view.EdittextCustom
                         android:id="@+id/edt_first_name"
@@ -170,7 +172,9 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="20dp"
                         android:text="@string/birthday"
-                        android:textColor="@color/tv_gray" />
+                        android:textAllCaps="true"
+                        android:textColor="@color/tv_gray"
+                        android:textSize="@dimen/size_small" />
 
                     <au.mccann.oztaxreturn.view.EdittextCustom
                         android:id="@+id/tv_birthday"
@@ -183,8 +187,8 @@
                         android:drawableRight="@drawable/ic_down"
                         android:focusable="false"
                         android:gravity="center_vertical"
-                        android:inputType="date"
                         android:hint="@string/birthday_hint"
+                        android:inputType="date"
                         android:paddingLeft="16dp"
                         android:paddingStart="16dp"
                         tools:ignore="RtlSymmetry" />
@@ -197,14 +201,22 @@
                     android:layout_height="match_parent"
                     android:layout_marginTop="10dp"
                     android:orientation="vertical"
-                    android:paddingBottom="30dp"
+                    android:paddingBottom="20dp"
                     android:visibility="gone">
+
+
+                    <au.mccann.oztaxreturn.view.TextViewCustom
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="@string/attach_photo_payg"
+                        android:textColor="@color/tv_gray"
+                        android:textSize="@dimen/size_nomal" />
 
                     <au.mccann.oztaxreturn.view.MyGridView
                         android:id="@+id/gr_image"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="0dp"
                         android:numColumns="3" />
 
                 </LinearLayout>

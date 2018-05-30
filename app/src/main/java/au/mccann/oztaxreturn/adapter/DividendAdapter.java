@@ -143,7 +143,9 @@ public class DividendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             itemViewHolder.imgDelete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (onRemoveItem != null) onRemoveItem.onDelete(position - 1);
+                    if (onRemoveItem != null) {
+                        onRemoveItem.onDelete(position - 1);
+                    }
                 }
             });
             if (dividend.getImages() == null || dividend.getImages().size() == 0) {

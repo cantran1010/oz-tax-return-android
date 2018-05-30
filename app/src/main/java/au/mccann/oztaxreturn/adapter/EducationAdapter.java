@@ -49,24 +49,16 @@ public class EducationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         void onClick(int position, int n);
     }
 
-    public interface OnSelectedListener {
-        void selected(int position, String type);
-    }
-
     public interface OnRemoveItem {
         void onDelete(int position);
     }
 
     private OnClickImageListener onClickImageListener;
-    private OnSelectedListener onSelectedListener;
+
     private OnRemoveItem onRemoveItem;
 
     public void setOnClickImageListener(OnClickImageListener onClickImageListener) {
         this.onClickImageListener = onClickImageListener;
-    }
-
-    public void setOnSelectedListener(OnSelectedListener onSelectedListener) {
-        this.onSelectedListener = onSelectedListener;
     }
 
     public void setOnRemoveItem(OnRemoveItem onRemoveItem) {
@@ -125,7 +117,7 @@ public class EducationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 headerViewHolder.rbNo.setEnabled(false);
             }
         } else if (holder instanceof ItemViewHolder) {
-//            LogUtils.d("onBindViewHolder", educations.get(position - 1).getType() + "position" + position);
+            LogUtils.d("onBindViewHolder", educations.get(position - 1).getType() + "e" + isExpend());
             final Education education = educations.get(position - 1);
             final ItemViewHolder itemViewHolder = (ItemViewHolder) holder;
             if (isExpend) {
@@ -166,13 +158,18 @@ public class EducationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     if (onClickImageListener != null) onClickImageListener.onClick(position - 1, n);
                 }
             });
-            OzSpinnerAdapter dataNameAdapter = new OzSpinnerAdapter(context, types,0);
+            final OzSpinnerAdapter dataNameAdapter = new OzSpinnerAdapter(context, types, 0);
             itemViewHolder.spType.setAdapter(dataNameAdapter);
+            for (int i = 0; i < types.size(); i++) {
+                if (education.getType().equalsIgnoreCase(types.get(i))) {
+                    itemViewHolder.spType.setSelection(i);
+                    break;
+                } else itemViewHolder.spType.setSelection(0);
+            }
             itemViewHolder.spType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                    if (onSelectedListener != null)
-                        onSelectedListener.selected(position - 1, types.get(i));
+                    educations.get(position - 1).setType(types.get(i));
                 }
 
                 @Override
@@ -180,12 +177,7 @@ public class EducationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
                 }
             });
-            for (int i = 0; i < types.size(); i++) {
-                if (education.getType().equalsIgnoreCase(types.get(i))) {
-                    itemViewHolder.spType.setSelection(i);
-                    break;
-                } else itemViewHolder.spType.setSelection(0);
-            }
+
             ((ItemViewHolder) holder).edtCourse.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {

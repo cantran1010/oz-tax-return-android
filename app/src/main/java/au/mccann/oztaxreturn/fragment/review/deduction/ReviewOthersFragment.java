@@ -147,13 +147,6 @@ public class ReviewOthersFragment extends BaseFragment implements View.OnClickLi
                 }
             }
         });
-        adapter.setOnSelectedListener(new OthersAdapter.OnSelectedListener() {
-            @Override
-            public void selected(int position, String type) {
-                otherResponses.get(position).setType(type);
-                adapter.notifyItemChanged(position);
-            }
-        });
         adapter.setOnRemoveItem(new OthersAdapter.OnRemoveItem() {
             @Override
             public void onDelete(final int position) {

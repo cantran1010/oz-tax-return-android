@@ -141,6 +141,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                         String content = error.message();
                         if (error.status().equalsIgnoreCase("user.inactive"))
                             content = content.replace("  ", ", ").replace("Y", "y");
+                        else if (error.status().equalsIgnoreCase("user.wrong")) {
+                                content=getString(R.string.user_wrong);
+                        }
                         DialogUtils.showOkDialog(LoginActivity.this, getString(R.string.error), content, getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
                             @Override
                             public void onSubmit() {

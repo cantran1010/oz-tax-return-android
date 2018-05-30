@@ -146,13 +146,6 @@ public class ReviewEducationsFragment extends BaseFragment implements View.OnCli
                 }
             }
         });
-        adapter.setOnSelectedListener(new EducationAdapter.OnSelectedListener() {
-            @Override
-            public void selected(int position, String type) {
-                educations.get(position).setType(type);
-                adapter.notifyItemChanged(position);
-            }
-        });
         adapter.setOnRemoveItem(new EducationAdapter.OnRemoveItem() {
             @Override
             public void onDelete(final int position) {
