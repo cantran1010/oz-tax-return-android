@@ -295,7 +295,8 @@ public class OtherFragment extends BaseFragment implements View.OnClickListener 
                         Attachment attachment = new Attachment();
                         attachment.setId((int) image.getId());
                         attachment.setUrl(image.getPath());
-                        attach.add(attachment);
+                        if (!attach.contains(attachment))
+                            attach.add(attachment);
                     }
                 }
                 JSONArray jsonArray = new JSONArray();

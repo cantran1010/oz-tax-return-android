@@ -65,7 +65,7 @@ import static au.mccann.oztaxreturn.utils.Utils.showToolTip;
 public class ManageAccountActivity extends BaseActivity implements View.OnClickListener {
     private final static String TAG = ManageAccountActivity.class.getName();
     private CircleImageView imgAvatar;
-    private EdittextCustom edtTitle, edtFirstname, edtMidname, edtLastName, edtBirthDay, edtStreetNumber, edtSuburb, edtState, edtPostCode;
+    private EdittextCustom edtFirstname, edtMidname, edtLastName, edtBirthDay, edtStreetNumber, edtSuburb, edtPostCode;
     private EdittextCustom edtUserName, edtOldPassWord, edtNewPassWord, edtNewPassWordAgain;
     private Spinner spGender;
     private final String[] permissions = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
@@ -73,7 +73,12 @@ public class ManageAccountActivity extends BaseActivity implements View.OnClickL
     private Image image;
     private Calendar calendar = GregorianCalendar.getInstance();
     private List<String> genders = new ArrayList<>();
+    private List<String> states = new ArrayList<>();
+    private List<String> titles = new ArrayList<>();
     private int imgID;
+    private Spinner spState, spTitle;
+
+
 
     @Override
     protected int getLayout() {
@@ -83,7 +88,7 @@ public class ManageAccountActivity extends BaseActivity implements View.OnClickL
     @Override
     protected void initView() {
         imgAvatar = findViewById(R.id.img_user_avatar);
-        edtTitle = findViewById(R.id.edt_title);
+        spTitle = findViewById(R.id.sp_title);
         spGender = findViewById(R.id.sp_gender);
         edtFirstname = findViewById(R.id.edt_first_name);
         edtMidname = findViewById(R.id.edt_middle_name);
@@ -91,9 +96,8 @@ public class ManageAccountActivity extends BaseActivity implements View.OnClickL
         edtBirthDay = findViewById(R.id.edt_birthday);
         edtStreetNumber = findViewById(R.id.edt_street_name);
         edtSuburb = findViewById(R.id.edt_suburb);
-        edtState = findViewById(R.id.edt_state);
         edtPostCode = findViewById(R.id.edt_post_code);
-
+        spState = findViewById(R.id.sp_state);
         edtUserName = findViewById(R.id.edt_user_name);
         edtOldPassWord = findViewById(R.id.edt_old_password);
         edtNewPassWord = findViewById(R.id.edt_new_password);
@@ -106,9 +110,15 @@ public class ManageAccountActivity extends BaseActivity implements View.OnClickL
 
     @Override
     protected void initData() {
+        titles = Arrays.asList(getResources().getStringArray(R.array.string_array_title));
         genders = Arrays.asList(getResources().getStringArray(R.array.string_array_gender));
-        OzSpinnerAdapter dataNameAdapter = new OzSpinnerAdapter(this, genders,0);
-        spGender.setAdapter(dataNameAdapter);
+        states = Arrays.asList(getResources().getStringArray(R.array.string_array_states));
+        OzSpinnerAdapter stateAdapter = new OzSpinnerAdapter(this, states, 0);
+        OzSpinnerAdapter genderAdapter = new OzSpinnerAdapter(this, genders, 0);
+        OzSpinnerAdapter titleAdapter = new OzSpinnerAdapter(this, titles, 0);
+        spTitle.setAdapter(titleAdapter);
+        spGender.setAdapter(genderAdapter);
+        spState.setAdapter(stateAdapter);
         updateUI(UserManager.getUserEntity());
         getUserInformation();
     }
@@ -137,14 +147,26 @@ public class ManageAccountActivity extends BaseActivity implements View.OnClickL
     }
 
     private void updateUI(UserEntity body) {
+        LogUtils.d(TAG,"updateUI"+body.toString());
         if (body.getAvatar() != null) {
             Utils.displayImage(ManageAccountActivity.this, imgAvatar, body.getAvatar().getUrl());
             imgID = Integer.parseInt(body.getAvatar().getId());
         }
-        edtTitle.setText(body.getTitle());
+        for (int i = 0; i < titles.size(); i++) {
+            if (body.getTitle().equalsIgnoreCase(titles.get(i))) {
+                spTitle.setSelection(i);
+                break;
+            }
+        }
         for (int i = 0; i < genders.size(); i++) {
             if (body.getGender().equalsIgnoreCase(genders.get(i))) {
                 spGender.setSelection(i);
+                break;
+            }
+        }
+        for (int i = 0; i < states.size(); i++) {
+            if (body.getState().equalsIgnoreCase(states.get(i))) {
+                spState.setSelection(i);
                 break;
             }
         }
@@ -155,7 +177,6 @@ public class ManageAccountActivity extends BaseActivity implements View.OnClickL
             edtBirthDay.setText(getDateBirthDayFromIso(body.getBirthday()));
         edtStreetNumber.setText(body.getStreet());
         edtSuburb.setText(body.getSuburb());
-        edtState.setText(body.getState());
         edtPostCode.setText(body.getPostCode());
         edtUserName.setText(body.getUserName());
     }
@@ -174,7 +195,7 @@ public class ManageAccountActivity extends BaseActivity implements View.OnClickL
                     UserManager.insertUser(user);
                     LogUtils.d(TAG, "getUserInformation body : " + UserManager.getUserEntity().toString());
                     updateUI(UserManager.getUserEntity());
-                }else if (response.code() == Constants.HTTP_CODE_BLOCK) {
+                } else if (response.code() == Constants.HTTP_CODE_BLOCK) {
                     Intent intent = new Intent(ManageAccountActivity.this, SplashActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
@@ -306,12 +327,6 @@ public class ManageAccountActivity extends BaseActivity implements View.OnClickL
     }
 
     private void save() {
-        if (edtTitle.getText().toString().trim().isEmpty()) {
-            showToolTip(this, edtTitle, getString(R.string.vali_all_empty));
-            edtTitle.requestFocus();
-            edtTitle.getParent().requestChildFocus(edtTitle, edtTitle);
-            return;
-        }
         if (edtFirstname.getText().toString().trim().isEmpty()) {
             showToolTip(this, edtFirstname, getString(R.string.vali_all_empty));
             edtFirstname.requestFocus();
@@ -354,12 +369,6 @@ public class ManageAccountActivity extends BaseActivity implements View.OnClickL
             edtPostCode.getParent().requestChildFocus(edtPostCode, edtPostCode);
             return;
         }
-        if (edtState.getText().toString().trim().isEmpty()) {
-            showToolTip(this, edtState, getString(R.string.vali_all_empty));
-            edtState.requestFocus();
-            edtState.getParent().requestChildFocus(edtState, edtState);
-            return;
-        }
         if (edtOldPassWord.getText().toString().trim().isEmpty()) {
             showToolTip(this, edtOldPassWord, getString(R.string.vali_all_empty));
             edtOldPassWord.requestFocus();
@@ -381,17 +390,17 @@ public class ManageAccountActivity extends BaseActivity implements View.OnClickL
         ProgressDialogUtils.showProgressDialog(ManageAccountActivity.this);
         JSONObject salaryJson = new JSONObject();
         try {
-            salaryJson.put(Constants.PARAMETER_UPDATE_ACCOUNT_TITLE, edtTitle.getText().toString().trim());
+            salaryJson.put(Constants.PARAMETER_UPDATE_ACCOUNT_TITLE, spTitle.getSelectedItem().toString());
             salaryJson.put(Constants.PARAMETER_UPDATE_ACCOUNT_FIRST_NAME, edtFirstname.getText().toString().trim());
             salaryJson.put(Constants.PARAMETER_UPDATE_ACCOUNT_MIDDLE_NAME, edtMidname.getText().toString().trim());
             salaryJson.put(Constants.PARAMETER_UPDATE_ACCOUNT_LAST_NAME, edtLastName.getText().toString().trim());
             salaryJson.put(Constants.PARAMETER_UPDATE_ACCOUNT_BIRTHDAY, DateTimeUtils.fromCalendarToBirthday(calendar));
             if (imgID != 0) salaryJson.put(Constants.PARAMETER_UPDATE_ACCOUNT_AVATAR, imgID);
-            salaryJson.put(Constants.PARAMETER_UPDATE_ACCOUNT_GENDER, spGender.getSelectedItem().toString());
+            salaryJson.put(Constants.PARAMETER_UPDATE_ACCOUNT_GENDER, spGender.getSelectedItem().toString().toLowerCase());
             salaryJson.put(Constants.PARAMETER_UPDATE_ACCOUNT_STREET, edtStreetNumber.getText().toString().trim());
             salaryJson.put(Constants.PARAMETER_UPDATE_ACCOUNT_SUBURB, edtSuburb.getText().toString().trim());
             salaryJson.put(Constants.PARAMETER_UPDATE_ACCOUNT_POST_CODE, edtPostCode.getText().toString().trim());
-            salaryJson.put(Constants.PARAMETER_UPDATE_ACCOUNT_POST_STATE, edtState.getText().toString());
+            salaryJson.put(Constants.PARAMETER_UPDATE_ACCOUNT_POST_STATE, spState.getSelectedItem().toString());
             salaryJson.put(Constants.PARAMETER_UPDATE_ACCOUNT_PASSWORD, edtOldPassWord.getText());
             if (edtNewPassWord.getText().toString().trim().length() > 0) {
                 salaryJson.put(Constants.PARAMETER_UPDATE_ACCOUNT_NEW_PASSWORD, edtNewPassWord.getText().toString().trim());
@@ -412,7 +421,7 @@ public class ManageAccountActivity extends BaseActivity implements View.OnClickL
                     user.setToken(UserManager.getUserToken());
                     UserManager.insertUser(user);
                     finish();
-                }else if (response.code() == Constants.HTTP_CODE_BLOCK) {
+                } else if (response.code() == Constants.HTTP_CODE_BLOCK) {
                     Intent intent = new Intent(ManageAccountActivity.this, SplashActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);

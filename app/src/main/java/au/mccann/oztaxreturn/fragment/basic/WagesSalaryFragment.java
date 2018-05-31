@@ -186,7 +186,7 @@ public class WagesSalaryFragment extends BaseFragment implements View.OnClickLis
                     LogUtils.d(TAG, "getBasicInformation body : " + response.body().toString());
                     if (response.body().getIncomeWagesSalary() != null)
                         updateUI(response.body().getIncomeWagesSalary());
-                }else if (response.code() == Constants.HTTP_CODE_BLOCK) {
+                } else if (response.code() == Constants.HTTP_CODE_BLOCK) {
                     Intent intent = new Intent(getContext(), SplashActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
@@ -275,7 +275,8 @@ public class WagesSalaryFragment extends BaseFragment implements View.OnClickLis
                         Attachment attachment = new Attachment();
                         attachment.setId((int) image.getId());
                         attachment.setUrl(image.getPath());
-                        attach.add(attachment);
+                        if (!attach.contains(attachment))
+                            attach.add(attachment);
                     }
                 }
                 JSONArray jsonArray = new JSONArray();
@@ -306,7 +307,7 @@ public class WagesSalaryFragment extends BaseFragment implements View.OnClickLis
                 if (response.code() == Constants.HTTP_CODE_OK) {
                     LogUtils.d(TAG, "doSaveBasic body: " + response.body());
                     openFragment(R.id.layout_container, OtherFragment.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
-                }else if (response.code() == Constants.HTTP_CODE_BLOCK) {
+                } else if (response.code() == Constants.HTTP_CODE_BLOCK) {
                     Intent intent = new Intent(getContext(), SplashActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);

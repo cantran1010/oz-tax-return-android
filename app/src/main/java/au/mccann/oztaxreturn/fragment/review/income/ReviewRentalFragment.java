@@ -15,7 +15,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
-import android.widget.ScrollView;
+import android.widget.Spinner;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -24,6 +24,7 @@ import org.json.JSONObject;
 import java.io.File;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -34,6 +35,7 @@ import au.mccann.oztaxreturn.activity.AlbumActivity;
 import au.mccann.oztaxreturn.activity.PreviewImageActivity;
 import au.mccann.oztaxreturn.activity.SplashActivity;
 import au.mccann.oztaxreturn.adapter.ImageAdapter;
+import au.mccann.oztaxreturn.adapter.OzSpinnerAdapter;
 import au.mccann.oztaxreturn.common.Constants;
 import au.mccann.oztaxreturn.database.UserManager;
 import au.mccann.oztaxreturn.dialog.AlertDialogOk;
@@ -76,7 +78,7 @@ import static au.mccann.oztaxreturn.utils.Utils.showToolTip;
  */
 public class ReviewRentalFragment extends BaseFragment implements View.OnClickListener {
     private RadioButtonCustom rbYes, rbNo;
-    private EdittextCustom edtOwnerShip, edtStreet, edtSuburb, edtState, edtPostCode, edtFirstDate;
+    private EdittextCustom edtOwnerShip, edtStreet, edtSuburb, edtPostCode, edtFirstDate;
     private EditTextEasyMoney edtRentalIncome, edtRentalExpenses;
     private static final String TAG = OtherFragment.class.getSimpleName();
     private MyGridView grImage;
@@ -89,6 +91,9 @@ public class ReviewRentalFragment extends BaseFragment implements View.OnClickLi
     private ArrayList<Attachment> attach;
     private int appID;
     private final Calendar calendar = GregorianCalendar.getInstance();
+    private List<String> states = new ArrayList<>();
+    private Spinner spState;
+
 
     @Override
     protected int getLayout() {
@@ -100,37 +105,31 @@ public class ReviewRentalFragment extends BaseFragment implements View.OnClickLi
         findViewById(R.id.btn_next).setOnClickListener(this);
         rbYes = (RadioButtonCustom) findViewById(R.id.rb_yes);
         rbNo = (RadioButtonCustom) findViewById(R.id.rb_no);
-
         edtOwnerShip = (EdittextCustom) findViewById(R.id.edt_owership);
-
         edtStreet = (EdittextCustom) findViewById(R.id.edt_street_name);
-
         edtSuburb = (EdittextCustom) findViewById(R.id.edt_suburb);
-
-        edtState = (EdittextCustom) findViewById(R.id.edt_state);
-
+        spState = (Spinner) findViewById(R.id.sp_state);
         edtPostCode = (EdittextCustom) findViewById(R.id.edt_post_code);
-
         edtFirstDate = (EdittextCustom) findViewById(R.id.edt_first_date);
-
         edtFirstDate.setOnClickListener(this);
         edtRentalIncome = (EditTextEasyMoney) findViewById(R.id.edt_rental_income);
-
         edtRentalExpenses = (EditTextEasyMoney) findViewById(R.id.edt_rental_expenses);
-
         grImage = (MyGridView) findViewById(R.id.gr_image);
-        ScrollView scrollView = (ScrollView) findViewById(R.id.scrollView);
         layout = (ExpandableLayout) findViewById(R.id.layout_expandable);
+
     }
 
     @Override
     protected void initData() {
+        states = Arrays.asList(getResources().getStringArray(R.array.string_array_states));
+        OzSpinnerAdapter stateAdapter = new OzSpinnerAdapter(getActivity(), states, 0);
+        spState.setAdapter(stateAdapter);
         edtSuburb.setEnabled(isEditApp());
         rbNo.setEnabled(isEditApp());
         edtOwnerShip.setEnabled(isEditApp());
         edtStreet.setEnabled(isEditApp());
         rbYes.setEnabled(isEditApp());
-        edtState.setEnabled(isEditApp());
+        spState.setEnabled(isEditApp());
         edtPostCode.setEnabled(isEditApp());
         edtFirstDate.setEnabled(isEditApp());
         edtRentalIncome.setEnabled(isEditApp());
@@ -194,7 +193,12 @@ public class ReviewRentalFragment extends BaseFragment implements View.OnClickLi
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        edtState.setText(r.getState());
+        for (int i = 0; i < states.size(); i++) {
+            if (r.getState().equalsIgnoreCase(states.get(i))) {
+                spState.setSelection(i);
+                break;
+            }
+        }
         if (Integer.parseInt(r.getPostcode()) > 0) edtPostCode.setText(r.getPostcode());
         edtRentalIncome.setText(r.getIncome());
         edtRentalExpenses.setText(r.getExpenses());
@@ -361,6 +365,7 @@ public class ReviewRentalFragment extends BaseFragment implements View.OnClickLi
 
     }
 
+
     private void doSaveReview() {
         ProgressDialogUtils.showProgressDialog(getContext());
         final JSONObject jsonRequest = new JSONObject();
@@ -371,7 +376,7 @@ public class ReviewRentalFragment extends BaseFragment implements View.OnClickLi
                 govJson.put(Constants.PARAMETER_REVIEW_INCOME_RENTAL_OWNERSHIP_PER, edtOwnerShip.getText().toString().trim());
                 govJson.put(Constants.PARAMETER_REVIEW_INCOME_RENTAL_STREET, edtStreet.getText().toString().trim());
                 govJson.put(Constants.PARAMETER_REVIEW_INCOME_RENTAL_SUBURB, edtSuburb.getText().toString().trim());
-                govJson.put(Constants.PARAMETER_REVIEW_INCOME_RENTAL_STARTE, edtState.getText().toString().trim());
+                govJson.put(Constants.PARAMETER_REVIEW_INCOME_RENTAL_STARTE, spState.getSelectedItem().toString());
                 govJson.put(Constants.PARAMETER_REVIEW_INCOME_RENTAL_POST_CODE, edtPostCode.getText().toString().trim());
                 govJson.put(Constants.PARAMETER_REVIEW_INCOME_RENTAL_FIRST_DATE, DateTimeUtils.fromCalendarToBirthday(calendar));
                 govJson.put(Constants.PARAMETER_REVIEW_INCOME_RENTAL_INCOME, edtRentalIncome.getValuesFloat());
@@ -383,7 +388,8 @@ public class ReviewRentalFragment extends BaseFragment implements View.OnClickLi
                             Attachment attachment = new Attachment();
                             attachment.setId((int) image.getId());
                             attachment.setUrl(image.getPath());
-                            attach.add(attachment);
+                            if (!attach.contains(attachment))
+                                attach.add(attachment);
                         }
                     }
                     JSONArray jsonArray = new JSONArray();
@@ -453,7 +459,6 @@ public class ReviewRentalFragment extends BaseFragment implements View.OnClickLi
                                           final int monthOfYear, final int dayOfMonth) {
                         if (view.isShown()) {
                             calendar.set(year, monthOfYear, dayOfMonth);
-//                            edtFirstDate.setText(DateTimeUtils.fromCalendarToBirthday(calendar));
                             edtFirstDate.setText(DateTimeUtils.fromCalendarToView(calendar));
                         }
                     }
@@ -484,10 +489,6 @@ public class ReviewRentalFragment extends BaseFragment implements View.OnClickLi
                             showToolTip(getContext(), edtSuburb, getString(R.string.vali_all_empty));
                             return;
                         }
-                        if (edtState.getText().toString().trim().isEmpty()) {
-                            showToolTip(getContext(), edtState, getString(R.string.vali_all_empty));
-                            return;
-                        }
                         if (edtPostCode.getText().toString().trim().isEmpty()) {
                             showToolTip(getContext(), edtPostCode, getString(R.string.vali_all_empty));
                             return;
@@ -509,7 +510,6 @@ public class ReviewRentalFragment extends BaseFragment implements View.OnClickLi
                             return;
                         }
                         uploadImage();
-
                     } else {
                         doSaveReview();
                     }

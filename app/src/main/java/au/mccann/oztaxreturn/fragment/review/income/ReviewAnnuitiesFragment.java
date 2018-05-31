@@ -347,7 +347,8 @@ public class ReviewAnnuitiesFragment extends BaseFragment implements View.OnClic
                             Attachment attachment = new Attachment();
                             attachment.setId((int) image.getId());
                             attachment.setUrl(image.getPath());
-                            d.getAttach().add(attachment);
+                            if (!d.getAttach().contains(attachment))
+                                d.getAttach().add(attachment);
                         }
                     }
                     JSONArray js = new JSONArray();

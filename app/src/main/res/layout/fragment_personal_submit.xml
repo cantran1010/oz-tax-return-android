@@ -192,18 +192,41 @@
                         android:textColor="@color/tv_gray"
                         android:textSize="@dimen/size_small" />
 
-                    <au.mccann.oztaxreturn.view.EdittextCustom
-                        android:id="@+id/edt_state"
-                        style="@style/EditText"
+                    <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="5dp"
-                        android:layout_marginRight="5dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginRight="10dp"
                         android:layout_marginTop="10dp"
-                        android:imeOptions="actionNext"
-                        android:inputType="text"
-                        android:textColor="@color/income_conten"
-                        android:textColorHint="@color/tv_gray" />
+                        android:background="@drawable/bg_edittext"
+                        android:minHeight="45dp">
+
+                        <Spinner
+                            android:id="@+id/sp_state"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_centerInParent="true"
+                            android:background="@null"
+                            android:gravity="center_vertical"
+                            android:paddingEnd="6dp"
+                            android:paddingLeft="6dp"
+                            android:paddingRight="6dp"
+                            android:paddingStart="6dp"
+                            android:prompt="@string/gender" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:paddingEnd="10dp"
+                            android:paddingRight="10dp"
+                            android:scaleType="centerInside"
+                            android:src="@drawable/ic_down"
+                            tools:ignore="ContentDescription,RtlSymmetry" />
+
+                    </RelativeLayout>
                 </LinearLayout>
 
                 <LinearLayout
@@ -254,11 +277,11 @@
                 <RelativeLayout
                     android:layout_width="80dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
                     android:layout_marginRight="10dp"
                     android:layout_marginTop="10dp"
                     android:background="@drawable/bg_edittext"
-                    android:minHeight="45dp"
-                    android:layout_marginEnd="10dp">
+                    android:minHeight="45dp">
 
                     <Spinner
                         android:id="@+id/sp_country_code"
@@ -293,12 +316,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="0dp"
+                    android:layout_marginStart="0dp"
                     android:layout_marginTop="10dp"
                     android:imeOptions="actionNext"
                     android:inputType="phone"
                     android:textColor="@color/income_conten"
-                    android:textColorHint="@color/tv_gray"
-                    android:layout_marginStart="0dp" />
+                    android:textColorHint="@color/tv_gray" />
 
             </LinearLayout>
 

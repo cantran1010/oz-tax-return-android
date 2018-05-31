@@ -112,7 +112,7 @@
 
     <!-- estimate -->
     <string name="estimate_title">Application Ready</string>
-    <string name="estimate_content">Our accountant will process your application and fill in other information using our expertise to help you get the best possible tax refund.   You will be notified to review the final application and provide extra information if required before we loge it to ATO.</string>
+    <string name="estimate_content">Our accountant will process your application and fill in other information using our expertise to help you get the best possible tax refund.   You will be notified to review the final application and provide extra information if required before we lodge it to ATO.</string>
     <string name="estimate_note">* Please click Next to provide your personal information</string>
 
     <!-- personal information -->
@@ -131,6 +131,8 @@
         <item>Mr</item>
         <item>Mrs</item>
         <item>Ms</item>
+        <item>Miss</item>
+        <item>Dr</item>
     </string-array>
 
     <!-- personal information submit -->
@@ -158,6 +160,17 @@
     <string name="valid_app_email">Enter email address</string>
     <string name="valid_app_email_2">Please enter a valid email address</string>
     <string name="valid_app_phone_2">Please enter a valid phone number</string>
+    <string name="vali_phone_or_mail">Please enter phone number or email address.</string>
+    <string-array name="string_array_states">
+        <item>ACT</item>
+        <item>NSW</item>
+        <item>NT</item>
+        <item>QLD</item>
+        <item>SA</item>
+        <item>TAS</item>
+        <item>VIC</item>
+        <item>WA</item>
+    </string-array>
 
     <!-- first checkout -->
     <string name="first_checkout_title">CHECK OUT</string>
@@ -340,7 +353,7 @@
 
     <!-- review deduction education -->
     <string name="review_deductions">review deductions</string>
-    <string name="review_education">Work Relate\nEducation</string>
+    <string name="review_education">Work Related\nEducation</string>
     <string name="review_education_ask">This could relate to any spending on fees, books, travel and epuipment that heva a direct connection to your current work.\n\nDo you want to claim for this type?</string>
     <string name="course_and_institution">course and instutition</string>
     <string name="course_hint">Example: food safety certificate from ABC TAPE</string>
@@ -356,7 +369,7 @@
 
     <!-- review deduction Other Work Related Expenses -->
     <string name="review_other_work">Other Work\nRelated Expenses</string>
-    <string name="review_ohter_work_ask">This could relate to union fees, home office expenses and other expenses.\n\nDo you want to claim for this type?</string>
+    <string name="review_ohter_work_ask">This could relate to union fees and home office expenses and other expenses.\n\nDo you want to claim for this type?</string>
     <string name="description">description</string>
     <string name="description_hint">Example: Phone call to Customers</string>
     <string-array name="string_array_other_type">
@@ -424,7 +437,7 @@
     <string name="lum_sums">Super\nLump Sum</string>
 
     <!-- review summary -->
-    <string name="summary_header">Estimate\ntax refund</string>
+    <string name="summary_header">Estimated\ntax refund</string>
     <string name="total_income">Total Income</string>
     <string name="government_payments">Government Payments</string>
     <string name="interest">Interest</string>
@@ -460,12 +473,12 @@
     <string name="negative_tax_refund">Your application has been successfully completed. You are required to pay</string>
     <string name="negative_tax_refund_end">to ATO. Please download your tax return report. You can also contact us if you wish to discuss about payment plans.</string>
     <string name="Review_your_application">Review your application</string>
-    <string name="review_auditing_title">Your application has been audit by ATO.</string>
+    <string name="review_auditing_title">Your application has been audited by ATO.</string>
     <string name="tax_return_report">tax return report</string>
-    <string name="review_audi_content">Please review your application again and submit additional information and image require\n by ATO to relogde your application. Your can contact our accountant for free support.</string>
+    <string name="review_audi_content">Please review your application again and provide additional information required by ATO. You can download the ATO Letter here.</string>
     <string name="actual_tax_refund">Actual\ntax refund</string>
     <string name="astimated_tax_refund_message">This actual tax return is issued by ATO based on your provided information.</string>
-    <string name="actual_tax_refund_message">Your tax refund is estimated based on information\nyou have provided and our calculation method.\nYour final tax refund may be prone to changing by ATO.</string>
+    <string name="actual_tax_refund_message">Your tax refund is estimated based on information\nyou have provided and our calculation method.\nYour final tax refund will be determined by ATO.</string>
 
     <!-- notification screen -->
     <string name="notification_title">NOTIFICATION</string>

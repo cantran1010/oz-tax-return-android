@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_marginEnd="@dimen/left_right_margin_screen"
     android:layout_marginLeft="@dimen/left_right_margin_screen"
     android:layout_marginRight="@dimen/left_right_margin_screen"
@@ -91,7 +92,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:el_duration="@integer/expand"
-                app:el_expanded="false">
+                app:el_expanded="true">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -176,17 +177,34 @@
                                 android:textColor="@color/tv_gray"
                                 android:textSize="@dimen/size_small" />
 
-                            <au.mccann.oztaxreturn.view.EdittextCustom
-                                android:id="@+id/edt_state"
-                                style="@style/EditText"
+                            <RelativeLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginEnd="5dp"
-                                android:layout_marginRight="5dp"
                                 android:layout_marginTop="10dp"
-                                android:inputType="text"
-                                android:textColor="@color/income_conten"
-                                android:textColorHint="@color/tv_gray" />
+                                android:background="@drawable/bg_edittext"
+                                android:minHeight="45dp">
+
+                                <Spinner
+                                    android:id="@+id/sp_state"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_centerInParent="true"
+                                    android:background="@null"
+                                    android:gravity="center_vertical"
+                                    android:prompt="@string/gender" />
+
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentEnd="true"
+                                    android:layout_alignParentRight="true"
+                                    android:layout_centerVertical="true"
+                                    android:paddingEnd="10dp"
+                                    android:paddingRight="10dp"
+                                    android:scaleType="centerInside"
+                                    android:src="@drawable/ic_down"
+                                    tools:ignore="ContentDescription,RtlSymmetry" />
+                            </RelativeLayout>
                         </LinearLayout>
 
                         <LinearLayout
