@@ -1,9 +1,11 @@
 package au.mccann.oztaxreturn.fragment.review.summary;
 
 import android.Manifest;
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
@@ -22,6 +24,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -34,12 +37,12 @@ import au.mccann.oztaxreturn.activity.GeneralInfoActivity;
 import au.mccann.oztaxreturn.activity.SplashActivity;
 import au.mccann.oztaxreturn.common.Constants;
 import au.mccann.oztaxreturn.database.UserManager;
+import au.mccann.oztaxreturn.dialog.AlertDialogDownload;
 import au.mccann.oztaxreturn.dialog.AlertDialogOk;
 import au.mccann.oztaxreturn.dialog.AlertDialogOkAndCancel;
 import au.mccann.oztaxreturn.dialog.AlertDialogOkNonTouch;
 import au.mccann.oztaxreturn.fragment.BaseFragment;
 import au.mccann.oztaxreturn.fragment.HomeFragment;
-import au.mccann.oztaxreturn.fragment.review.personal.ReviewPersonalInfomationA;
 import au.mccann.oztaxreturn.model.APIError;
 import au.mccann.oztaxreturn.model.DeductionPart;
 import au.mccann.oztaxreturn.model.IncomePart;
@@ -48,6 +51,8 @@ import au.mccann.oztaxreturn.model.TaxPart;
 import au.mccann.oztaxreturn.networking.ApiClient;
 import au.mccann.oztaxreturn.rest.response.ApplicationResponse;
 import au.mccann.oztaxreturn.utils.DialogUtils;
+import au.mccann.oztaxreturn.utils.DownloadFile;
+import au.mccann.oztaxreturn.utils.FileUtils;
 import au.mccann.oztaxreturn.utils.LogUtils;
 import au.mccann.oztaxreturn.utils.ProgressDialogUtils;
 import au.mccann.oztaxreturn.utils.TransitionScreen;
@@ -588,11 +593,36 @@ public class ReviewSummaryFragment extends BaseFragment implements View.OnClickL
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_review:
-                if (isEditApp())
-                    lodgeApplication();
-                else {
-                    openFragment(R.id.layout_container, ReviewPersonalInfomationA.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
-                }
+                LogUtils.d(TAG, "duoi" + FileUtils.getMimeType("http://maven.apache.org/maven-1.x/maven.pdf"));
+                DialogUtils.showDownloadDialog(getActivity(), "http://maven.apache.org/maven-1.x/maven.pdf", new AlertDialogDownload.AlertDialogListener() {
+                    @Override
+                    public void onDownload() {
+                        ProgressDialogUtils.showProgressDialog(getActivity());
+                        new DownloadFile().execute("http://maven.apache.org/maven-1.x/maven.pdf", "maven.pdf");
+                    }
+
+                    @Override
+                    public void onView() {
+//                        File pdfFile = new File(FileUtils.getMaximyzDirectory()+"maven.pdf");
+                        File pdfFile = new File(Environment.getExternalStorageDirectory() + "/MAXIMYZ/" + "maven.pdf");  // -> filename = maven.pdf
+                        Uri path = Uri.fromFile(pdfFile);
+                        Intent pdfIntent = new Intent(Intent.ACTION_VIEW);
+                        pdfIntent.setDataAndType(path, "application/pdf");
+                        pdfIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        try {
+                            getContext().startActivity(pdfIntent);
+                        } catch (ActivityNotFoundException e) {
+                            Toast.makeText(getContext(), "No handler for this type of file.", Toast.LENGTH_LONG).show();
+                        }
+
+
+                    }
+                });
+//                if (isEditApp())
+//                    lodgeApplication();
+//                else {
+//                    openFragment(R.id.layout_container, ReviewPersonalInfomationA.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
+//                }
                 break;
             case R.id.lo_total_income:
                 expandableLayout(layoutIncome, icIncome);

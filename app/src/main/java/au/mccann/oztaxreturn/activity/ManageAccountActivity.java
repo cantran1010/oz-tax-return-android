@@ -10,6 +10,8 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.Spinner;
@@ -67,7 +69,6 @@ public class ManageAccountActivity extends BaseActivity implements View.OnClickL
     private CircleImageView imgAvatar;
     private EdittextCustom edtFirstname, edtMidname, edtLastName, edtBirthDay, edtStreetNumber, edtSuburb, edtPostCode;
     private EdittextCustom edtUserName, edtOldPassWord, edtNewPassWord, edtNewPassWordAgain;
-    private Spinner spGender;
     private final String[] permissions = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
     private String imgPath = "";
     private Image image;
@@ -76,8 +77,7 @@ public class ManageAccountActivity extends BaseActivity implements View.OnClickL
     private List<String> states = new ArrayList<>();
     private List<String> titles = new ArrayList<>();
     private int imgID;
-    private Spinner spState, spTitle;
-
+    private Spinner spState, spTitle, spGender;
 
 
     @Override
@@ -121,6 +121,30 @@ public class ManageAccountActivity extends BaseActivity implements View.OnClickL
         spState.setAdapter(stateAdapter);
         updateUI(UserManager.getUserEntity());
         getUserInformation();
+        edtNewPassWordAgain.setFocusableInTouchMode(false);
+        edtNewPassWordAgain.setFocusable(false);
+        edtNewPassWord.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if (editable.length() > 0) {
+                    edtNewPassWordAgain.setFocusableInTouchMode(true);
+                    edtNewPassWordAgain.setFocusable(true);
+                } else {
+                    edtNewPassWordAgain.setFocusableInTouchMode(false);
+                    edtNewPassWordAgain.setFocusable(false);
+                }
+            }
+        });
     }
 
     @Override
@@ -147,7 +171,7 @@ public class ManageAccountActivity extends BaseActivity implements View.OnClickL
     }
 
     private void updateUI(UserEntity body) {
-        LogUtils.d(TAG,"updateUI"+body.toString());
+        LogUtils.d(TAG, "updateUI" + body.toString());
         if (body.getAvatar() != null) {
             Utils.displayImage(ManageAccountActivity.this, imgAvatar, body.getAvatar().getUrl());
             imgID = Integer.parseInt(body.getAvatar().getId());
@@ -162,7 +186,8 @@ public class ManageAccountActivity extends BaseActivity implements View.OnClickL
             if (body.getGender().equalsIgnoreCase(genders.get(i))) {
                 spGender.setSelection(i);
                 break;
-            }
+            } else
+                spGender.setSelection(2);
         }
         for (int i = 0; i < states.size(); i++) {
             if (body.getState().equalsIgnoreCase(states.get(i))) {
@@ -327,58 +352,16 @@ public class ManageAccountActivity extends BaseActivity implements View.OnClickL
     }
 
     private void save() {
-        if (edtFirstname.getText().toString().trim().isEmpty()) {
-            showToolTip(this, edtFirstname, getString(R.string.vali_all_empty));
-            edtFirstname.requestFocus();
-            edtFirstname.getParent().requestChildFocus(edtFirstname, edtFirstname);
-            return;
-        }
-        if (edtMidname.getText().toString().trim().isEmpty()) {
-            showToolTip(this, edtMidname, getString(R.string.vali_all_empty));
-            edtMidname.requestFocus();
-            edtMidname.getParent().requestChildFocus(edtMidname, edtMidname);
-            return;
-        }
-        if (edtLastName.getText().toString().trim().isEmpty()) {
-            showToolTip(this, edtLastName, getString(R.string.vali_all_empty));
-            edtLastName.requestFocus();
-            edtLastName.getParent().requestChildFocus(edtLastName, edtLastName);
-            return;
-        }
-        if (edtBirthDay.getText().toString().trim().isEmpty()) {
-            showToolTip(this, edtBirthDay, getString(R.string.vali_all_empty));
-            edtBirthDay.requestFocus();
-            edtBirthDay.getParent().requestChildFocus(edtBirthDay, edtBirthDay);
-            return;
-        }
-        if (edtStreetNumber.getText().toString().trim().isEmpty()) {
-            showToolTip(this, edtStreetNumber, getString(R.string.vali_all_empty));
-            edtStreetNumber.requestFocus();
-            edtStreetNumber.getParent().requestChildFocus(edtStreetNumber, edtStreetNumber);
-            return;
-        }
-        if (edtSuburb.getText().toString().trim().isEmpty()) {
-            showToolTip(this, edtSuburb, getString(R.string.vali_all_empty));
-            edtSuburb.requestFocus();
-            edtSuburb.getParent().requestChildFocus(edtSuburb, edtSuburb);
-            return;
-        }
-        if (edtPostCode.getText().toString().trim().isEmpty()) {
-            showToolTip(this, edtPostCode, getString(R.string.vali_all_empty));
-            edtPostCode.requestFocus();
-            edtPostCode.getParent().requestChildFocus(edtPostCode, edtPostCode);
-            return;
-        }
-        if (edtOldPassWord.getText().toString().trim().isEmpty()) {
+        if (0 < edtNewPassWord.getText().toString().length() && edtOldPassWord.getText().toString().trim().isEmpty()) {
             showToolTip(this, edtOldPassWord, getString(R.string.vali_all_empty));
             edtOldPassWord.requestFocus();
             edtOldPassWord.getParent().requestChildFocus(edtOldPassWord, edtOldPassWord);
             return;
         }
-        if (0 < edtNewPassWordAgain.getText().toString().length() && edtOldPassWord.getText().toString().trim().length() < 5) {
-            showToolTip(this, edtNewPassWordAgain, getString(R.string.vali_password_lenth));
-            edtNewPassWordAgain.requestFocus();
-            edtNewPassWordAgain.getParent().requestChildFocus(edtNewPassWordAgain, edtNewPassWordAgain);
+        if (0 < edtNewPassWord.getText().toString().length() && edtOldPassWord.getText().toString().trim().length() < 5) {
+            showToolTip(this, edtOldPassWord, getString(R.string.vali_password_lenth));
+            edtOldPassWord.requestFocus();
+            edtOldPassWord.getParent().requestChildFocus(edtOldPassWord, edtOldPassWord);
             return;
         }
         if (!imgPath.isEmpty()) uploadImage();
@@ -427,20 +410,13 @@ public class ManageAccountActivity extends BaseActivity implements View.OnClickL
                     startActivity(intent);
                 } else {
                     APIError error = Utils.parseError(response);
+                    LogUtils.e(TAG, "updateUserInformation status : " + error.status());
                     LogUtils.e(TAG, "updateUserInformation error : " + error.message());
                     if (error != null) {
-                        if (error.status().equalsIgnoreCase(getString(R.string.password_incorrect))) {
-                            if (edtOldPassWord.getText().toString().trim().isEmpty()) {
-                                showToolTip(ManageAccountActivity.this, edtOldPassWord, error.message());
-                                edtOldPassWord.requestFocus();
-                                edtOldPassWord.getParent().requestChildFocus(edtOldPassWord, edtOldPassWord);
-                            }
-                        } else if (error.status().equalsIgnoreCase(getString(R.string.password_confirm))) {
-                            if (edtNewPassWord.getText().toString().trim().isEmpty()) {
-                                showToolTip(ManageAccountActivity.this, edtNewPassWord, error.message());
-                                edtNewPassWord.requestFocus();
-                                edtNewPassWord.getParent().requestChildFocus(edtNewPassWord, edtNewPassWord);
-                            }
+                        if (error.status().equalsIgnoreCase(getString(R.string.re_new_password_requiredwith))) {
+                            showToolTip(ManageAccountActivity.this, edtNewPassWordAgain, getString(R.string.re_new_password_noti));
+                            edtNewPassWordAgain.requestFocus();
+                            edtNewPassWordAgain.getParent().requestChildFocus(edtNewPassWordAgain, edtNewPassWordAgain);
                         } else
                             DialogUtils.showOkDialog(ManageAccountActivity.this, getString(R.string.error), error.message(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
                                 @Override

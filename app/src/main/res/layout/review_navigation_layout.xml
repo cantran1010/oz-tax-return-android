@@ -118,7 +118,7 @@
                 android:id="@+id/layout_expandable_personal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:el_duration="500"
+                app:el_duration="@integer/expand"
                 app:el_expanded="false">
 
                 <LinearLayout
@@ -209,7 +209,7 @@
                 android:id="@+id/layout_expandable_income"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:el_duration="500"
+                app:el_duration="@integer/expand"
                 app:el_expanded="false">
 
                 <LinearLayout
@@ -339,7 +339,7 @@
                 android:id="@+id/layout_expandable_deductions"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:el_duration="500"
+                app:el_duration="@integer/expand"
                 app:el_expanded="false">
 
                 <LinearLayout
@@ -452,7 +452,7 @@
                 android:id="@+id/layout_expandable_family_health"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:el_duration="500"
+                app:el_duration="@integer/expand"
                 app:el_expanded="false">
 
                 <LinearLayout

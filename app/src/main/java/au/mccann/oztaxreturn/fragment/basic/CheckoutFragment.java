@@ -1,4 +1,4 @@
-package au.mccann.oztaxreturn.fragment;
+package au.mccann.oztaxreturn.fragment.basic;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -20,6 +20,8 @@ import au.mccann.oztaxreturn.database.UserManager;
 import au.mccann.oztaxreturn.dialog.AlertDialogOk;
 import au.mccann.oztaxreturn.dialog.AlertDialogOkAndCancel;
 import au.mccann.oztaxreturn.dialog.AlertDialogOkNonTouch;
+import au.mccann.oztaxreturn.fragment.BaseFragment;
+import au.mccann.oztaxreturn.fragment.HomeFragment;
 import au.mccann.oztaxreturn.model.APIError;
 import au.mccann.oztaxreturn.networking.ApiClient;
 import au.mccann.oztaxreturn.rest.response.FeeResponse;
@@ -68,7 +70,7 @@ public class CheckoutFragment extends BaseFragment implements View.OnClickListen
     @Override
     protected void initData() {
         setTitle(getString(R.string.first_checkout_title));
-        appBarVisibility(false, true, 0);
+        appBarVisibility(true, true, 2);
 
         feeResponse = (FeeResponse) getArguments().getSerializable(Constants.PARAMETER_FEE_EXTRA);
         LogUtils.d(TAG, "feeResponse : " + feeResponse.toString());
@@ -152,9 +154,7 @@ public class CheckoutFragment extends BaseFragment implements View.OnClickListen
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
         LogUtils.d(TAG, "doCheckout jsonRequest : " + jsonRequest.toString());
-
         RequestBody body = RequestBody.create(MediaType.parse("application/json"), jsonRequest.toString());
         ApiClient.getApiService().checkout(UserManager.getUserToken(), getApplicationResponse().getId(), body).enqueue(new Callback<Void>() {
             @Override
@@ -172,12 +172,13 @@ public class CheckoutFragment extends BaseFragment implements View.OnClickListen
                         }
                     });
 
-                }else if (response.code() == Constants.HTTP_CODE_BLOCK) {
+                } else if (response.code() == Constants.HTTP_CODE_BLOCK) {
                     Intent intent = new Intent(getContext(), SplashActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
                 } else {
                     APIError error = Utils.parseError(response);
+                    LogUtils.d(TAG, "doCheckout error : " + error.status());
                     LogUtils.d(TAG, "doCheckout error : " + error.message());
                     if (error != null) {
                         DialogUtils.showOkDialog(getActivity(), getString(R.string.error), error.message(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {

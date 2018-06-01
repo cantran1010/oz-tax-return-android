@@ -35,7 +35,7 @@ public class EstimateFragment extends BaseFragment implements View.OnClickListen
     @Override
     protected void initData() {
         setTitle(getString(R.string.estimate_title));
-        appBarVisibility(false, true,0);
+        appBarVisibility(true, true,2);
     }
 
     @Override

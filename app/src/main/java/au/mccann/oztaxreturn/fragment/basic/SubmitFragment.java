@@ -31,7 +31,6 @@ import au.mccann.oztaxreturn.database.UserManager;
 import au.mccann.oztaxreturn.dialog.AlertDialogOk;
 import au.mccann.oztaxreturn.dialog.AlertDialogOkAndCancel;
 import au.mccann.oztaxreturn.fragment.BaseFragment;
-import au.mccann.oztaxreturn.fragment.FirstCheckoutFragment;
 import au.mccann.oztaxreturn.model.APIError;
 import au.mccann.oztaxreturn.model.PersonalInformation;
 import au.mccann.oztaxreturn.model.ResponseBasicInformation;
@@ -91,7 +90,7 @@ public class SubmitFragment extends BaseFragment implements View.OnClickListener
     @Override
     protected void initData() {
         setTitle(getString(R.string.personal_information_title));
-        appBarVisibility(false, true, 0);
+        appBarVisibility(true, true, 2);
         states = Arrays.asList(getResources().getStringArray(R.array.string_array_states));
         OzSpinnerAdapter dataNameAdapter = new OzSpinnerAdapter(getActivity(), states, 0);
         spState.setAdapter(dataNameAdapter);

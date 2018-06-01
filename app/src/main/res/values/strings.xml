@@ -13,8 +13,8 @@
     <string name="label_mobile">mobile phone</string>
     <string name="label_password">password</string>
     <string name="label_re_password">re-password</string>
-    <string name="policy">I agree with Terms and Privacy Policy</string>
-    <string name="term">Terms</string>
+    <string name="policy">I agree with Privacy Policy and Terms &amp; Conditions</string>
+    <string name="term">Terms &amp; Conditions</string>
     <string name="register_privacy_policy">Privacy Policy</string>
     <string name="btn_register">register</string>
     <string name="ok">OK</string>
@@ -125,7 +125,7 @@
     <string-array name="string_array_gender">
         <item>Male</item>
         <item>Female</item>
-        <item>Unknown</item>
+        <item>Other</item>
     </string-array>
     <string-array name="string_array_title">
         <item>Mr</item>
@@ -148,7 +148,7 @@
     <string name="phone_number">phone number</string>
     <string name="email_address">email address</string>
     <string name="submit">submit</string>
-    <string name="privacy_policy">* By clicking on the button below, you agree with our Privacy Policy and Terms and Conditions.</string>
+    <string name="privacy_policy">* By clicking on the button below, you agree with our Privacy Policy and Terms &amp; Conditions.</string>
     <string name="valid_app_bank_name">Enter bank account name</string>
     <string name="valid_app_bsb">Enter BSB</string>
     <string name="valid_app_account_number">Enter account number</string>
@@ -465,7 +465,7 @@
     <string name="app_privacy_policy">Privacy Policy</string>
     <string name="review_summary_title">review summary</string>
     <string name="lodged_successfully">The application is lodged successfully.</string>
-    <string name="app_term_conditions">Terms and Conditions</string>
+    <string name="app_term_conditions">Terms &amp; Conditions</string>
     <string name="lodge">Lodged</string>
     <string name="btn_lodge">Lodge</string>
     <string name="review_summary_note">Your application has been lodged. You can review it but no changes can be made at this state. You will be notified for any update of your application </string>
@@ -540,8 +540,19 @@
     <string name="no_app">Press + to\ncreate new application!</string>
     <string name="max_3_add">Maximum 3 private healths are allowed!</string>
 
-    <string name="promotion_ok">Promotion is correct,do you want to continue?</string>
+    <string name="promotion_ok">Successfully applied!</string>
     <string name="birthday_hint">dd/mm/yyyy</string>
+    <string name="re_new_password_requiredwith">re_new_password.requiredwith</string>
+    <string name="re_new_password_noti">Password does not match the confirm password.</string>
+    <string name="gender_other">unknown</string>
+    <string name="navi_other_source_income">Other source of income</string>
+    <string name="navi_base_deductions">Deductions</string>
+    <string name="navi__base_income">Income</string>
+    <string name="navi_base_persional">Personal Information</string>
+    <string name="navi_base_bank">Bank Details</string>
+    <string name="navi_base_checkout">Check Out</string>
+    <string name="view">view</string>
+    <string name="download">download</string>
 
 
 </resources>
