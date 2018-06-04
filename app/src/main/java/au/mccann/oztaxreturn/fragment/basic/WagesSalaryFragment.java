@@ -116,6 +116,7 @@ public class WagesSalaryFragment extends BaseFragment implements View.OnClickLis
         attach = new ArrayList<>();
         setTitle(getString(R.string.income_ws_title));
         appBarVisibility(true, true, 2);
+        getBaseProgress(getApplicationResponse());
         //images
         if (images.size() == 0) {
             final Image image = new Image();
@@ -229,7 +230,9 @@ public class WagesSalaryFragment extends BaseFragment implements View.OnClickLis
             cbYes.setChecked(true);
             showImage(salary.getAttachments(), images, imageAdapter);
         } else {
-            cbNo.setChecked(true);
+            if (edtTfn.getText().toString().trim().isEmpty() && edtFirstName.getText().toString().isEmpty())
+                cbNo.setChecked(false);
+            else cbNo.setChecked(true);
             edtTfn.setText(salary.getTfnNumber());
             edtFirstName.setText(salary.getFirstName());
             edtMidName.setText(salary.getLastName());

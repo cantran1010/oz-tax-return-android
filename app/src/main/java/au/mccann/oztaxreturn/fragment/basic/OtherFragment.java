@@ -96,6 +96,7 @@ public class OtherFragment extends BaseFragment implements View.OnClickListener 
         attach = new ArrayList<>();
         setTitle(getString(R.string.income_ws_title));
         appBarVisibility(true, true, 2);
+        getBaseProgress(getApplicationResponse());
         //images
         if (images.size() == 0) {
             final Image image = new Image();

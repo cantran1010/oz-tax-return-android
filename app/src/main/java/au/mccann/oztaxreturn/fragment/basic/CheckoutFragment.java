@@ -71,6 +71,7 @@ public class CheckoutFragment extends BaseFragment implements View.OnClickListen
     protected void initData() {
         setTitle(getString(R.string.first_checkout_title));
         appBarVisibility(true, true, 2);
+        getBaseProgress(getApplicationResponse());
 
         feeResponse = (FeeResponse) getArguments().getSerializable(Constants.PARAMETER_FEE_EXTRA);
         LogUtils.d(TAG, "feeResponse : " + feeResponse.toString());

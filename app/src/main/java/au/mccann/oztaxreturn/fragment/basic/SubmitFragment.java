@@ -91,6 +91,7 @@ public class SubmitFragment extends BaseFragment implements View.OnClickListener
     protected void initData() {
         setTitle(getString(R.string.personal_information_title));
         appBarVisibility(true, true, 2);
+        getBaseProgress(getApplicationResponse());
         states = Arrays.asList(getResources().getStringArray(R.array.string_array_states));
         OzSpinnerAdapter dataNameAdapter = new OzSpinnerAdapter(getActivity(), states, 0);
         spState.setAdapter(dataNameAdapter);

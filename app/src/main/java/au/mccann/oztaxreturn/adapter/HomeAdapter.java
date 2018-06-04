@@ -45,10 +45,15 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> 
     }
 
     public interface OnClickListener {
-        public void onClick(int position);
+        void onClick(int position);
+    }
+
+    public interface OnDeleteListener {
+        void onDelete();
     }
 
     private OnClickListener onClickListener;
+    private OnDeleteListener onDeleteListener;
 
     public OnClickListener getOnClickListener() {
         return onClickListener;
@@ -56,6 +61,10 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> 
 
     public void setOnClickListener(OnClickListener onClickListener) {
         this.onClickListener = onClickListener;
+    }
+
+    public void setOnDeleteListener(OnDeleteListener onDeleteListener) {
+        this.onDeleteListener = onDeleteListener;
     }
 
     @Override
@@ -151,7 +160,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> 
             holder.progressBar.setVisibility(View.GONE);
             holder.tvProgress.setVisibility(View.GONE);
             holder.tvStatus.setVisibility(View.VISIBLE);
-            holder.tvStatus.setText("missing zzz");
+            holder.tvStatus.setText("missing...");
         }
 
         holder.imgDelete.setOnClickListener(new View.OnClickListener() {
@@ -199,21 +208,21 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> 
 
     private void doDeleteApplication(final int position) {
         ProgressDialogUtils.showProgressDialog(context);
-
         ApiClient.getApiService().deleteApplication(UserManager.getUserToken(), applicationResponses.get(position).getId()).enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 LogUtils.d(TAG, "doDeleteApplication , body : " + response.body());
                 LogUtils.d(TAG, "doDeleteApplication , code : " + response.code());
-
                 if (response.code() == Constants.HTTP_CODE_NO_CONTENT) {
                     applicationResponses.remove(position);
                     notifyDataSetChanged();
+                    if (onDeleteListener != null)
+                        onDeleteListener.onDelete();
                 } else if (response.code() == Constants.HTTP_CODE_BLOCK) {
                     Intent intent = new Intent(context, SplashActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(intent);
-                }else {
+                } else {
                     DialogUtils.showRetryDialog(context, new AlertDialogOkAndCancel.AlertDialogListener() {
                         @Override
                         public void onSubmit() {

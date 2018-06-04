@@ -89,6 +89,7 @@ public class DeductionFragment extends BaseFragment implements View.OnClickListe
         attach = new ArrayList<>();
         setTitle(getString(R.string.deduction_title));
         appBarVisibility(true, true, 2);
+        getBaseProgress(getApplicationResponse());
         //images
         if (images.size() == 0) {
             final Image image = new Image();

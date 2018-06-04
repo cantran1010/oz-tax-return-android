@@ -13,15 +13,47 @@
         android:layout_height="match_parent"
         android:scrollbars="vertical" />
 
-    <au.mccann.oztaxreturn.view.TextViewCustom
-        android:id="@+id/tv_no_app"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/layout_new_home"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:text="@string/no_app"
-        android:textSize="20sp"
-        android:visibility="gone" />
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="50dp"
+            android:src="@drawable/img_new_home" />
+
+        <au.mccann.oztaxreturn.view.TextViewCustom
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:gravity="center"
+            android:text="@string/home_fee"
+            android:textColor="@color/title_color"
+            android:textSize="@dimen/size_nomal" />
+
+        <au.mccann.oztaxreturn.view.TextViewCustom
+            android:id="@+id/tv_service_fee"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/bg_new_home"
+            android:paddingBottom="10dp"
+            android:paddingEnd="50dp"
+            android:paddingLeft="50dp"
+            android:paddingRight="50dp"
+            android:paddingStart="50dp"
+            android:paddingTop="10dp"
+            android:textColor="@color/app_bg"
+            android:textSize="@dimen/tv_size_xxxlager"
+            android:textStyle="bold" />
+
+    </LinearLayout>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"

@@ -6,6 +6,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.LinearLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +27,7 @@ import au.mccann.oztaxreturn.fragment.review.summary.ReviewSummaryFragment;
 import au.mccann.oztaxreturn.model.APIError;
 import au.mccann.oztaxreturn.networking.ApiClient;
 import au.mccann.oztaxreturn.rest.response.ApplicationResponse;
+import au.mccann.oztaxreturn.rest.response.FeeResponse;
 import au.mccann.oztaxreturn.utils.DialogUtils;
 import au.mccann.oztaxreturn.utils.LogUtils;
 import au.mccann.oztaxreturn.utils.ProgressDialogUtils;
@@ -44,7 +46,8 @@ public class HomeFragment extends BaseFragment {
     private static final String TAG = HomeFragment.class.getSimpleName();
     private RecyclerView recyclerView;
     private ArrayList<ApplicationResponse> applicationResponses;
-    private TextViewCustom tvNoApp;
+    private TextViewCustom tvFee;
+    private LinearLayout layoutFee;
 
     @Override
     protected int getLayout() {
@@ -54,7 +57,8 @@ public class HomeFragment extends BaseFragment {
     @Override
     protected void initView() {
         recyclerView = (RecyclerView) findViewById(R.id.rv_app);
-        tvNoApp = (TextViewCustom) findViewById(R.id.tv_no_app);
+        tvFee = (TextViewCustom) findViewById(R.id.tv_service_fee);
+        layoutFee = (LinearLayout) findViewById(R.id.layout_new_home);
     }
 
     @Override
@@ -93,8 +97,15 @@ public class HomeFragment extends BaseFragment {
     private void updateList() {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(linearLayoutManager);
-        HomeAdapter homeAdapter = new HomeAdapter(applicationResponses, getActivity());
+        final HomeAdapter homeAdapter = new HomeAdapter(applicationResponses, getActivity());
         recyclerView.setAdapter(homeAdapter);
+        homeAdapter.setOnDeleteListener(new HomeAdapter.OnDeleteListener() {
+            @Override
+            public void onDelete() {
+                homeAdapter.notifyDataSetChanged();
+                updateUI();
+            }
+        });
         homeAdapter.setOnClickListener(new HomeAdapter.OnClickListener() {
             @Override
             public void onClick(int position) {
@@ -137,17 +148,72 @@ public class HomeFragment extends BaseFragment {
                         openFragment(R.id.layout_container, ReviewSummaryFragment.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
                         break;
                 }
+
             }
+
         });
 
+        updateUI();
+
+    }
+
+    private void updateUI() {
         if (applicationResponses.size() == 0) {
             recyclerView.setVisibility(View.GONE);
-            tvNoApp.setVisibility(View.VISIBLE);
+            layoutFee.setVisibility(View.VISIBLE);
+            getServiceFees();
         } else {
             recyclerView.setVisibility(View.VISIBLE);
-            tvNoApp.setVisibility(View.GONE);
+            layoutFee.setVisibility(View.GONE);
         }
+    }
 
+    private void getServiceFees() {
+        ProgressDialogUtils.showProgressDialog(getActivity());
+        ApiClient.getApiService().getServiceFees(UserManager.getUserToken()).enqueue(new Callback<FeeResponse>() {
+            @Override
+            public void onResponse(Call<FeeResponse> call, Response<FeeResponse> response) {
+                LogUtils.d(TAG, "getAllApplication code : " + response.code());
+
+                if (response.code() == Constants.HTTP_CODE_OK) {
+                    LogUtils.d(TAG, "getAllApplication body : " + response.body().toString());
+                    tvFee.setText(Utils.displayCurrency(String.valueOf(response.body().getAmount())));
+                } else if (response.code() == Constants.HTTP_CODE_BLOCK) {
+                    Intent intent = new Intent(getContext(), SplashActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                } else {
+                    APIError error = Utils.parseError(response);
+                    LogUtils.d(TAG, "getAllApplication error : " + error.message());
+                    if (error != null) {
+                        DialogUtils.showOkDialog(getActivity(), getString(R.string.error), error.message(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                            @Override
+                            public void onSubmit() {
+
+                            }
+                        });
+                    }
+                }
+                ProgressDialogUtils.dismissProgressDialog();
+            }
+
+            @Override
+            public void onFailure(Call<FeeResponse> call, Throwable t) {
+                LogUtils.e(TAG, "doCreateApplication onFailure : " + t.getMessage());
+                ProgressDialogUtils.dismissProgressDialog();
+                DialogUtils.showRetryDialog(getActivity(), new AlertDialogOkAndCancel.AlertDialogListener() {
+                    @Override
+                    public void onSubmit() {
+                        getAllApplication();
+                    }
+
+                    @Override
+                    public void onCancel() {
+
+                    }
+                });
+            }
+        });
     }
 
     private void getAllApplication() {

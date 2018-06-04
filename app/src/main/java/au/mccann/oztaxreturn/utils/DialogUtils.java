@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 
 import au.mccann.oztaxreturn.R;
-import au.mccann.oztaxreturn.dialog.AlertDialogDownload;
 import au.mccann.oztaxreturn.dialog.AlertDialogOk;
 import au.mccann.oztaxreturn.dialog.AlertDialogOkAndCancel;
 import au.mccann.oztaxreturn.dialog.AlertDialogOkNonTouch;
@@ -65,15 +64,4 @@ public class DialogUtils {
         }
         new AlertDialogOkNonTouch(context, title, content, submit, alertDialogListener);
     }
-
-    public static void showDownloadDialog(Context context, String url, AlertDialogDownload.AlertDialogListener alertDialogListener) {
-        if (context == null) return;
-        if (context instanceof Activity) {
-            if (((Activity) context).isFinishing()) {
-                return;
-            }
-        }
-        new AlertDialogDownload(context, url, alertDialogListener);
-    }
-
 }

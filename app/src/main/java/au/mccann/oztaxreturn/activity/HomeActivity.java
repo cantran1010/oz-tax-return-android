@@ -39,17 +39,19 @@ import au.mccann.oztaxreturn.fragment.review.family.ReviewFamilyHealthMedicareFr
 import au.mccann.oztaxreturn.fragment.review.family.ReviewFamilyHealthPrivateFragment;
 import au.mccann.oztaxreturn.fragment.review.family.ReviewFamilyHealthSpouseFragment;
 import au.mccann.oztaxreturn.fragment.review.income.ReviewAnnuitiesFragment;
-import au.mccann.oztaxreturn.fragment.review.income.ReviewETPsFragment;
 import au.mccann.oztaxreturn.fragment.review.income.ReviewDividendsFragment;
+import au.mccann.oztaxreturn.fragment.review.income.ReviewETPsFragment;
 import au.mccann.oztaxreturn.fragment.review.income.ReviewGovementFragment;
-import au.mccann.oztaxreturn.fragment.review.income.ReviewRentalFragment;
 import au.mccann.oztaxreturn.fragment.review.income.ReviewInterestsFragment;
 import au.mccann.oztaxreturn.fragment.review.income.ReviewLumpSumFragment;
+import au.mccann.oztaxreturn.fragment.review.income.ReviewRentalFragment;
 import au.mccann.oztaxreturn.fragment.review.income.ReviewWagesSalaryFragment;
 import au.mccann.oztaxreturn.fragment.review.personal.ReviewPersonalInfomationA;
 import au.mccann.oztaxreturn.fragment.review.personal.ReviewPersonalInfomationB;
 import au.mccann.oztaxreturn.fragment.review.personal.ReviewPersonalInfomationC;
+import au.mccann.oztaxreturn.fragment.review.summary.ReviewSummaryFragment;
 import au.mccann.oztaxreturn.model.APIError;
+import au.mccann.oztaxreturn.model.BaseAppProgress;
 import au.mccann.oztaxreturn.model.Notification;
 import au.mccann.oztaxreturn.networking.ApiClient;
 import au.mccann.oztaxreturn.rest.response.ApplicationResponse;
@@ -84,6 +86,8 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
     private TextViewCustom tvIncomeWS, tvIncomeGovernment, tvIncomeInterests, tvIncomeDevidents, tvIncomeEarly, tvIncomeAnnuities, tvIncomeLumpSum, tvIncomeRental;
     private TextViewCustom tvDeductionVehicles, tvDeductionClothing, tvDeductionEducation, tvDeductionOther, tvDeductionDonation, tvDeductionTaxAgents;
     private TextViewCustom tvHealthDependants, tvHealthMedicare, tvHealthPrivate, tvHealthSpouse;
+    private TextViewCustom tvBaseIncome, tvBaseOthe, tvBaseDeduction, tvBaseBank, tvBaseCheckout, tvBasePrersonal;
+
 
     @Override
     protected int getLayout() {
@@ -123,6 +127,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
         findViewById(R.id.layout_incomes).setOnClickListener(this);
         findViewById(R.id.layout_deductions).setOnClickListener(this);
         findViewById(R.id.layout_family).setOnClickListener(this);
+        findViewById(R.id.layout_sumary).setOnClickListener(this);
 
         findViewById(R.id.tv_review_family_health_dependants).setOnClickListener(this);
         findViewById(R.id.tv_review_family_health_medicare).setOnClickListener(this);
@@ -179,13 +184,19 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
         tvDeductionDonation = findViewById(R.id.tv_deduction_donation);
         tvDeductionTaxAgents = findViewById(R.id.tv_deduction_tax_agents);
 
+        tvBaseIncome = findViewById(R.id.tv_base_navi_income);
+        tvBaseOthe = findViewById(R.id.tv_base_navi_other);
+        tvBaseDeduction = findViewById(R.id.tv_base_navi_deductions);
+        tvBaseBank = findViewById(R.id.tv_base_navi_bank);
+        tvBaseCheckout = findViewById(R.id.tv_base_navi_checkout);
+        tvBasePrersonal = findViewById(R.id.tv_base_navi_personal);
+        tvBaseIncome.setOnClickListener(this);
+        tvBaseOthe.setOnClickListener(this);
+        tvBaseDeduction.setOnClickListener(this);
+        tvBaseBank.setOnClickListener(this);
+        tvBaseCheckout.setOnClickListener(this);
+        tvBasePrersonal.setOnClickListener(this);
 
-        findViewById(R.id.tv_base_navi_income).setOnClickListener(this);
-        findViewById(R.id.tv_base_navi_other).setOnClickListener(this);
-        findViewById(R.id.tv_base_navi_deductions).setOnClickListener(this);
-        findViewById(R.id.tv_base_navi_bank).setOnClickListener(this);
-        findViewById(R.id.tv_base_navi_checkout).setOnClickListener(this);
-        findViewById(R.id.tv_base_navi_pertional).setOnClickListener(this);
 
         findViewById(R.id.img_logout).setOnClickListener(this);
 
@@ -645,6 +656,90 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
         });
     }
 
+    public void getBaseProgress(final ApplicationResponse applicationResponse) {
+        LogUtils.d(TAG, "getReviewProgress applicationResponse : " + applicationResponse.toString());
+        ApiClient.getApiService().getBaseProgress(UserManager.getUserToken(), applicationResponse.getId()).enqueue(new Callback<BaseAppProgress>() {
+            @Override
+            public void onResponse(Call<BaseAppProgress> call, @NonNull Response<BaseAppProgress> response) {
+                LogUtils.d(TAG, "getReviewProgress code : " + response.code());
+                if (response.code() == Constants.HTTP_CODE_OK) {
+                    LogUtils.d(TAG, "getReviewProgress body : " + response.body().toString());
+                    if (response.body() != null) {
+                        BaseAppProgress baseAppProgress = response.body();
+
+                        // personal infomation
+                        if (baseAppProgress.isIncome())
+                            tvBaseIncome.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.img_check_review, 0);
+                        else
+                            tvBaseIncome.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+
+                        if (baseAppProgress.isOther())
+                            tvBaseOthe.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.img_check_review, 0);
+                        else
+                            tvBaseOthe.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+
+                        if (baseAppProgress.isDeduction())
+                            tvBaseDeduction.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.img_check_review, 0);
+                        else
+                            tvBaseDeduction.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+
+                        //income
+                        if (baseAppProgress.isBank())
+                            tvBaseBank.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.img_check_review, 0);
+                        else
+                            tvBaseBank.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+
+                        if (baseAppProgress.isPersonal())
+                            tvBasePrersonal.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.img_check_review, 0);
+                        else
+                            tvBasePrersonal.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+
+                        if (baseAppProgress.isCheckout())
+                            tvBaseCheckout.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.img_check_review, 0);
+                        else
+                            tvBaseCheckout.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+
+                        tvBaseProgress.setText(baseAppProgress.getPercent() + "%");
+                        baseProgressBar.setProgress(baseAppProgress.getPercent());
+                    }
+                } else if (response.code() == Constants.HTTP_CODE_BLOCK) {
+                    Intent intent = new Intent(HomeActivity.this, SplashActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                } else {
+                    APIError error = Utils.parseError(response);
+                    if (error != null) {
+                        LogUtils.d(TAG, "getReviewProgress error : " + error.message());
+                        DialogUtils.showOkDialog(HomeActivity.this, getString(R.string.error), error.message(), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                            @Override
+                            public void onSubmit() {
+
+                            }
+                        });
+                    }
+                }
+
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<BaseAppProgress> call, @NonNull Throwable t) {
+                LogUtils.e(TAG, "getReviewProgress onFailure : " + t.getMessage());
+                DialogUtils.showRetryDialog(HomeActivity.this, new AlertDialogOkAndCancel.AlertDialogListener() {
+                    @Override
+                    public void onSubmit() {
+                        getReviewProgress(applicationResponse);
+                    }
+
+                    @Override
+                    public void onCancel() {
+
+                    }
+                });
+            }
+        });
+    }
+
+
     private void openExpandale(ExpandableLayout expan) {
         if (expPersonalLayout.isExpanded() && expan != expPersonalLayout) {
             expPersonalLayout.toggle();
@@ -699,6 +794,11 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
 
             case R.id.layout_family:
                 openExpandale(expFamilyLayout);
+                break;
+            case R.id.layout_sumary:
+                if (drawer.isDrawerOpen(GravityCompat.END))
+                    drawer.closeDrawer(GravityCompat.END);
+                openFragment(R.id.layout_container, ReviewSummaryFragment.class, true, new Bundle(), TransitionScreen.LEFT_TO_RIGHT);
                 break;
 
             case R.id.tv_review_personal_name:
@@ -877,7 +977,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
                     drawer.closeDrawer(GravityCompat.END);
                 openFragment(R.id.layout_container, DeductionFragment.class, true, new Bundle(), TransitionScreen.LEFT_TO_RIGHT);
                 break;
-            case R.id.tv_base_navi_pertional:
+            case R.id.tv_base_navi_personal:
                 if (drawer.isDrawerOpen(GravityCompat.END))
                     drawer.closeDrawer(GravityCompat.END);
                 openFragment(R.id.layout_container, PersonalFragment.class, true, new Bundle(), TransitionScreen.LEFT_TO_RIGHT);
