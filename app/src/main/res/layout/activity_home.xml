@@ -22,6 +22,10 @@
             android:id="@+id/review_navi_layout"
             layout="@layout/review_navigation_layout"
             android:visibility="visible" />
+        <include
+            android:id="@+id/base_navi_layout"
+            layout="@layout/base_navigation_layout"
+            android:visibility="gone" />
 
         <include
             android:id="@+id/home_navi_layout"

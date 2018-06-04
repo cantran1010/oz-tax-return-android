@@ -65,8 +65,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:gravity="center"
-                android:textAllCaps="true"
                 android:text="@string/update_information"
+                android:textAllCaps="true"
                 android:textColor="@color/black"
                 android:textSize="25sp"
                 android:textStyle="bold" />
@@ -81,75 +81,56 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:baselineAligned="false">
+                android:orientation="vertical">
 
-                <LinearLayout
-                    android:layout_width="0dp"
+                <au.mccann.oztaxreturn.view.TextViewCustom
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
+                    android:layout_marginTop="10dp"
+                    android:text="@string/manage_title"
+                    android:textAllCaps="true"
+                    android:textColor="@color/tv_gray"
+                    android:textSize="@dimen/size_small" />
 
-                    <au.mccann.oztaxreturn.view.TextViewCustom
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:text="@string/manage_title"
-                        android:textAllCaps="true"
-                        android:textColor="@color/tv_gray"
-                        android:textSize="@dimen/size_small" />
-
-                    <au.mccann.oztaxreturn.view.EdittextCustom
-                        android:id="@+id/edt_title"
-                        style="@style/EditText"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="5dp"
-                        android:layout_marginRight="5dp"
-                        android:layout_marginTop="10dp"
-                        android:imeOptions="actionNext"
-                        android:inputType="text"
-                        android:textColor="@color/income_conten"
-                        android:textColorHint="@color/tv_gray" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
+                <RelativeLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <au.mccann.oztaxreturn.view.TextViewCustom
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginStart="5dp"
-                        android:layout_marginTop="10dp"
-                        android:text="@string/gender"
-                        android:textAllCaps="true"
-                        android:textColor="@color/tv_gray"
-                        android:textSize="@dimen/size_small" />
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/bg_edittext"
+                    android:minHeight="45dp">
 
                     <Spinner
-                        android:id="@+id/sp_gender"
-                        style="@style/EditText"
+                        android:id="@+id/sp_title"
                         android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_centerInParent="true"
+                        android:background="@null"
+                        android:gravity="center_vertical"
+                        android:prompt="@string/gender" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginStart="5dp"
-                        android:layout_marginTop="10dp"
-                        android:textColor="@color/income_conten"
-                        android:textColorHint="@color/tv_gray" />
-                </LinearLayout>
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:paddingEnd="10dp"
+                        android:paddingRight="10dp"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/ic_down"
+                        tools:ignore="ContentDescription,RtlSymmetry" />
+
+                </RelativeLayout>
             </LinearLayout>
+
 
             <au.mccann.oztaxreturn.view.TextViewCustom
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:text="@string/your_name"
-                android:textSize="@dimen/size_small"
-                android:textColor="@color/tv_gray" />
+                android:textColor="@color/tv_gray"
+                android:textSize="@dimen/size_small" />
 
             <au.mccann.oztaxreturn.view.EdittextCustom
                 android:id="@+id/edt_first_name"
@@ -170,12 +151,12 @@
                     style="@style/EditText"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="5dp"
-                    android:layout_marginRight="5dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginRight="10dp"
                     android:layout_marginTop="5dp"
                     android:layout_weight="1"
-                    android:imeOptions="actionNext"
                     android:hint="@string/middle_name_hint"
+                    android:imeOptions="actionNext"
                     android:inputType="textPersonName" />
 
                 <au.mccann.oztaxreturn.view.EdittextCustom
@@ -183,37 +164,102 @@
                     style="@style/EditText"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginStart="5dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"
                     android:layout_marginTop="5dp"
                     android:layout_weight="1"
-                    android:imeOptions="actionNext"
                     android:hint="@string/last_name_hint"
+                    android:imeOptions="actionNext"
                     android:inputType="textPersonName" />
 
             </LinearLayout>
 
-            <au.mccann.oztaxreturn.view.TextViewCustom
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:textSize="@dimen/size_small"
-                android:text="@string/birthday"
-                android:textColor="@color/tv_gray" />
-
-            <au.mccann.oztaxreturn.view.EdittextCustom
-                android:id="@+id/edt_birthday"
-                style="@style/EditText"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="10dp"
-                android:drawableEnd="@drawable/ic_down"
-                android:drawableRight="@drawable/ic_down"
-                android:focusable="false"
-                android:gravity="center_vertical"
-                android:hint="@string/format_date"
-                android:inputType="textPersonName" />
+                android:layout_marginEnd="5dp"
+                android:layout_marginRight="5dp"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <au.mccann.oztaxreturn.view.TextViewCustom
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:text="@string/birthday"
+                        android:textAllCaps="true"
+                        android:textColor="@color/tv_gray"
+                        android:textSize="@dimen/size_small" />
+
+                    <au.mccann.oztaxreturn.view.EdittextCustom
+                        android:id="@+id/edt_birthday"
+                        style="@style/EditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="10dp"
+                        android:drawableEnd="@drawable/ic_down"
+                        android:drawableRight="@drawable/ic_down"
+                        android:focusable="false"
+                        android:gravity="center_vertical"
+                        android:hint="@string/format_date"
+                        android:inputType="textPersonName" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <au.mccann.oztaxreturn.view.TextViewCustom
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:text="@string/gender"
+                        android:textAllCaps="true"
+                        android:textColor="@color/tv_gray"
+                        android:textSize="@dimen/size_small" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/bg_edittext"
+                        android:minHeight="45dp">
+
+                        <Spinner
+                            android:id="@+id/sp_gender"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_centerInParent="true"
+                            android:background="@null"
+                            android:gravity="center_vertical"
+                            android:prompt="@string/gender" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:paddingEnd="10dp"
+                            android:paddingRight="10dp"
+                            android:scaleType="centerInside"
+                            android:src="@drawable/ic_down"
+                            tools:ignore="ContentDescription,RtlSymmetry" />
+
+                    </RelativeLayout>
+                </LinearLayout>
+            </LinearLayout>
 
             <au.mccann.oztaxreturn.view.TextViewCustom
                 android:layout_width="wrap_content"
@@ -276,18 +322,41 @@
                         android:textColor="@color/tv_gray"
                         android:textSize="@dimen/size_small" />
 
-                    <au.mccann.oztaxreturn.view.EdittextCustom
-                        android:id="@+id/edt_state"
-                        style="@style/EditText"
+                    <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="5dp"
-                        android:layout_marginRight="5dp"
-                        android:imeOptions="actionNext"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginRight="10dp"
                         android:layout_marginTop="10dp"
-                        android:inputType="text"
-                        android:textColor="@color/income_conten"
-                        android:textColorHint="@color/tv_gray" />
+                        android:background="@drawable/bg_edittext"
+                        android:minHeight="45dp">
+
+                        <Spinner
+                            android:id="@+id/sp_state"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_centerInParent="true"
+                            android:background="@null"
+                            android:gravity="center_vertical"
+                            android:paddingEnd="6dp"
+                            android:paddingLeft="6dp"
+                            android:paddingRight="6dp"
+                            android:paddingStart="6dp"
+                            android:prompt="@string/gender" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:paddingEnd="10dp"
+                            android:paddingRight="10dp"
+                            android:scaleType="centerInside"
+                            android:src="@drawable/ic_down"
+                            tools:ignore="ContentDescription,RtlSymmetry" />
+
+                    </RelativeLayout>
                 </LinearLayout>
 
                 <LinearLayout
@@ -314,8 +383,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
                         android:layout_marginStart="5dp"
-                        android:imeOptions="actionNext"
                         android:layout_marginTop="10dp"
+                        android:imeOptions="actionNext"
                         android:inputType="number"
                         android:textColor="@color/income_conten"
                         android:textColorHint="@color/tv_gray" />
@@ -333,10 +402,10 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="20dp"
-        android:background="@drawable/btn_selector"
         android:layout_marginEnd="@dimen/left_right_margin_screen"
         android:layout_marginLeft="@dimen/left_right_margin_screen"
-        android:layout_marginStart="@dimen/left_right_margin_screen"
         android:layout_marginRight="@dimen/left_right_margin_screen"
+        android:layout_marginStart="@dimen/left_right_margin_screen"
+        android:background="@drawable/btn_selector"
         android:text="@string/save" />
 </RelativeLayout>

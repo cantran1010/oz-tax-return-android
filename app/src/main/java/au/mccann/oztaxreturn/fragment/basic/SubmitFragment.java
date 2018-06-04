@@ -19,6 +19,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import au.mccann.oztaxreturn.R;
@@ -30,7 +31,6 @@ import au.mccann.oztaxreturn.database.UserManager;
 import au.mccann.oztaxreturn.dialog.AlertDialogOk;
 import au.mccann.oztaxreturn.dialog.AlertDialogOkAndCancel;
 import au.mccann.oztaxreturn.fragment.BaseFragment;
-import au.mccann.oztaxreturn.fragment.FirstCheckoutFragment;
 import au.mccann.oztaxreturn.model.APIError;
 import au.mccann.oztaxreturn.model.PersonalInformation;
 import au.mccann.oztaxreturn.model.ResponseBasicInformation;
@@ -58,10 +58,12 @@ import static au.mccann.oztaxreturn.utils.Utils.showToolTip;
  */
 public class SubmitFragment extends BaseFragment implements View.OnClickListener {
     private static final String TAG = SubmitFragment.class.getSimpleName();
-    private EdittextCustom edtBankName, edtBSB, edtAccountNumber, edtStreetName, edtSuburb, edtState, edtPostCode, edtPhone, edtEmail;
+    private EdittextCustom edtBankName, edtBSB, edtAccountNumber, edtStreetName, edtSuburb, edtPostCode, edtPhone, edtEmail;
     private TextViewCustom tvNote;
-    private Spinner spCountryCode;
+    private Spinner spCountryCode, spState;
     private ArrayList<CountryCodeResponse> countryCodeResponses;
+    private List<String> states = new ArrayList<>();
+
 
     @Override
     protected int getLayout() {
@@ -75,7 +77,7 @@ public class SubmitFragment extends BaseFragment implements View.OnClickListener
         edtAccountNumber = (EdittextCustom) findViewById(R.id.edt_account_number);
         edtStreetName = (EdittextCustom) findViewById(R.id.edt_street_name);
         edtSuburb = (EdittextCustom) findViewById(R.id.edt_suburb);
-        edtState = (EdittextCustom) findViewById(R.id.edt_state);
+        spState = (Spinner) findViewById(R.id.sp_state);
         edtPostCode = (EdittextCustom) findViewById(R.id.edt_post_code);
         edtPhone = (EdittextCustom) findViewById(R.id.edt_phone);
         edtEmail = (EdittextCustom) findViewById(R.id.edt_email);
@@ -88,7 +90,11 @@ public class SubmitFragment extends BaseFragment implements View.OnClickListener
     @Override
     protected void initData() {
         setTitle(getString(R.string.personal_information_title));
-        appBarVisibility(false, true, 0);
+        appBarVisibility(true, true, 2);
+        getBaseProgress(getApplicationResponse());
+        states = Arrays.asList(getResources().getStringArray(R.array.string_array_states));
+        OzSpinnerAdapter dataNameAdapter = new OzSpinnerAdapter(getActivity(), states, 0);
+        spState.setAdapter(dataNameAdapter);
         getCountryCode();
 
     }
@@ -102,15 +108,12 @@ public class SubmitFragment extends BaseFragment implements View.OnClickListener
                 if (response.code() == Constants.HTTP_CODE_OK) {
                     LogUtils.d(TAG, "getCountryCode body : " + response.body().toString());
                     countryCodeResponses = (ArrayList<CountryCodeResponse>) response.body();
-
                     ArrayList<String> listCode = new ArrayList<>();
                     for (CountryCodeResponse countryCodeResponse : countryCodeResponses) {
                         listCode.add(countryCodeResponse.getDialCode());
                     }
-
-                    OzSpinnerAdapter dataNameAdapter = new OzSpinnerAdapter(getContext(), listCode,0);
+                    OzSpinnerAdapter dataNameAdapter = new OzSpinnerAdapter(getContext(), listCode, 0);
                     spCountryCode.setAdapter(dataNameAdapter);
-
                     getBasicInformation();
                 } else {
                     APIError error = Utils.parseError(response);
@@ -142,9 +145,13 @@ public class SubmitFragment extends BaseFragment implements View.OnClickListener
 //        edtPhone.setText(pf.getPhone());
         edtEmail.setText(pf.getEmail());
         edtPostCode.setText(pf.getPostcode());
-        edtState.setText(pf.getState());
+        for (int i = 0; i < states.size(); i++) {
+            if (pf.getState().equalsIgnoreCase(states.get(i))) {
+                spState.setSelection(i);
+                break;
+            }
+        }
         setUnderLinePolicy(tvNote);
-
         PhoneNumberUtil phoneUtil = PhoneNumberUtil.getInstance();
         try {
             Phonenumber.PhoneNumber phoneNumber = phoneUtil.parse(pf.getPhone(), null);
@@ -163,7 +170,6 @@ public class SubmitFragment extends BaseFragment implements View.OnClickListener
         } catch (NumberParseException e) {
             LogUtils.e(TAG, "updateUI was thrown: " + e.toString());
         }
-
     }
 
     private void getBasicInformation() {
@@ -176,7 +182,7 @@ public class SubmitFragment extends BaseFragment implements View.OnClickListener
                     LogUtils.d(TAG, "getBasicInformation body : " + response.body().toString());
                     if (response.body().getPersonalInformation() != null)
                         updateUI(response.body().getPersonalInformation());
-                }else if (response.code() == Constants.HTTP_CODE_BLOCK) {
+                } else if (response.code() == Constants.HTTP_CODE_BLOCK) {
                     Intent intent = new Intent(getContext(), SplashActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
@@ -236,7 +242,7 @@ public class SubmitFragment extends BaseFragment implements View.OnClickListener
             salaryJson.put(Constants.PARAMETER_BASIC_INFO_BANK_BSB, edtBSB.getText().toString().trim());
             salaryJson.put(Constants.PARAMETER_BASIC_INFO_STREET, edtStreetName.getText().toString().trim());
             salaryJson.put(Constants.PARAMETER_BASIC_INFO_SUBURB, edtSuburb.getText().toString().trim());
-            salaryJson.put(Constants.PARAMETER_BASIC_INFO_STATE, edtState.getText().toString().trim());
+            salaryJson.put(Constants.PARAMETER_BASIC_INFO_STATE, spState.getSelectedItem().toString());
             salaryJson.put(Constants.PARAMETER_BASIC_INFO_EMAIL, edtEmail.getText().toString().trim());
 //            salaryJson.put(Constants.PARAMETER_BASIC_INFO_PHONE, formatPhoneNumber(edtPhone.getText().toString().trim()));
             salaryJson.put(Constants.PARAMETER_BASIC_INFO_POST_CODE, edtPostCode.getText().toString().trim());
@@ -268,7 +274,7 @@ public class SubmitFragment extends BaseFragment implements View.OnClickListener
                 LogUtils.d(TAG, "doSaveBasic code: " + response.code());
                 if (response.code() == Constants.HTTP_CODE_OK) {
                     openFragment(R.id.layout_container, FirstCheckoutFragment.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
-                }else if (response.code() == Constants.HTTP_CODE_BLOCK) {
+                } else if (response.code() == Constants.HTTP_CODE_BLOCK) {
                     Intent intent = new Intent(getContext(), SplashActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
@@ -333,32 +339,18 @@ public class SubmitFragment extends BaseFragment implements View.OnClickListener
             showToolTip(getContext(), edtSuburb, getString(R.string.vali_all_empty));
             return;
         }
-        if (edtState.getText().toString().trim().isEmpty()) {
-            edtState.requestFocus();
-            showToolTip(getContext(), edtState, getString(R.string.vali_all_empty));
-            return;
-        }
         if (edtPostCode.getText().toString().trim().isEmpty()) {
             edtPostCode.requestFocus();
             showToolTip(getContext(), edtPostCode, getString(R.string.vali_all_empty));
             return;
         }
-        if (edtPhone.getText().toString().trim().isEmpty()) {
+        if (edtPhone.getText().toString().trim().isEmpty() && edtEmail.getText().toString().trim().isEmpty()) {
             edtPhone.requestFocus();
-            showToolTip(getContext(), edtPhone, getString(R.string.vali_all_empty));
+            showToolTip(getContext(), findViewById(R.id.btn_submit), getString(R.string.vali_phone_or_mail));
             return;
         }
-        if (!Utils.isValidPhone(edtPhone.getText().toString().trim())) {
-            edtPhone.requestFocus();
-            showToolTip(getContext(), edtPhone, getString(R.string.valid_app_phone_2));
-            return;
-        }
-        if (edtEmail.getText().toString().trim().isEmpty()) {
-            edtEmail.requestFocus();
-            showToolTip(getContext(), edtEmail, getString(R.string.vali_all_empty));
-            return;
-        }
-        if (!Utils.isValidEmail(edtEmail.getText().toString().trim())) {
+
+        if (!edtEmail.getText().toString().trim().isEmpty() && !Utils.isValidEmail(edtEmail.getText().toString().trim())) {
             edtEmail.requestFocus();
             showToolTip(getContext(), edtEmail, getString(R.string.valid_app_email_2));
             return;

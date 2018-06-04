@@ -83,7 +83,8 @@ public class PersonalFragment extends BaseFragment implements View.OnClickListen
     @Override
     protected void initData() {
         setTitle(getString(R.string.personal_information_title));
-        appBarVisibility(false, true, 0);
+        appBarVisibility(true, true, 2);
+        getBaseProgress(getApplicationResponse());
         genders = Arrays.asList(getResources().getStringArray(R.array.string_array_gender));
         titles = Arrays.asList(getResources().getStringArray(R.array.string_array_title));
         OzSpinnerAdapter dataNameAdapter = new OzSpinnerAdapter(getContext(), genders, 0);
@@ -109,9 +110,9 @@ public class PersonalFragment extends BaseFragment implements View.OnClickListen
             if (pf.getGender().equalsIgnoreCase(genders.get(i))) {
                 spGender.setSelection(i);
                 break;
-            }
+            } else
+                spGender.setSelection(2);
         }
-
         if (pf.isLocal())
             rbYes.setChecked(true);
         else

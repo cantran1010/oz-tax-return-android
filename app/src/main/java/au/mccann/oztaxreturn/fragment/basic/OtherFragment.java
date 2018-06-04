@@ -95,7 +95,8 @@ public class OtherFragment extends BaseFragment implements View.OnClickListener 
         images = new ArrayList<>();
         attach = new ArrayList<>();
         setTitle(getString(R.string.income_ws_title));
-        appBarVisibility(false, true, 0);
+        appBarVisibility(true, true, 2);
+        getBaseProgress(getApplicationResponse());
         //images
         if (images.size() == 0) {
             final Image image = new Image();
@@ -295,7 +296,8 @@ public class OtherFragment extends BaseFragment implements View.OnClickListener 
                         Attachment attachment = new Attachment();
                         attachment.setId((int) image.getId());
                         attachment.setUrl(image.getPath());
-                        attach.add(attachment);
+                        if (!attach.contains(attachment))
+                            attach.add(attachment);
                     }
                 }
                 JSONArray jsonArray = new JSONArray();

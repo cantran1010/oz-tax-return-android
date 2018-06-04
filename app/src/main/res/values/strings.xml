@@ -1,7 +1,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">Maximyz Tax Return</string>
     <string name="alert_dialog_yes">yes</string>
-    <string name="alert_dialog_no">no</string>
+    <string name="alert_dialog_no">No</string>
     <string name="alert_dialog_title">notification</string>
     <string name="title_activity_home">HomeActivity</string>
     <string name="hint_login">Phone or Email or Username</string>
@@ -13,11 +13,12 @@
     <string name="label_mobile">mobile phone</string>
     <string name="label_password">password</string>
     <string name="label_re_password">re-password</string>
-    <string name="policy">I agree with Terms and Privacy Policy</string>
-    <string name="term">Terms</string>
+    <string name="policy">I agree with Privacy Policy and Terms &amp; Conditions</string>
+    <string name="term">Terms &amp; Conditions</string>
     <string name="register_privacy_policy">Privacy Policy</string>
     <string name="btn_register">register</string>
     <string name="ok">OK</string>
+    <string name="view_download">View</string>
     <string name="error">Error!</string>
     <string name="retry_title">No internet connection</string>
     <string name="retry_content">Please check your internet connection and try again</string>
@@ -39,6 +40,7 @@
     <string name="send_successfully">Your login information has been sent to your provided email or mobile number.</string>
     <string name="vali_re_password">password is not matching.</string>
     <string name="user_wrong">Incorrect Username or Password</string>
+    <string name="tax_return">your tax return</string>
 
     <!-- common -->
 
@@ -48,6 +50,10 @@
     <string name="required_all">All fields are required!</string>
     <string name="remove">Are you sure you want to remove?</string>
     <string name="attach_photo">Please attach supporting photos</string>
+    <string name="view">view</string>
+    <string name="download">download</string>
+    <string name="download_successfully">Download Successful</string>
+    <string name="gender_other">unknown</string>
 
     <!-- pick image dialog -->
     <string name="attach_img_title">Attach image</string>
@@ -71,6 +77,8 @@
     <string name="submitted">Submitted</string>
     <string name="completed">Completed</string>
     <string name="auditing">Auditing</string>
+    <string name="home_fee">Let’s optimize your tax return with our online accountants starting from</string>
+    <string name="review_summary">Summary</string>
 
     <!-- add new board -->
     <string name="add_new_board_title">NEW TAX RETURN APPLICATION</string>
@@ -96,6 +104,7 @@
     <string name="gallery">Gallery</string>
     <string name="your_birthday">Your Birthday</string>
     <string name="attach_photo_payg">Please attach photos of your PAYG</string>
+    <string name="birthday_hint">dd/mm/yyyy</string>
 
 
     <!-- income other -->
@@ -112,7 +121,7 @@
 
     <!-- estimate -->
     <string name="estimate_title">Application Ready</string>
-    <string name="estimate_content">Our accountant will process your application and fill in other information using our expertise to help you get the best possible tax refund.   You will be notified to review the final application and provide extra information if required before we loge it to ATO.</string>
+    <string name="estimate_content">Our accountant will process your application and fill in other information using our expertise to help you get the best possible tax refund.   You will be notified to review the final application and provide extra information if required before we lodge it to ATO.</string>
     <string name="estimate_note">* Please click Next to provide your personal information</string>
 
     <!-- personal information -->
@@ -125,12 +134,14 @@
     <string-array name="string_array_gender">
         <item>Male</item>
         <item>Female</item>
-        <item>Unknown</item>
+        <item>Other</item>
     </string-array>
     <string-array name="string_array_title">
         <item>Mr</item>
         <item>Mrs</item>
         <item>Ms</item>
+        <item>Miss</item>
+        <item>Dr</item>
     </string-array>
 
     <!-- personal information submit -->
@@ -146,7 +157,7 @@
     <string name="phone_number">phone number</string>
     <string name="email_address">email address</string>
     <string name="submit">submit</string>
-    <string name="privacy_policy">* By clicking on the button below, you agree with our Privacy Policy and Terms and Conditions.</string>
+    <string name="privacy_policy">* By clicking on the button below, you agree with our Privacy Policy and Terms &amp; Conditions.</string>
     <string name="valid_app_bank_name">Enter bank account name</string>
     <string name="valid_app_bsb">Enter BSB</string>
     <string name="valid_app_account_number">Enter account number</string>
@@ -158,6 +169,17 @@
     <string name="valid_app_email">Enter email address</string>
     <string name="valid_app_email_2">Please enter a valid email address</string>
     <string name="valid_app_phone_2">Please enter a valid phone number</string>
+    <string name="vali_phone_or_mail">Please enter phone number or email address.</string>
+    <string-array name="string_array_states">
+        <item>ACT</item>
+        <item>NSW</item>
+        <item>NT</item>
+        <item>QLD</item>
+        <item>SA</item>
+        <item>TAS</item>
+        <item>VIC</item>
+        <item>WA</item>
+    </string-array>
 
     <!-- first checkout -->
     <string name="first_checkout_title">CHECK OUT</string>
@@ -168,6 +190,7 @@
     <string name="next_des">* please click next to process to the checkout</string>
     <string name="back_to_exit">Press back button again to exit</string>
     <string name="promotion_error">Promotion is not correct,do you want to continue?</string>
+    <string name="promotion_ok">Successfully applied!</string>
 
     <!-- review begin a -->
     <string name="review_begin_a">Review your application</string>
@@ -216,13 +239,19 @@
     <string name="menu_family_health_private">Private Health</string>
     <string name="menu_family_health_spouse">Spouse</string>
 
-    <!-- -->
+    <!--menu -->
     <string name="home_version">Version %1$s</string>
     <string name="home_navi_about">About us</string>
     <string name="home_navi_privacy">Privacy policy</string>
     <string name="home_navi_terms">Terms &amp; Condition</string>
     <string name="home_navi_share">Share</string>
     <string name="home_rate">Rate us</string>
+    <string name="navi_other_source_income">Other source of income</string>
+    <string name="navi_base_deductions">Deductions</string>
+    <string name="navi__base_income">Income</string>
+    <string name="navi_base_persional">Personal Information</string>
+    <string name="navi_base_bank">Bank Details</string>
+    <string name="navi_base_checkout">Check Out</string>
 
     <!-- review income ws -->
     <string name="review_income_title">Review income</string>
@@ -340,7 +369,7 @@
 
     <!-- review deduction education -->
     <string name="review_deductions">review deductions</string>
-    <string name="review_education">Work Relate\nEducation</string>
+    <string name="review_education">Work Related\nEducation</string>
     <string name="review_education_ask">This could relate to any spending on fees, books, travel and epuipment that heva a direct connection to your current work.\n\nDo you want to claim for this type?</string>
     <string name="course_and_institution">course and instutition</string>
     <string name="course_hint">Example: food safety certificate from ABC TAPE</string>
@@ -356,7 +385,7 @@
 
     <!-- review deduction Other Work Related Expenses -->
     <string name="review_other_work">Other Work\nRelated Expenses</string>
-    <string name="review_ohter_work_ask">This could relate to union fees, home office expenses and other expenses.\n\nDo you want to claim for this type?</string>
+    <string name="review_ohter_work_ask">This could relate to union fees and home office expenses and other expenses.\n\nDo you want to claim for this type?</string>
     <string name="description">description</string>
     <string name="description_hint">Example: Phone call to Customers</string>
     <string-array name="string_array_other_type">
@@ -424,7 +453,7 @@
     <string name="lum_sums">Super\nLump Sum</string>
 
     <!-- review summary -->
-    <string name="summary_header">Estimate\ntax refund</string>
+    <string name="summary_header">Estimated\ntax refund</string>
     <string name="total_income">Total Income</string>
     <string name="government_payments">Government Payments</string>
     <string name="interest">Interest</string>
@@ -452,7 +481,7 @@
     <string name="app_privacy_policy">Privacy Policy</string>
     <string name="review_summary_title">review summary</string>
     <string name="lodged_successfully">The application is lodged successfully.</string>
-    <string name="app_term_conditions">Terms and Conditions</string>
+    <string name="app_term_conditions">Terms &amp; Conditions</string>
     <string name="lodge">Lodged</string>
     <string name="btn_lodge">Lodge</string>
     <string name="review_summary_note">Your application has been lodged. You can review it but no changes can be made at this state. You will be notified for any update of your application </string>
@@ -460,12 +489,13 @@
     <string name="negative_tax_refund">Your application has been successfully completed. You are required to pay</string>
     <string name="negative_tax_refund_end">to ATO. Please download your tax return report. You can also contact us if you wish to discuss about payment plans.</string>
     <string name="Review_your_application">Review your application</string>
-    <string name="review_auditing_title">Your application has been audit by ATO.</string>
+    <string name="review_auditing_title">Your application has been audited by ATO.</string>
     <string name="tax_return_report">tax return report</string>
-    <string name="review_audi_content">Please review your application again and submit additional information and image require\n by ATO to relogde your application. Your can contact our accountant for free support.</string>
+    <string name="review_audi_content">Please review your application again and provide additional information required by ATO. You can download the ATO Letter here.</string>
+    <string name="review_audi_download">ATO Letter</string>
     <string name="actual_tax_refund">Actual\ntax refund</string>
     <string name="astimated_tax_refund_message">This actual tax return is issued by ATO based on your provided information.</string>
-    <string name="actual_tax_refund_message">Your tax refund is estimated based on information\nyou have provided and our calculation method.\nYour final tax refund may be prone to changing by ATO.</string>
+    <string name="actual_tax_refund_message">Your tax refund is estimated based on information\nyou have provided and our calculation method.\nYour final tax refund will be determined by ATO.</string>
 
     <!-- notification screen -->
     <string name="notification_title">NOTIFICATION</string>
@@ -510,6 +540,8 @@
     <string name="update_login_details">Update Login Details</string>
     <string name="unsaved">Unsaved changes</string>
     <string name="unsaved_content">Do you want to save the changes?</string>
+    <string name="re_new_password_requiredwith">re_new_password.requiredwith</string>
+    <string name="re_new_password_noti">Password does not match the confirm password.</string>
 
     <!--  screen splash -->
     <string name="update_title">Update Version</string>
@@ -517,18 +549,14 @@
     <string name="device_type">android</string>
     <string name="update_content">do you want to update a new version?</string>
     <string name="oke">Oke</string>
+
     <!--  screen block -->
     <string name="block_user">Sorry, your account has been blocked.</string>
     <string name="temporally_locked">Sorry, your account has been deactivate.</string>
     <string name="block_title">notification</string>
     <string name="block_logout">Logout</string>
-    <string name="app_sologan">Lets optimize your tax return\nwith our online accountants</string>
-    <string name="tax_return">your tax return</string>
-    <string name="no_app">Press + to\ncreate new application!</string>
+    <string name="app_sologan">Let\'s optimize your tax return\nwith our online accountants</string>
     <string name="max_3_add">Maximum 3 private healths are allowed!</string>
-
-    <string name="promotion_ok">Promotion is correct,do you want to continue?</string>
-    <string name="birthday_hint">dd/mm/yyyy</string>
 
 
 </resources>

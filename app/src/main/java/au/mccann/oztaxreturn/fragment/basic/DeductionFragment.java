@@ -88,7 +88,8 @@ public class DeductionFragment extends BaseFragment implements View.OnClickListe
         images = new ArrayList<>();
         attach = new ArrayList<>();
         setTitle(getString(R.string.deduction_title));
-        appBarVisibility(false, true, 0);
+        appBarVisibility(true, true, 2);
+        getBaseProgress(getApplicationResponse());
         //images
         if (images.size() == 0) {
             final Image image = new Image();
@@ -275,7 +276,8 @@ public class DeductionFragment extends BaseFragment implements View.OnClickListe
                     Attachment attachment = new Attachment();
                     attachment.setId((int) image.getId());
                     attachment.setUrl(image.getPath());
-                    attach.add(attachment);
+                    if (!attach.contains(attachment))
+                        attach.add(attachment);
                 }
             }
             JSONArray jsonArray = new JSONArray();

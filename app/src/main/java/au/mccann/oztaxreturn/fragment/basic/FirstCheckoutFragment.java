@@ -1,8 +1,7 @@
-package au.mccann.oztaxreturn.fragment;
+package au.mccann.oztaxreturn.fragment.basic;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -15,6 +14,7 @@ import au.mccann.oztaxreturn.common.Constants;
 import au.mccann.oztaxreturn.database.UserManager;
 import au.mccann.oztaxreturn.dialog.AlertDialogOk;
 import au.mccann.oztaxreturn.dialog.AlertDialogOkAndCancel;
+import au.mccann.oztaxreturn.fragment.BaseFragment;
 import au.mccann.oztaxreturn.model.APIError;
 import au.mccann.oztaxreturn.networking.ApiClient;
 import au.mccann.oztaxreturn.rest.response.FeeResponse;
@@ -62,7 +62,8 @@ public class FirstCheckoutFragment extends BaseFragment implements View.OnClickL
     @Override
     protected void initData() {
         setTitle(getString(R.string.first_checkout_title));
-        appBarVisibility(false, true, 0);
+        appBarVisibility(true, true, 2);
+        getBaseProgress(getApplicationResponse());
         getPromotionFee();
     }
 
@@ -97,41 +98,37 @@ public class FirstCheckoutFragment extends BaseFragment implements View.OnClickL
             public void onResponse(Call<FeeResponse> call, Response<FeeResponse> response) {
                 ProgressDialogUtils.dismissProgressDialog();
                 LogUtils.d(TAG, "checkPromotionCode code : " + response.code());
-
                 if (response.code() == Constants.HTTP_CODE_OK) {
                     LogUtils.d(TAG, "checkPromotionCode body : " + response.body().toString());
                     feeResponse = response.body();
-
-//                    tvServiceFee.setText(getString(R.string.USD2, Utils.formatNumber2Digit(feeResponse.getAmount())));
-//                    tvTotalFee.setText(getString(R.string.USD2, Utils.formatNumber2Digit(feeResponse.getAmountAfter())));
                     tvServiceFee.setText(String.valueOf(feeResponse.getAmount()));
                     tvTotalFee.setText(String.valueOf(feeResponse.getAmountAfter()));
+                    if (feeResponse.getPromotionCode().isEmpty())
+                        imgChecked.setVisibility(View.GONE);
+                    else if (feeResponse.isPromotionValid()) imgChecked.setVisibility(View.VISIBLE);
+                    if (feeResponse.isPromotionValid() && feeResponse.getPromotionCode().isEmpty()) {
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable(Constants.PARAMETER_FEE_EXTRA, feeResponse);
+                        openFragment(R.id.layout_container, CheckoutFragment.class, true, bundle, TransitionScreen.RIGHT_TO_LEFT);
+                    } else
+                        DialogUtils.showOkDialog(getActivity(), getString(R.string.app_name), getString(R.string.promotion_ok), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                            @Override
+                            public void onSubmit() {
+                                Bundle bundle = new Bundle();
+                                bundle.putSerializable(Constants.PARAMETER_FEE_EXTRA, feeResponse);
+                                openFragment(R.id.layout_container, CheckoutFragment.class, true, bundle, TransitionScreen.RIGHT_TO_LEFT);
+                            }
+                        });
 
-                    imgChecked.setVisibility(View.VISIBLE);
-
-                    DialogUtils.showOkDialog(getActivity(), getString(R.string.app_name), getString(R.string.promotion_ok), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
-                        @Override
-                        public void onSubmit() {
-                            Bundle bundle = new Bundle();
-                            bundle.putSerializable(Constants.PARAMETER_FEE_EXTRA, feeResponse);
-                            openFragment(R.id.layout_container, CheckoutFragment.class, true, bundle, TransitionScreen.RIGHT_TO_LEFT);
-                        }
-                    });
-
-                } else if (response.code() == Constants.HTTP_CODE_BLOCK) {
-                    Intent intent = new Intent(getContext(), SplashActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(intent);
-                }else {
+                } else {
                     APIError error = Utils.parseError(response);
                     LogUtils.d(TAG, "checkPromotionCode error : " + error.message());
                     if (error != null) {
                         DialogUtils.showOkAndCancelDialog(getActivity(), getString(R.string.app_name), getString(R.string.promotion_error), getString(R.string.Yes), getString(R.string.No), new AlertDialogOkAndCancel.AlertDialogListener() {
                             @Override
                             public void onSubmit() {
-                                Bundle bundle = new Bundle();
-                                bundle.putSerializable(Constants.PARAMETER_FEE_EXTRA, feeResponse);
-                                openFragment(R.id.layout_container, CheckoutFragment.class, true, bundle, TransitionScreen.RIGHT_TO_LEFT);
+                                edtPromotionCode.setText("");
+                                checkPromotionCode();
                             }
 
                             @Override
@@ -170,13 +167,13 @@ public class FirstCheckoutFragment extends BaseFragment implements View.OnClickL
             public void onResponse(Call<FeeResponse> call, Response<FeeResponse> response) {
                 ProgressDialogUtils.dismissProgressDialog();
                 LogUtils.d(TAG, "getPromotionFee code : " + response.code());
-
                 if (response.code() == Constants.HTTP_CODE_OK) {
                     LogUtils.d(TAG, "checkPromotionCode body : " + response.body().toString());
                     feeResponse = response.body();
                     tvServiceFee.setText(Utils.displayCurrency(String.valueOf(feeResponse.getAmount())));
                     tvTotalFee.setText(Utils.displayCurrency(String.valueOf(feeResponse.getAmountAfter())));
-                }else if (response.code() == Constants.HTTP_CODE_BLOCK) {
+                    edtPromotionCode.setText(feeResponse.getPromotionCode());
+                } else if (response.code() == Constants.HTTP_CODE_BLOCK) {
                     Intent intent = new Intent(getContext(), SplashActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
@@ -218,16 +215,8 @@ public class FirstCheckoutFragment extends BaseFragment implements View.OnClickL
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-
             case R.id.btn_next:
-
-                if (TextUtils.isEmpty(edtPromotionCode.getText().toString().trim())) {
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable(Constants.PARAMETER_FEE_EXTRA, feeResponse);
-                    openFragment(R.id.layout_container, CheckoutFragment.class, true, bundle, TransitionScreen.RIGHT_TO_LEFT);
-                } else
-                    doNext();
-
+                doNext();
                 break;
 
         }

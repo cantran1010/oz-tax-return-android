@@ -286,7 +286,8 @@ public class ReviewPersonalInfomationA extends BaseFragment implements View.OnCl
             if (personalInfomationResponse.getGender().equalsIgnoreCase(genders.get(i))) {
                 spGender.setSelection(i);
                 break;
-            }
+            } else
+                spGender.setSelection(2);
         }
 
         if (personalInfomationResponse.isLocal()) {

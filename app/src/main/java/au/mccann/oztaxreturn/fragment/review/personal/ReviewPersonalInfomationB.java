@@ -13,6 +13,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import au.mccann.oztaxreturn.R;
@@ -48,10 +49,11 @@ import static au.mccann.oztaxreturn.utils.Utils.showToolTip;
 
 public class ReviewPersonalInfomationB extends BaseFragment implements View.OnClickListener {
     private static final String TAG = ReviewPersonalInfomationB.class.getSimpleName();
-    private EdittextCustom edtBankName, edtBSB, edtAccountNumber, edtStreetName, edtSuburb, edtState, edtPostCode, edtPhone, edtEmail;
+    private EdittextCustom edtBankName, edtBSB, edtAccountNumber, edtStreetName, edtSuburb, edtPostCode, edtPhone, edtEmail;
     private PersonalInfomationResponse personalInfomationResponse;
-    private Spinner spCountryCode;
+    private Spinner spCountryCode, spState;
     private ArrayList<CountryCodeResponse> countryCodeResponses;
+    private List<String> states = new ArrayList<>();
 
     @Override
     protected int getLayout() {
@@ -65,17 +67,20 @@ public class ReviewPersonalInfomationB extends BaseFragment implements View.OnCl
         edtAccountNumber = (EdittextCustom) findViewById(R.id.edt_account_number);
         edtStreetName = (EdittextCustom) findViewById(R.id.edt_street_name);
         edtSuburb = (EdittextCustom) findViewById(R.id.edt_suburb);
-        edtState = (EdittextCustom) findViewById(R.id.edt_state);
         edtPostCode = (EdittextCustom) findViewById(R.id.edt_post_code);
         edtPhone = (EdittextCustom) findViewById(R.id.edt_phone);
         edtEmail = (EdittextCustom) findViewById(R.id.edt_email);
         ButtonCustom btnNext = (ButtonCustom) findViewById(R.id.btn_next);
         btnNext.setOnClickListener(this);
         spCountryCode = (Spinner) findViewById(R.id.sp_country_code);
+        spState = (Spinner) findViewById(R.id.sp_state);
     }
 
     @Override
     protected void initData() {
+        states = Arrays.asList(getResources().getStringArray(R.array.string_array_states));
+        OzSpinnerAdapter stateAdapter = new OzSpinnerAdapter(getActivity(), states, 0);
+        spState.setAdapter(stateAdapter);
         doEdit();
         getReviewProgress(getApplicationResponse());
         getCountryCode();
@@ -138,7 +143,7 @@ public class ReviewPersonalInfomationB extends BaseFragment implements View.OnCl
         edtAccountNumber.setEnabled(isEditApp());
         edtStreetName.setEnabled(isEditApp());
         edtSuburb.setEnabled(isEditApp());
-        edtState.setEnabled(isEditApp());
+        spState.setEnabled(isEditApp());
         edtPostCode.setEnabled(isEditApp());
         edtPhone.setEnabled(isEditApp());
         edtEmail.setEnabled(isEditApp());
@@ -151,7 +156,12 @@ public class ReviewPersonalInfomationB extends BaseFragment implements View.OnCl
         edtAccountNumber.setText(personalInfomationResponse.getBankAccountNumber());
         edtStreetName.setText(personalInfomationResponse.getStreet());
         edtSuburb.setText(personalInfomationResponse.getSuburb());
-        edtState.setText(personalInfomationResponse.getState());
+        for (int i = 0; i < states.size(); i++) {
+            if (personalInfomationResponse.getState().equalsIgnoreCase(states.get(i))) {
+                spState.setSelection(i);
+                break;
+            }
+        }
         edtPostCode.setText(personalInfomationResponse.getPostcode());
 //        edtPhone.setText(personalInfomationResponse.getPhone());
         edtEmail.setText(personalInfomationResponse.getEmail());
@@ -198,10 +208,6 @@ public class ReviewPersonalInfomationB extends BaseFragment implements View.OnCl
             showToolTip(getActivity(), edtSuburb, getString(R.string.valid_app_suburb));
             return;
         }
-        if (edtState.getText().toString().trim().isEmpty()) {
-            showToolTip(getActivity(), edtState, getString(R.string.valid_app_state));
-            return;
-        }
         if (edtPostCode.getText().toString().trim().isEmpty()) {
             showToolTip(getActivity(), edtPostCode, getString(R.string.valid_app_post_code));
             return;
@@ -226,7 +232,7 @@ public class ReviewPersonalInfomationB extends BaseFragment implements View.OnCl
             jsonRequest.put("bank_account_bsb", edtBSB.getText().toString().trim());
             jsonRequest.put("street", edtStreetName.getText().toString().trim());
             jsonRequest.put("suburb", edtSuburb.getText().toString().trim());
-            jsonRequest.put("state", edtState.getText().toString().trim());
+            jsonRequest.put("state", spState.getSelectedItem().toString());
             jsonRequest.put("postcode", edtPostCode.getText().toString().trim());
 //            jsonRequest.put("phone", Utils.formatPhoneNumber(edtPhone.getText().toString().trim()));
             jsonRequest.put("email", edtEmail.getText().toString().trim());

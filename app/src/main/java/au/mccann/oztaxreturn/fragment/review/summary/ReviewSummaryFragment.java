@@ -4,9 +4,7 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
@@ -16,18 +14,11 @@ import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 
 import au.mccann.oztaxreturn.R;
 import au.mccann.oztaxreturn.activity.GeneralInfoActivity;
@@ -48,6 +39,7 @@ import au.mccann.oztaxreturn.model.TaxPart;
 import au.mccann.oztaxreturn.networking.ApiClient;
 import au.mccann.oztaxreturn.rest.response.ApplicationResponse;
 import au.mccann.oztaxreturn.utils.DialogUtils;
+import au.mccann.oztaxreturn.utils.FileUtils;
 import au.mccann.oztaxreturn.utils.LogUtils;
 import au.mccann.oztaxreturn.utils.ProgressDialogUtils;
 import au.mccann.oztaxreturn.utils.TransitionScreen;
@@ -55,7 +47,6 @@ import au.mccann.oztaxreturn.utils.Utils;
 import au.mccann.oztaxreturn.view.ButtonCustom;
 import au.mccann.oztaxreturn.view.ExpandableLayout;
 import au.mccann.oztaxreturn.view.TextViewCustom;
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -65,8 +56,8 @@ import retrofit2.Response;
  * Created by CanTran on 4/23/18.
  */
 public class ReviewSummaryFragment extends BaseFragment implements View.OnClickListener {
-    private static final int PERMISSION_REQUEST_CODE = 1;
     private static final String TAG = ReviewSummaryFragment.class.getSimpleName();
+    private static final int PERMISSION_REQUEST_CODE = 1;
     private TextViewCustom tvTaxReturn, tvActual, tvTotalIncome, tvTotalDeduction, tvTaxPayable, tvTaxWidthheld;
 
     private TextViewCustom tvIncomeSalary, tvGovernmentPayments, tvInterest, tvDividends, tvEarlyTermination, tvSuperIncomeStream, tvSuperLumpSum, tvRentaIncome;
@@ -78,9 +69,9 @@ public class ReviewSummaryFragment extends BaseFragment implements View.OnClickL
     private Animation anim_down, anim_up;
     private ButtonCustom btnNext;
     private TextViewCustom tvPolicy;
-    File futureStudioIconFile;
     private LinearLayout layoutActual;
     private ImageView imgNoteEstimated, imgTacRefund;
+    private Summary mSummary = new Summary();
 
 
     @Override
@@ -251,6 +242,7 @@ public class ReviewSummaryFragment extends BaseFragment implements View.OnClickL
                 if (response.code() == Constants.HTTP_CODE_OK) {
                     LogUtils.d(TAG, "getReviewSummary body : " + response.body().toString());
                     if (response.body() != null) {
+                        mSummary = response.body();
                         updateUI(response.body());
                     }
                 } else if (response.code() == Constants.HTTP_CODE_BLOCK) {
@@ -346,59 +338,6 @@ public class ReviewSummaryFragment extends BaseFragment implements View.OnClickL
     }
 
 
-    private void downloadFile(final String url) {
-        ProgressDialogUtils.showProgressDialog(getContext());
-        ApiClient.getApiService().downloadFileUrlAsync(url).enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(@NonNull Call<ResponseBody> call, @NonNull final Response<ResponseBody> response) {
-                ProgressDialogUtils.dismissProgressDialog();
-                if (response.isSuccessful()) {
-                    Log.d(TAG, "server contacted and has file" + response.code());
-                    new AsyncTask<Void, Void, Void>() {
-                        @Override
-                        protected Void doInBackground(Void... voids) {
-                            final boolean writtenToDisk = writeResponseBodyToDisk(response.body(), url);
-                            getActivity().runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    String path = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + System.currentTimeMillis() + String.valueOf(getString(R.string.tax_return_report));
-                                    if (writtenToDisk)
-                                        DialogUtils.showOkDialog(getContext(), "download was successful", path, getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
-                                            @Override
-                                            public void onSubmit() {
-                                            }
-                                        });
-                                }
-                            });
-                            return null;
-                        }
-                    }.execute();
-
-                } else {
-                    Log.d(TAG, "server contact failed");
-                }
-
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
-                LogUtils.e(TAG, "doSaveReview onFailure : " + t.getMessage());
-                ProgressDialogUtils.dismissProgressDialog();
-                DialogUtils.showRetryDialog(getContext(), new AlertDialogOkAndCancel.AlertDialogListener() {
-                    @Override
-                    public void onSubmit() {
-                        downloadFile(url);
-                    }
-
-                    @Override
-                    public void onCancel() {
-
-                    }
-                });
-            }
-        });
-    }
-
     private boolean checkPermission() {
         int result = ContextCompat.checkSelfPermission(getContext(),
                 Manifest.permission.WRITE_EXTERNAL_STORAGE);
@@ -421,7 +360,7 @@ public class ReviewSummaryFragment extends BaseFragment implements View.OnClickL
         switch (requestCode) {
             case PERMISSION_REQUEST_CODE:
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    downloadFile("https://oztax-dev-static.s3-ap-southeast-1.amazonaws.com/N0SlKBZKaJ-1524469668.png");
+                    FileUtils.downloadFile(getActivity(), mSummary.getAttachmentUrl(), getString(R.string.tax_return_report));
                 } else {
                     Snackbar.make(findViewById(R.id.relativeLayout), "Permission Denied, Please allow to proceed !", Snackbar.LENGTH_LONG).show();
 
@@ -448,7 +387,7 @@ public class ReviewSummaryFragment extends BaseFragment implements View.OnClickL
             @Override
             public void onClick(View view) {
                 if (checkPermission()) {
-                    downloadFile(summary.getAttachmentUrl());
+                    FileUtils.downloadFile(getActivity(), summary.getAttachmentUrl(), getString(R.string.tax_return_report));
                 } else {
                     requestPermission();
                 }
@@ -533,56 +472,6 @@ public class ReviewSummaryFragment extends BaseFragment implements View.OnClickL
         startActivity(intent, TransitionScreen.RIGHT_TO_LEFT);
     }
 
-
-    private boolean writeResponseBodyToDisk(ResponseBody body, String url) {
-        String[] pdf = url.split(".");
-        try {
-            // todo change the file location/name according to your needs
-            futureStudioIconFile = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + System.currentTimeMillis() + String.valueOf(getString(R.string.tax_return_report) + pdf[pdf.length - 1]));
-            InputStream inputStream = null;
-            OutputStream outputStream = null;
-
-            try {
-                byte[] fileReader = new byte[4096];
-
-                long fileSize = body.contentLength();
-                long fileSizeDownloaded = 0;
-
-                inputStream = body.byteStream();
-                outputStream = new FileOutputStream(futureStudioIconFile);
-
-                while (true) {
-                    int read = inputStream.read(fileReader);
-
-                    if (read == -1) {
-                        break;
-                    }
-
-                    outputStream.write(fileReader, 0, read);
-
-                    fileSizeDownloaded += read;
-
-                    Log.d(TAG, "file download: " + fileSizeDownloaded + " of " + fileSize);
-                }
-
-                outputStream.flush();
-
-                return true;
-            } catch (IOException e) {
-                return false;
-            } finally {
-                if (inputStream != null) {
-                    inputStream.close();
-                }
-
-                if (outputStream != null) {
-                    outputStream.close();
-                }
-            }
-        } catch (IOException e) {
-            return false;
-        }
-    }
 
     @Override
     public void onClick(View view) {

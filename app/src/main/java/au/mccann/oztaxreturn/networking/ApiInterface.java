@@ -4,6 +4,7 @@ import java.util.List;
 
 import au.mccann.oztaxreturn.database.UserEntity;
 import au.mccann.oztaxreturn.model.Attachment;
+import au.mccann.oztaxreturn.model.BaseAppProgress;
 import au.mccann.oztaxreturn.model.BlockResponse;
 import au.mccann.oztaxreturn.model.DeductionResponse;
 import au.mccann.oztaxreturn.model.IncomeResponse;
@@ -150,4 +151,11 @@ public interface ApiInterface {
 
     @GET("system/countrycodes")
     Call<List<CountryCodeResponse>> getCountryCodeResponse(@Header("Authorization") String token);
+
+    @GET("application/{application_id}/basic/progress")
+    Call<BaseAppProgress> getBaseProgress(@Header("Authorization") String token, @Path("application_id") int appId);
+
+    @GET("application/service_fees")
+    Call<FeeResponse> getServiceFees(@Header("Authorization") String token);
+
 }

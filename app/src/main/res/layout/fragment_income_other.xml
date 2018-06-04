@@ -107,7 +107,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:text="@string/lable_income"
-                        android:textColor="@color/income_conten"
+                        android:textColor="@color/tv_gray"
                         android:textSize="@dimen/size_nomal" />
 
                     <au.mccann.oztaxreturn.view.EdittextCustom

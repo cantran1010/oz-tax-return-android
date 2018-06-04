@@ -159,6 +159,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginTop="10dp"
+                    android:drawableEnd="@drawable/ic_down"
+                    android:drawableRight="@drawable/ic_down"
                     android:enabled="false"
                     android:gravity="center_vertical"
                     android:inputType="text"

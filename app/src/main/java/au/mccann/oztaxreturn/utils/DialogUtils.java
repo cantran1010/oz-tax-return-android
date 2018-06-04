@@ -64,5 +64,4 @@ public class DialogUtils {
         }
         new AlertDialogOkNonTouch(context, title, content, submit, alertDialogListener);
     }
-
 }

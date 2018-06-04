@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/alert_dialog_width"
+    android:layout_height="wrap_content"
+    android:background="@drawable/alert_dialog_bg"
+    android:orientation="horizontal">
+
+    <au.mccann.oztaxreturn.view.ButtonCustom
+        android:id="@+id/btn_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:layout_weight="1"
+        android:background="@drawable/btn_selector"
+        android:text="@string/view" />
+
+</LinearLayout>
