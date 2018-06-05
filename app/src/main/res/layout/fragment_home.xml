@@ -55,7 +55,7 @@
 
     </LinearLayout>
 
-    <android.support.design.widget.FloatingActionButton
+    <au.mccann.oztaxreturn.view.MovableFloatingActionButton
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

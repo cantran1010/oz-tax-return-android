@@ -163,7 +163,7 @@ public class OtherFragment extends BaseFragment implements View.OnClickListener 
                 ProgressDialogUtils.dismissProgressDialog();
                 LogUtils.d(TAG, "getBasicInformation code : " + response.code());
                 if (response.code() == Constants.HTTP_CODE_OK) {
-                    LogUtils.d(TAG, "getBasicInformation body : " + response.body().getOther().toString());
+                    LogUtils.d(TAG, "getBasicInformation body : " + response.body().toString());
                     if (response.body().getOther() != null)
                         updateUI(response.body().getOther());
                 } else if (response.code() == Constants.HTTP_CODE_BLOCK) {

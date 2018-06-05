@@ -43,7 +43,7 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.MyViewHolder> {
     @Override
     public void onBindViewHolder(final MyViewHolder holder, int position) {
         final Job job = jobs.get(position);
-        holder.tvJob.setText(context.getString(R.string.job) + (position));
+        holder.tvJob.setText(context.getString(R.string.job) + (position+1));
         holder.edtGroos.setText(job.getTotalGrossIncom());
         holder.edtTax.setText(job.getTotalTaxWidthheld());
         holder.edtAllow.setText(job.getAllowances());
@@ -62,7 +62,6 @@ public class JobAdapter extends RecyclerView.Adapter<JobAdapter.MyViewHolder> {
         holder.edtCompanyName.setEnabled(edit);
         holder.edtCompanyAbn.setEnabled(edit);
         holder.edtCompanyContact.setEnabled(edit);
-
         holder.edtGroos.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {

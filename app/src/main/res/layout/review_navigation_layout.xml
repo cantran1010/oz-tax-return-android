@@ -500,7 +500,11 @@
                         android:textSize="16sp" />
                 </LinearLayout>
             </au.mccann.oztaxreturn.view.ExpandableLayout>
-
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/line_color"
+                tools:ignore="PxUsage" />
             <LinearLayout
                 android:id="@+id/layout_sumary"
                 android:layout_width="match_parent"

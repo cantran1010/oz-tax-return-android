@@ -12,11 +12,11 @@
     <string name="label_mail">Email Address</string>
     <string name="label_mobile">mobile phone</string>
     <string name="label_password">password</string>
-    <string name="label_re_password">re-password</string>
+    <string name="label_re_password">retype password</string>
     <string name="policy">I agree with Privacy Policy and Terms &amp; Conditions</string>
     <string name="term">Terms &amp; Conditions</string>
     <string name="register_privacy_policy">Privacy Policy</string>
-    <string name="btn_register">register</string>
+    <string name="btn_register">Create</string>
     <string name="ok">OK</string>
     <string name="view_download">View</string>
     <string name="error">Error!</string>
@@ -206,7 +206,7 @@
 
     <!-- review personal infomation a -->
     <string name="infomation_a">REVIEW</string>
-    <string name="infomation_a_name">Personal\nInformation</string>
+    <string name="infomation_a_name">Personal Information</string>
 
     <!-- review begin c -->
     <string name="infomation_c_des">Do you have any remaining student loan schem debt such as HECS/HELP? </string>
@@ -255,7 +255,7 @@
 
     <!-- review income ws -->
     <string name="review_income_title">Review income</string>
-    <string name="review_income_ws_title">Wages\nSalary</string>
+    <string name="review_income_ws_title">Wages\\Salary</string>
     <string name="job_1">job 1:</string>
     <string name="total_gross">Total gross income</string>
     <string name="total_tax_width_held">Total tax withheld</string>
@@ -268,7 +268,7 @@
     <string name="job">Your PAYG #</string>
 
     <!-- review govement payment -->
-    <string name="review_govement_payment">Government\nPayments</string>
+    <string name="review_govement_payment">Government Payments</string>
     <string name="review_govement_payment_ask">Did you receive any government payment such as New Start, Youth Allowance or Parenting Payment?</string>
     <string name="income_type">income type</string>
     <string name="gross_payment">gross payment</string>
@@ -296,7 +296,7 @@
     <string name="vali_company_name">Company name must be a string.</string>
 
     <!-- review etps   -->
-    <string name="early_termination_payment">Early\nTermination Payment</string>
+    <string name="early_termination_payment">Early Termination Payment</string>
     <string name="review_early_ask">Did you receive any early termination payment?</string>
     <string name="payment_date">Payment date</string>
     <string name="payer_abn">payer’s ABN</string>
@@ -312,7 +312,7 @@
     <string name="etps_code">ETPs code</string>
 
     <!-- review rental   -->
-    <string name="rental_properties">Rental\nProperties</string>
+    <string name="rental_properties">Rental Properties</string>
     <string name="rental_ask">Did you receive any income from rental properties?</string>
     <string name="ownership_percentage">ownership percentage</string>
     <string name="first_earned_date">first earned date</string>
@@ -322,7 +322,7 @@
     <string name="image_attach_empty">Image attach is required!</string>
 
     <!-- review annuities   -->
-    <string name="annuities_and_super">Annuities\nand Super</string>
+    <string name="annuities_and_super">Annuities and Super</string>
     <string name="annuities_ask">Did you receive any annuity or super income?</string>
     <string name="annuity_taxed">taxable component (taxed)</string>
     <string name="annuity_untaxed">taxable component (untaxed)</string>
@@ -355,7 +355,7 @@
     <string name="hint_calculated">Example: $100</string>
 
     <!-- review deduction clothing -->
-    <string name="review_clothing">Work Relate\nClothing</string>
+    <string name="review_clothing">Work Relate Clothing</string>
     <string name="review_clothing_ask">Our accountant has reviewed your information and suggested that you can claim for up to $1000 for work related clothing and laundary deduction.\n\nDo you want to claim for this type?</string>
     <string name="deduction_type">Deduction type</string>
     <string-array name="string_array_deduction_type">
@@ -369,7 +369,7 @@
 
     <!-- review deduction education -->
     <string name="review_deductions">review deductions</string>
-    <string name="review_education">Work Related\nEducation</string>
+    <string name="review_education">Work Related Education</string>
     <string name="review_education_ask">This could relate to any spending on fees, books, travel and epuipment that heva a direct connection to your current work.\n\nDo you want to claim for this type?</string>
     <string name="course_and_institution">course and instutition</string>
     <string name="course_hint">Example: food safety certificate from ABC TAPE</string>
@@ -384,7 +384,7 @@
     </string-array>
 
     <!-- review deduction Other Work Related Expenses -->
-    <string name="review_other_work">Other Work\nRelated Expenses</string>
+    <string name="review_other_work">Other Work Related Expenses</string>
     <string name="review_ohter_work_ask">This could relate to union fees and home office expenses and other expenses.\n\nDo you want to claim for this type?</string>
     <string name="description">description</string>
     <string name="description_hint">Example: Phone call to Customers</string>
@@ -423,11 +423,11 @@
     <string name="review_fhd_number">Number of dependants</string>
 
     <!-- review family and health medicare examption -->
-    <string name="review_fhm_title">Medicare Levy\nExemption</string>
+    <string name="review_fhm_title">Medicare Levy Exemption</string>
     <string name="review_fhm_des">Do you have Medicare Exemption certificates issued by \"The Department of Human Services\"?</string>
 
     <!-- review family and health private -->
-    <string name="review_fhp_title">Private\nHealth</string>
+    <string name="review_fhp_title">Private Health</string>
     <string name="review_fhp_des">Did you have private health cover anytime during the financial year?</string>
     <string name="review_fhp_health">Health Insurer</string>
     <string name="review_fhp_health_hint">Medibank</string>
@@ -450,7 +450,7 @@
     <string name="review_fhs_taxable">$ SPOUSE IS TAXABLE INCOME</string>
     <!-- review income Super Lump Sum -->
     <string name="lumsum_ask">Did you receive any superannuation lump sum payment?</string>
-    <string name="lum_sums">Super\nLump Sum</string>
+    <string name="lum_sums">Super Lump Sum</string>
 
     <!-- review summary -->
     <string name="summary_header">Estimated\ntax refund</string>
