@@ -346,6 +346,7 @@ public class ManageAccountActivity extends BaseActivity implements View.OnClickL
             @Override
             public void onSuccess(List<Attachment> responses) {
                 imgID = responses.get(0).getId();
+                FileUtils.deleteDirectory(new File(FileUtils.OUTPUT_DIR));
                 doSave();
             }
         });

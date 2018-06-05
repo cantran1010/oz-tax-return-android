@@ -118,7 +118,7 @@ public class ReviewEducationsFragment extends BaseFragment implements View.OnCli
     private void updateList() {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(linearLayoutManager);
-        adapter = new EducationAdapter(getContext(), educations,isEditApp());
+        adapter = new EducationAdapter(getContext(), educations, isEditApp());
         recyclerView.setAdapter(adapter);
         adapter.setOnClickImageListener(new EducationAdapter.OnClickImageListener() {
             @Override
@@ -316,7 +316,10 @@ public class ReviewEducationsFragment extends BaseFragment implements View.OnCli
                         public void onSuccess(List<Attachment> responses) {
                             countDown--;
                             e3.getAttach().addAll(responses);
-                            if (countDown == 0) doSaveReview();
+                            if (countDown == 0) {
+                                FileUtils.deleteDirectory(new File(FileUtils.OUTPUT_DIR));
+                                doSaveReview();
+                            }
                         }
                     });
                 }

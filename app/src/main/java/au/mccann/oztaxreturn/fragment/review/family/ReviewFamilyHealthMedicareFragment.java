@@ -258,6 +258,7 @@ public class ReviewFamilyHealthMedicareFragment extends BaseFragment implements 
                     @Override
                     public void onSuccess(List<Attachment> responses) {
                         attach.addAll(responses);
+                        FileUtils.deleteDirectory(new File(FileUtils.OUTPUT_DIR));
                         doUpdate();
                     }
                 });

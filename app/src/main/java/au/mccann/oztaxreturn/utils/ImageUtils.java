@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.os.Handler;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -125,59 +126,64 @@ public class ImageUtils {
 //        LogUtils.d(TAG, "doAttachImage , file Name : " + fileUp.getName());
 //        final RequestBody requestBody = RequestBody.create(MediaType.parse("image/*"), fileUp);
 //        MultipartBody.Part itemPart = MultipartBody.Part.createFormData("image", fileUp.getName(), requestBody);
-        LogUtils.d(TAG, "doUploadImage onResponse images: " + images.size());
-        List<MultipartBody.Part> parts = new ArrayList<>();
-        // last image is "plus attach" , so realy size = size -1
-        for (int i = 0; i < images.size(); i++) {
-            File up = Utils.compressFile(new File(images.get(i).getPath()));
-            parts.add(MultipartBody.Part.createFormData("images[]", up.getName(), RequestBody.create(MediaType.parse("image/*"), up)));
-        }
 
-        ApiClient.getApiService().uploadImage(UserManager.getUserToken(), parts).enqueue(new Callback<List<Attachment>>() {
+        new Handler().postDelayed(new Runnable() {
             @Override
-            public void onResponse(Call<List<Attachment>> call, Response<List<Attachment>> response) {
-                LogUtils.d(TAG, "doUploadImage onResponse : " + response.body());
-                LogUtils.d(TAG, "doUploadImage code : " + response.code());
-                if (response.code() == Constants.HTTP_CODE_OK) {
-                    upImagesListener.onSuccess(response.body());
+            public void run() {
+                LogUtils.d(TAG, "doUploadImage onResponse images: " + images.toString());
+                List<MultipartBody.Part> parts = new ArrayList<>();
+                // last image is "plus attach" , so realy size = size -1
+                for (int i = 0; i < images.size(); i++) {
+                    File up = Utils.compressFile(new File(images.get(i).getPath()));
+                    parts.add(MultipartBody.Part.createFormData("images[]", up.getName(), RequestBody.create(MediaType.parse("image/*"), up)));
+                }
+                ApiClient.getApiService().uploadImage(UserManager.getUserToken(), parts).enqueue(new Callback<List<Attachment>>() {
+                    @Override
+                    public void onResponse(Call<List<Attachment>> call, Response<List<Attachment>> response) {
+                        LogUtils.d(TAG, "doUploadImage onResponse : " + response.body());
+                        LogUtils.d(TAG, "doUploadImage code : " + response.code());
+                        if (response.code() == Constants.HTTP_CODE_OK) {
+                            upImagesListener.onSuccess(response.body());
 
-                }else if (response.code() == Constants.HTTP_CODE_BLOCK) {
-                    Intent intent = new Intent(context, SplashActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                    context.startActivity(intent);
-                } else {
-                    APIError error = Utils.parseError(response);
-                    LogUtils.d(TAG, "doUploadImage error : " + error.message());
-                    if (error != null) {
-                        DialogUtils.showOkDialog(context, context.getString(R.string.error), error.message(), context.getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                        } else if (response.code() == Constants.HTTP_CODE_BLOCK) {
+                            Intent intent = new Intent(context, SplashActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                            context.startActivity(intent);
+                        } else {
+                            APIError error = Utils.parseError(response);
+                            LogUtils.d(TAG, "doUploadImage error : " + error.message());
+                            if (error != null) {
+                                DialogUtils.showOkDialog(context, context.getString(R.string.error), error.message(), context.getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                                    @Override
+                                    public void onSubmit() {
+                                    }
+                                });
+                            }
+                        }
+//                FileUtils.deleteDirectory(new File(FileUtils.OUTPUT_DIR));
+                        ProgressDialogUtils.dismissProgressDialog();
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<Attachment>> call, Throwable t) {
+                        LogUtils.e(TAG, "doUploadImage onFailure : " + t.getMessage());
+                        DialogUtils.showRetryDialog(context, new AlertDialogOkAndCancel.AlertDialogListener() {
                             @Override
                             public void onSubmit() {
+                                doUploadImage(context, images, upImagesListener);
+                            }
+
+                            @Override
+                            public void onCancel() {
+
                             }
                         });
-                    }
-                }
-                FileUtils.deleteDirectory(new File(FileUtils.OUTPUT_DIR));
-                ProgressDialogUtils.dismissProgressDialog();
-            }
-
-            @Override
-            public void onFailure(Call<List<Attachment>> call, Throwable t) {
-                LogUtils.e(TAG, "doUploadImage onFailure : " + t.getMessage());
-                DialogUtils.showRetryDialog(context, new AlertDialogOkAndCancel.AlertDialogListener() {
-                    @Override
-                    public void onSubmit() {
-                        doUploadImage(context, images, upImagesListener);
-                    }
-
-                    @Override
-                    public void onCancel() {
-
+                        ProgressDialogUtils.dismissProgressDialog();
+//                FileUtils.deleteDirectory(new File(FileUtils.OUTPUT_DIR));
                     }
                 });
-                ProgressDialogUtils.dismissProgressDialog();
-//                FileUtils.deleteDirectory(new File(FileUtils.OUTPUT_DIR));
             }
-        });
+        }, 50);
     }
 
     public static void showImage(List<Attachment> attachments, List<Image> images, ImageAdapter imageAdapter) {

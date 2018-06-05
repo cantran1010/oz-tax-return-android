@@ -355,6 +355,7 @@ public class ReviewRentalFragment extends BaseFragment implements View.OnClickLi
                 @Override
                 public void onSuccess(List<Attachment> responses) {
                     attach.addAll(responses);
+                    FileUtils.deleteDirectory(new File(FileUtils.OUTPUT_DIR));
                     doSaveReview();
                 }
             });

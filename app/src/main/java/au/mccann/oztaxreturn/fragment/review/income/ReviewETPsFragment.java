@@ -335,6 +335,7 @@ public class ReviewETPsFragment extends BaseFragment implements View.OnClickList
                 @Override
                 public void onSuccess(List<Attachment> responses) {
                     attach.addAll(responses);
+                    FileUtils.deleteDirectory(new File(FileUtils.OUTPUT_DIR));
                     doSaveReview();
                 }
             });

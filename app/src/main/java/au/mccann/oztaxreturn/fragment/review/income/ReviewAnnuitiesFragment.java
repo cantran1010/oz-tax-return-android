@@ -314,7 +314,10 @@ public class ReviewAnnuitiesFragment extends BaseFragment implements View.OnClic
                             countDown--;
                             d.getAttach().addAll(responses);
                             LogUtils.d(TAG, "doUploadImage finalCount" + countDown + annuities.toString());
-                            if (countDown == 0) doSaveReview();
+                            if (countDown == 0) {
+                                FileUtils.deleteDirectory(new File(FileUtils.OUTPUT_DIR));
+                                doSaveReview();
+                            }
                         }
                     });
                 }

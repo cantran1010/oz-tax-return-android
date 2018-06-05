@@ -81,12 +81,14 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
     private boolean editApp;
     private CircleImageView imgAvatar;
     boolean doubleBackToExitPressedOnce = false;
-
     private TextViewCustom tvReviewPersonalName, tvReviewPersonalBank, tvReviewPersonalEducation;
     private TextViewCustom tvIncomeWS, tvIncomeGovernment, tvIncomeInterests, tvIncomeDevidents, tvIncomeEarly, tvIncomeAnnuities, tvIncomeLumpSum, tvIncomeRental;
     private TextViewCustom tvDeductionVehicles, tvDeductionClothing, tvDeductionEducation, tvDeductionOther, tvDeductionDonation, tvDeductionTaxAgents;
     private TextViewCustom tvHealthDependants, tvHealthMedicare, tvHealthPrivate, tvHealthSpouse;
     private TextViewCustom tvBaseIncome, tvBaseOthe, tvBaseDeduction, tvBaseBank, tvBaseCheckout, tvBasePrersonal;
+    private int menuBase = 1;
+    private int menuReview = 1;
+    private int tabIndex = 1;
 
 
     @Override
@@ -765,16 +767,22 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
                 break;
 
             case R.id.layout_home:
+                if (tabIndex == 1) break;
+                tabIndex = 1;
                 updateMenu(1);
                 openFragment(R.id.layout_container, HomeFragment.class, true, new Bundle(), TransitionScreen.FADE_IN);
                 break;
 
             case R.id.layout_contact:
+                if (tabIndex == 2) break;
+                tabIndex = 2;
                 updateMenu(2);
                 openFragment(R.id.layout_container, ContactFragment.class, true, new Bundle(), TransitionScreen.FADE_IN);
                 break;
 
             case R.id.layout_notification:
+                if (tabIndex == 3) break;
+                tabIndex = 3;
                 updateMenu(3);
                 openFragment(R.id.layout_container, NotificationFragment.class, true, new Bundle(), TransitionScreen.FADE_IN);
                 break;
@@ -801,24 +809,32 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
             case R.id.layout_sumary:
                 if (drawer.isDrawerOpen(GravityCompat.END))
                     drawer.closeDrawer(GravityCompat.END);
+                if (menuReview == 1) break;
+                menuReview = 1;
                 openFragment(R.id.layout_container, ReviewSummaryFragment.class, true, new Bundle(), TransitionScreen.LEFT_TO_RIGHT);
                 break;
 
             case R.id.tv_review_personal_name:
                 if (drawer.isDrawerOpen(GravityCompat.END))
                     drawer.closeDrawer(GravityCompat.END);
+                if (menuReview == 2) break;
+                menuReview = 2;
                 openFragment(R.id.layout_container, ReviewPersonalInfomationA.class, true, new Bundle(), TransitionScreen.LEFT_TO_RIGHT);
                 break;
 
             case R.id.tv_review_personal_bank:
                 if (drawer.isDrawerOpen(GravityCompat.END))
                     drawer.closeDrawer(GravityCompat.END);
+                if (menuReview == 3) break;
+                menuReview = 3;
                 openFragment(R.id.layout_container, ReviewPersonalInfomationB.class, true, new Bundle(), TransitionScreen.LEFT_TO_RIGHT);
                 break;
 
             case R.id.tv_review_personal_education:
                 if (drawer.isDrawerOpen(GravityCompat.END))
                     drawer.closeDrawer(GravityCompat.END);
+                if (menuReview == 4) break;
+                menuReview = 4;
                 openFragment(R.id.layout_container, ReviewPersonalInfomationC.class, true, new Bundle(), TransitionScreen.LEFT_TO_RIGHT);
                 break;
 
@@ -872,127 +888,175 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
             case R.id.tv_review_family_health_dependants:
                 if (drawer.isDrawerOpen(GravityCompat.END))
                     drawer.closeDrawer(GravityCompat.END);
+                if (menuReview == 5) break;
+                menuReview = 5;
                 openFragment(R.id.layout_container, ReviewFamilyHealthDependantsFragment.class, true, new Bundle(), TransitionScreen.LEFT_TO_RIGHT);
                 break;
 
             case R.id.tv_review_family_health_medicare:
                 if (drawer.isDrawerOpen(GravityCompat.END))
                     drawer.closeDrawer(GravityCompat.END);
+                if (menuReview == 6) break;
+                menuReview = 6;
                 openFragment(R.id.layout_container, ReviewFamilyHealthMedicareFragment.class, true, new Bundle(), TransitionScreen.LEFT_TO_RIGHT);
                 break;
 
             case R.id.tv_review_family_health_private:
                 if (drawer.isDrawerOpen(GravityCompat.END))
                     drawer.closeDrawer(GravityCompat.END);
+                if (menuReview == 7) break;
+                menuReview = 7;
                 openFragment(R.id.layout_container, ReviewFamilyHealthPrivateFragment.class, true, new Bundle(), TransitionScreen.LEFT_TO_RIGHT);
                 break;
 
             case R.id.tv_review_family_health_spouse:
                 if (drawer.isDrawerOpen(GravityCompat.END))
                     drawer.closeDrawer(GravityCompat.END);
+                if (menuReview == 8) break;
+                menuReview = 8;
                 openFragment(R.id.layout_container, ReviewFamilyHealthSpouseFragment.class, true, new Bundle(), TransitionScreen.LEFT_TO_RIGHT);
                 break;
 
             case R.id.tv_wages_salary:
                 if (drawer.isDrawerOpen(GravityCompat.END))
                     drawer.closeDrawer(GravityCompat.END);
+                if (menuReview == 9) break;
+                menuReview = 9;
                 openFragment(R.id.layout_container, ReviewWagesSalaryFragment.class, true, new Bundle(), TransitionScreen.LEFT_TO_RIGHT);
                 break;
             case R.id.tv_income_government_payment:
                 if (drawer.isDrawerOpen(GravityCompat.END))
                     drawer.closeDrawer(GravityCompat.END);
+                if (menuReview == 10) break;
+                menuReview = 10;
                 openFragment(R.id.layout_container, ReviewGovementFragment.class, true, new Bundle(), TransitionScreen.LEFT_TO_RIGHT);
                 break;
             case R.id.tv_income_interests:
                 if (drawer.isDrawerOpen(GravityCompat.END))
                     drawer.closeDrawer(GravityCompat.END);
+                if (menuReview == 11) break;
+                menuReview = 11;
                 openFragment(R.id.layout_container, ReviewInterestsFragment.class, true, new Bundle(), TransitionScreen.LEFT_TO_RIGHT);
                 break;
             case R.id.tv_income_dividends:
                 if (drawer.isDrawerOpen(GravityCompat.END))
                     drawer.closeDrawer(GravityCompat.END);
+                if (menuReview == 12) break;
+                menuReview = 12;
                 openFragment(R.id.layout_container, ReviewDividendsFragment.class, true, new Bundle(), TransitionScreen.LEFT_TO_RIGHT);
                 break;
             case R.id.tv_incomes_early:
                 if (drawer.isDrawerOpen(GravityCompat.END))
                     drawer.closeDrawer(GravityCompat.END);
+                if (menuReview == 13) break;
+                menuReview = 13;
                 openFragment(R.id.layout_container, ReviewETPsFragment.class, true, new Bundle(), TransitionScreen.LEFT_TO_RIGHT);
                 break;
 
             case R.id.tv_income_annuities_suppers:
                 if (drawer.isDrawerOpen(GravityCompat.END))
                     drawer.closeDrawer(GravityCompat.END);
+                if (menuReview == 14) break;
+                menuReview = 14;
                 openFragment(R.id.layout_container, ReviewAnnuitiesFragment.class, true, new Bundle(), TransitionScreen.LEFT_TO_RIGHT);
                 break;
             case R.id.tv_income_lump_sum:
                 if (drawer.isDrawerOpen(GravityCompat.END))
                     drawer.closeDrawer(GravityCompat.END);
+                if (menuReview == 15) break;
+                menuReview = 15;
                 openFragment(R.id.layout_container, ReviewLumpSumFragment.class, true, new Bundle(), TransitionScreen.LEFT_TO_RIGHT);
                 break;
             case R.id.tv_income_rental:
                 if (drawer.isDrawerOpen(GravityCompat.END))
                     drawer.closeDrawer(GravityCompat.END);
+                if (menuReview == 16) break;
+                menuReview = 16;
                 openFragment(R.id.layout_container, ReviewRentalFragment.class, true, new Bundle(), TransitionScreen.LEFT_TO_RIGHT);
                 break;
 
             case R.id.tv_deduction_vehicles:
                 if (drawer.isDrawerOpen(GravityCompat.END))
                     drawer.closeDrawer(GravityCompat.END);
+                if (menuReview == 17) break;
+                menuReview = 17;
                 openFragment(R.id.layout_container, ReviewVehicleFragment.class, true, new Bundle(), TransitionScreen.LEFT_TO_RIGHT);
                 break;
             case R.id.tv_deduction_clothing:
                 if (drawer.isDrawerOpen(GravityCompat.END))
                     drawer.closeDrawer(GravityCompat.END);
+                if (menuReview == 18) break;
+                menuReview = 18;
                 openFragment(R.id.layout_container, ReviewClothesFragment.class, true, new Bundle(), TransitionScreen.LEFT_TO_RIGHT);
                 break;
             case R.id.tv_deduction_education:
                 if (drawer.isDrawerOpen(GravityCompat.END))
                     drawer.closeDrawer(GravityCompat.END);
+                if (menuReview == 19) break;
+                menuReview = 19;
                 openFragment(R.id.layout_container, ReviewEducationsFragment.class, true, new Bundle(), TransitionScreen.LEFT_TO_RIGHT);
                 break;
             case R.id.tv_deduction_other:
                 if (drawer.isDrawerOpen(GravityCompat.END))
                     drawer.closeDrawer(GravityCompat.END);
+                if (menuReview == 20) break;
+                menuReview = 20;
                 openFragment(R.id.layout_container, ReviewOthersFragment.class, true, new Bundle(), TransitionScreen.LEFT_TO_RIGHT);
                 break;
             case R.id.tv_deduction_donation:
                 if (drawer.isDrawerOpen(GravityCompat.END))
                     drawer.closeDrawer(GravityCompat.END);
+                if (menuReview == 21) break;
+                menuReview = 21;
                 openFragment(R.id.layout_container, ReviewDonationsFragment.class, true, new Bundle(), TransitionScreen.LEFT_TO_RIGHT);
                 break;
             case R.id.tv_deduction_tax_agents:
                 if (drawer.isDrawerOpen(GravityCompat.END))
                     drawer.closeDrawer(GravityCompat.END);
+                if (menuReview == 22) break;
+                menuReview = 22;
                 openFragment(R.id.layout_container, ReviewTaxAgentFragment.class, true, new Bundle(), TransitionScreen.LEFT_TO_RIGHT);
                 break;
             case R.id.tv_base_navi_income:
                 if (drawer.isDrawerOpen(GravityCompat.END))
                     drawer.closeDrawer(GravityCompat.END);
+                if (menuBase == 1) break;
+                menuBase = 1;
                 openFragment(R.id.layout_container, WagesSalaryFragment.class, true, new Bundle(), TransitionScreen.LEFT_TO_RIGHT);
                 break;
             case R.id.tv_base_navi_other:
                 if (drawer.isDrawerOpen(GravityCompat.END))
                     drawer.closeDrawer(GravityCompat.END);
+                if (menuBase == 2) break;
+                menuBase = 2;
                 openFragment(R.id.layout_container, OtherFragment.class, true, new Bundle(), TransitionScreen.LEFT_TO_RIGHT);
                 break;
             case R.id.tv_base_navi_deductions:
                 if (drawer.isDrawerOpen(GravityCompat.END))
                     drawer.closeDrawer(GravityCompat.END);
+                if (menuBase == 3) break;
+                menuBase = 3;
                 openFragment(R.id.layout_container, DeductionFragment.class, true, new Bundle(), TransitionScreen.LEFT_TO_RIGHT);
                 break;
             case R.id.tv_base_navi_personal:
                 if (drawer.isDrawerOpen(GravityCompat.END))
                     drawer.closeDrawer(GravityCompat.END);
+                if (menuBase == 4) break;
+                menuBase = 4;
                 openFragment(R.id.layout_container, PersonalFragment.class, true, new Bundle(), TransitionScreen.LEFT_TO_RIGHT);
                 break;
             case R.id.tv_base_navi_bank:
                 if (drawer.isDrawerOpen(GravityCompat.END))
                     drawer.closeDrawer(GravityCompat.END);
+                if (menuBase == 5) break;
+                menuBase = 5;
                 openFragment(R.id.layout_container, SubmitFragment.class, true, new Bundle(), TransitionScreen.LEFT_TO_RIGHT);
                 break;
             case R.id.tv_base_navi_checkout:
                 if (drawer.isDrawerOpen(GravityCompat.END))
                     drawer.closeDrawer(GravityCompat.END);
+                if (menuBase == 6) break;
+                menuBase = 6;
                 openFragment(R.id.layout_container, FirstCheckoutFragment.class, true, new Bundle(), TransitionScreen.LEFT_TO_RIGHT);
                 break;
         }

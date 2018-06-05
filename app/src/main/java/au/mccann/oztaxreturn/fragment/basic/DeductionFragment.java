@@ -349,6 +349,7 @@ public class DeductionFragment extends BaseFragment implements View.OnClickListe
                 @Override
                 public void onSuccess(List<Attachment> responses) {
                     attach.addAll(responses);
+                    FileUtils.deleteDirectory(new File(FileUtils.OUTPUT_DIR));
                     doSaveBasic();
                 }
             });
