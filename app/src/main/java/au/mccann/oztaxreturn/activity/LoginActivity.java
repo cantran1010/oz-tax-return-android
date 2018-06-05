@@ -50,7 +50,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     @Override
     protected int getLayout() {
         return R.layout.activity_login;
-
     }
 
     @Override
@@ -143,7 +142,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                         if (error.status().equalsIgnoreCase("user.inactive"))
                             content = content.replace("  ", ", ").replace("Y", "y");
                         else if (error.status().equalsIgnoreCase("user.wrong")) {
-                                content=getString(R.string.user_wrong);
+                            content = getString(R.string.user_wrong);
                         }
                         DialogUtils.showOkDialog(LoginActivity.this, getString(R.string.error), content, getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
                             @Override
