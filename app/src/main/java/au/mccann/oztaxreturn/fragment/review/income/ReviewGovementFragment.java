@@ -314,6 +314,7 @@ public class ReviewGovementFragment extends BaseFragment implements View.OnClick
                 @Override
                 public void onSuccess(List<Attachment> responses) {
                     attach.addAll(responses);
+                    FileUtils.deleteDirectory(new File(FileUtils.OUTPUT_DIR));
                     doSaveReview();
                 }
             });

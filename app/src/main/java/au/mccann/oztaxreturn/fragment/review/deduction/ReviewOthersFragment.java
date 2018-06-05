@@ -313,7 +313,10 @@ public class ReviewOthersFragment extends BaseFragment implements View.OnClickLi
                         public void onSuccess(List<Attachment> responses) {
                             countDown--;
                             e3.getAttach().addAll(responses);
-                            if (countDown == 0) doSaveReview();
+                            if (countDown == 0) {
+                                FileUtils.deleteDirectory(new File(FileUtils.OUTPUT_DIR));
+                                doSaveReview();
+                            }
                         }
                     });
                 }

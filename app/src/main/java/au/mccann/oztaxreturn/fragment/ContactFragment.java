@@ -340,6 +340,7 @@ public class ContactFragment extends BaseFragment implements View.OnClickListene
         ImageUtils.doUploadImage(getContext(), listUp, new ImageUtils.UpImagesListener() {
             @Override
             public void onSuccess(List<Attachment> responses) {
+                FileUtils.deleteDirectory(new File(FileUtils.OUTPUT_DIR));
                 doSend(false, String.valueOf(responses.get(responses.size() - 1).getId()));
             }
         });

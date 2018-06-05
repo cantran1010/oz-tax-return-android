@@ -325,6 +325,7 @@ public class ReviewInterestsFragment extends BaseFragment implements View.OnClic
                 @Override
                 public void onSuccess(List<Attachment> responses) {
                     attach.addAll(responses);
+                    FileUtils.deleteDirectory(new File(FileUtils.OUTPUT_DIR));
                     doSaveReview();
                 }
             });

@@ -346,7 +346,10 @@ public class ReviewLumpSumFragment extends BaseFragment implements View.OnClickL
                         public void onSuccess(List<Attachment> responses) {
                             countDown--;
                             d.getAttach().addAll(responses);
-                            if (countDown == 0) doSaveReview();
+                            if (countDown == 0) {
+                                FileUtils.deleteDirectory(new File(FileUtils.OUTPUT_DIR));
+                                doSaveReview();
+                            }
                         }
                     });
                 }

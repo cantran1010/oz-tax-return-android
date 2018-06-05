@@ -314,7 +314,10 @@ public class ReviewDividendsFragment extends BaseFragment implements View.OnClic
                         public void onSuccess(List<Attachment> responses) {
                             countdown--;
                             d.getAttach().addAll(responses);
-                            if (countdown == 0) doSaveReview();
+                            if (countdown == 0) {
+                                FileUtils.deleteDirectory(new File(FileUtils.OUTPUT_DIR));
+                                doSaveReview();
+                            }
                         }
                     });
                 }

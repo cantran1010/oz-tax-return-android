@@ -292,7 +292,10 @@ public class ReviewFamilyHealthPrivateFragment extends BaseFragment implements V
                             countDown--;
                             ((ArrayList<Attachment>) reviewPrivateResponses.get(finalI).getAttachments()).addAll(responses);
                             LogUtils.d(TAG, "doUploadImage , count : " + countDown);
-                            if (countDown == 0) doNext();
+                            if (countDown == 0) {
+                                FileUtils.deleteDirectory(new File(FileUtils.OUTPUT_DIR));
+                                doNext();
+                            }
                         }
                     });
                 } else {
