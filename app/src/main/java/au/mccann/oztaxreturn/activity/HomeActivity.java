@@ -71,12 +71,12 @@ import retrofit2.Response;
 public class HomeActivity extends BaseActivity implements View.OnClickListener {
     private static final String TAG = HomeActivity.class.getSimpleName();
     private DrawerLayout drawer;
-    private ImageView imgHome, imgContact, imgNotification, imgBack, imgNavigation, imgLogout;
+    private ImageView imgHome, imgContact, imgNotification, imgBack, imgNavigation;
     private TextViewCustom tvHome, tvContact, tvNotification, tvTitle, tvVersion, tvName;
     private ExpandableLayout expPersonalLayout, expIncomesLayout, expDeductionsLayout, expFamilyLayout;
     private RelativeLayout homeNavigation, reviewNavigation, baseNavigation;
     private ApplicationResponse applicationResponse;
-    private TextViewCustom tvAppName, tvYear, tvProgress, tvBaseProgress;
+    private TextViewCustom tvAppName, tvYear, tvProgress, tvBaseProgress, tvBaseAppName, tvBaseYear;
     private ProgressBar progressBar, baseProgressBar;
     private boolean editApp;
     private CircleImageView imgAvatar;
@@ -215,6 +215,9 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
 
         tvAppName = findViewById(R.id.tv_app_name);
         tvYear = findViewById(R.id.tv_year);
+
+        tvBaseAppName = findViewById(R.id.tv_base_app_name);
+        tvBaseYear = findViewById(R.id.tv_base_year);
     }
 
     @Override
@@ -332,11 +335,9 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
     }
 
     private void updateMenu(int position) {
-
         imgHome.setImageResource(R.drawable.home_coin_off);
         imgContact.setImageResource(R.drawable.home_contact_off);
         imgNotification.setImageResource(R.drawable.home_notification_off);
-
         tvHome.setTextColor(ContextCompat.getColor(this, R.color.white));
         tvContact.setTextColor(ContextCompat.getColor(this, R.color.white));
         tvNotification.setTextColor(ContextCompat.getColor(this, R.color.white));
@@ -486,6 +487,8 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
     public void updateAppInNavigation(ApplicationResponse applicationResponse) {
         tvAppName.setText(applicationResponse.getPayerName());
         tvYear.setText(applicationResponse.getFinancialYear());
+        tvBaseAppName.setText(applicationResponse.getPayerName());
+        tvBaseYear.setText(applicationResponse.getFinancialYear());
     }
 
     private void openGeneralInfoActivity(String title, String url) {

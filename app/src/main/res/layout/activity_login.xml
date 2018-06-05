@@ -1,94 +1,99 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg_home"
     tools:ignore="Overdraw">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="37.5dp"
+            android:layout_marginLeft="37.5dp"
+            android:layout_marginRight="37.5dp"
+            android:layout_marginStart="37.5dp"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="100dp"
+                android:contentDescription="@string/app_name"
+                android:scaleType="centerCrop"
+                android:src="@drawable/logo" />
+
+            <View
+                android:layout_width="30dp"
+                android:layout_height="1dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="25dp"
+                android:background="@color/white" />
+
+            <au.mccann.oztaxreturn.view.TextViewCustom
+                android:id="@+id/tv_tax_return"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:gravity="center"
+                android:text="@string/app_sologan"
+                android:textColor="@color/white"
+                android:textSize="@dimen/size_nomal" />
+
+            <au.mccann.oztaxreturn.view.EdittextCustom
+                android:id="@+id/edt_user_name"
+                style="@style/EditTextLogin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:alpha="0.75"
+                android:background="@drawable/rounded_edittext"
+                android:drawableLeft="@drawable/ic_user_name"
+                android:drawablePadding="15dp"
+                android:drawableStart="@drawable/ic_user_name"
+                android:ellipsize="end"
+                android:hint="@string/hint_login"
+                android:inputType="text"
+                android:maxLines="1" />
+
+            <au.mccann.oztaxreturn.view.EdittextCustom
+                android:id="@+id/edt_password"
+                style="@style/EditTextLogin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:alpha="0.75"
+                android:background="@drawable/rounded_edittext"
+                android:drawableLeft="@drawable/ic_pass_word"
+                android:drawablePadding="15dp"
+                android:drawableStart="@drawable/ic_pass_word"
+                android:hint="@string/hint_pass_word"
+                android:inputType="textPassword" />
+
+            <au.mccann.oztaxreturn.view.ButtonCustom
+                android:id="@+id/btn_login"
+                style="@style/ButtonLogin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="@string/btn_login" />
+        </LinearLayout>
+    </ScrollView>
+
+    <au.mccann.oztaxreturn.view.TextViewCustom
+        android:id="@+id/tv_forgot_passwort"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="37.5dp"
-        android:layout_marginLeft="37.5dp"
-        android:layout_marginRight="37.5dp"
-        android:layout_marginStart="37.5dp"
-        android:orientation="vertical">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="50dp"
-            android:contentDescription="@string/app_name"
-            android:scaleType="centerCrop"
-            android:src="@drawable/logo" />
-
-        <View
-            android:layout_width="30dp"
-            android:layout_height="1dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="25dp"
-            android:background="@color/white" />
-
-        <au.mccann.oztaxreturn.view.TextViewCustom
-            android:id="@+id/tv_tax_return"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:gravity="center"
-            android:text="@string/app_sologan"
-            android:textColor="@color/white"
-            android:textSize="@dimen/size_nomal" />
-
-        <au.mccann.oztaxreturn.view.EdittextCustom
-            android:id="@+id/edt_user_name"
-            style="@style/EditTextLogin"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
-            android:alpha="0.75"
-            android:background="@drawable/rounded_edittext"
-            android:drawableLeft="@drawable/ic_user_name"
-            android:drawablePadding="15dp"
-            android:drawableStart="@drawable/ic_user_name"
-            android:ellipsize="end"
-            android:hint="@string/hint_login"
-            android:inputType="text"
-            android:maxLines="1" />
-
-        <au.mccann.oztaxreturn.view.EdittextCustom
-            android:id="@+id/edt_password"
-            style="@style/EditTextLogin"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:alpha="0.75"
-            android:background="@drawable/rounded_edittext"
-            android:drawableLeft="@drawable/ic_pass_word"
-            android:drawablePadding="15dp"
-            android:drawableStart="@drawable/ic_pass_word"
-            android:hint="@string/hint_pass_word"
-            android:inputType="textPassword" />
-
-        <au.mccann.oztaxreturn.view.ButtonCustom
-            android:id="@+id/btn_login"
-            style="@style/ButtonLogin"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="@string/btn_login" />
-
-        <au.mccann.oztaxreturn.view.TextViewCustom
-            android:id="@+id/tv_forgot_passwort"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
-            android:layout_marginTop="50dp"
-            android:alpha="0.75"
-            android:gravity="center"
-            android:padding="10dp"
-            android:textColor="@color/white"
-            android:textSize="15sp" />
-    </LinearLayout>
-</ScrollView>
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="20dp"
+        android:alpha="0.75"
+        android:padding="10dp"
+        android:textColor="@color/white"
+        android:textSize="15sp" />
+</RelativeLayout>

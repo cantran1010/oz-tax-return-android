@@ -30,6 +30,8 @@
             android:id="@+id/tv_home_menu1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
             android:text="@string/home_menu1"
             android:textColor="@color/app_bg"
             android:textSize="12sp" />
@@ -58,9 +60,11 @@
             android:id="@+id/tv_home_menu2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
             android:text="@string/home_menu2"
             android:textColor="@color/white"
-            android:textSize="12sp" />
+            android:textSize="@dimen/size_small" />
 
     </LinearLayout>
 
@@ -86,6 +90,8 @@
             android:id="@+id/tv_home_menu3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
             android:text="@string/home_menu3"
             android:textColor="@color/white"
             android:textSize="12sp" />

@@ -14,6 +14,7 @@ import au.mccann.oztaxreturn.common.Constants;
 import au.mccann.oztaxreturn.database.UserManager;
 import au.mccann.oztaxreturn.dialog.AlertDialogOk;
 import au.mccann.oztaxreturn.dialog.AlertDialogOkAndCancel;
+import au.mccann.oztaxreturn.dialog.AlertDialogOkNonTouch;
 import au.mccann.oztaxreturn.fragment.BaseFragment;
 import au.mccann.oztaxreturn.model.APIError;
 import au.mccann.oztaxreturn.networking.ApiClient;
@@ -111,7 +112,7 @@ public class FirstCheckoutFragment extends BaseFragment implements View.OnClickL
                         bundle.putSerializable(Constants.PARAMETER_FEE_EXTRA, feeResponse);
                         openFragment(R.id.layout_container, CheckoutFragment.class, true, bundle, TransitionScreen.RIGHT_TO_LEFT);
                     } else
-                        DialogUtils.showOkDialog(getActivity(), getString(R.string.app_name), getString(R.string.promotion_ok), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                        DialogUtils.showOkDialogNonTouch(getActivity(), getString(R.string.app_name), getString(R.string.promotion_ok), getString(R.string.ok), new AlertDialogOkNonTouch.AlertDialogListener() {
                             @Override
                             public void onSubmit() {
                                 Bundle bundle = new Bundle();

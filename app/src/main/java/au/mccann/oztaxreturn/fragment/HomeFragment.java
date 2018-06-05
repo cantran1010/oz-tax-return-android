@@ -2,7 +2,6 @@ package au.mccann.oztaxreturn.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -33,6 +32,7 @@ import au.mccann.oztaxreturn.utils.LogUtils;
 import au.mccann.oztaxreturn.utils.ProgressDialogUtils;
 import au.mccann.oztaxreturn.utils.TransitionScreen;
 import au.mccann.oztaxreturn.utils.Utils;
+import au.mccann.oztaxreturn.view.MovableFloatingActionButton;
 import au.mccann.oztaxreturn.view.TextViewCustom;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -64,7 +64,7 @@ public class HomeFragment extends BaseFragment {
     @Override
     protected void initData() {
         setTitle(getString(R.string.home_title));
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        MovableFloatingActionButton fab = (MovableFloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
