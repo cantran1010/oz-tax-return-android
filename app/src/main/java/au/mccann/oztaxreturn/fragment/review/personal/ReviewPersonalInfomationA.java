@@ -19,6 +19,7 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 import au.mccann.oztaxreturn.R;
+import au.mccann.oztaxreturn.activity.HomeActivity;
 import au.mccann.oztaxreturn.activity.SplashActivity;
 import au.mccann.oztaxreturn.adapter.OzSpinnerAdapter;
 import au.mccann.oztaxreturn.common.Constants;
@@ -78,6 +79,7 @@ public class ReviewPersonalInfomationA extends BaseFragment implements View.OnCl
 
     @Override
     protected void initData() {
+        ((HomeActivity) getActivity()).setIndex(5);
         doEdit();
         genders = Arrays.asList(getResources().getStringArray(R.array.string_array_gender));
         titles = Arrays.asList(getResources().getStringArray(R.array.string_array_title));

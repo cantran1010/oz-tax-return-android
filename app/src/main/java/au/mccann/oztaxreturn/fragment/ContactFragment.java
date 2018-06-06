@@ -30,6 +30,7 @@ import java.util.List;
 
 import au.mccann.oztaxreturn.R;
 import au.mccann.oztaxreturn.activity.AlbumActivity;
+import au.mccann.oztaxreturn.activity.HomeActivity;
 import au.mccann.oztaxreturn.activity.SplashActivity;
 import au.mccann.oztaxreturn.adapter.LanguageSpinnerAdapter;
 import au.mccann.oztaxreturn.adapter.MessageAdapter;
@@ -97,6 +98,7 @@ public class ContactFragment extends BaseFragment implements View.OnClickListene
 
     @Override
     protected void initData() {
+        ((HomeActivity) getActivity()).setIndex(2);
         setTitle(getString(R.string.connect_title));
         appBarVisibility(true, false, 0);
 

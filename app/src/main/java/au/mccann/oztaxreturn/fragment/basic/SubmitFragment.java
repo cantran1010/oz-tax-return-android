@@ -24,6 +24,7 @@ import java.util.List;
 
 import au.mccann.oztaxreturn.R;
 import au.mccann.oztaxreturn.activity.GeneralInfoActivity;
+import au.mccann.oztaxreturn.activity.HomeActivity;
 import au.mccann.oztaxreturn.activity.SplashActivity;
 import au.mccann.oztaxreturn.adapter.OzSpinnerAdapter;
 import au.mccann.oztaxreturn.common.Constants;
@@ -89,6 +90,7 @@ public class SubmitFragment extends BaseFragment implements View.OnClickListener
 
     @Override
     protected void initData() {
+        ((HomeActivity) getActivity()).setIndex(30);
         setTitle(getString(R.string.personal_information_title));
         appBarVisibility(true, true, 2);
         getBaseProgress(getApplicationResponse());

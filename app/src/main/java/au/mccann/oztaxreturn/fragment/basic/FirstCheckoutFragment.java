@@ -9,6 +9,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import au.mccann.oztaxreturn.R;
+import au.mccann.oztaxreturn.activity.HomeActivity;
 import au.mccann.oztaxreturn.activity.SplashActivity;
 import au.mccann.oztaxreturn.common.Constants;
 import au.mccann.oztaxreturn.database.UserManager;
@@ -62,6 +63,7 @@ public class FirstCheckoutFragment extends BaseFragment implements View.OnClickL
 
     @Override
     protected void initData() {
+        ((HomeActivity) getActivity()).setIndex(31);
         setTitle(getString(R.string.first_checkout_title));
         appBarVisibility(true, true, 2);
         getBaseProgress(getApplicationResponse());
@@ -134,7 +136,9 @@ public class FirstCheckoutFragment extends BaseFragment implements View.OnClickL
 
                             @Override
                             public void onCancel() {
-
+                                Bundle bundle = new Bundle();
+                                bundle.putSerializable(Constants.PARAMETER_FEE_EXTRA, feeResponse);
+                                openFragment(R.id.layout_container, CheckoutFragment.class, true, bundle, TransitionScreen.RIGHT_TO_LEFT);
                             }
                         });
                     }

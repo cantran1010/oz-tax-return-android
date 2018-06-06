@@ -27,6 +27,7 @@ import java.util.List;
 
 import au.mccann.oztaxreturn.R;
 import au.mccann.oztaxreturn.activity.AlbumActivity;
+import au.mccann.oztaxreturn.activity.HomeActivity;
 import au.mccann.oztaxreturn.activity.SplashActivity;
 import au.mccann.oztaxreturn.adapter.ReviewFHPAdapter;
 import au.mccann.oztaxreturn.common.Constants;
@@ -92,6 +93,7 @@ public class ReviewFamilyHealthPrivateFragment extends BaseFragment implements V
 
     @Override
     protected void initData() {
+        ((HomeActivity) getActivity()).setIndex(10);
         doEdit();
         getReviewProgress(getApplicationResponse());
         setTitle(getString(R.string.review_fhd_title));

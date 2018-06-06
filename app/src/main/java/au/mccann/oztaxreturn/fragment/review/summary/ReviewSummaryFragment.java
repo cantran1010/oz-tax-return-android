@@ -22,6 +22,7 @@ import android.widget.LinearLayout;
 
 import au.mccann.oztaxreturn.R;
 import au.mccann.oztaxreturn.activity.GeneralInfoActivity;
+import au.mccann.oztaxreturn.activity.HomeActivity;
 import au.mccann.oztaxreturn.activity.SplashActivity;
 import au.mccann.oztaxreturn.common.Constants;
 import au.mccann.oztaxreturn.database.UserManager;
@@ -142,6 +143,7 @@ public class ReviewSummaryFragment extends BaseFragment implements View.OnClickL
 
     @Override
     protected void initData() {
+        ((HomeActivity) getActivity()).setIndex(4);
         appID = getApplicationResponse().getId();
         if (isEditApp()) btnNext.setText(getContext().getString(R.string.btn_lodge));
         else btnNext.setText(getContext().getString(R.string.review));

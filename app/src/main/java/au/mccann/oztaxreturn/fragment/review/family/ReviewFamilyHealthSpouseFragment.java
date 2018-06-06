@@ -30,6 +30,7 @@ import java.util.List;
 
 import au.mccann.oztaxreturn.R;
 import au.mccann.oztaxreturn.activity.AlbumActivity;
+import au.mccann.oztaxreturn.activity.HomeActivity;
 import au.mccann.oztaxreturn.activity.PreviewImageActivity;
 import au.mccann.oztaxreturn.activity.SplashActivity;
 import au.mccann.oztaxreturn.adapter.ImageAdapter;
@@ -111,6 +112,7 @@ public class ReviewFamilyHealthSpouseFragment extends BaseFragment implements Vi
 
     @Override
     protected void initData() {
+        ((HomeActivity) getActivity()).setIndex(11);
         doEdit();
         getReviewProgress(getApplicationResponse());
         setTitle(getString(R.string.review_fhd_title));

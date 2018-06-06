@@ -12,6 +12,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import au.mccann.oztaxreturn.R;
+import au.mccann.oztaxreturn.activity.HomeActivity;
 import au.mccann.oztaxreturn.activity.SplashActivity;
 import au.mccann.oztaxreturn.common.Constants;
 import au.mccann.oztaxreturn.database.UserManager;
@@ -63,6 +64,7 @@ public class ReviewFamilyHealthDependantsFragment extends BaseFragment implement
 
     @Override
     protected void initData() {
+        ((HomeActivity) getActivity()).setIndex(8);
         doEdit();
         getReviewProgress(getApplicationResponse());
         setTitle(getString(R.string.review_fhd_title));
