@@ -30,6 +30,7 @@ import java.util.List;
 
 import au.mccann.oztaxreturn.R;
 import au.mccann.oztaxreturn.activity.AlbumActivity;
+import au.mccann.oztaxreturn.activity.HomeActivity;
 import au.mccann.oztaxreturn.activity.PreviewImageActivity;
 import au.mccann.oztaxreturn.activity.SplashActivity;
 import au.mccann.oztaxreturn.adapter.LumpSumAdapter;
@@ -90,6 +91,7 @@ public class ReviewLumpSumFragment extends BaseFragment implements View.OnClickL
 
     @Override
     protected void initData() {
+        ((HomeActivity) getActivity()).setIndex(18);
         getReviewProgress(getApplicationResponse());
         appID = getApplicationResponse().getId();
         setTitle(getString(R.string.review_income_title));
@@ -484,7 +486,6 @@ public class ReviewLumpSumFragment extends BaseFragment implements View.OnClickL
                     if (adapter.isExpend()) {
                         for (LumpSum o : lumpSums) {
                             if (TextUtils.isEmpty(o.getPayerAbn()) || TextUtils.isEmpty(o.getPaymentDate())
-                                    || (o.getAttach().size() == 0 && o.getImages().size() < 2)
                                     ) {
                                 DialogUtils.showOkDialog(getActivity(), getString(R.string.error), getString(R.string.required_all), getString(R.string.Yes), new AlertDialogOk.AlertDialogListener() {
                                     @Override

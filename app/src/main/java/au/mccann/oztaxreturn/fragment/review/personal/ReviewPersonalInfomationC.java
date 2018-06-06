@@ -10,6 +10,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import au.mccann.oztaxreturn.R;
+import au.mccann.oztaxreturn.activity.HomeActivity;
 import au.mccann.oztaxreturn.activity.SplashActivity;
 import au.mccann.oztaxreturn.common.Constants;
 import au.mccann.oztaxreturn.database.UserManager;
@@ -63,6 +64,7 @@ public class ReviewPersonalInfomationC extends BaseFragment implements View.OnCl
 
     @Override
     protected void initData() {
+        ((HomeActivity) getActivity()).setIndex(7);
         doEdit();
         getReviewInformationC();
         getReviewProgress(getApplicationResponse());

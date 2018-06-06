@@ -132,7 +132,7 @@ public class ReviewAuditedFragment extends BaseFragment implements View.OnClickL
             @Override
             public void onClick(View view) {
                 if (summary.getAttachmentUrl() != null || summary.getAttachmentUrl().isEmpty())
-                    FileUtils.downloadFile(getActivity(), summary.getAttachmentUrl(), getString(R.string.tax_return_report));
+                    FileUtils.downloadFile(getActivity(), summary.getAttachmentUrl(), getString(R.string.ATO_letter));
             }
         };
         ssBuilder.setSpan(

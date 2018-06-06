@@ -32,6 +32,7 @@ import java.util.List;
 
 import au.mccann.oztaxreturn.R;
 import au.mccann.oztaxreturn.activity.AlbumActivity;
+import au.mccann.oztaxreturn.activity.HomeActivity;
 import au.mccann.oztaxreturn.activity.PreviewImageActivity;
 import au.mccann.oztaxreturn.activity.SplashActivity;
 import au.mccann.oztaxreturn.adapter.ImageAdapter;
@@ -121,6 +122,7 @@ public class ReviewRentalFragment extends BaseFragment implements View.OnClickLi
 
     @Override
     protected void initData() {
+        ((HomeActivity) getActivity()).setIndex(19);
         states = Arrays.asList(getResources().getStringArray(R.array.string_array_states));
         OzSpinnerAdapter stateAdapter = new OzSpinnerAdapter(getActivity(), states, 0);
         spState.setAdapter(stateAdapter);
@@ -506,10 +508,10 @@ public class ReviewRentalFragment extends BaseFragment implements View.OnClickLi
                             showToolTip(getContext(), edtRentalExpenses, getString(R.string.vali_all_empty));
                             return;
                         }
-                        if (images.size() < 2) {
-                            showToolTip(getContext(), grImage, getString(R.string.valid_deduction_image));
-                            return;
-                        }
+//                        if (images.size() < 2) {
+//                            showToolTip(getContext(), grImage, getString(R.string.valid_deduction_image));
+//                            return;
+//                        }
                         uploadImage();
                     } else {
                         doSaveReview();

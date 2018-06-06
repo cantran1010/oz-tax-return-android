@@ -17,6 +17,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import au.mccann.oztaxreturn.R;
+import au.mccann.oztaxreturn.activity.HomeActivity;
 import au.mccann.oztaxreturn.activity.SplashActivity;
 import au.mccann.oztaxreturn.adapter.OzSpinnerAdapter;
 import au.mccann.oztaxreturn.common.Constants;
@@ -78,6 +79,7 @@ public class ReviewPersonalInfomationB extends BaseFragment implements View.OnCl
 
     @Override
     protected void initData() {
+        ((HomeActivity) getActivity()).setIndex(6);
         states = Arrays.asList(getResources().getStringArray(R.array.string_array_states));
         OzSpinnerAdapter stateAdapter = new OzSpinnerAdapter(getActivity(), states, 0);
         spState.setAdapter(stateAdapter);

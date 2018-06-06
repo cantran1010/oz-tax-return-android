@@ -12,6 +12,7 @@ import java.util.List;
 
 import au.mccann.oztaxreturn.R;
 import au.mccann.oztaxreturn.activity.AddNewBoardActivity;
+import au.mccann.oztaxreturn.activity.HomeActivity;
 import au.mccann.oztaxreturn.activity.SplashActivity;
 import au.mccann.oztaxreturn.adapter.HomeAdapter;
 import au.mccann.oztaxreturn.common.Constants;
@@ -63,6 +64,7 @@ public class HomeFragment extends BaseFragment {
 
     @Override
     protected void initData() {
+        ((HomeActivity) getActivity()).setIndex(1);
         setTitle(getString(R.string.home_title));
         MovableFloatingActionButton fab = (MovableFloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {

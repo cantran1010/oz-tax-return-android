@@ -23,6 +23,7 @@ import java.util.List;
 
 import au.mccann.oztaxreturn.R;
 import au.mccann.oztaxreturn.activity.AlbumActivity;
+import au.mccann.oztaxreturn.activity.HomeActivity;
 import au.mccann.oztaxreturn.activity.PreviewImageActivity;
 import au.mccann.oztaxreturn.activity.SplashActivity;
 import au.mccann.oztaxreturn.adapter.ImageAdapter;
@@ -84,6 +85,7 @@ public class ReviewFamilyHealthMedicareFragment extends BaseFragment implements 
 
     @Override
     protected void initData() {
+        ((HomeActivity) getActivity()).setIndex(9);
         doEdit();
         getReviewProgress(getApplicationResponse());
         setTitle(getString(R.string.review_fhd_title));
@@ -246,10 +248,10 @@ public class ReviewFamilyHealthMedicareFragment extends BaseFragment implements 
                 if (image.getId() == 0 && !image.isAdd()) listUp.add(image);
             }
 
-            if (images.size() == 1) {
-                Utils.showLongToast(getActivity(), getString(R.string.image_attach_empty), true, false);
-                return;
-            }
+//            if (images.size() == 1) {
+//                Utils.showLongToast(getActivity(), getString(R.string.image_attach_empty), true, false);
+//                return;
+//            }
 
             LogUtils.d(TAG, "doNext : " + listUp.toString());
 

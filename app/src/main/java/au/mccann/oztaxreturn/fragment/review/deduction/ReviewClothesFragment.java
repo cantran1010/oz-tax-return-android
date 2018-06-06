@@ -25,6 +25,7 @@ import java.util.List;
 
 import au.mccann.oztaxreturn.R;
 import au.mccann.oztaxreturn.activity.AlbumActivity;
+import au.mccann.oztaxreturn.activity.HomeActivity;
 import au.mccann.oztaxreturn.activity.PreviewImageActivity;
 import au.mccann.oztaxreturn.activity.SplashActivity;
 import au.mccann.oztaxreturn.adapter.ImageAdapter;
@@ -104,6 +105,7 @@ public class ReviewClothesFragment extends BaseFragment implements View.OnClickL
 
     @Override
     protected void initData() {
+        ((HomeActivity) getActivity()).setIndex(21);
         rbYes.setEnabled(isEditApp());
         rbNo.setEnabled(isEditApp());
         edtAmount.setEnabled(isEditApp());
@@ -428,10 +430,10 @@ public class ReviewClothesFragment extends BaseFragment implements View.OnClickL
                             showToolTip(getContext(), edtAmount, getString(R.string.vali_all_empty));
                             return;
                         }
-                        if (images.size() < 2) {
-                            showToolTip(getContext(), grImage, getString(R.string.vali_all_empty));
-                            return;
-                        }
+//                        if (images.size() < 2) {
+//                            showToolTip(getContext(), grImage, getString(R.string.vali_all_empty));
+//                            return;
+//                        }
                         uploadImage();
                     } else {
                         doSaveReview();

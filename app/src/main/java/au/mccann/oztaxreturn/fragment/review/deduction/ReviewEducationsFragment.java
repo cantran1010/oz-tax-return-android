@@ -24,6 +24,7 @@ import java.util.List;
 
 import au.mccann.oztaxreturn.R;
 import au.mccann.oztaxreturn.activity.AlbumActivity;
+import au.mccann.oztaxreturn.activity.HomeActivity;
 import au.mccann.oztaxreturn.activity.PreviewImageActivity;
 import au.mccann.oztaxreturn.activity.SplashActivity;
 import au.mccann.oztaxreturn.adapter.EducationAdapter;
@@ -83,6 +84,7 @@ public class ReviewEducationsFragment extends BaseFragment implements View.OnCli
 
     @Override
     protected void initData() {
+        ((HomeActivity) getActivity()).setIndex(22);
         getReviewProgress(getApplicationResponse());
         appID = getApplicationResponse().getId();
         setTitle(getString(R.string.review_deductions));
@@ -451,7 +453,7 @@ public class ReviewEducationsFragment extends BaseFragment implements View.OnCli
                     if (adapter.isExpend()) {
                         for (Education o : educations) {
                             if (TextUtils.isEmpty(o.getCourse())
-                                    || (o.getAttach().size() == 0 && o.getImages().size() < 2)
+//                                    || (o.getAttach().size() == 0 && o.getImages().size() < 2)
                                     ) {
                                 DialogUtils.showOkDialog(getActivity(), getString(R.string.error), getString(R.string.required_all), getString(R.string.Yes), new AlertDialogOk.AlertDialogListener() {
                                     @Override

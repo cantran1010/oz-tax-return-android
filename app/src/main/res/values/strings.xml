@@ -77,6 +77,7 @@
     <string name="submitted">Submitted</string>
     <string name="completed">Completed</string>
     <string name="auditing">Auditing</string>
+    <string name="ATO_letter">ATO Letter</string>
     <string name="home_fee">Let’s optimize your tax return with our online accountants starting from</string>
     <string name="review_summary">Summary</string>
 
@@ -121,7 +122,7 @@
 
     <!-- estimate -->
     <string name="estimate_title">Application Ready</string>
-    <string name="estimate_content">Our accountant will process your application and fill in other information using our expertise to help you get the best possible tax refund.   You will be notified to review the final application and provide extra information if required before we lodge it to ATO.</string>
+    <string name="estimate_content">Our accountant will process your application and fill in other information using our expertise to help you get the best possible tax refund.\n\nYou will be notified to review the final application and provide extra information if required before we lodge it to ATO.</string>
     <string name="estimate_note">* Please click Next to provide your personal information</string>
 
     <!-- personal information -->
@@ -189,7 +190,7 @@
     <string name="promotion_des">User can enter promotion code\nto get discount</string>
     <string name="next_des">* please click next to process to the checkout</string>
     <string name="back_to_exit">Press back button again to exit</string>
-    <string name="promotion_error">Promotion is not correct,do you want to continue?</string>
+    <string name="promotion_error">Promotion is not correct. Do you want to try again?</string>
     <string name="promotion_ok">Successfully applied!</string>
 
     <!-- review begin a -->

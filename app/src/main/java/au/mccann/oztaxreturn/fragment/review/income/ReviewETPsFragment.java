@@ -30,6 +30,7 @@ import java.util.List;
 
 import au.mccann.oztaxreturn.R;
 import au.mccann.oztaxreturn.activity.AlbumActivity;
+import au.mccann.oztaxreturn.activity.HomeActivity;
 import au.mccann.oztaxreturn.activity.PreviewImageActivity;
 import au.mccann.oztaxreturn.activity.SplashActivity;
 import au.mccann.oztaxreturn.adapter.ImageAdapter;
@@ -114,6 +115,7 @@ public class ReviewETPsFragment extends BaseFragment implements View.OnClickList
 
     @Override
     protected void initData() {
+        ((HomeActivity) getActivity()).setIndex(16);
         rbYes.setEnabled(isEditApp());
         rbNo.setEnabled(isEditApp());
         edtPaymentDate.setEnabled(isEditApp());
@@ -500,11 +502,11 @@ public class ReviewETPsFragment extends BaseFragment implements View.OnClickList
                             showToolTip(getContext(), edtCode, getString(R.string.vali_all_empty));
                             return;
                         }
-                        if (images.size() < 2) {
-                            grImage.getParent().requestChildFocus(grImage, grImage);
-                            showToolTip(getContext(), grImage, getString(R.string.valid_deduction_image));
-                            return;
-                        }
+//                        if (images.size() < 2) {
+//                            grImage.getParent().requestChildFocus(grImage, grImage);
+//                            showToolTip(getContext(), grImage, getString(R.string.valid_deduction_image));
+//                            return;
+//                        }
                         uploadImage();
 
                     } else {

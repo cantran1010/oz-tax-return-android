@@ -19,6 +19,7 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 import au.mccann.oztaxreturn.R;
+import au.mccann.oztaxreturn.activity.HomeActivity;
 import au.mccann.oztaxreturn.activity.SplashActivity;
 import au.mccann.oztaxreturn.adapter.OzSpinnerAdapter;
 import au.mccann.oztaxreturn.common.Constants;
@@ -82,6 +83,7 @@ public class PersonalFragment extends BaseFragment implements View.OnClickListen
 
     @Override
     protected void initData() {
+        ((HomeActivity) getActivity()).setIndex(29);
         setTitle(getString(R.string.personal_information_title));
         appBarVisibility(true, true, 2);
         getBaseProgress(getApplicationResponse());

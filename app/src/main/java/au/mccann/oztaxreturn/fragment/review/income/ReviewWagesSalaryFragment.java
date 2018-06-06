@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 
 import org.json.JSONArray;
@@ -13,6 +14,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 import au.mccann.oztaxreturn.R;
+import au.mccann.oztaxreturn.activity.HomeActivity;
 import au.mccann.oztaxreturn.activity.SplashActivity;
 import au.mccann.oztaxreturn.adapter.JobAdapter;
 import au.mccann.oztaxreturn.common.Constants;
@@ -66,6 +68,7 @@ public class ReviewWagesSalaryFragment extends BaseFragment implements View.OnCl
 
     @Override
     protected void initData() {
+        ((HomeActivity) getActivity()).setIndex(12);
         appID = getApplicationResponse().getId();
         setTitle(getString(R.string.review_income_title));
         appBarVisibility(true, true, 1);
@@ -221,9 +224,23 @@ public class ReviewWagesSalaryFragment extends BaseFragment implements View.OnCl
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_next:
-                if (isEditApp())
+                if (isEditApp()) {
+                    for (Job o : jobs) {
+                        if (TextUtils.isEmpty(o.getCompanyName())
+                                || (o.getCompanyName().isEmpty() || o.getCompanyAbn().isEmpty() || o.getCompanyContact().isEmpty())
+                                ) {
+                            DialogUtils.showOkDialog(getActivity(), getString(R.string.error), getString(R.string.required_all), getString(R.string.Yes), new AlertDialogOk.AlertDialogListener() {
+                                @Override
+                                public void onSubmit() {
+
+                                }
+                            });
+                            return;
+                        }
+
+                    }
                     doSaveReview();
-                else
+                } else
                     openFragment(R.id.layout_container, ReviewGovementFragment.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);
                 break;
         }

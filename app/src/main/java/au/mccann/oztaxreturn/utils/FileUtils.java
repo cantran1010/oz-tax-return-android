@@ -153,6 +153,7 @@ public class FileUtils {
     }
 
     public static boolean writeResponseBodyToDisk(ResponseBody body, String url, String fileName) {
+        init();
         String extension = url.substring(url.lastIndexOf("."));
         if (extension.length() > 5) return false;
         try {

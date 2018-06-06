@@ -22,6 +22,7 @@ import java.util.List;
 
 import au.mccann.oztaxreturn.R;
 import au.mccann.oztaxreturn.activity.AlbumActivity;
+import au.mccann.oztaxreturn.activity.HomeActivity;
 import au.mccann.oztaxreturn.activity.PreviewImageActivity;
 import au.mccann.oztaxreturn.activity.SplashActivity;
 import au.mccann.oztaxreturn.adapter.ImageAdapter;
@@ -85,6 +86,7 @@ public class DeductionFragment extends BaseFragment implements View.OnClickListe
 
     @Override
     protected void initData() {
+        ((HomeActivity) getActivity()).setIndex(28);
         images = new ArrayList<>();
         attach = new ArrayList<>();
         setTitle(getString(R.string.deduction_title));

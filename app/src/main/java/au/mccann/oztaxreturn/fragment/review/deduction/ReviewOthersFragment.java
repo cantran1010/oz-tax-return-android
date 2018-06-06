@@ -24,6 +24,7 @@ import java.util.List;
 
 import au.mccann.oztaxreturn.R;
 import au.mccann.oztaxreturn.activity.AlbumActivity;
+import au.mccann.oztaxreturn.activity.HomeActivity;
 import au.mccann.oztaxreturn.activity.PreviewImageActivity;
 import au.mccann.oztaxreturn.activity.SplashActivity;
 import au.mccann.oztaxreturn.adapter.OthersAdapter;
@@ -83,6 +84,7 @@ public class ReviewOthersFragment extends BaseFragment implements View.OnClickLi
 
     @Override
     protected void initData() {
+        ((HomeActivity) getActivity()).setIndex(23);
         getReviewProgress(getApplicationResponse());
         appID = getApplicationResponse().getId();
         setTitle(getString(R.string.review_deductions));
@@ -448,7 +450,7 @@ public class ReviewOthersFragment extends BaseFragment implements View.OnClickLi
                     if (adapter.isExpend()) {
                         for (OtherResponse o : otherResponses) {
                             if (TextUtils.isEmpty(o.getDescription())
-                                    || (o.getAttach().size() == 0 && o.getImages().size() < 2)
+//                                    || (o.getAttach().size() == 0 && o.getImages().size() < 2)
                                     ) {
                                 DialogUtils.showOkDialog(getActivity(), getString(R.string.error), getString(R.string.required_all), getString(R.string.Yes), new AlertDialogOk.AlertDialogListener() {
                                     @Override

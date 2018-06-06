@@ -24,6 +24,7 @@ import java.util.List;
 
 import au.mccann.oztaxreturn.R;
 import au.mccann.oztaxreturn.activity.AlbumActivity;
+import au.mccann.oztaxreturn.activity.HomeActivity;
 import au.mccann.oztaxreturn.activity.PreviewImageActivity;
 import au.mccann.oztaxreturn.activity.SplashActivity;
 import au.mccann.oztaxreturn.adapter.DividendAdapter;
@@ -83,6 +84,7 @@ public class ReviewDividendsFragment extends BaseFragment implements View.OnClic
 
     @Override
     protected void initData() {
+        ((HomeActivity) getActivity()).setIndex(15);
         getReviewProgress(getApplicationResponse());
         appID = getApplicationResponse().getId();
         setTitle(getString(R.string.review_income_title));
@@ -467,7 +469,6 @@ public class ReviewDividendsFragment extends BaseFragment implements View.OnClic
                     if (adapter.isExpend()) {
                         for (Dividend o : dividends) {
                             if (TextUtils.isEmpty(o.getCompanyName())
-                                    || (o.getAttach().size() == 0 && o.getImages().size() < 2)
                                     ) {
                                 DialogUtils.showOkDialog(getActivity(), getString(R.string.error), getString(R.string.required_all), getString(R.string.Yes), new AlertDialogOk.AlertDialogListener() {
                                     @Override

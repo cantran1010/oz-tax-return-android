@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import au.mccann.oztaxreturn.R;
+import au.mccann.oztaxreturn.activity.HomeActivity;
 import au.mccann.oztaxreturn.activity.SplashActivity;
 import au.mccann.oztaxreturn.adapter.NotificationAdapter;
 import au.mccann.oztaxreturn.common.Constants;
@@ -51,7 +52,7 @@ public class NotificationFragment extends BaseFragment {
 
     @Override
     protected void initData() {
-
+        ((HomeActivity) getActivity()).setIndex(3);
         setTitle(getString(R.string.notification_title));
         appBarVisibility(true, false, 0);
 
