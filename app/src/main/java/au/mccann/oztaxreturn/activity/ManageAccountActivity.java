@@ -323,7 +323,7 @@ public class ManageAccountActivity extends BaseActivity implements View.OnClickL
                 && data != null) {
             ArrayList<Image> imagesSelected = data.getParcelableArrayListExtra(Constants.INTENT_EXTRA_IMAGES);
             image = new Image();
-            image.setName(getString(R.string.app_name));
+            image.setName(getString(R.string.app_name_old));
             image.setAdd(false);
             imgPath = imagesSelected.get(0).getPath();
             image.setPath(imgPath);
@@ -331,7 +331,7 @@ public class ManageAccountActivity extends BaseActivity implements View.OnClickL
         } else if (requestCode == Constants.REQUEST_CODE_CAMERA && resultCode == RESULT_OK) {
             imgPath = getImgPath();
             image = new Image();
-            image.setName(getString(R.string.app_name));
+            image.setName(getString(R.string.app_name_old));
             image.setAdd(false);
             image.setPath(imgPath);
             Utils.displayImage(ManageAccountActivity.this, imgAvatar, imgPath);
@@ -459,7 +459,7 @@ public class ManageAccountActivity extends BaseActivity implements View.OnClickL
                 save();
                 break;
             case R.id.img_back:
-                DialogUtils.showOkAndCancelDialog(this, getString(R.string.app_name), getString(R.string.unsaved_content), getString(R.string.ok), getString(R.string.No), new AlertDialogOkAndCancel.AlertDialogListener() {
+                DialogUtils.showOkAndCancelDialog(this, getString(R.string.app_name_old), getString(R.string.unsaved_content), getString(R.string.ok), getString(R.string.No), new AlertDialogOkAndCancel.AlertDialogListener() {
                     @Override
                     public void onSubmit() {
                         save();

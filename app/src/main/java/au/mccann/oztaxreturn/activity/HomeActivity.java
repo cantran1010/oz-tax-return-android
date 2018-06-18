@@ -409,7 +409,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
 
     private void doLogout() {
 
-        DialogUtils.showOkAndCancelDialog(this, getString(R.string.app_name), getString(R.string.logout), getString(R.string.Yes), getString(R.string.No), new AlertDialogOkAndCancel.AlertDialogListener() {
+        DialogUtils.showOkAndCancelDialog(this, getString(R.string.app_name_old), getString(R.string.logout), getString(R.string.Yes), getString(R.string.No), new AlertDialogOkAndCancel.AlertDialogListener() {
             @Override
             public void onSubmit() {
                 logOut();
@@ -474,9 +474,9 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
         try {
             Intent i = new Intent(Intent.ACTION_SEND);
             i.setType("text/plain");
-            i.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.app_name));
+            i.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.app_name_old));
             i.putExtra(Intent.EXTRA_TEXT, content);
-            startActivity(Intent.createChooser(i, getString(R.string.app_name)));
+            startActivity(Intent.createChooser(i, getString(R.string.app_name_old)));
         } catch (Exception e) {
             e.printStackTrace();
             Utils.showLongToast(this, getString(R.string.error), true, false);

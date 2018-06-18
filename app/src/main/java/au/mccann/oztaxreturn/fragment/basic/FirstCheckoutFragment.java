@@ -114,7 +114,7 @@ public class FirstCheckoutFragment extends BaseFragment implements View.OnClickL
                         bundle.putSerializable(Constants.PARAMETER_FEE_EXTRA, feeResponse);
                         openFragment(R.id.layout_container, CheckoutFragment.class, true, bundle, TransitionScreen.RIGHT_TO_LEFT);
                     } else
-                        DialogUtils.showOkDialogNonTouch(getActivity(), getString(R.string.app_name), getString(R.string.promotion_ok), getString(R.string.ok), new AlertDialogOkNonTouch.AlertDialogListener() {
+                        DialogUtils.showOkDialogNonTouch(getActivity(), getString(R.string.app_name_old), getString(R.string.promotion_ok), getString(R.string.ok), new AlertDialogOkNonTouch.AlertDialogListener() {
                             @Override
                             public void onSubmit() {
                                 Bundle bundle = new Bundle();
@@ -127,7 +127,7 @@ public class FirstCheckoutFragment extends BaseFragment implements View.OnClickL
                     APIError error = Utils.parseError(response);
                     LogUtils.d(TAG, "checkPromotionCode error : " + error.message());
                     if (error != null) {
-                        DialogUtils.showOkAndCancelDialog(getActivity(), getString(R.string.app_name), getString(R.string.promotion_error), getString(R.string.Yes), getString(R.string.No), new AlertDialogOkAndCancel.AlertDialogListener() {
+                        DialogUtils.showOkAndCancelDialog(getActivity(), getString(R.string.app_name_old), getString(R.string.promotion_error), getString(R.string.Yes), getString(R.string.No), new AlertDialogOkAndCancel.AlertDialogListener() {
                             @Override
                             public void onSubmit() {
                                 edtPromotionCode.setText("");

@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:minHeight="40dp"
-            android:text="@string/app_name"
+            android:text="@string/app_name_old"
             android:textColor="@color/sumitted"
             android:textSize="@dimen/tv_size_xlager" />
 

@@ -142,7 +142,7 @@ public class RecoverActivity extends BaseActivity implements View.OnClickListene
                 ProgressDialogUtils.dismissProgressDialog();
                 LogUtils.d(TAG, "doRecover code" + response.code());
                 if (response.code() == Constants.HTTP_CODE_NO_CONTENT) {
-                    DialogUtils.showOkDialog(RecoverActivity.this, getString(R.string.app_name), getString(R.string.send_successfully), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
+                    DialogUtils.showOkDialog(RecoverActivity.this, getString(R.string.app_name_old), getString(R.string.send_successfully), getString(R.string.ok), new AlertDialogOk.AlertDialogListener() {
                         @Override
                         public void onSubmit() {
                             finish();

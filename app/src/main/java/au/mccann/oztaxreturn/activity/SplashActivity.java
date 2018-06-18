@@ -41,17 +41,16 @@ public class SplashActivity extends BaseActivity {
 
     @Override
     protected void initData() {
-
-    }
-
-    @Override
-    protected void resumeData() {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 checkUpdate();
             }
-        }, 200);
+        }, 1000);
+    }
+
+    @Override
+    protected void resumeData() {
     }
 
     private void checkUpdate() {

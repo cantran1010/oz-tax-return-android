@@ -166,7 +166,7 @@ public class CheckoutFragment extends BaseFragment implements View.OnClickListen
                 if (response.code() == Constants.HTTP_CODE_NO_CONTENT) {
 //                    Utils.showLongToast(getActivity(), getString(R.string.checkout_success), false, false);
 
-                    DialogUtils.showOkDialogNonTouch(getActivity(), getString(R.string.app_name), getString(R.string.checkout_success), getString(R.string.ok), new AlertDialogOkNonTouch.AlertDialogListener() {
+                    DialogUtils.showOkDialogNonTouch(getActivity(), getString(R.string.app_name_old), getString(R.string.checkout_success), getString(R.string.ok), new AlertDialogOkNonTouch.AlertDialogListener() {
                         @Override
                         public void onSubmit() {
                             openFragment(R.id.layout_container, HomeFragment.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);

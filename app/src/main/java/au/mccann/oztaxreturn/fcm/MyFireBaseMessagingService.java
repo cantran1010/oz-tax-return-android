@@ -95,7 +95,7 @@ public class MyFireBaseMessagingService extends FirebaseMessagingService {
 
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(getApplicationContext(), "OZ_TAX")
-                .setContentTitle(getString(R.string.app_name))
+                .setContentTitle(getString(R.string.app_name_old))
                 .setContentText(Utils.getContentNotification(getApplicationContext(), notification))
                 .setAutoCancel(true)
                 .setSound(defaultSoundUri)

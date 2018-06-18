@@ -294,7 +294,7 @@ public class ReviewSummaryFragment extends BaseFragment implements View.OnClickL
                 LogUtils.d(TAG, "doSaveReview code: " + response.code());
                 if (response.code() == Constants.HTTP_CODE_OK) {
                     LogUtils.d(TAG, "doSaveReview code: " + response.body().toString());
-                    DialogUtils.showOkDialogNonTouch(getActivity(), getString(R.string.app_name), getString(R.string.lodged_successfully), getString(R.string.ok), new AlertDialogOkNonTouch.AlertDialogListener() {
+                    DialogUtils.showOkDialogNonTouch(getActivity(), getString(R.string.app_name_old), getString(R.string.lodged_successfully), getString(R.string.ok), new AlertDialogOkNonTouch.AlertDialogListener() {
                         @Override
                         public void onSubmit() {
                             openFragment(R.id.layout_container, HomeFragment.class, true, new Bundle(), TransitionScreen.RIGHT_TO_LEFT);

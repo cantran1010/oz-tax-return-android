@@ -146,7 +146,7 @@ public class ReviewOthersFragment extends BaseFragment implements View.OnClickLi
         adapter.setOnRemoveItem(new OthersAdapter.OnRemoveItem() {
             @Override
             public void onDelete(final int position) {
-                DialogUtils.showOkAndCancelDialog(getActivity(), getString(R.string.app_name), getString(R.string.remove), getString(R.string.Yes), getString(R.string.No), new AlertDialogOkAndCancel.AlertDialogListener() {
+                DialogUtils.showOkAndCancelDialog(getActivity(), getString(R.string.app_name_old), getString(R.string.remove), getString(R.string.Yes), getString(R.string.No), new AlertDialogOkAndCancel.AlertDialogListener() {
                     @Override
                     public void onSubmit() {
                         otherResponses.remove(position);
